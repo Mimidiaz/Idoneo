@@ -828,6 +828,11 @@ canvas.chart{width:100%;display:block;border-radius:8px}
           </div>
         </div>
         <div class="ai-tab-pane" id="tab-pane-ai">
+          <div id="ai-key-form" style="display:none;margin-bottom:8px">
+            <div style="font-size:12px;color:var(--text2);margin-bottom:6px">Ingresá tu API key de Gemini para usar esta función. Se guarda solo en tu navegador.</div>
+            <input type="password" id="ai-key-input" placeholder="AIza..." style="width:100%;padding:8px;border-radius:var(--r);border:1px solid var(--border);background:var(--card);color:var(--text);font-size:12px;margin-bottom:6px">
+            <button class="ai-ask-btn" onclick="saveGeminiKey()">Guardar key y consultar</button>
+          </div>
           <button class="ai-ask-btn" id="ai-ask-btn" onclick="askAI()">✨ Explicame esta pregunta</button>
           <div class="ai-loading" id="ai-loading">⏳ Consultando IA...</div>
           <div class="ai-response" id="ai-response"></div>
@@ -1578,6 +1583,15 @@ function switchAiTab(tab) {
 
 const aiCache = {};
 
+function saveGeminiKey() {
+  const k = $('ai-key-input').value.trim();
+  if (!k) { alert('Ingresá una key válida'); return; }
+  localStorage.setItem('cnv_gemini_key', k);
+  $('ai-key-form').style.display = 'none';
+  $('ai-ask-btn').style.display = 'block';
+  askAI();
+}
+
 async function askAI() {
   const q = bqQs[bqIndex];
   if (!q) return;
@@ -1612,11 +1626,11 @@ Explicame por qué esta es la respuesta correcta, en qué norma o concepto se ba
     // Get key from localStorage
     const geminiKey = localStorage.getItem('cnv_gemini_key');
     if (!geminiKey) {
-      const k = prompt('Ingresá tu API key de Gemini (se guarda solo en tu navegador):');
-      if (!k) { $('ai-response').textContent = 'Necesitás ingresar una API key para usar esta función.'; $('ai-response').style.display='block'; $('ai-loading').style.display='none'; $('ai-ask-btn').disabled=false; return; }
-      localStorage.setItem('cnv_gemini_key', k.trim());
+      $('ai-key-form').style.display = 'block';
+      $('ai-ask-btn').style.display = 'none';
+      return;
     }
-    const key = localStorage.getItem('cnv_gemini_key');
+    const key = geminiKey;
     const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${key}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
