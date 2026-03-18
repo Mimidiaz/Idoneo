@@ -1609,22 +1609,24 @@ Respuesta correcta: ${correctAnswer}
 Explicame por qué esta es la respuesta correcta, en qué norma o concepto se basa, y por qué las otras opciones son incorrectas. Usá lenguaje claro y conciso, ideal para repasar rápido.`;
 
   try {
-    const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+    // Get key from localStorage
+    const geminiKey = localStorage.getItem('cnv_gemini_key');
+    if (!geminiKey) {
+      const k = prompt('Ingresá tu API key de Gemini (se guarda solo en tu navegador):');
+      if (!k) { $('ai-response').textContent = 'Necesitás ingresar una API key para usar esta función.'; $('ai-response').style.display='block'; $('ai-loading').style.display='none'; $('ai-ask-btn').disabled=false; return; }
+      localStorage.setItem('cnv_gemini_key', k.trim());
+    }
+    const key = localStorage.getItem('cnv_gemini_key');
+    const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${key}`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer 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',
-        'HTTP-Referer': 'https://mimidiaz.github.io/Idoneo',
-        'X-Title': 'CNV Idoneidad'
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        model: 'meta-llama/llama-3.2-3b-instruct:free',
-        max_tokens: 1000,
-        messages: [{ role: 'user', content: prompt }]
+        contents: [{ parts: [{ text: prompt }] }],
+        generationConfig: { maxOutputTokens: 1000 }
       })
     });
     const data = await res.json();
-    const text = data.choices?.[0]?.message?.content
+    const text = data.candidates?.[0]?.content?.parts?.[0]?.text
       || data.error?.message
       || ('Sin respuesta: ' + JSON.stringify(data));
     aiCache[cacheKey] = text;
