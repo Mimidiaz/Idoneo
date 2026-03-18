@@ -870,17 +870,42 @@ canvas.chart{width:100%;display:block;border-radius:8px}
     <div class="view" id="view-exam">
       <div class="page-header">
         <div class="page-title">📝 Simulación de Examen</div>
-        <div class="page-sub">60 preguntas — 60 minutos — resultado al final</div>
+        <div class="page-sub">Configurá y comenzá tu simulación</div>
       </div>
       <!-- Module selector -->
       <div id="exam-setup" class="card" style="max-width:620px">
         <div class="section-title">Seleccioná módulos a incluir</div>
         <div class="mod-selector" id="exam-mod-selector"></div>
-        <div style="margin-top:16px;display:flex;gap:8px;flex-wrap:wrap;align-items:center">
-          <button class="btn btn-ghost btn-sm" onclick="examToggleAll(true)">Todos</button>
-          <button class="btn btn-ghost btn-sm" onclick="examToggleAll(false)">Ninguno</button>
-          <span style="flex:1"></span>
-          <button class="btn btn-gold btn-lg" onclick="startExam()">🚀 Iniciar examen</button>
+        <div style="margin-top:16px;display:flex;gap:12px;flex-wrap:wrap;align-items:center">
+          <div style="display:flex;flex-direction:column;gap:4px">
+            <label style="font-size:11px;color:var(--text2);font-weight:600">PREGUNTAS</label>
+            <select id="exam-q-count" style="padding:7px 10px;border-radius:var(--r);border:1px solid var(--border);background:var(--card2);color:var(--text);font-size:13px;font-weight:600">
+              <option value="20">20</option>
+              <option value="30">30</option>
+              <option value="40">40</option>
+              <option value="60" selected>60</option>
+              <option value="80">80</option>
+              <option value="100">100</option>
+              <option value="all">Todas</option>
+            </select>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:4px">
+            <label style="font-size:11px;color:var(--text2);font-weight:600">TIEMPO</label>
+            <select id="exam-time-limit" style="padding:7px 10px;border-radius:var(--r);border:1px solid var(--border);background:var(--card2);color:var(--text);font-size:13px;font-weight:600">
+              <option value="900">15 min</option>
+              <option value="1800">30 min</option>
+              <option value="2700">45 min</option>
+              <option value="3600" selected>60 min</option>
+              <option value="5400">90 min</option>
+              <option value="7200">120 min</option>
+              <option value="0">Sin límite</option>
+            </select>
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:flex-end;margin-left:auto">
+            <button class="btn btn-ghost btn-sm" onclick="examToggleAll(true)">Todos</button>
+            <button class="btn btn-ghost btn-sm" onclick="examToggleAll(false)">Ninguno</button>
+            <button class="btn btn-gold btn-lg" onclick="startExam()">🚀 Iniciar examen</button>
+          </div>
         </div>
       </div>
     </div>
@@ -1726,10 +1751,16 @@ function startExam() {
   });
   // Shuffle
   pool = pool.sort(()=>Math.random()-.5);
-  examQs = pool.slice(0,60);
+  // Get selected count
+  const countVal = $('exam-q-count').value;
+  const count = countVal === 'all' ? pool.length : Math.min(parseInt(countVal), pool.length);
+  examQs = pool.slice(0, count);
   examAnswers = new Array(examQs.length).fill(null);
   examFlagged = new Set();
-  examIdx=0; examSecs=3600;
+  examIdx=0;
+  // Get selected time
+  const timeVal = parseInt($('exam-time-limit').value);
+  examSecs = timeVal === 0 ? null : timeVal;
 
   $('exam-view').style.display='flex';
   $('exam-result-view').style.display='none';
@@ -1739,6 +1770,7 @@ function startExam() {
 
 function startExamTimer() {
   if (examTimer) clearInterval(examTimer);
+  if (examSecs === null) { $('ex-timer').textContent = '∞'; return; }
   examTimer = setInterval(() => {
     examSecs--;
     const m=Math.floor(examSecs/60), s=examSecs%60;
@@ -1750,6 +1782,7 @@ function startExamTimer() {
   updateExamTimer();
 }
 function updateExamTimer() {
+  if (examSecs === null) { $('ex-timer').textContent = '∞'; return; }
   const m=Math.floor(examSecs/60),s=examSecs%60;
   $('ex-timer').textContent=`${pad(m)}:${pad(s)}`;
 }
@@ -1762,7 +1795,7 @@ function renderExamQ() {
 
   $('ex-counter').textContent = `${examIdx+1} / ${total}`;
   $('ex-prog').style.width = (answered/total*100)+'%';
-  $('ex-qnum').textContent = `Pregunta ${examIdx+1} de ${total}  ·  ${answered} respondidas`;
+  $('ex-qnum').textContent = `Pregunta ${examIdx+1} de ${total}  ·  #${q.num}  ·  ${answered} respondidas`;
   $('ex-qtext').textContent = q.q;
 
   // Q dot map
