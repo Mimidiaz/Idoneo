@@ -1609,7 +1609,7 @@ Respuesta correcta: ${correctAnswer}
 Explicame por qué esta es la respuesta correcta, en qué norma o concepto se basa, y por qué las otras opciones son incorrectas. Usá lenguaje claro y conciso, ideal para repasar rápido.`;
 
   try {
-    const GEMINI_KEY = 'AIzaSyA187A7aC_GYyGyNxHz1KG0nZYlDNdqDy8';
+    const GEMINI_KEY = 'AIzaSyApky1bPTyJyozC02qbpN49zxJnaIqoOFE';
     const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_KEY}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
