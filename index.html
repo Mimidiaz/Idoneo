@@ -412,7 +412,11 @@ canvas.chart{width:100%;display:block;border-radius:8px}
 .ai-ask-btn:disabled{opacity:.5;cursor:default}
 .ai-response{margin-top:8px;padding:10px 12px;background:var(--card2);border-radius:var(--r);
   border-left:3px solid var(--blue);font-size:12px;line-height:1.6;color:var(--text);
-  max-height:220px;overflow-y:auto;white-space:pre-wrap;display:none}
+  max-height:320px;overflow-y:auto;display:none}
+.ai-response p{margin:0 0 6px 0}
+.ai-section-title{font-size:11px;font-weight:700;color:var(--blue);letter-spacing:.06em;
+  text-transform:uppercase;margin:10px 0 4px;padding-top:8px;border-top:1px solid var(--border);}
+.ai-section-title:first-child{border-top:none;padding-top:0;margin-top:0}verflow-y:auto;white-space:pre-wrap;display:none}
 .ai-loading{display:none;text-align:center;padding:12px;color:var(--text2);font-size:12px}
 .flag-row{display:flex;align-items:center;gap:8px;margin-top:10px}
 .flag-btn{
@@ -1518,6 +1522,7 @@ function quizNav(dir) {
 
 function showQuizResult() {
   $('quiz-result').style.display='block';
+  $('quiz-nav-fixed').style.display='none';
   document.querySelector('.quiz-body').style.display='none';
   const total = bqQs.length;
   const pct   = total>0 ? Math.round(bqOk/total*100) : 0;
@@ -1675,7 +1680,30 @@ Pregunta: ${questionText}
 Opciones: ${options.map((o,i)=>`${String.fromCharCode(65+i)}) ${o}`).join(' | ')}
 Respuesta correcta: ${correctAnswer}
 
-Explicame por qué esta es la respuesta correcta, en qué norma o concepto se basa, y por qué las otras opciones son incorrectas. Usá lenguaje claro y conciso, ideal para repasar rápido.`;
+Respondé SIEMPRE en este formato exacto, sin usar markdown con asteriscos ni símbolos #:
+
+RESPUESTA CORRECTA
+Indicá cuál opción es la correcta de forma directa y precisa.
+
+FUNDAMENTO NORMATIVO
+Citá la norma, ley o artículo que sustenta la respuesta. Si no aplica, escribí: No aplica fundamento normativo específico.
+
+EXPLICACIÓN PROFUNDA DEL CONCEPTO
+Explicá: qué significa el concepto, para qué sirve, cómo opera en la práctica, por qué la CNV lo exige, y su relación con otros conceptos importantes del examen. Debe ser pedagógico y completo.
+
+POR QUÉ LAS OTRAS SON INCORRECTAS
+Una línea por cada opción incorrecta explicando por qué no corresponde.
+
+CÓMO PODRÍA PREGUNTARLO LA CNV
+1 o 2 variantes del mismo tema que podrían aparecer en el examen real.
+
+CONEXIÓN CON OTRO TEMA
+Explicá brevemente a qué otro módulo o concepto del programa se asocia.
+
+PARA RECORDAR
+Una frase corta y fácil de retener que ayude a grabar la idea clave.
+
+IMPORTANTE: No inventes normas, leyes ni artículos. Si no hay norma explícita, explicá la lógica conceptual.`;
 
   try {
     // Get key from localStorage
@@ -1695,7 +1723,7 @@ Explicame por qué esta es la respuesta correcta, en qué norma o concepto se ba
       },
       body: JSON.stringify({
         model: 'claude-haiku-4-5-20251001',
-        max_tokens: 1000,
+        max_tokens: 2000,
         messages: [{ role: 'user', content: prompt }]
       })
     });
@@ -1704,7 +1732,25 @@ Explicame por qué esta es la respuesta correcta, en qué norma o concepto se ba
       || data.error?.message
       || ('Sin respuesta: ' + JSON.stringify(data));
     aiCache[cacheKey] = text;
-    $('ai-response').textContent = text;
+    // Render with formatting
+    const sectionIcons = {
+      'RESPUESTA CORRECTA': '✔',
+      'FUNDAMENTO NORMATIVO': '📘',
+      'EXPLICACIÓN PROFUNDA DEL CONCEPTO': '🧠',
+      'POR QUÉ LAS OTRAS SON INCORRECTAS': '🔎',
+      'CÓMO PODRÍA PREGUNTARLO LA CNV': '📊',
+      'CONEXIÓN CON OTRO TEMA': '🧩',
+      'PARA RECORDAR': '💡'
+    };
+    let formatted = text;
+    Object.entries(sectionIcons).forEach(([title, icon]) => {
+      formatted = formatted.replace(
+        new RegExp(`^${title}$`, 'gm'),
+        `<div class="ai-section-title">${icon} ${title}</div>`
+      );
+    });
+    formatted = formatted.replace(/\n\n/g, '</p><p>').replace(/\n/g, '<br>');
+    $('ai-response').innerHTML = '<p>' + formatted + '</p>';
     $('ai-response').style.display = 'block';
   } catch(e) {
     $('ai-response').textContent = 'Error: ' + e.message;
