@@ -416,7 +416,13 @@ canvas.chart{width:100%;display:block;border-radius:8px}
 .ai-response p{margin:0 0 6px 0}
 .ai-section-title{font-size:11px;font-weight:700;color:var(--blue);letter-spacing:.06em;
   text-transform:uppercase;margin:10px 0 4px;padding-top:8px;border-top:1px solid var(--border);}
-.ai-section-title:first-child{border-top:none;padding-top:0;margin-top:0}verflow-y:auto;white-space:pre-wrap;display:none}
+.ai-section-title:first-child{border-top:none;padding-top:0;margin-top:0}
+/* AI Explanations accordion */
+.ai-exp-item{background:var(--card);border-radius:var(--r);border:1px solid var(--border);margin-bottom:8px;overflow:hidden}
+.ai-exp-header{display:flex;align-items:center;gap:10px;padding:12px 14px;cursor:pointer;transition:background var(--tr)}
+.ai-exp-header:hover{background:var(--card2)}
+.ai-exp-chevron{font-size:14px;color:var(--text2);flex-shrink:0;transition:transform .2s}
+.ai-exp-body{padding:0 14px 12px;border-top:1px solid var(--border)}verflow-y:auto;white-space:pre-wrap;display:none}
 .ai-loading{display:none;text-align:center;padding:12px;color:var(--text2);font-size:12px}
 .flag-row{display:flex;align-items:center;gap:8px;margin-top:10px}
 .flag-btn{
@@ -2120,13 +2126,28 @@ function buildAiExplanations() {
       );
     });
     formatted = formatted.replace(/\n\n/g, '</p><p>').replace(/\n/g, '<br>');
-    return `<div class="flagged-item" style="margin-bottom:14px">
-      <div class="flagged-meta" style="margin-bottom:6px"><span class="tag tag-gold">M${mi+1} · #${num}</span></div>
-      <div class="flagged-q" style="font-size:12px;color:var(--text2);margin-bottom:10px">${q}</div>
-      <div style="font-size:12px;line-height:1.6;color:var(--text)"><p>${formatted}</p></div>
-      <button class="btn btn-ghost btn-sm" style="margin-top:8px" onclick="deleteAiExp('${fk}')">✕ Borrar explicación</button>
+    return `<div class="ai-exp-item" id="aiexp-${fk}">
+      <div class="ai-exp-header" onclick="toggleAiExp('${fk}')">
+        <div style="flex:1;min-width:0">
+          <span class="tag tag-gold" style="margin-bottom:4px;display:inline-block">M${mi+1} · #${num}</span>
+          <div style="font-size:13px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${q}</div>
+        </div>
+        <div class="ai-exp-chevron" id="chevron-${fk}">▸</div>
+      </div>
+      <div class="ai-exp-body" id="aibody-${fk}" style="display:none">
+        <div style="font-size:12px;line-height:1.6;color:var(--text);padding:12px 0"><p>${formatted}</p></div>
+        <button class="btn btn-ghost btn-sm" style="margin-top:4px" onclick="deleteAiExp('${fk}')">✕ Borrar explicación</button>
+      </div>
     </div>`;
   }).join('');
+}
+
+function toggleAiExp(fk) {
+  const body = $('aibody-'+fk);
+  const chevron = $('chevron-'+fk);
+  const isOpen = body.style.display !== 'none';
+  body.style.display = isOpen ? 'none' : 'block';
+  chevron.textContent = isOpen ? '▸' : '▾';
 }
 
 function deleteAiExp(fk) {
