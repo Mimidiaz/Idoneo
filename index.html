@@ -990,7 +990,12 @@ canvas.chart{width:100%;display:block;border-radius:8px}
         <div class="page-title">📝 Mis notas</div>
         <div class="page-sub">Notas guardadas por pregunta o módulo</div>
       </div>
+      <div style="display:flex;gap:8px;margin-bottom:14px">
+        <button class="ai-tab-btn active" id="notes-tab-btn-manual" onclick="switchNotesTab('manual')">📝 Mis notas</button>
+        <button class="ai-tab-btn" id="notes-tab-btn-ai" onclick="switchNotesTab('ai')">✨ Explicaciones IA</button>
+      </div>
       <div id="notes-list"></div>
+      <div id="ai-explanations-list" style="display:none"></div>
     </div>
 
     <!-- HISTORY -->
@@ -1146,6 +1151,7 @@ let dailyStats   = {};
 let studyMinutes = {};
 let examHistory  = [];
 let notesSaved   = {};
+let aiExplanations = {};
 let flagged      = new Set();
 let pomDone      = 0;
 let pomMinToday  = 0;
@@ -1156,6 +1162,7 @@ function loadAll() {
   studyMinutes = JSON.parse(localStorage.getItem(SK('studyMin'))  || '{}');
   examHistory  = JSON.parse(localStorage.getItem(SK('examHist'))  || '[]');
   notesSaved   = JSON.parse(localStorage.getItem(SK('notes'))     || '{}');
+  aiExplanations = JSON.parse(localStorage.getItem(SK('aiexp'))   || '{}');
   const fl     = JSON.parse(localStorage.getItem(SK('flagged'))   || '[]');
   flagged      = new Set(fl);
   pomDone      = parseInt(localStorage.getItem(SK('pomDone'))     || '0');
@@ -1167,6 +1174,7 @@ function saveAll() {
   localStorage.setItem(SK('studyMin'),   JSON.stringify(studyMinutes));
   localStorage.setItem(SK('examHist'),   JSON.stringify(examHistory));
   localStorage.setItem(SK('notes'),      JSON.stringify(notesSaved));
+  localStorage.setItem(SK('aiexp'),      JSON.stringify(aiExplanations));
   localStorage.setItem(SK('flagged'),    JSON.stringify([...flagged]));
   localStorage.setItem(SK('pomDone'),    pomDone);
   localStorage.setItem(SK('pomMinToday'),pomMinToday);
@@ -1264,7 +1272,7 @@ function navigate(view) {
   if (view==='exam')          buildExamSetup();
   if (view==='review')        buildReviewSetup();
   if (view==='flagged')       buildFlagged();
-  if (view==='notes')         buildNotes();
+  if (view==='notes')         { buildNotes(); switchNotesTab('manual'); }
   if (view==='history')       buildHistory('daily');
   if (view==='achievements')  buildAchievements();
   if (view==='recs')          buildRecs();
@@ -1625,8 +1633,11 @@ function switchAiTab(tab) {
   if (tab === 'ai') {
     const q = bqQs[bqIndex];
     if (!q) return;
-    // Show cached response if available
     const cacheKey = `${q.mi}_${q.qi}`;
+    // Load from saved explanations if not in memory cache
+    if (!aiCache[cacheKey] && aiExplanations[cacheKey]) {
+      aiCache[cacheKey] = aiExplanations[cacheKey];
+    }
     if (aiCache[cacheKey]) {
       $('ai-response').textContent = aiCache[cacheKey];
       $('ai-response').style.display = 'block';
@@ -1703,6 +1714,9 @@ Explicá brevemente a qué otro módulo o concepto del programa se asocia.
 PARA RECORDAR
 Una frase corta y fácil de retener que ayude a grabar la idea clave.
 
+FUENTES
+Listá las fuentes concretas donde se puede verificar esta información. Incluí: nombre completo de la ley o resolución, número de artículo si aplica, y si corresponde el organismo emisor (CNV, BCRA, UIF, etc.). Si la información surge de la lógica conceptual sin norma específica, indicalo. No inventes fuentes.
+
 IMPORTANTE: No inventes normas, leyes ni artículos. Si no hay norma explícita, explicá la lógica conceptual.`;
 
   try {
@@ -1732,6 +1746,9 @@ IMPORTANTE: No inventes normas, leyes ni artículos. Si no hay norma explícita,
       || data.error?.message
       || ('Sin respuesta: ' + JSON.stringify(data));
     aiCache[cacheKey] = text;
+    // Save to aiExplanations
+    aiExplanations[cacheKey] = text;
+    saveAll();
     // Render with formatting
     const sectionIcons = {
       'RESPUESTA CORRECTA': '✔',
@@ -1740,7 +1757,8 @@ IMPORTANTE: No inventes normas, leyes ni artículos. Si no hay norma explícita,
       'POR QUÉ LAS OTRAS SON INCORRECTAS': '🔎',
       'CÓMO PODRÍA PREGUNTARLO LA CNV': '📊',
       'CONEXIÓN CON OTRO TEMA': '🧩',
-      'PARA RECORDAR': '💡'
+      'PARA RECORDAR': '💡',
+      'FUENTES': '📎'
     };
     let formatted = text;
     Object.entries(sectionIcons).forEach(([title, icon]) => {
@@ -2064,6 +2082,60 @@ function removeFlagged(fk) {
 // ═══════════════════════════════════════════════════════════
 // NOTES
 // ═══════════════════════════════════════════════════════════
+function switchNotesTab(tab) {
+  ['manual','ai'].forEach(t => {
+    $('notes-tab-btn-'+t).classList.toggle('active', t===tab);
+  });
+  $('notes-list').style.display = tab==='manual' ? 'block' : 'none';
+  $('ai-explanations-list').style.display = tab==='ai' ? 'block' : 'none';
+  if (tab==='ai') buildAiExplanations();
+}
+
+function buildAiExplanations() {
+  const entries = Object.entries(aiExplanations);
+  if (!entries.length) {
+    $('ai-explanations-list').innerHTML = '<div class="card"><p style="color:var(--text2);text-align:center;padding:20px">Todavía no generaste ninguna explicación con IA.</p></div>';
+    return;
+  }
+  $('ai-explanations-list').innerHTML = entries.map(([fk, explanation]) => {
+    const [mi, qi] = fk.split('_').map(Number);
+    const mod = MODULES[mi];
+    if (!mod) return '';
+    const [num, q] = mod.questions[qi];
+    const sectionIcons = {
+      'RESPUESTA CORRECTA': '✔',
+      'FUNDAMENTO NORMATIVO': '📘',
+      'EXPLICACIÓN PROFUNDA DEL CONCEPTO': '🧠',
+      'POR QUÉ LAS OTRAS SON INCORRECTAS': '🔎',
+      'CÓMO PODRÍA PREGUNTARLO LA CNV': '📊',
+      'CONEXIÓN CON OTRO TEMA': '🧩',
+      'PARA RECORDAR': '💡',
+      'FUENTES': '📎'
+    };
+    let formatted = explanation;
+    Object.entries(sectionIcons).forEach(([title, icon]) => {
+      formatted = formatted.replace(
+        new RegExp(`^${title}$`, 'gm'),
+        `<div class="ai-section-title">${icon} ${title}</div>`
+      );
+    });
+    formatted = formatted.replace(/\n\n/g, '</p><p>').replace(/\n/g, '<br>');
+    return `<div class="flagged-item" style="margin-bottom:14px">
+      <div class="flagged-meta" style="margin-bottom:6px"><span class="tag tag-gold">M${mi+1} · #${num}</span></div>
+      <div class="flagged-q" style="font-size:12px;color:var(--text2);margin-bottom:10px">${q}</div>
+      <div style="font-size:12px;line-height:1.6;color:var(--text)"><p>${formatted}</p></div>
+      <button class="btn btn-ghost btn-sm" style="margin-top:8px" onclick="deleteAiExp('${fk}')">✕ Borrar explicación</button>
+    </div>`;
+  }).join('');
+}
+
+function deleteAiExp(fk) {
+  delete aiExplanations[fk];
+  delete aiCache[fk];
+  saveAll();
+  buildAiExplanations();
+}
+
 function buildNotes() {
   const entries=Object.entries(notesSaved);
   if (!entries.length) {
