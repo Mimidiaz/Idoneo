@@ -423,6 +423,13 @@ canvas.chart{width:100%;display:block;border-radius:8px}
 .mp-icon{font-size:14px;flex-shrink:0;width:20px}
 .mp-text{flex:1;line-height:1.5;color:var(--text)}
 .mp-badge{font-size:11px;font-weight:700;padding:2px 7px;border-radius:4px;background:var(--card2);color:var(--text2);flex-shrink:0}
+/* Study day buttons */
+.study-day-btn{
+  padding:6px 12px;border-radius:var(--r);border:1px solid var(--border);
+  background:var(--card2);color:var(--text2);font-size:12px;font-weight:600;cursor:pointer;
+  transition:all .2s;
+}
+.study-day-btn.active{background:var(--blue);border-color:var(--blue);color:#fff}
 /* Competency radar */
 .radar-wrap{margin-top:10px;padding:10px 12px;background:var(--card2);border-radius:var(--r);border-left:3px solid var(--purple)}
 .radar-title{font-size:11px;font-weight:700;color:var(--purple);letter-spacing:.06em;text-transform:uppercase;margin-bottom:8px}
@@ -1105,12 +1112,28 @@ canvas.chart{width:100%;display:block;border-radius:8px}
       <!-- Study Plan -->
       <div class="card" style="margin-bottom:16px">
         <div class="section-title">📅 Plan de estudio</div>
-        <div style="display:flex;align-items:flex-end;gap:12px;flex-wrap:wrap;margin:12px 0">
-          <div style="display:flex;flex-direction:column;gap:4px">
-            <label style="font-size:11px;color:var(--text2);font-weight:600">FECHA DEL EXAMEN</label>
-            <input type="date" id="exam-date-input" style="padding:7px 10px;border-radius:var(--r);border:1px solid var(--border);background:var(--card2);color:var(--text);font-size:13px">
+        <div style="display:flex;flex-direction:column;gap:12px;margin:12px 0">
+          <div style="display:flex;align-items:flex-end;gap:12px;flex-wrap:wrap">
+            <div style="display:flex;flex-direction:column;gap:4px">
+              <label style="font-size:11px;color:var(--text2);font-weight:600">FECHA DEL EXAMEN</label>
+              <input type="date" id="exam-date-input" style="padding:7px 10px;border-radius:var(--r);border:1px solid var(--border);background:var(--card2);color:var(--text);font-size:13px">
+            </div>
           </div>
-          <button class="btn btn-primary" onclick="buildStudyPlan()">Generar plan</button>
+          <div>
+            <label style="font-size:11px;color:var(--text2);font-weight:600;display:block;margin-bottom:6px">DÍAS QUE PODÉS ESTUDIAR</label>
+            <div style="display:flex;gap:6px;flex-wrap:wrap" id="study-days-selector">
+              <button class="study-day-btn active" data-day="1" onclick="toggleStudyDay(this)">Lun</button>
+              <button class="study-day-btn active" data-day="2" onclick="toggleStudyDay(this)">Mar</button>
+              <button class="study-day-btn active" data-day="3" onclick="toggleStudyDay(this)">Mié</button>
+              <button class="study-day-btn active" data-day="4" onclick="toggleStudyDay(this)">Jue</button>
+              <button class="study-day-btn active" data-day="5" onclick="toggleStudyDay(this)">Vie</button>
+              <button class="study-day-btn active" data-day="6" onclick="toggleStudyDay(this)">Sáb</button>
+              <button class="study-day-btn" data-day="0" onclick="toggleStudyDay(this)">Dom</button>
+            </div>
+          </div>
+          <div>
+            <button class="btn btn-primary" onclick="buildStudyPlan()">Generar plan</button>
+          </div>
         </div>
         <div id="study-plan-content"></div>
       </div>
@@ -1224,6 +1247,22 @@ canvas.chart{width:100%;display:block;border-radius:8px}
   </div>
   <div class="sp-divider"></div>
   <button class="btn btn-danger btn-sm" style="width:100%" onclick="confirmReset()">⚠️ Reiniciar todo el progreso</button>
+</div>
+
+<!-- RESET CONFIRMATION MODAL -->
+<div class="modal-overlay" id="reset-modal" style="display:none" onclick="if(event.target===this)closeResetModal()">
+  <div class="modal-card" style="max-width:400px">
+    <div class="modal-title">⚠️ Reiniciar progreso<button class="modal-close" onclick="closeResetModal()">×</button></div>
+    <p style="font-size:13px;color:var(--text2);margin-bottom:16px;line-height:1.6">Esta acción borrará <strong>todo tu progreso</strong>: preguntas respondidas, errores, notas, exámenes, flashcards y explicaciones de IA.<br><br>Para confirmar, escribí exactamente:</p>
+    <div style="font-size:13px;font-family:var(--mono);background:var(--card2);padding:8px 12px;border-radius:var(--r);margin-bottom:12px;color:var(--red);font-weight:700">reiniciar todo el progreso</div>
+    <input type="text" id="reset-confirm-input" placeholder="Escribí la frase de confirmación..." 
+      style="width:100%;padding:8px 10px;border-radius:var(--r);border:1px solid var(--border);background:var(--card);color:var(--text);font-size:13px;margin-bottom:12px"
+      oninput="checkResetConfirm()" onpaste="setTimeout(checkResetConfirm,10)">
+    <div style="display:flex;gap:8px;justify-content:flex-end">
+      <button class="btn btn-ghost" onclick="closeResetModal()">Cancelar</button>
+      <button class="btn btn-danger" id="reset-confirm-btn" disabled onclick="executeReset()">Reiniciar todo</button>
+    </div>
+  </div>
 </div>
 
 <!-- POMODORO MODAL -->
@@ -2452,10 +2491,11 @@ function buildNotes() {
   }
   $('notes-list').innerHTML=entries.map(([fk,note])=>{
     const [mi,qi]=fk.split('_').map(Number);
-    const [num,q]=MODULES[mi].questions[qi];
+    const [num,q,a]=MODULES[mi].questions[qi];
     return `<div class="flagged-item">
       <div class="flagged-meta" style="margin-bottom:6px"><span class="tag tag-gold">M${mi+1} · #${num}</span></div>
-      <div class="flagged-q" style="font-size:12px;color:var(--text2);margin-bottom:6px">${q}</div>
+      <div class="flagged-q" style="font-size:12px;color:var(--text2);margin-bottom:4px">${q}</div>
+      <div style="font-size:12px;color:var(--green);margin-bottom:8px">✔ ${a}</div>
       <div style="font-size:13px;color:var(--text);background:var(--card2);padding:8px 12px;border-radius:8px;white-space:pre-line">${note}</div>
       <button class="btn btn-ghost btn-sm" style="margin-top:8px" onclick="deleteNote('${fk}')">✕ Borrar nota</button>
     </div>`;
@@ -2600,8 +2640,10 @@ function buildHistory(tab) {
     </div>
     <div class="card">
       <div class="section-title">Preguntas más falladas (top ${Math.min(20,errQs.length)})</div>
-      ${errQs.slice(0,20).map((q,i) => `
-        <div style="padding:10px 0;border-bottom:1px solid var(--border)">
+      ${errQs.slice(0,20).map((q,i) => {
+        const fk = `${q.mi}_${q.qi}`;
+        const existingNote = notesSaved[fk] || '';
+        return `<div style="padding:10px 0;border-bottom:1px solid var(--border)">
           <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
             <span class="tag" style="background:rgba(240,80,112,.15);color:var(--red)">${q.errors} errores</span>
             <span class="tag tag-gold">M${q.mi+1} · #${q.num}</span>
@@ -2609,7 +2651,23 @@ function buildHistory(tab) {
           </div>
           <div style="font-size:13px;color:var(--text);line-height:1.5">${q.q}</div>
           <div style="font-size:12px;color:var(--green);margin-top:4px">✔ ${q.a}</div>
-        </div>`).join('')}
+          <div id="err-note-wrap-${fk}" style="margin-top:6px">
+            ${existingNote
+              ? `<div style="font-size:12px;background:var(--card2);border-left:3px solid var(--gold);padding:6px 10px;border-radius:var(--r);color:var(--text);margin-bottom:4px;white-space:pre-wrap">${existingNote}</div>`
+              : ''}
+            <button class="btn btn-ghost btn-sm" style="font-size:11px" onclick="toggleErrNote('${fk}')">
+              ${existingNote ? '✏️ Editar nota' : '📝 Agregar nota'}
+            </button>
+            <div id="err-note-editor-${fk}" style="display:none;margin-top:6px">
+              <textarea id="err-note-ta-${fk}" style="width:100%;min-height:60px;resize:vertical;padding:7px 10px;border-radius:var(--r);border:1px solid var(--border);background:var(--card);color:var(--text);font-size:12px">${existingNote}</textarea>
+              <div style="display:flex;gap:6px;margin-top:4px">
+                <button class="btn btn-primary btn-sm" onclick="saveErrNote('${fk}')">Guardar</button>
+                <button class="btn btn-ghost btn-sm" onclick="toggleErrNote('${fk}')">Cancelar</button>
+              </div>
+            </div>
+          </div>
+        </div>`;
+      }).join('')}
     </div>`;
   } else {
     if (!examHistory.length) {
@@ -3451,6 +3509,30 @@ function exitFlashcards() {
 // ═══════════════════════════════════════════════════════════
 // STUDY PLAN
 // ═══════════════════════════════════════════════════════════
+function toggleStudyDay(btn) {
+  btn.classList.toggle('active');
+  // Save selected days
+  const days = [...document.querySelectorAll('.study-day-btn.active')].map(b=>parseInt(b.dataset.day));
+  localStorage.setItem(SK('studyDays'), JSON.stringify(days));
+}
+
+function getSelectedStudyDays() {
+  const saved = localStorage.getItem(SK('studyDays'));
+  if (saved) return JSON.parse(saved);
+  return [1,2,3,4,5,6]; // Mon-Sat default
+}
+
+function countStudyDaysUntil(targetDate, selectedDays) {
+  let count = 0;
+  const cur = new Date(); cur.setHours(0,0,0,0);
+  const end = new Date(targetDate + 'T12:00:00');
+  while (cur < end) {
+    if (selectedDays.includes(cur.getDay())) count++;
+    cur.setDate(cur.getDate() + 1);
+  }
+  return count;
+}
+
 function buildStudyPlan() {
   const dateVal = $('exam-date-input').value;
   const el = $('study-plan-content');
@@ -3461,6 +3543,15 @@ function buildStudyPlan() {
   const daysLeft = Math.ceil((examDate - today2) / 86400000);
 
   if (daysLeft <= 0) { el.innerHTML='<p style="color:var(--red);font-size:13px">La fecha debe ser futura.</p>'; return; }
+
+  // Get selected study days
+  const selectedDays = getSelectedStudyDays();
+  if (selectedDays.length === 0) { el.innerHTML='<p style="color:var(--red);font-size:13px">Seleccioná al menos un día de estudio.</p>'; return; }
+
+  // Count actual study days available
+  const studyDaysAvailable = countStudyDaysUntil(dateVal, selectedDays);
+  const dayNames = ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
+  const selectedDayNames = selectedDays.sort((a,b)=>a-b).map(d=>dayNames[d]).join(', ');
 
   // Calculate what's pending
   const totalQ = TOTAL_Q;
@@ -3477,15 +3568,17 @@ function buildStudyPlan() {
     acc: getModAccuracy(mi)
   })).filter(m=>m.pending>0).sort((a,b)=>b.pending-a.pending);
 
-  // Daily target
-  const qPerDay = daysLeft > 0 ? Math.ceil(pendingQ / daysLeft) : pendingQ;
+  // Daily target based on actual study days
+  const qPerDay = studyDaysAvailable > 0 ? Math.ceil(pendingQ / studyDaysAvailable) : pendingQ;
   const intensity = qPerDay <= 10 ? '🟢 Liviano' : qPerDay <= 25 ? '🟡 Moderado' : '🔴 Intenso';
 
   // Weekly schedule suggestion
   const weeks = Math.floor(daysLeft / 7);
-  const remainDays = daysLeft % 7;
 
   el.innerHTML = `
+    <div style="font-size:12px;color:var(--text2);margin-bottom:10px">
+      📆 Días de estudio seleccionados: <strong style="color:var(--text)">${selectedDayNames}</strong> — <strong style="color:var(--blue)">${studyDaysAvailable} sesiones disponibles</strong> de aquí al examen
+    </div>
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:14px">
       <div style="text-align:center;padding:12px;background:var(--card2);border-radius:var(--r)">
         <div style="font-size:22px;font-weight:700;font-family:var(--mono);color:var(--blue)">${daysLeft}</div>
@@ -3550,8 +3643,14 @@ function initStudyPlan() {
   const saved = localStorage.getItem(SK('examDate'));
   if (saved) {
     const inp = $('exam-date-input');
-    if (inp) { inp.value = saved; }
+    if (inp) inp.value = saved;
   }
+  // Restore saved study days
+  const savedDays = getSelectedStudyDays();
+  document.querySelectorAll('.study-day-btn').forEach(btn => {
+    const day = parseInt(btn.dataset.day);
+    btn.classList.toggle('active', savedDays.includes(day));
+  });
 }
 
 
@@ -3628,6 +3727,40 @@ function copyAudioText() {
 // ═══════════════════════════════════════════════════════════
 // PLAN DEL DÍA (MORNING PLAN)
 // ═══════════════════════════════════════════════════════════
+function toggleErrNote(fk) {
+  const editor = $('err-note-editor-'+fk);
+  if (!editor) return;
+  const isOpen = editor.style.display !== 'none';
+  editor.style.display = isOpen ? 'none' : 'block';
+  if (!isOpen) $('err-note-ta-'+fk)?.focus();
+}
+
+function saveErrNote(fk) {
+  const ta = $('err-note-ta-'+fk);
+  if (!ta) return;
+  const val = ta.value.trim();
+  if (val) notesSaved[fk] = val;
+  else delete notesSaved[fk];
+  saveAll();
+  // Refresh the wrap area
+  const wrap = $('err-note-wrap-'+fk);
+  if (wrap) {
+    wrap.innerHTML = `
+      ${val ? `<div style="font-size:12px;background:var(--card2);border-left:3px solid var(--gold);padding:6px 10px;border-radius:var(--r);color:var(--text);margin-bottom:4px;white-space:pre-wrap">${val}</div>` : ''}
+      <button class="btn btn-ghost btn-sm" style="font-size:11px" onclick="toggleErrNote('${fk}')">
+        ${val ? '✏️ Editar nota' : '📝 Agregar nota'}
+      </button>
+      <div id="err-note-editor-${fk}" style="display:none;margin-top:6px">
+        <textarea id="err-note-ta-${fk}" style="width:100%;min-height:60px;resize:vertical;padding:7px 10px;border-radius:var(--r);border:1px solid var(--border);background:var(--card);color:var(--text);font-size:12px">${val}</textarea>
+        <div style="display:flex;gap:6px;margin-top:4px">
+          <button class="btn btn-primary btn-sm" onclick="saveErrNote('${fk}')">Guardar</button>
+          <button class="btn btn-ghost btn-sm" onclick="toggleErrNote('${fk}')">Cancelar</button>
+        </div>
+      </div>`;
+  }
+  toast('✓ Nota guardada');
+}
+
 function toggleMorningPlan() {
   const content = $('morning-plan-content');
   const chevron = $('morning-plan-chevron');
