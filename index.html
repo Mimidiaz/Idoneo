@@ -356,7 +356,7 @@ canvas.chart{width:100%;display:block;border-radius:8px}
   transition:width .4s ease}
 .quiz-body{flex:1;overflow-y:auto;padding:20px}
 .question-num{font-family:var(--mono);font-size:11px;color:var(--text2);margin-bottom:8px}
-.question-text{font-size:15px;line-height:1.6;margin-bottom:20px;font-family:var(--serif)}
+.question-text{font-size:1.05em;line-height:1.6;margin-bottom:20px;font-family:var(--serif)}
 .options{display:flex;flex-direction:column;gap:9px}
 .opt-btn{
   display:flex;align-items:flex-start;gap:12px;padding:12px 16px;
@@ -422,7 +422,25 @@ canvas.chart{width:100%;display:block;border-radius:8px}
 .ai-exp-header{display:flex;align-items:center;gap:10px;padding:12px 14px;cursor:pointer;transition:background var(--tr)}
 .ai-exp-header:hover{background:var(--card2)}
 .ai-exp-chevron{font-size:14px;color:var(--text2);flex-shrink:0;transition:transform .2s}
-.ai-exp-body{padding:0 14px 12px;border-top:1px solid var(--border)}verflow-y:auto;white-space:pre-wrap;display:none}
+.ai-exp-body{padding:0 14px 12px;border-top:1px solid var(--border)}
+
+/* Flashcards */
+.fc-card{
+  background:var(--card);border:1px solid var(--border);border-radius:12px;
+  padding:28px 22px;cursor:pointer;min-height:200px;
+  display:flex;flex-direction:column;justify-content:center;
+  transition:transform .2s,box-shadow .2s;
+  box-shadow:var(--shadow);
+}
+.fc-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg)}
+.fc-tag{font-size:11px;font-family:var(--mono);color:var(--text2);margin-bottom:12px}
+.fc-question{font-size:16px;line-height:1.6;font-family:var(--serif);color:var(--text);margin-bottom:16px}
+.fc-hint{font-size:12px;color:var(--text2);text-align:center;margin-top:auto}
+.fc-answer{font-size:14px;font-weight:700;color:var(--green);margin-bottom:12px;line-height:1.5}
+.fc-options-list{display:flex;flex-direction:column;gap:6px}
+.fc-opt{font-size:12px;padding:6px 10px;border-radius:6px;background:var(--card2);color:var(--text2);line-height:1.4}
+.fc-opt.correct{background:rgba(34,211,160,.15);color:var(--green);font-weight:600}
+.fc-opt.wrong{background:rgba(240,80,112,.1);color:var(--red)}verflow-y:auto;white-space:pre-wrap;display:none}
 .ai-loading{display:none;text-align:center;padding:12px;color:var(--text2);font-size:12px}
 .flag-row{display:flex;align-items:center;gap:8px;margin-top:10px}
 .flag-btn{
@@ -674,6 +692,9 @@ canvas.chart{width:100%;display:block;border-radius:8px}
     <button class="sb-btn" id="nav-review" onclick="navigate('review')">
       <span class="icon">🔁</span>Repaso inteligente
       <span class="badge" id="review-badge" style="display:none">0</span>
+    </button>
+    <button class="sb-btn" id="nav-flashcards" onclick="navigate('flashcards')">
+      <span class="icon">🃏</span>Flashcards
     </button>
     <button class="sb-btn" id="nav-flagged" onclick="navigate('flagged')">
       <span class="icon">🚩</span>Marcadas
@@ -987,6 +1008,21 @@ canvas.chart{width:100%;display:block;border-radius:8px}
         <div class="page-title">🚩 Preguntas marcadas</div>
         <div class="page-sub" id="flagged-count-label">0 preguntas marcadas como difíciles</div>
       </div>
+      <div id="flagged-exam-bar" style="display:none;margin-bottom:16px" class="card">
+        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+          <span style="font-size:13px;font-weight:600;flex:1">Practicar preguntas difíciles</span>
+          <div style="display:flex;flex-direction:column;gap:2px">
+            <label style="font-size:11px;color:var(--text2);font-weight:600">PREGUNTAS</label>
+            <select id="flagged-exam-count" style="padding:6px 10px;border-radius:var(--r);border:1px solid var(--border);background:var(--card2);color:var(--text);font-size:13px">
+              <option value="10">10</option>
+              <option value="20" selected>20</option>
+              <option value="30">30</option>
+              <option value="all">Todas</option>
+            </select>
+          </div>
+          <button class="btn btn-gold" onclick="startFlaggedExam()" style="margin-top:14px">🚩 Iniciar repaso</button>
+        </div>
+      </div>
       <div id="flagged-list"></div>
     </div>
 
@@ -1013,6 +1049,8 @@ canvas.chart{width:100%;display:block;border-radius:8px}
         <button class="hist-tab active" onclick="showHistTab('daily',this)">Diario</button>
         <button class="hist-tab" onclick="showHistTab('modules',this)">Por módulo</button>
         <button class="hist-tab" onclick="showHistTab('exams',this)">Exámenes</button>
+        <button class="hist-tab" onclick="showHistTab('flashcards',this)">🃏 Flashcards</button>
+        <button class="hist-tab" onclick="showHistTab('errors',this)">⚠️ Errores</button>
       </div>
       <div id="hist-content"></div>
     </div>
@@ -1032,11 +1070,91 @@ canvas.chart{width:100%;display:block;border-radius:8px}
         <div class="page-title">💡 Recomendaciones inteligentes</div>
         <div class="page-sub">Plan personalizado basado en tu rendimiento</div>
       </div>
+      <!-- Study Plan -->
+      <div class="card" style="margin-bottom:16px">
+        <div class="section-title">📅 Plan de estudio</div>
+        <div style="display:flex;align-items:flex-end;gap:12px;flex-wrap:wrap;margin:12px 0">
+          <div style="display:flex;flex-direction:column;gap:4px">
+            <label style="font-size:11px;color:var(--text2);font-weight:600">FECHA DEL EXAMEN</label>
+            <input type="date" id="exam-date-input" style="padding:7px 10px;border-radius:var(--r);border:1px solid var(--border);background:var(--card2);color:var(--text);font-size:13px">
+          </div>
+          <button class="btn btn-primary" onclick="buildStudyPlan()">Generar plan</button>
+        </div>
+        <div id="study-plan-content"></div>
+      </div>
       <div id="recs-content"></div>
     </div>
 
   </div><!-- /views -->
 </div><!-- /main -->
+
+  <!-- FLASHCARDS VIEW -->
+  <div class="view" id="view-flashcards">
+    <div style="max-width:600px;margin:0 auto">
+    <div class="page-header">
+      <div class="page-title">🃏 Flashcards</div>
+      <div class="page-sub">Pensá la respuesta antes de girar la tarjeta</div>
+    </div>
+    <!-- Setup -->
+    <div id="fc-setup" class="card">
+      <div class="section-title">Seleccioná módulo</div>
+      <div class="mod-selector" id="fc-mod-selector"></div>
+      <div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+        <div style="display:flex;flex-direction:column;gap:4px">
+          <label style="font-size:11px;color:var(--text2);font-weight:600">ORDEN</label>
+          <select id="fc-order" style="padding:7px 10px;border-radius:var(--r);border:1px solid var(--border);background:var(--card2);color:var(--text);font-size:13px">
+            <option value="random">Aleatorio</option>
+            <option value="failed">Solo falladas primero</option>
+            <option value="unseen">Sin ver primero</option>
+          </select>
+        </div>
+        <button class="btn btn-gold btn-lg" style="margin-left:auto;margin-top:18px" onclick="startFlashcards()">🃏 Iniciar</button>
+      </div>
+    </div>
+    <!-- Active flashcard -->
+    <div id="fc-active" style="display:none;max-width:560px">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
+        <div style="font-size:12px;color:var(--text2);font-family:var(--mono)" id="fc-counter">1 / 20</div>
+        <div style="flex:1;height:4px;background:var(--border2);border-radius:2px">
+          <div id="fc-prog" style="height:100%;background:var(--blue);border-radius:2px;transition:width .4s;width:0%"></div>
+        </div>
+        <button class="btn btn-ghost btn-sm" onclick="exitFlashcards()">✕ Salir</button>
+      </div>
+      <!-- Card -->
+      <div class="fc-card" id="fc-card" onclick="flipCard()">
+        <div class="fc-front" id="fc-front">
+          <div class="fc-tag" id="fc-tag"></div>
+          <div class="fc-question" id="fc-question"></div>
+          <div class="fc-hint">👆 Tocá para ver la respuesta</div>
+        </div>
+        <div class="fc-back" id="fc-back" style="display:none">
+          <div class="fc-answer" id="fc-answer"></div>
+          <div class="fc-options-list" id="fc-options-list"></div>
+        </div>
+      </div>
+      <!-- Rating buttons (shown after flip) -->
+      <div id="fc-rating" style="display:none;margin-top:14px">
+        <div style="font-size:12px;color:var(--text2);text-align:center;margin-bottom:8px">¿La sabías?</div>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-sm" style="flex:1;background:var(--red);color:#fff;border:none" onclick="rateCard(false)">✗ No la sabía</button>
+          <button class="btn btn-sm" style="flex:1;background:var(--green);color:#fff;border:none" onclick="rateCard(true)">✓ La sabía</button>
+        </div>
+      </div>
+    </div>
+    <!-- Result -->
+    <div id="fc-result" style="display:none">
+      <div class="card" style="text-align:center;padding:32px 20px">
+        <div style="font-size:48px;margin-bottom:12px">🎉</div>
+        <div style="font-size:28px;font-weight:700;font-family:var(--mono)" id="fc-res-score"></div>
+        <div style="font-size:14px;color:var(--text2);margin:8px 0 20px" id="fc-res-sub"></div>
+        <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
+          <button class="btn btn-ghost" onclick="startFlashcards()">🔄 Repetir</button>
+          <button class="btn btn-gold" onclick="exitFlashcards()">← Volver</button>
+        </div>
+      </div>
+    </div>
+    </div><!-- /max-width container -->
+  </div>
 </div><!-- /app -->
 
 <!-- TOAST -->
@@ -1158,6 +1276,7 @@ let studyMinutes = {};
 let examHistory  = [];
 let notesSaved   = {};
 let aiExplanations = {};
+let fcHistory = [];
 let flagged      = new Set();
 let pomDone      = 0;
 let pomMinToday  = 0;
@@ -1169,6 +1288,7 @@ function loadAll() {
   examHistory  = JSON.parse(localStorage.getItem(SK('examHist'))  || '[]');
   notesSaved   = JSON.parse(localStorage.getItem(SK('notes'))     || '{}');
   aiExplanations = JSON.parse(localStorage.getItem(SK('aiexp'))   || '{}');
+  fcHistory = JSON.parse(localStorage.getItem(SK('fcHist')) || '[]');
   const fl     = JSON.parse(localStorage.getItem(SK('flagged'))   || '[]');
   flagged      = new Set(fl);
   pomDone      = parseInt(localStorage.getItem(SK('pomDone'))     || '0');
@@ -1181,6 +1301,7 @@ function saveAll() {
   localStorage.setItem(SK('examHist'),   JSON.stringify(examHistory));
   localStorage.setItem(SK('notes'),      JSON.stringify(notesSaved));
   localStorage.setItem(SK('aiexp'),      JSON.stringify(aiExplanations));
+  localStorage.setItem(SK('fcHist'),     JSON.stringify(fcHistory));
   localStorage.setItem(SK('flagged'),    JSON.stringify([...flagged]));
   localStorage.setItem(SK('pomDone'),    pomDone);
   localStorage.setItem(SK('pomMinToday'),pomMinToday);
@@ -1270,7 +1391,8 @@ function navigate(view) {
   curView = view;
   const titles = {dashboard:'Dashboard',study:'Estudiar',exam:'Examen',
     review:'Repaso inteligente',flagged:'Marcadas',notes:'Notas',
-    history:'Historial',achievements:'Logros',recs:'Recomendaciones'};
+    history:'Historial',achievements:'Logros',recs:'Recomendaciones',
+    flashcards:'Flashcards'};
   $('tb-title').textContent = titles[view] || '';
   closeSidebar();
   if (view==='dashboard')     buildDashboard();
@@ -1281,7 +1403,8 @@ function navigate(view) {
   if (view==='notes')         { buildNotes(); switchNotesTab('manual'); }
   if (view==='history')       buildHistory('daily');
   if (view==='achievements')  buildAchievements();
-  if (view==='recs')          buildRecs();
+  if (view==='recs')          { buildRecs(); initStudyPlan(); }
+  if (view==='flashcards')    buildFlashcardSetup();
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -1990,14 +2113,31 @@ function finishExam(manual) {
   </div>`;
 
   // Question list
-  $('ex-res-questions').innerHTML = `<div class="card card-sm"><div class="section-title">Detalle de respuestas</div>
+  $('ex-res-questions').innerHTML = `<div class="card card-sm">
+    <div class="section-title">Corrección detallada por pregunta</div>
     ${examQs.map((q,i)=>{
       const chosen=examAnswers[i]; const isOk=chosen===q.a;
-      return `<div style="padding:8px 0;border-bottom:1px solid var(--border)">
-        <div style="font-size:11px;color:var(--text2);margin-bottom:3px">#${q.num} · M${q.mi+1}</div>
-        <div style="font-size:13px;margin-bottom:5px;font-family:var(--serif)">${q.q}</div>
-        ${chosen?`<div style="font-size:12px;color:${isOk?'var(--green)':'var(--red)'}">${isOk?'✓':'✗'} Tu respuesta: ${chosen}</div>`:'<div style="font-size:12px;color:var(--muted)">— Sin responder</div>'}
-        ${!isOk&&chosen?`<div style="font-size:12px;color:var(--green);margin-top:2px">✓ Correcta: ${q.a}</div>`:''}
+      const letters=['A','B','C','D'];
+      return `<div style="padding:12px 0;border-bottom:1px solid var(--border)">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+          <span style="font-size:11px;font-family:var(--mono);color:var(--text2)">#${q.num} · M${q.mi+1}</span>
+          ${chosen
+            ? `<span style="font-size:11px;font-weight:700;color:${isOk?'var(--green)':'var(--red)'};background:${isOk?'rgba(34,211,160,.12)':'rgba(240,80,112,.10)'};padding:2px 8px;border-radius:4px">${isOk?'✓ CORRECTA':'✗ INCORRECTA'}</span>`
+            : `<span style="font-size:11px;color:var(--muted);background:var(--card2);padding:2px 8px;border-radius:4px">— Sin responder</span>`}
+        </div>
+        <div style="font-size:13px;line-height:1.5;font-family:var(--serif);margin-bottom:8px">${q.q}</div>
+        <div style="display:flex;flex-direction:column;gap:4px">
+          ${(q.opts||[]).map((opt,oi)=>{
+            const isCorrect = opt===q.a;
+            const isChosen = opt===chosen;
+            let bg='var(--card2)', color='var(--text2)', prefix=`${letters[oi]})`;
+            if (isCorrect) { bg='rgba(34,211,160,.12)'; color='var(--green)'; prefix=`${letters[oi]}) ✓`; }
+            if (isChosen && !isCorrect) { bg='rgba(240,80,112,.10)'; color='var(--red)'; prefix=`${letters[oi]}) ✗`; }
+            return `<div style="font-size:12px;padding:5px 8px;border-radius:6px;background:${bg};color:${color};line-height:1.4">
+              ${prefix} ${opt}
+            </div>`;
+          }).join('')}
+        </div>
       </div>`;
     }).join('')}
   </div>`;
@@ -2067,6 +2207,28 @@ function buildFlagged() {
     items.push({mi,qi,num,q,a,opts,fk});
   });
   $('flagged-count-label').textContent=`${items.length} pregunta${items.length!==1?'s':''} marcada${items.length!==1?'s':''} como difícil${items.length!==1?'es':''}`;
+
+  // Show/hide exam bar and update count options
+  const bar = $('flagged-exam-bar');
+  if (items.length > 0) {
+    bar.style.display = 'block';
+    const sel = $('flagged-exam-count');
+    sel.innerHTML = '';
+    const opts2 = [10,20,30,50].filter(n=>n<=items.length);
+    opts2.forEach(n => {
+      const o = document.createElement('option');
+      o.value = n; o.textContent = n;
+      if (n===20 || (opts2.length===1)) o.selected = true;
+      sel.appendChild(o);
+    });
+    const allOpt = document.createElement('option');
+    allOpt.value = 'all'; allOpt.textContent = `Todas (${items.length})`;
+    if (items.length <= 10) allOpt.selected = true;
+    sel.appendChild(allOpt);
+  } else {
+    bar.style.display = 'none';
+  }
+
   if (!items.length) {
     $('flagged-list').innerHTML='<div class="card"><p style="color:var(--text2);text-align:center;padding:20px">No tenés preguntas marcadas todavía.</p></div>';
     return;
@@ -2080,6 +2242,35 @@ function buildFlagged() {
         <button class="btn btn-ghost btn-sm" onclick="removeFlagged('${it.fk}')">✕ Desmarcar</button>
       </div>
     </div>`).join('');
+}
+
+function startFlaggedExam() {
+  const items = [];
+  flagged.forEach(fk => {
+    const [mi,qi] = fk.split('_').map(Number);
+    const [num,q,a,opts] = MODULES[mi].questions[qi];
+    items.push({mi,qi,num,q,a,opts:opts||[]});
+  });
+  if (!items.length) { toast('⚠️ No tenés preguntas marcadas'); return; }
+
+  // Shuffle
+  const shuffled = items.sort(()=>Math.random()-.5);
+  const countVal = $('flagged-exam-count').value;
+  const count = countVal === 'all' ? shuffled.length : Math.min(parseInt(countVal), shuffled.length);
+
+  // Use exam system
+  examQs = shuffled.slice(0, count).map(it => ({
+    mi: it.mi, qi: it.qi, num: it.num, q: it.q, a: it.a, opts: it.opts
+  }));
+  examAnswers = new Array(examQs.length).fill(null);
+  examFlagged = new Set();
+  examIdx = 0;
+  examSecs = null; // sin límite de tiempo
+
+  $('exam-view').style.display = 'flex';
+  $('exam-result-view').style.display = 'none';
+  startExamTimer();
+  renderExamQ();
 }
 function removeFlagged(fk) {
   flagged.delete(fk); saveAll(); buildFlagged(); updateBadges();
@@ -2238,6 +2429,91 @@ function buildHistory(tab) {
           </div>
         </div>`;
       }).join('')}
+    </div>`;
+  } else if (tab==='flashcards') {
+    if (!fcHistory.length) {
+      el.innerHTML='<div class="card"><p style="color:var(--text2);text-align:center;padding:20px">No hay sesiones de flashcards registradas.</p></div>';
+      return;
+    }
+    el.innerHTML=`<div class="card"><div class="section-title">Historial de Flashcards</div>
+      ${fcHistory.map((e,i)=>`
+        <div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border)">
+          <div style="width:48px;height:48px;border-radius:10px;background:${e.pct>=70?'rgba(34,211,160,.12)':'rgba(240,80,112,.10)'};
+            display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:13px;font-weight:700;
+            color:${e.pct>=70?'var(--green)':'var(--red)'}">${e.pct}%</div>
+          <div style="flex:1">
+            <div style="font-size:13px;font-weight:600">${e.correct} / ${e.total} tarjetas</div>
+            <div style="font-size:11px;color:var(--text2)">${e.mods} · ${e.date} ${e.time}</div>
+          </div>
+        </div>`).join('')}
+    </div>`;
+  } else if (tab==='errors') {
+    // Collect all questions with errors, sorted by error count desc
+    const errQs = [];
+    MODULES.forEach((m,mi) => {
+      m.questions.forEach(([num,q,a,opts],qi) => {
+        const mst = getMastery(mi,qi);
+        if (mst.errors > 0) {
+          const acc = mst.attempts > 0 ? Math.round(mst.correct/mst.attempts*100) : 0;
+          errQs.push({mi, qi, num, q, a, errors: mst.errors, attempts: mst.attempts, correct: mst.correct, acc, level: mst.level});
+        }
+      });
+    });
+    errQs.sort((a,b) => b.errors - a.errors);
+
+    // Error pattern analysis
+    const byMod = Array(6).fill(0);
+    errQs.forEach(q => byMod[q.mi] += q.errors);
+    const totalErrors = errQs.reduce((s,q)=>s+q.errors,0);
+    const worstMod = byMod.indexOf(Math.max(...byMod));
+
+    if (!errQs.length) {
+      el.innerHTML = '<div class="card"><p style="color:var(--text2);text-align:center;padding:20px">¡Sin errores registrados todavía! Empezá a estudiar.</p></div>';
+      return;
+    }
+
+    el.innerHTML = `
+    <div class="card" style="margin-bottom:14px">
+      <div class="section-title">Resumen de errores</div>
+      <div class="grid3" style="margin:12px 0">
+        <div style="text-align:center">
+          <div style="font-size:24px;font-weight:700;font-family:var(--mono);color:var(--red)">${totalErrors}</div>
+          <div style="font-size:11px;color:var(--text2)">errores totales</div>
+        </div>
+        <div style="text-align:center">
+          <div style="font-size:24px;font-weight:700;font-family:var(--mono);color:var(--orange)">${errQs.length}</div>
+          <div style="font-size:11px;color:var(--text2)">preguntas con error</div>
+        </div>
+        <div style="text-align:center">
+          <div style="font-size:24px;font-weight:700;font-family:var(--mono);color:var(--gold)">M${worstMod+1}</div>
+          <div style="font-size:11px;color:var(--text2)">módulo más difícil</div>
+        </div>
+      </div>
+      <div class="section-title" style="margin-top:12px">Errores por módulo</div>
+      ${MODULES.map((m,mi) => {
+        const pct = totalErrors > 0 ? Math.round(byMod[mi]/totalErrors*100) : 0;
+        return `<div style="display:flex;align-items:center;gap:10px;padding:6px 0">
+          <div class="mod-dot" style="background:var(${MOD_COLORS[mi]})"></div>
+          <div style="width:30px;font-size:12px;color:var(--text2)">M${mi+1}</div>
+          <div style="flex:1;height:6px;background:var(--border2);border-radius:3px;overflow:hidden">
+            <div style="height:100%;background:var(${MOD_COLORS[mi]});border-radius:3px;width:${pct}%"></div>
+          </div>
+          <div style="font-size:12px;font-family:var(--mono);width:40px;text-align:right;color:var(--red)">${byMod[mi]}</div>
+        </div>`;
+      }).join('')}
+    </div>
+    <div class="card">
+      <div class="section-title">Preguntas más falladas (top ${Math.min(20,errQs.length)})</div>
+      ${errQs.slice(0,20).map((q,i) => `
+        <div style="padding:10px 0;border-bottom:1px solid var(--border)">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
+            <span class="tag" style="background:rgba(240,80,112,.15);color:var(--red)">${q.errors} errores</span>
+            <span class="tag tag-gold">M${q.mi+1} · #${q.num}</span>
+            <span style="font-size:11px;color:var(--text2)">${q.acc}% aciertos · ${q.attempts} intentos</span>
+          </div>
+          <div style="font-size:13px;color:var(--text);line-height:1.5">${q.q}</div>
+          <div style="font-size:12px;color:var(--green);margin-top:4px">✔ ${q.a}</div>
+        </div>`).join('')}
     </div>`;
   } else {
     if (!examHistory.length) {
@@ -2541,7 +2817,10 @@ function applyFont(k) {
 }
 function applySize(k) {
   const sz={sm:'13px',md:'15px',lg:'17px'};
+  const base={sm:'13px',md:'15px',lg:'17px'};
   document.documentElement.style.setProperty('--fs',sz[k]||sz.md);
+  // Scale the root font-size so all rem/em values scale too
+  document.documentElement.style.fontSize = base[k]||base.md;
   localStorage.setItem(SK('size'),k);
   ['sm','md','lg'].forEach(s=>$(`sz-${s}`)?.classList.toggle('active',s===k));
 }
@@ -2948,6 +3227,237 @@ async function pushExamToCloud(examEntry) {
     toast('⚠️ Sin conexión — trabajando offline', 4000);
   });
 })();
+
+// ═══════════════════════════════════════════════════════════
+// FLASHCARDS
+// ═══════════════════════════════════════════════════════════
+let fcCards = [];
+let fcIndex = 0;
+let fcCorrect = 0;
+let fcMods = new Set(MODULES.map((_,i)=>i));
+let fcFlipped = false;
+
+function buildFlashcardSetup() {
+  $('fc-setup').style.display = 'block';
+  $('fc-active').style.display = 'none';
+  $('fc-result').style.display = 'none';
+  const sel = $('fc-mod-selector');
+  sel.innerHTML = MODULES.map((m,mi) => `
+    <div class="mod-sel-item selected" id="fcmod-${mi}" onclick="toggleFcMod(${mi})">
+      <div class="mod-sel-check">✓</div>
+      <div>
+        <div style="font-size:13px;font-weight:600">Módulo ${mi+1}</div>
+        <div style="font-size:11px;color:var(--text2)">${m.title.slice(0,35)}</div>
+      </div>
+    </div>`).join('');
+  fcMods = new Set(MODULES.map((_,i)=>i));
+}
+
+function toggleFcMod(mi) {
+  const el = $(`fcmod-${mi}`);
+  if (fcMods.has(mi)) { fcMods.delete(mi); el.classList.remove('selected'); el.querySelector('.mod-sel-check').textContent=''; }
+  else { fcMods.add(mi); el.classList.add('selected'); el.querySelector('.mod-sel-check').textContent='✓'; }
+}
+
+function startFlashcards() {
+  if (fcMods.size===0) { toast('⚠️ Seleccioná al menos un módulo'); return; }
+  let pool = [];
+  fcMods.forEach(mi => {
+    MODULES[mi].questions.forEach(([num,q,a,opts],qi) => {
+      pool.push({mi, qi, num, q, a, opts: opts||[]});
+    });
+  });
+  const order = $('fc-order').value;
+  if (order === 'failed') {
+    pool.sort((x,y) => {
+      const mx = getMastery(x.mi,x.qi), my = getMastery(y.mi,y.qi);
+      const failX = mx.level===0 && mx.errors>0 ? 0 : 1;
+      const failY = my.level===0 && my.errors>0 ? 0 : 1;
+      return failX - failY;
+    });
+  } else if (order === 'unseen') {
+    pool.sort((x,y) => {
+      const mx = getMastery(x.mi,x.qi), my = getMastery(y.mi,y.qi);
+      return (mx.attempts>0?1:0) - (my.attempts>0?1:0);
+    });
+  } else {
+    pool = pool.sort(()=>Math.random()-.5);
+  }
+  fcCards = pool.slice(0, 20);
+  fcIndex = 0;
+  fcCorrect = 0;
+  $('fc-setup').style.display = 'none';
+  $('fc-active').style.display = 'block';
+  $('fc-result').style.display = 'none';
+  renderFlashcard();
+}
+
+function renderFlashcard() {
+  if (fcIndex >= fcCards.length) { showFcResult(); return; }
+  const card = fcCards[fcIndex];
+  fcFlipped = false;
+  $('fc-counter').textContent = `${fcIndex+1} / ${fcCards.length}`;
+  $('fc-prog').style.width = (fcIndex/fcCards.length*100)+'%';
+  $('fc-tag').textContent = `M${card.mi+1} · #${card.num}`;
+  $('fc-question').textContent = card.q;
+  $('fc-front').style.display = 'flex';
+  $('fc-front').style.flexDirection = 'column';
+  $('fc-back').style.display = 'none';
+  $('fc-rating').style.display = 'none';
+}
+
+function flipCard() {
+  if (fcFlipped) return;
+  fcFlipped = true;
+  const card = fcCards[fcIndex];
+  const letters = ['A','B','C','D'];
+  $('fc-answer').textContent = '✔ ' + card.a;
+  $('fc-options-list').innerHTML = card.opts.map((o,i) => {
+    const isCorrect = o === card.a;
+    return `<div class="fc-opt ${isCorrect?'correct':'wrong'}">${letters[i]}) ${o}</div>`;
+  }).join('');
+  $('fc-front').style.display = 'none';
+  $('fc-back').style.display = 'block';
+  $('fc-rating').style.display = 'block';
+}
+
+function rateCard(knew) {
+  if (knew) fcCorrect++;
+  fcIndex++;
+  if (fcIndex >= fcCards.length) { showFcResult(); return; }
+  renderFlashcard();
+}
+
+function showFcResult() {
+  $('fc-active').style.display = 'none';
+  $('fc-result').style.display = 'block';
+  const pct = Math.round(fcCorrect/fcCards.length*100);
+  $('fc-res-score').textContent = pct+'%';
+  $('fc-res-sub').textContent = `Sabías ${fcCorrect} de ${fcCards.length} tarjetas`;
+  // Save to history
+  fcHistory.unshift({
+    date: today(),
+    time: new Date().toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit'}),
+    total: fcCards.length,
+    correct: fcCorrect,
+    pct,
+    mods: [...fcMods].map(mi => `M${mi+1}`).join(', ')
+  });
+  if (fcHistory.length > 50) fcHistory = fcHistory.slice(0,50);
+  saveAll();
+}
+
+function exitFlashcards() {
+  navigate('flashcards');
+}
+
+
+// ═══════════════════════════════════════════════════════════
+// STUDY PLAN
+// ═══════════════════════════════════════════════════════════
+function buildStudyPlan() {
+  const dateVal = $('exam-date-input').value;
+  const el = $('study-plan-content');
+  if (!dateVal) { el.innerHTML='<p style="color:var(--red);font-size:13px">Seleccioná la fecha del examen.</p>'; return; }
+
+  const examDate = new Date(dateVal + 'T12:00:00');
+  const today2 = new Date(); today2.setHours(0,0,0,0);
+  const daysLeft = Math.ceil((examDate - today2) / 86400000);
+
+  if (daysLeft <= 0) { el.innerHTML='<p style="color:var(--red);font-size:13px">La fecha debe ser futura.</p>'; return; }
+
+  // Calculate what's pending
+  const totalQ = TOTAL_Q;
+  const seenQ = Object.keys(masteryData).filter(k=>masteryData[k].attempts>0).length;
+  const pendingQ = totalQ - seenQ;
+  const errorsQ = Object.values(masteryData).filter(m=>m.errors>0).length;
+
+  // Per-module pending
+  const modPending = MODULES.map((m,mi) => ({
+    mi, title: m.title,
+    total: m.questions.length,
+    seen: getModSeen(mi),
+    pending: m.questions.length - getModSeen(mi),
+    acc: getModAccuracy(mi)
+  })).filter(m=>m.pending>0).sort((a,b)=>b.pending-a.pending);
+
+  // Daily target
+  const qPerDay = daysLeft > 0 ? Math.ceil(pendingQ / daysLeft) : pendingQ;
+  const intensity = qPerDay <= 10 ? '🟢 Liviano' : qPerDay <= 25 ? '🟡 Moderado' : '🔴 Intenso';
+
+  // Weekly schedule suggestion
+  const weeks = Math.floor(daysLeft / 7);
+  const remainDays = daysLeft % 7;
+
+  el.innerHTML = `
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:14px">
+      <div style="text-align:center;padding:12px;background:var(--card2);border-radius:var(--r)">
+        <div style="font-size:22px;font-weight:700;font-family:var(--mono);color:var(--blue)">${daysLeft}</div>
+        <div style="font-size:11px;color:var(--text2)">días para el examen</div>
+      </div>
+      <div style="text-align:center;padding:12px;background:var(--card2);border-radius:var(--r)">
+        <div style="font-size:22px;font-weight:700;font-family:var(--mono);color:var(--orange)">${pendingQ}</div>
+        <div style="font-size:11px;color:var(--text2)">preguntas sin ver</div>
+      </div>
+      <div style="text-align:center;padding:12px;background:var(--card2);border-radius:var(--r)">
+        <div style="font-size:22px;font-weight:700;font-family:var(--mono);color:var(--green)">${qPerDay}</div>
+        <div style="font-size:11px;color:var(--text2)">preguntas por día</div>
+      </div>
+      <div style="text-align:center;padding:12px;background:var(--card2);border-radius:var(--r)">
+        <div style="font-size:18px;font-weight:700">${intensity}</div>
+        <div style="font-size:11px;color:var(--text2)">intensidad</div>
+      </div>
+    </div>
+
+    ${errorsQ > 0 ? `<div style="padding:10px 12px;background:rgba(240,80,112,.08);border-left:3px solid var(--red);border-radius:var(--r);margin-bottom:12px;font-size:13px">
+      ⚠️ Tenés <strong>${errorsQ} preguntas con errores</strong> — priorizalas antes del examen.
+    </div>` : ''}
+
+    <div class="section-title" style="margin-bottom:8px">Módulos pendientes</div>
+    ${modPending.length === 0
+      ? '<p style="font-size:13px;color:var(--green)">✓ Ya viste todas las preguntas. Enfocate en repasar las que fallaste.</p>'
+      : modPending.map(m => {
+          const daysNeeded = Math.ceil(m.pending / Math.max(qPerDay, 1));
+          return `<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)">
+            <div class="mod-dot" style="background:var(${MOD_COLORS[m.mi]})"></div>
+            <div style="flex:1;min-width:0">
+              <div style="font-size:13px;font-weight:600">M${m.mi+1} · ${m.title.slice(0,30)}</div>
+              <div style="font-size:11px;color:var(--text2)">${m.seen}/${m.total} vistas${m.acc!==null?' · '+m.acc+'% aciertos':''}</div>
+            </div>
+            <div style="text-align:right;flex-shrink:0">
+              <div style="font-size:13px;font-weight:700;font-family:var(--mono);color:var(--orange)">${m.pending}</div>
+              <div style="font-size:10px;color:var(--text2)">~${daysNeeded}d</div>
+            </div>
+          </div>`;
+        }).join('')}
+
+    <div class="section-title" style="margin:14px 0 8px">Sugerencia de cronograma</div>
+    <div style="font-size:13px;line-height:1.8;color:var(--text)">
+      ${daysLeft < 7
+        ? `<strong>Menos de una semana:</strong> Hacé al menos ${qPerDay} preguntas por día. Priorizá módulos con más errores y las preguntas marcadas como difíciles.`
+        : weeks >= 2
+          ? `<strong>Semanas 1-${Math.ceil(weeks/2)}:</strong> Completar preguntas no vistas (${qPerDay}/día).<br>
+             <strong>Semanas ${Math.ceil(weeks/2)+1}-${weeks}:</strong> Repasar errores y preguntas difíciles.<br>
+             <strong>Última semana:</strong> Simulacros completos de 60 preguntas.`
+          : `<strong>Esta semana:</strong> ${qPerDay} preguntas nuevas por día.<br>
+             <strong>Días finales:</strong> Simulacros completos y repaso de errores.`
+      }
+    </div>
+  `;
+
+  // Save date for persistence
+  localStorage.setItem(SK('examDate'), dateVal);
+}
+
+// Load saved exam date on init
+function initStudyPlan() {
+  const saved = localStorage.getItem(SK('examDate'));
+  if (saved) {
+    const inp = $('exam-date-input');
+    if (inp) { inp.value = saved; }
+  }
+}
+
 </script>
 </body>
 </html>
