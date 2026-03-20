@@ -417,7 +417,26 @@ canvas.chart{width:100%;display:block;border-radius:8px}
 .ai-section-title{font-size:11px;font-weight:700;color:var(--blue);letter-spacing:.06em;
   text-transform:uppercase;margin:10px 0 4px;padding-top:8px;border-top:1px solid var(--border);}
 .ai-section-title:first-child{border-top:none;padding-top:0;margin-top:0}
-/* AI Explanations accordion */
+/* Morning plan */
+.mp-row{display:flex;align-items:flex-start;gap:8px;padding:5px 0;border-bottom:1px solid var(--border);font-size:12px}
+.mp-row:last-child{border-bottom:none}
+.mp-icon{font-size:14px;flex-shrink:0;width:20px}
+.mp-text{flex:1;line-height:1.5;color:var(--text)}
+.mp-badge{font-size:11px;font-weight:700;padding:2px 7px;border-radius:4px;background:var(--card2);color:var(--text2);flex-shrink:0}
+/* Competency radar */
+.radar-wrap{margin-top:10px;padding:10px 12px;background:var(--card2);border-radius:var(--r);border-left:3px solid var(--purple)}
+.radar-title{font-size:11px;font-weight:700;color:var(--purple);letter-spacing:.06em;text-transform:uppercase;margin-bottom:8px}
+.radar-row{display:flex;align-items:center;gap:8px;margin-bottom:5px}
+.radar-label{font-size:11px;color:var(--text2);width:130px;flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.radar-bar{flex:1;height:8px;background:var(--border2);border-radius:4px;overflow:hidden}
+.radar-fill{height:100%;border-radius:4px;transition:width .6s ease}
+.radar-pct{font-size:11px;font-family:var(--mono);color:var(--text);width:32px;text-align:right;flex-shrink:0}
+/* Audio TTS */
+.audio-wrap{margin-top:10px;padding:10px 12px;background:var(--card2);border-radius:var(--r);border-left:3px solid var(--gold)}
+.audio-title{font-size:11px;font-weight:700;color:var(--gold);letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px}
+.audio-text{font-size:12px;line-height:1.7;color:var(--text);white-space:pre-wrap}
+.audio-copy-btn{margin-top:6px;padding:4px 10px;border-radius:var(--r);border:1px solid var(--border);background:none;color:var(--text2);font-size:11px;cursor:pointer}
+.audio-copy-btn:hover{background:var(--card);color:var(--text)}
 .ai-exp-item{background:var(--card);border-radius:var(--r);border:1px solid var(--border);margin-bottom:8px;overflow:hidden}
 .ai-exp-header{display:flex;align-items:center;gap:10px;padding:12px 14px;cursor:pointer;transition:background var(--tr)}
 .ai-exp-header:hover{background:var(--card2)}
@@ -755,6 +774,17 @@ canvas.chart{width:100%;display:block;border-radius:8px}
 
     <!-- DASHBOARD -->
     <div class="view active" id="view-dashboard">
+      <!-- Morning Plan Card -->
+      <div class="card" id="morning-plan-card" style="margin-bottom:16px;display:none">
+        <div style="display:flex;align-items:center;gap:8px;cursor:pointer" onclick="toggleMorningPlan()">
+          <span style="font-size:16px">📅</span>
+          <div style="font-size:13px;font-weight:700;color:var(--text)">Plan de Estudio del Día</div>
+          <span style="font-size:11px;color:var(--text2);margin-left:auto" id="morning-plan-date"></span>
+          <span id="morning-plan-chevron" style="font-size:13px;color:var(--text2);margin-left:4px">▸</span>
+        </div>
+        <div id="morning-plan-content" style="display:none;margin-top:10px"></div>
+      </div>
+
       <div class="dash-greeting">
         <h1 id="dash-greeting">¡Buenas noches! 👋</h1>
         <p id="dash-date"></p>
@@ -876,6 +906,8 @@ canvas.chart{width:100%;display:block;border-radius:8px}
           <button class="ai-ask-btn" id="ai-ask-btn" onclick="askAI()">✨ Explicame esta pregunta</button>
           <div class="ai-loading" id="ai-loading">⏳ Consultando IA...</div>
           <div class="ai-response" id="ai-response"></div>
+          <div class="radar-wrap" id="ai-radar" style="display:none"></div>
+          <div class="audio-wrap" id="ai-audio" style="display:none"></div>
         </div>
         <div class="quiz-nav" id="quiz-nav" style="display:none">
           <button class="btn btn-ghost btn-sm" id="qn-prev" onclick="quizNav(-1)">← Anterior</button>
@@ -1458,6 +1490,9 @@ function buildDashboard() {
   // Post-its (random 3)
   buildPostits();
 
+  // Morning plan
+  buildMorningPlan();
+
   // Charts
   setTimeout(() => { drawChart('chart-answered','answered'); drawChart('chart-progress','pct'); }, 80);
 
@@ -1509,6 +1544,7 @@ function buildStudyView() {
         <div class="block-pct">${bPct}%</div>
       </div>`;
     }).join('');
+    const unseenCount = mod.questions.filter((_,qi) => getMastery(mi,qi).attempts === 0).length;
     return `<div class="mod-item" id="mod-item-${mi}">
       <div class="mod-header" onclick="toggleMod(${mi})">
         <div class="mod-num" style="background:${col}">${mi+1}</div>
@@ -1521,6 +1557,13 @@ function buildStudyView() {
         </div>
         <span class="mod-expand-icon">▼</span>
       </div>
+      ${unseenCount > 0 ? `<div style="padding:8px 14px;background:var(--card2);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+        <span style="font-size:12px;color:var(--text2);flex:1"><strong style="color:var(--orange)">${unseenCount}</strong> preguntas sin ver en este módulo</span>
+        <button class="btn btn-primary btn-sm" onclick="event.stopPropagation();loadUnseen(${mi},20)">🎲 20 sin ver</button>
+        <button class="btn btn-ghost btn-sm" onclick="event.stopPropagation();loadUnseen(${mi},0)">Todas (${unseenCount})</button>
+      </div>` : `<div style="padding:6px 14px;background:rgba(34,211,160,.06);border-bottom:1px solid var(--border)">
+        <span style="font-size:12px;color:var(--green)">✓ Viste todas las preguntas de este módulo</span>
+      </div>`}
       <div class="mod-blocks">${blocks}</div>
     </div>`;
   }).join('');
@@ -1535,6 +1578,39 @@ function toggleMod(mi) {
 // ═══════════════════════════════════════════════════════════
 let curMod=0, curBlock=0, curBlockMi=0, curBlockBi=0;
 let bqQs=[], bqIndex=0, bqAnswered=[], bqOk=0, bqBad=0;
+
+function loadUnseen(mi, maxCount) {
+  const mod = MODULES[mi];
+  // Collect all unseen questions for this module
+  let pool = [];
+  mod.questions.forEach(([num,q,a,opts],qi) => {
+    if (getMastery(mi,qi).attempts === 0) {
+      pool.push({qi, num, q, a, opts: opts||[], mi});
+    }
+  });
+  if (!pool.length) { toast('✓ Ya respondiste todas las preguntas de este módulo'); return; }
+
+  // Shuffle randomly
+  pool = pool.sort(() => Math.random() - 0.5);
+  // Limit if maxCount > 0
+  if (maxCount > 0) pool = pool.slice(0, maxCount);
+
+  curBlockMi = mi; curBlockBi = -1;
+  bqQs = pool;
+  bqIndex=0; bqAnswered=new Array(bqQs.length).fill(null); bqOk=0; bqBad=0;
+
+  $('qh-tag').textContent = `Módulo ${mi+1} · ${mod.title.split(' ').slice(0,3).join(' ')}`;
+  $('qh-title').textContent = `🎲 Sin ver — ${pool.length} preguntas aleatorias`;
+  $('qh-ok').textContent  = '✓ 0';
+  $('qh-bad').textContent = '✗ 0';
+  $('quiz-result').style.display='none';
+  $('quiz-nav-fixed').style.display='none';
+
+  navigate('quiz');
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  $('quiz-view').classList.add('active');
+  renderQuestion();
+}
 
 function loadBlock(mi, bi) {
   curBlockMi = mi; curBlockBi = bi;
@@ -1608,6 +1684,8 @@ function renderQuestion() {
   switchAiTab('notes');
   $('ai-response').style.display = 'none';
   $('ai-response').textContent = '';
+  $('ai-radar').style.display = 'none';
+  $('ai-audio').style.display = 'none';
   $('ai-ask-btn').disabled = false;
 }
 
@@ -1846,6 +1924,9 @@ Una frase corta y fácil de retener que ayude a grabar la idea clave.
 FUENTES
 Listá las fuentes concretas donde se puede verificar esta información. Incluí: nombre completo de la ley o resolución, número de artículo si aplica, y si corresponde el organismo emisor (CNV, BCRA, UIF, etc.). Si la información surge de la lógica conceptual sin norma específica, indicalo. No inventes fuentes.
 
+VERSIÓN AUDIO
+Escribí una explicación conversacional de 4 a 6 oraciones, como si fuera un profesor explicando en voz alta a un alumno. Sin listas, sin tecnicismos innecesarios, tono cálido y claro. Ideal para texto a voz.
+
 IMPORTANTE: No inventes normas, leyes ni artículos. Si no hay norma explícita, explicá la lógica conceptual.`;
 
   try {
@@ -1866,7 +1947,7 @@ IMPORTANTE: No inventes normas, leyes ni artículos. Si no hay norma explícita,
       },
       body: JSON.stringify({
         model: 'claude-haiku-4-5-20251001',
-        max_tokens: 2000,
+        max_tokens: 2500,
         messages: [{ role: 'user', content: prompt }]
       })
     });
@@ -1878,7 +1959,13 @@ IMPORTANTE: No inventes normas, leyes ni artículos. Si no hay norma explícita,
     // Save to aiExplanations
     aiExplanations[cacheKey] = text;
     saveAll();
-    // Render with formatting
+
+    // Split audio section from main response
+    const audioMatch = text.match(/VERSIÓN AUDIO\n([\s\S]+?)(?:\n[A-ZÁÉÍÓÚ]{3,}|\s*$)/);
+    const audioText = audioMatch ? audioMatch[1].trim() : '';
+    const mainText = text.replace(/VERSIÓN AUDIO[\s\S]*$/, '').trim();
+
+    // Render main response
     const sectionIcons = {
       'RESPUESTA CORRECTA': '✔',
       'FUNDAMENTO NORMATIVO': '📘',
@@ -1889,16 +1976,25 @@ IMPORTANTE: No inventes normas, leyes ni artículos. Si no hay norma explícita,
       'PARA RECORDAR': '💡',
       'FUENTES': '📎'
     };
-    let formatted = text;
+    let formatted = mainText;
     Object.entries(sectionIcons).forEach(([title, icon]) => {
-      formatted = formatted.replace(
-        new RegExp(`^${title}$`, 'gm'),
-        `<div class="ai-section-title">${icon} ${title}</div>`
-      );
+      formatted = formatted.replace(new RegExp(`^${title}$`, 'gm'), `<div class="ai-section-title">${icon} ${title}</div>`);
     });
     formatted = formatted.replace(/\n\n/g, '</p><p>').replace(/\n/g, '<br>');
     $('ai-response').innerHTML = '<p>' + formatted + '</p>';
     $('ai-response').style.display = 'block';
+
+    // Show radar
+    renderRadar(q.mi);
+
+    // Show audio block
+    if (audioText) {
+      $('ai-audio').innerHTML = `
+        <div class="audio-title">🔊 Versión Audio (para texto a voz)</div>
+        <div class="audio-text" id="audio-text-content">${audioText}</div>
+        <button class="audio-copy-btn" onclick="copyAudioText()">📋 Copiar texto</button>`;
+      $('ai-audio').style.display = 'block';
+    }
   } catch(e) {
     $('ai-response').textContent = 'Error: ' + e.message;
     $('ai-response').style.display = 'block';
@@ -3456,6 +3552,181 @@ function initStudyPlan() {
     const inp = $('exam-date-input');
     if (inp) { inp.value = saved; }
   }
+}
+
+
+// ═══════════════════════════════════════════════════════════
+// RADAR DE COMPETENCIAS
+// ═══════════════════════════════════════════════════════════
+// Competency groups: M1=Marco Normativo, M2=PLD, M3=Transparencia, M4=Financiero, M5+M6=Otros
+const COMPETENCIES = [
+  { label: 'Marco Normativo',   color: '#4090f0', mods: [0] },
+  { label: 'PLD',               color: '#f08040', mods: [1] },
+  { label: 'Transparencia',     color: '#22d3a0', mods: [2] },
+  { label: 'Financiero/Cont.',  color: '#9060f0', mods: [3] },
+  { label: 'Agentes/Instr.',    color: '#f0c040', mods: [4] },
+  { label: 'Inv. Colectiva',    color: '#f05070', mods: [5] },
+];
+
+function getCompetencyPct(mods) {
+  let seen = 0, total = 0;
+  mods.forEach(mi => {
+    total += MODULES[mi].questions.length;
+    seen += getModSeen(mi);
+  });
+  return total > 0 ? Math.round(seen / total * 100) : 0;
+}
+
+function renderRadar(highlightMi) {
+  const el = $('ai-radar');
+  const rows = COMPETENCIES.map(c => {
+    const pct = getCompetencyPct(c.mods);
+    const isActive = c.mods.includes(highlightMi);
+    const barWidth = pct;
+    const filledBlocks = Math.round(pct / 10);
+    const bar = '█'.repeat(filledBlocks) + '░'.repeat(10 - filledBlocks);
+    return `<div class="radar-row">
+      <div class="radar-label" style="color:${isActive ? c.color : 'var(--text2)'}${isActive ? ';font-weight:700' : ''}">${isActive ? '▶ ' : ''}${c.label}</div>
+      <div class="radar-bar"><div class="radar-fill" style="width:${barWidth}%;background:${c.color}"></div></div>
+      <div class="radar-pct" style="color:${c.color}">${pct}%</div>
+    </div>`;
+  }).join('');
+
+  const totalSeen = Object.keys(masteryData).filter(k=>masteryData[k].attempts>0).length;
+  const totalPct = TOTAL_Q > 0 ? Math.round(totalSeen / TOTAL_Q * 100) : 0;
+
+  el.innerHTML = `
+    <div class="radar-title">📊 Mapa de Progreso por Competencias</div>
+    ${rows}
+    <div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--border);display:flex;justify-content:space-between;font-size:11px">
+      <span style="color:var(--text2)">Progreso global</span>
+      <span style="font-family:var(--mono);font-weight:700;color:var(--blue)">${totalPct}% (${totalSeen}/${TOTAL_Q})</span>
+    </div>`;
+  el.style.display = 'block';
+}
+
+// ═══════════════════════════════════════════════════════════
+// AUDIO COPY
+// ═══════════════════════════════════════════════════════════
+function copyAudioText() {
+  const el = $('audio-text-content');
+  if (!el) return;
+  navigator.clipboard.writeText(el.textContent).then(() => {
+    toast('📋 Texto copiado para pegar en TTS');
+  }).catch(() => {
+    // fallback
+    const ta = document.createElement('textarea');
+    ta.value = el.textContent;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    toast('📋 Texto copiado');
+  });
+}
+
+// ═══════════════════════════════════════════════════════════
+// PLAN DEL DÍA (MORNING PLAN)
+// ═══════════════════════════════════════════════════════════
+function toggleMorningPlan() {
+  const content = $('morning-plan-content');
+  const chevron = $('morning-plan-chevron');
+  const isOpen = content.style.display !== 'none';
+  content.style.display = isOpen ? 'none' : 'block';
+  chevron.textContent = isOpen ? '▸' : '▾';
+}
+
+function buildMorningPlan() {
+  const card = $('morning-plan-card');
+  const content = $('morning-plan-content');
+  if (!card || !content) return;
+
+  const todayKey = today();
+  const todayAnswered = dailyStats[todayKey]?.answered || 0;
+  const totalSeen = Object.keys(masteryData).filter(k=>masteryData[k].attempts>0).length;
+  const pending = TOTAL_Q - totalSeen;
+  const errorsQ = Object.values(masteryData).filter(m=>m.errors>0&&m.level<2).length;
+  const flaggedN = flagged.size;
+
+  // Find weakest competency
+  const weakest = COMPETENCIES.reduce((w, c) => {
+    const pct = getCompetencyPct(c.mods);
+    return pct < getCompetencyPct(w.mods) ? c : w;
+  }, COMPETENCIES[0]);
+
+  // Find module with most unseen
+  const mostUnseen = MODULES.map((m,mi) => ({
+    mi, unseen: m.questions.length - getModSeen(mi)
+  })).sort((a,b) => b.unseen - a.unseen)[0];
+
+  // Daily target (10-20 questions)
+  const savedDate = localStorage.getItem(SK('examDate'));
+  let daysLeft = null;
+  if (savedDate) {
+    const exam = new Date(savedDate + 'T12:00:00');
+    const now = new Date(); now.setHours(0,0,0,0);
+    daysLeft = Math.ceil((exam - now) / 86400000);
+  }
+  const qTarget = daysLeft ? Math.max(10, Math.min(30, Math.ceil(pending / Math.max(daysLeft,1)))) : 15;
+
+  // Mini challenge
+  const challenges = [
+    `Completá el bloque con más preguntas sin ver del M${mostUnseen.mi+1}`,
+    `Hacé 1 flashcard session de ${weakest.label} sin errores`,
+    `Respondé ${Math.min(10, errorsQ || 5)} preguntas del repaso inteligente`,
+    `Completá un simulacro de 20 preguntas sin pausas`,
+    `Llegá a ${Math.min(100, totalSeen + qTarget)} preguntas vistas en total`,
+  ];
+  const challenge = challenges[new Date().getDay() % challenges.length];
+
+  // Estimated time (2 min per question)
+  const estimatedMin = qTarget * 2;
+
+  $('morning-plan-date').textContent = new Date().toLocaleDateString('es-AR',{weekday:'long',day:'numeric',month:'long'});
+
+  content.innerHTML = `
+    <div class="mp-row">
+      <div class="mp-icon">🎯</div>
+      <div class="mp-text">Preguntas recomendadas hoy</div>
+      <div class="mp-badge" style="color:var(--blue)">${qTarget} preguntas</div>
+    </div>
+    <div class="mp-row">
+      <div class="mp-icon">📖</div>
+      <div class="mp-text">Módulo clave del día: <strong>M${mostUnseen.mi+1} — ${MODULES[mostUnseen.mi].title.split(' ').slice(0,4).join(' ')}</strong> (${mostUnseen.unseen} sin ver)</div>
+    </div>
+    ${weakest ? `<div class="mp-row">
+      <div class="mp-icon">⚠️</div>
+      <div class="mp-text">Área a reforzar: <strong>${weakest.label}</strong> (${getCompetencyPct(weakest.mods)}% progreso)</div>
+    </div>` : ''}
+    ${errorsQ > 0 ? `<div class="mp-row">
+      <div class="mp-icon">🔁</div>
+      <div class="mp-text">Repasos obligatorios: <strong>${errorsQ} preguntas falladas</strong> pendientes de consolidar</div>
+    </div>` : ''}
+    ${flaggedN > 0 ? `<div class="mp-row">
+      <div class="mp-icon">🚩</div>
+      <div class="mp-text">Difíciles marcadas: <strong>${flaggedN} preguntas</strong> — hacé el repaso de marcadas</div>
+    </div>` : ''}
+    <div class="mp-row">
+      <div class="mp-icon">🃏</div>
+      <div class="mp-text">Flashcards sugeridas: 10 tarjetas de <strong>${weakest.label}</strong></div>
+    </div>
+    <div class="mp-row">
+      <div class="mp-icon">⏱️</div>
+      <div class="mp-text">Tiempo ideal de estudio</div>
+      <div class="mp-badge" style="color:var(--green)">~${estimatedMin} min</div>
+    </div>
+    ${daysLeft !== null ? `<div class="mp-row">
+      <div class="mp-icon">📅</div>
+      <div class="mp-text">Días para el examen</div>
+      <div class="mp-badge" style="color:${daysLeft<=7?'var(--red)':daysLeft<=14?'var(--orange)':'var(--text2)'}">${daysLeft} días</div>
+    </div>` : ''}
+    <div style="margin-top:8px;padding:8px 10px;background:rgba(240,192,64,.08);border-left:3px solid var(--gold);border-radius:var(--r)">
+      <div style="font-size:11px;font-weight:700;color:var(--gold);margin-bottom:2px">⚡ Mini-desafío del día</div>
+      <div style="font-size:12px;color:var(--text)">${challenge}</div>
+    </div>
+    ${todayAnswered > 0 ? `<div style="margin-top:8px;font-size:11px;color:var(--green)">✓ Ya respondiste ${todayAnswered} preguntas hoy.</div>` : ''}
+  `;
+  card.style.display = 'block';
 }
 
 </script>
