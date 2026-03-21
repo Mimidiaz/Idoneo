@@ -64,9 +64,62 @@ input,textarea,select{font-family:inherit}
 
 /* Sidebar */
 #sidebar{
-  width:220px;min-width:220px;background:var(--bg2);border-right:1px solid var(--border);
-  display:flex;flex-direction:column;height:100vh;overflow-y:auto;
-  transition:transform var(--tr);z-index:100;flex-shrink:0;
+  width:52px;min-width:52px;background:var(--bg2);border-right:1px solid var(--border);
+  display:flex;flex-direction:column;height:100vh;overflow-y:auto;overflow-x:hidden;
+  transition:width .25s ease, min-width .25s ease;z-index:100;flex-shrink:0;
+  scrollbar-width:none;
+}
+#sidebar::-webkit-scrollbar{display:none;}
+#sidebar:hover{
+  width:220px;min-width:220px;
+}
+/* Hide text labels when collapsed */
+#sidebar .logo-text,
+#sidebar .logo-sub,
+#sidebar .sb-btn span:not(.icon):not(.badge),
+#sidebar .sb-section-label,
+#sidebar .sb-divider,
+#sidebar #mimi-panel,
+#sidebar .sb-footer .user-name,
+#sidebar .sb-footer .sync-dot,
+#sidebar .sb-footer .theme-row,
+#sidebar .sb-footer .logout-btn {
+  opacity:0;
+  transition:opacity .15s ease;
+  white-space:nowrap;
+  overflow:hidden;
+}
+#sidebar:hover .logo-text,
+#sidebar:hover .logo-sub,
+#sidebar:hover .sb-btn span:not(.icon):not(.badge),
+#sidebar:hover .sb-section-label,
+#sidebar:hover .sb-divider,
+#sidebar:hover #mimi-panel,
+#sidebar:hover .sb-footer .user-name,
+#sidebar:hover .sb-footer .sync-dot,
+#sidebar:hover .sb-footer .theme-row,
+#sidebar:hover .logout-btn {
+  opacity:1;
+}
+/* Keep icons centered when collapsed */
+#sidebar .sb-btn {
+  justify-content:flex-start;
+  padding-left:14px;
+}
+#sidebar .sb-btn .icon {
+  flex-shrink:0;
+}
+#sidebar #sidebar-logo {
+  padding:18px 8px 12px;
+}
+#sidebar:hover #sidebar-logo {
+  padding:18px 16px 12px;
+}
+#sidebar .user-chip {
+  padding: 6px 8px;
+}
+#sidebar:hover .user-chip {
+  padding: 6px 12px;
 }
 #sidebar-logo{
   padding:18px 16px 12px;display:flex;align-items:center;gap:10px;
@@ -75,7 +128,8 @@ input,textarea,select{font-family:inherit}
 #sidebar-logo .logo-mark{
   width:34px;height:34px;background:linear-gradient(135deg,var(--gold),var(--orange));
   border-radius:8px;display:flex;align-items:center;justify-content:center;
-  font-family:var(--mono);font-size:11px;font-weight:700;color:#000;flex-shrink:0;
+  font-family:Georgia,serif;font-size:20px;font-weight:700;color:#fff;flex-shrink:0;
+  letter-spacing:0;
 }
 #sidebar-logo .logo-text{font-size:12px;font-weight:600;color:var(--text);line-height:1.2}
 #sidebar-logo .logo-sub{font-size:10px;color:var(--text2)}
@@ -412,7 +466,7 @@ canvas.chart{width:100%;display:block;border-radius:8px}
 .ai-ask-btn:disabled{opacity:.5;cursor:default}
 .ai-response{margin-top:8px;padding:10px 12px;background:var(--card2);border-radius:var(--r);
   border-left:3px solid var(--blue);font-size:12px;line-height:1.6;color:var(--text);
-  max-height:320px;overflow-y:auto;display:none}
+  max-height:60vh;overflow-y:auto;display:none}
 .ai-response p{margin:0 0 6px 0}
 .ai-section-title{font-size:11px;font-weight:700;color:var(--blue);letter-spacing:.06em;
   text-transform:uppercase;margin:10px 0 4px;padding-top:8px;border-top:1px solid var(--border);}
@@ -434,7 +488,7 @@ canvas.chart{width:100%;display:block;border-radius:8px}
 .radar-wrap{margin-top:10px;padding:10px 12px;background:var(--card2);border-radius:var(--r);border-left:3px solid var(--purple)}
 .radar-title{font-size:11px;font-weight:700;color:var(--purple);letter-spacing:.06em;text-transform:uppercase;margin-bottom:8px}
 .radar-row{display:flex;align-items:center;gap:8px;margin-bottom:5px}
-.radar-label{font-size:11px;color:var(--text2);width:130px;flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.radar-label{font-size:11px;color:var(--text2);width:110px;flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .radar-bar{flex:1;height:8px;background:var(--border2);border-radius:4px;overflow:hidden}
 .radar-fill{height:100%;border-radius:4px;transition:width .6s ease}
 .radar-pct{font-size:11px;font-family:var(--mono);color:var(--text);width:32px;text-align:right;flex-shrink:0}
@@ -609,12 +663,45 @@ canvas.chart{width:100%;display:block;border-radius:8px}
   #settings-panel{right:8px;left:8px;width:auto}
   .quiz-body,.exam-body{padding:14px}
   .exam-topbar,.quiz-header{padding:10px 14px}
+  /* Hist tabs wrap on mobile */
+  .hist-tabs{gap:4px}
+  .hist-tab{font-size:11px;padding:5px 10px}
+  /* AI panel */
+  .ai-tab-btn{font-size:11px;padding:5px 8px}
+  /* Exam setup selectors */
+  .exam-setup-row{flex-direction:column;align-items:flex-start}
+  /* Morning plan badge wrapping */
+  .mp-row{flex-wrap:wrap}
+  .mp-badge{margin-top:2px}
+  /* Radar */
+  .radar-label{width:90px;font-size:10px}
+  /* Flashcard */
+  .fc-question{font-size:14px}
+  .fc-card{padding:20px 16px;min-height:160px}
+  /* Study day buttons */
+  .study-day-btn{padding:5px 9px;font-size:11px}
 }
 @media(max-width:480px){
   .grid3{grid-template-columns:1fr}
   .postit-grid{grid-template-columns:1fr}
   .mod-selector{grid-template-columns:1fr}
   .result-score{font-size:44px}
+  /* Topbar compact */
+  .tb-stat{padding:3px 7px;font-size:10px}
+  /* Exam topbar compact */
+  .exam-q-counter{font-size:11px}
+  .exam-timer{font-size:13px}
+  /* Radar even smaller */
+  .radar-label{width:80px}
+  /* AI response full height on small screens */
+  .ai-response{max-height:50vh}
+  /* Hist tabs scroll */
+  .hist-tabs{overflow-x:auto;flex-wrap:nowrap;padding-bottom:4px}
+  .hist-tab{white-space:nowrap;flex-shrink:0}
+  /* MP row text smaller */
+  .mp-text{font-size:11px}
+  /* Flash card */
+  .fc-card{padding:16px 12px}
 }
 </style>
 <!-- Auth modal styles -->
@@ -626,7 +713,7 @@ canvas.chart{width:100%;display:block;border-radius:8px}
 .auth-logo{text-align:center;margin-bottom:24px}
 .auth-logo .mark{width:48px;height:48px;background:linear-gradient(135deg,var(--gold),var(--orange));
   border-radius:12px;display:inline-flex;align-items:center;justify-content:center;
-  font-family:var(--mono);font-size:14px;font-weight:700;color:#000;margin-bottom:8px}
+  font-family:Georgia,serif;font-size:26px;font-weight:700;color:#fff;margin-bottom:8px}
 .auth-logo h2{font-size:18px;font-weight:700}
 .auth-logo p{font-size:12px;color:var(--text2);margin-top:3px}
 .auth-tabs{display:flex;gap:0;margin-bottom:20px;background:var(--card);
@@ -666,7 +753,7 @@ canvas.chart{width:100%;display:block;border-radius:8px}
 <div id="auth-overlay">
   <div class="auth-card">
     <div class="auth-logo">
-      <div class="mark">CNV</div>
+      <div class="mark">I</div>
       <h2>Idoneidad · Estudio</h2>
       <p>Mercado de Capitales</p>
     </div>
@@ -699,7 +786,7 @@ canvas.chart{width:100%;display:block;border-radius:8px}
 <!-- SIDEBAR -->
 <nav id="sidebar">
   <div id="sidebar-logo">
-    <div class="logo-mark">CNV</div>
+    <div class="logo-mark">I</div>
     <div><div class="logo-text">Idoneidad</div><div class="logo-sub">Mercado de Capitales</div></div>
   </div>
   <div class="sb-nav">
@@ -737,10 +824,39 @@ canvas.chart{width:100%;display:block;border-radius:8px}
     <button class="sb-btn" id="nav-achievements" onclick="navigate('achievements')">
       <span class="icon">🏆</span>Logros
     </button>
+    <button class="sb-btn" id="nav-biblio" onclick="navigate('biblio')">
+      <span class="icon">📚</span>Bibliografía
+    </button>
     <button class="sb-btn" id="nav-recs" onclick="navigate('recs')">
       <span class="icon">💡</span>Recomendaciones
     </button>
   </div>
+
+  <!-- Mimi Panel -->
+  <div id="mimi-panel" style="margin:8px 10px;border-radius:var(--r);overflow:hidden;transition:all .3s ease"
+    onmouseenter="mimiExpand()" onmouseleave="mimiCollapse()">
+
+    <!-- Collapsed tab (always visible) -->
+    <div id="mimi-tab" style="padding:8px 12px;background:var(--card2);border:1px solid var(--border);border-radius:var(--r);cursor:pointer;display:flex;align-items:center;gap:8px">
+      <span style="font-size:14px">🎯</span>
+      <div id="mimi-tab-content">
+        <div style="font-size:10px;font-weight:700;color:var(--text2);letter-spacing:.06em;text-transform:uppercase">Mi Examen</div>
+        <div style="display:flex;align-items:baseline;gap:3px;margin-top:1px">
+          <span id="mimi-days" style="font-size:16px;font-weight:800;font-family:var(--mono);color:var(--blue)">—</span>
+          <span style="font-size:10px;color:var(--text2)">días</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Expanded content (on hover) -->
+    <div id="mimi-expanded" style="display:none;padding:10px 12px;background:var(--card2);border:1px solid var(--border);border-top:none;border-radius:0 0 var(--r) var(--r)">
+      <div id="mimi-date" style="font-size:10px;color:var(--text2);margin-bottom:6px;padding-bottom:6px;border-bottom:1px solid var(--border)"></div>
+      <div id="mimi-countdown" style="display:none">
+        <div style="font-size:10px;color:var(--text2);font-style:italic">Configurá la fecha del examen en Recomendaciones</div>
+      </div>
+    </div>
+  </div>
+
   <div class="sb-footer">
     <div class="user-chip" id="user-chip">
       <div class="user-avatar" id="user-avatar">?</div>
@@ -781,7 +897,8 @@ canvas.chart{width:100%;display:block;border-radius:8px}
 
     <!-- DASHBOARD -->
     <div class="view active" id="view-dashboard">
-      <!-- Morning Plan Card -->
+      
+            <!-- Morning Plan Card -->
       <div class="card" id="morning-plan-card" style="margin-bottom:16px;display:none">
         <div style="display:flex;align-items:center;gap:8px;cursor:pointer" onclick="toggleMorningPlan()">
           <span style="font-size:16px">📅</span>
@@ -865,6 +982,288 @@ canvas.chart{width:100%;display:block;border-radius:8px}
         <div class="page-sub">Seleccioná un bloque para estudiar y practicar</div>
       </div>
       <div class="mod-list" id="mod-list"></div>
+    <!-- Árbol Conceptual -->
+    <div style="margin-top:20px;margin-bottom:6px;display:flex;align-items:center;gap:8px;cursor:pointer" onclick="ctToggleSection()">
+      <span style="font-size:16px">🌳</span>
+      <div style="font-size:13px;font-weight:700;color:var(--text)">Árbol Conceptual por Temas</div>
+      <span id="ct-section-chevron" style="font-size:13px;color:var(--text2);margin-left:auto">▸</span>
+    </div>
+    <div id="ct-section-body" style="display:none">
+<div class="ct-wrap" id="ct-wrap">
+
+<div class="ct-section-title">📜 Marco Normativo CNV</div>
+<div class="ct-node" id="ct-Marco_Normativo_CNV">
+  <div class="ct-node-header" onclick="ctToggle('ct-Marco_Normativo_CNV')">
+    <span class="ct-toggle" id="ct-Marco_Normativo_CNV-icon">＋</span>
+    <span class="ct-label">Marco Normativo CNV</span>
+    <span class="ct-count">74 preguntas</span>
+  </div>
+  <div class="ct-body">
+
+    <div class="ct-sub-item" onclick="ctStudy(0,[4, 6, 10, 13, 32, 35, 51, 56, 62, 66, 67, 68],'Oferta Pública / Prospecto')">
+      <div class="ct-sub-dot" style="background:var(--m1)"></div>
+      <span class="ct-sub-label">Oferta Pública / Prospecto</span>
+      <span class="ct-sub-count">12</span>
+    </div>
+
+    <div class="ct-sub-item" onclick="ctStudy(0,[5, 16, 18, 24, 25, 27, 28, 29, 44, 60],'OPA')">
+      <div class="ct-sub-dot" style="background:var(--m1)"></div>
+      <span class="ct-sub-label">OPA</span>
+      <span class="ct-sub-count">10</span>
+    </div>
+
+    <div class="ct-sub-item" onclick="ctStudy(0,[9, 30, 31, 50, 52, 57, 64, 70, 71, 72, 74, 75, 76, 77, 78, 118, 119],'Emisor Frecuente / PyME CNV')">
+      <div class="ct-sub-dot" style="background:var(--m1)"></div>
+      <span class="ct-sub-label">Emisor Frecuente / PyME CNV</span>
+      <span class="ct-sub-count">17</span>
+    </div>
+
+    <div class="ct-sub-item" onclick="ctStudy(0,[3, 22, 40, 41, 42, 48, 49, 58, 59, 103, 106, 107],'Control Societario CNV')">
+      <div class="ct-sub-dot" style="background:var(--m1)"></div>
+      <span class="ct-sub-label">Control Societario CNV</span>
+      <span class="ct-sub-count">12</span>
+    </div>
+
+    <div class="ct-sub-item" onclick="ctStudy(0,[8, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101],'Sanciones y Sumarios CNV')">
+      <div class="ct-sub-dot" style="background:var(--m1)"></div>
+      <span class="ct-sub-label">Sanciones y Sumarios CNV</span>
+      <span class="ct-sub-count">23</span>
+    </div>
+
+    <button class="ct-study-btn" onclick="ctStudyAll('ct-Marco_Normativo_CNV')">
+      📖 Estudiar todos los temas de Marco Normativo CNV
+    </button>
+  </div>
+</div>
+
+<div class="ct-section-title">🔍 PLD y Financiamiento del Terrorismo</div>
+<div class="ct-node" id="ct-PLD_y_Financiamiento_del_Terrorismo">
+  <div class="ct-node-header" onclick="ctToggle('ct-PLD_y_Financiamiento_del_Terrorismo')">
+    <span class="ct-toggle" id="ct-PLD_y_Financiamiento_del_Terrorismo-icon">＋</span>
+    <span class="ct-label">PLD y Financiamiento del Terrorismo</span>
+    <span class="ct-count">45 preguntas</span>
+  </div>
+  <div class="ct-body">
+
+    <div class="ct-sub-item" onclick="ctStudy(1,[0, 1, 17, 31, 37, 56],'Etapas del Lavado')">
+      <div class="ct-sub-dot" style="background:var(--m2)"></div>
+      <span class="ct-sub-label">Etapas del Lavado</span>
+      <span class="ct-sub-count">6</span>
+    </div>
+
+    <div class="ct-sub-item" onclick="ctStudy(1,[6, 41, 42, 50, 69, 70],'Sujetos Obligados')">
+      <div class="ct-sub-dot" style="background:var(--m2)"></div>
+      <span class="ct-sub-label">Sujetos Obligados</span>
+      <span class="ct-sub-count">6</span>
+    </div>
+
+    <div class="ct-sub-item" onclick="ctStudy(1,[8, 15, 27, 40, 43, 49, 60, 61, 84, 85],'PEP y Debida Diligencia')">
+      <div class="ct-sub-dot" style="background:var(--m2)"></div>
+      <span class="ct-sub-label">PEP y Debida Diligencia</span>
+      <span class="ct-sub-count">10</span>
+    </div>
+
+    <div class="ct-sub-item" onclick="ctStudy(1,[4, 5, 19, 23, 34, 35, 36, 44, 47, 48, 93],'ROS y Plazos')">
+      <div class="ct-sub-dot" style="background:var(--m2)"></div>
+      <span class="ct-sub-label">ROS y Plazos</span>
+      <span class="ct-sub-count">11</span>
+    </div>
+
+    <div class="ct-sub-item" onclick="ctStudy(1,[39, 41, 75, 76, 78, 79, 80, 81],'Oficial de Cumplimiento')">
+      <div class="ct-sub-dot" style="background:var(--m2)"></div>
+      <span class="ct-sub-label">Oficial de Cumplimiento</span>
+      <span class="ct-sub-count">8</span>
+    </div>
+
+    <div class="ct-sub-item" onclick="ctStudy(1,[83, 86, 89, 91],'Activos Virtuales / PSAV')">
+      <div class="ct-sub-dot" style="background:var(--m2)"></div>
+      <span class="ct-sub-label">Activos Virtuales / PSAV</span>
+      <span class="ct-sub-count">4</span>
+    </div>
+
+    <button class="ct-study-btn" onclick="ctStudyAll('ct-PLD_y_Financiamiento_del_Terrorismo')">
+      📖 Estudiar todos los temas de PLD y Financiamiento del Terrorismo
+    </button>
+  </div>
+</div>
+
+<div class="ct-section-title">🏛️ Transparencia y Gobierno Corporativo</div>
+<div class="ct-node" id="ct-Transparencia_y_Gobierno_Corporativo">
+  <div class="ct-node-header" onclick="ctToggle('ct-Transparencia_y_Gobierno_Corporativo')">
+    <span class="ct-toggle" id="ct-Transparencia_y_Gobierno_Corporativo-icon">＋</span>
+    <span class="ct-label">Transparencia y Gobierno Corporativo</span>
+    <span class="ct-count">51 preguntas</span>
+  </div>
+  <div class="ct-body">
+
+    <div class="ct-sub-item" onclick="ctStudy(2,[3, 11, 21, 22, 54, 77, 80, 81, 98],'Hechos Relevantes')">
+      <div class="ct-sub-dot" style="background:var(--m3)"></div>
+      <span class="ct-sub-label">Hechos Relevantes</span>
+      <span class="ct-sub-count">9</span>
+    </div>
+
+    <div class="ct-sub-item" onclick="ctStudy(2,[1, 13, 30, 39, 46, 47, 50, 57],'Insider Trading')">
+      <div class="ct-sub-dot" style="background:var(--m3)"></div>
+      <span class="ct-sub-label">Insider Trading</span>
+      <span class="ct-sub-count">8</span>
+    </div>
+
+    <div class="ct-sub-item" onclick="ctStudy(2,[8, 17, 82, 83, 84, 85, 86, 87, 88, 93, 101, 102],'Gobierno Corporativo')">
+      <div class="ct-sub-dot" style="background:var(--m3)"></div>
+      <span class="ct-sub-label">Gobierno Corporativo</span>
+      <span class="ct-sub-count">12</span>
+    </div>
+
+    <div class="ct-sub-item" onclick="ctStudy(2,[59, 60, 61, 62, 65, 66, 70, 71, 73],'Idoneidad y Registro')">
+      <div class="ct-sub-dot" style="background:var(--m3)"></div>
+      <span class="ct-sub-label">Idoneidad y Registro</span>
+      <span class="ct-sub-count">9</span>
+    </div>
+
+    <div class="ct-sub-item" onclick="ctStudy(2,[5, 7, 14, 20, 27, 29, 40, 42, 58, 67, 68, 92, 99],'Atención al Inversor')">
+      <div class="ct-sub-dot" style="background:var(--m3)"></div>
+      <span class="ct-sub-label">Atención al Inversor</span>
+      <span class="ct-sub-count">13</span>
+    </div>
+
+    <button class="ct-study-btn" onclick="ctStudyAll('ct-Transparencia_y_Gobierno_Corporativo')">
+      📖 Estudiar todos los temas de Transparencia y Gobierno Corporativo
+    </button>
+  </div>
+</div>
+
+<div class="ct-section-title">📊 Contabilidad, Auditoría y Finanzas</div>
+<div class="ct-node" id="ct-Contabilidad_Auditoria_y_Finanzas">
+  <div class="ct-node-header" onclick="ctToggle('ct-Contabilidad_Auditoria_y_Finanzas')">
+    <span class="ct-toggle" id="ct-Contabilidad_Auditoria_y_Finanzas-icon">＋</span>
+    <span class="ct-label">Contabilidad, Auditoría y Finanzas</span>
+    <span class="ct-count">77 preguntas</span>
+  </div>
+  <div class="ct-body">
+
+    <div class="ct-sub-item" onclick="ctStudy(3,[18, 23, 57, 59, 60, 61, 63, 64, 66, 67, 68, 71, 122, 123, 132],'Estados Financieros NIIF')">
+      <div class="ct-sub-dot" style="background:var(--m4)"></div>
+      <span class="ct-sub-label">Estados Financieros NIIF</span>
+      <span class="ct-sub-count">15</span>
+    </div>
+
+    <div class="ct-sub-item" onclick="ctStudy(3,[37, 38, 39, 40, 41, 42, 48, 49, 55, 103, 104],'Ratios Financieros')">
+      <div class="ct-sub-dot" style="background:var(--m4)"></div>
+      <span class="ct-sub-label">Ratios Financieros</span>
+      <span class="ct-sub-count">11</span>
+    </div>
+
+    <div class="ct-sub-item" onclick="ctStudy(3,[20, 21, 28, 33, 34, 35, 36, 43, 44, 47, 50, 51, 52, 53, 54, 65, 69, 70, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 130, 131],'Auditoría Externa')">
+      <div class="ct-sub-dot" style="background:var(--m4)"></div>
+      <span class="ct-sub-label">Auditoría Externa</span>
+      <span class="ct-sub-count">30</span>
+    </div>
+
+    <div class="ct-sub-item" onclick="ctStudy(3,[2, 3, 101, 113, 115, 116, 117],'Bonos y Renta Fija')">
+      <div class="ct-sub-dot" style="background:var(--m4)"></div>
+      <span class="ct-sub-label">Bonos y Renta Fija</span>
+      <span class="ct-sub-count">7</span>
+    </div>
+
+    <div class="ct-sub-item" onclick="ctStudy(3,[12, 13, 14, 15, 16, 17, 105, 106, 108, 109, 110, 111, 112, 118],'Futuros y Opciones')">
+      <div class="ct-sub-dot" style="background:var(--m4)"></div>
+      <span class="ct-sub-label">Futuros y Opciones</span>
+      <span class="ct-sub-count">14</span>
+    </div>
+
+    <button class="ct-study-btn" onclick="ctStudyAll('ct-Contabilidad_Auditoria_y_Finanzas')">
+      📖 Estudiar todos los temas de Contabilidad, Auditoría y Finanzas
+    </button>
+  </div>
+</div>
+
+<div class="ct-section-title">⚡ Agentes, Instrumentos y Operaciones</div>
+<div class="ct-node" id="ct-Agentes_Instrumentos_y_Operaciones">
+  <div class="ct-node-header" onclick="ctToggle('ct-Agentes_Instrumentos_y_Operaciones')">
+    <span class="ct-toggle" id="ct-Agentes_Instrumentos_y_Operaciones-icon">＋</span>
+    <span class="ct-label">Agentes, Instrumentos y Operaciones</span>
+    <span class="ct-count">51 preguntas</span>
+  </div>
+  <div class="ct-body">
+
+    <div class="ct-sub-item" onclick="ctStudy(4,[0, 1, 2, 3, 4, 5, 26, 38, 48, 60, 61, 62, 63, 64, 65, 66],'Agentes y Categorías')">
+      <div class="ct-sub-dot" style="background:var(--m5)"></div>
+      <span class="ct-sub-label">Agentes y Categorías</span>
+      <span class="ct-sub-count">16</span>
+    </div>
+
+    <div class="ct-sub-item" onclick="ctStudy(4,[42, 43, 44, 74, 75, 76, 77, 91, 92, 93, 94, 95, 100],'Caución y Pase')">
+      <div class="ct-sub-dot" style="background:var(--m5)"></div>
+      <span class="ct-sub-label">Caución y Pase</span>
+      <span class="ct-sub-count">13</span>
+    </div>
+
+    <div class="ct-sub-item" onclick="ctStudy(4,[12, 45, 46, 101],'Futuros ROFEX')">
+      <div class="ct-sub-dot" style="background:var(--m5)"></div>
+      <span class="ct-sub-label">Futuros ROFEX</span>
+      <span class="ct-sub-count">4</span>
+    </div>
+
+    <div class="ct-sub-item" onclick="ctStudy(4,[13, 15, 16, 102, 103],'Opciones')">
+      <div class="ct-sub-dot" style="background:var(--m5)"></div>
+      <span class="ct-sub-label">Opciones</span>
+      <span class="ct-sub-count">5</span>
+    </div>
+
+    <div class="ct-sub-item" onclick="ctStudy(4,[49, 50, 51, 52, 53, 54, 67],'CPD y FCE')">
+      <div class="ct-sub-dot" style="background:var(--m5)"></div>
+      <span class="ct-sub-label">CPD y FCE</span>
+      <span class="ct-sub-count">7</span>
+    </div>
+
+    <div class="ct-sub-item" onclick="ctStudy(4,[85, 86, 87, 88, 89, 90],'Suscripción de Acciones')">
+      <div class="ct-sub-dot" style="background:var(--m5)"></div>
+      <span class="ct-sub-label">Suscripción de Acciones</span>
+      <span class="ct-sub-count">6</span>
+    </div>
+
+    <button class="ct-study-btn" onclick="ctStudyAll('ct-Agentes_Instrumentos_y_Operaciones')">
+      📖 Estudiar todos los temas de Agentes, Instrumentos y Operaciones
+    </button>
+  </div>
+</div>
+
+<div class="ct-section-title">🏦 Inversión Colectiva</div>
+<div class="ct-node" id="ct-Inversion_Colectiva">
+  <div class="ct-node-header" onclick="ctToggle('ct-Inversion_Colectiva')">
+    <span class="ct-toggle" id="ct-Inversion_Colectiva-icon">＋</span>
+    <span class="ct-label">Inversión Colectiva</span>
+    <span class="ct-count">95 preguntas</span>
+  </div>
+  <div class="ct-body">
+
+    <div class="ct-sub-item" onclick="ctStudy(5,[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 14, 15, 16, 17, 31, 32, 34, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 52, 53, 55],'FCI Abiertos')">
+      <div class="ct-sub-dot" style="background:var(--m6)"></div>
+      <span class="ct-sub-label">FCI Abiertos</span>
+      <span class="ct-sub-count">36</span>
+    </div>
+
+    <div class="ct-sub-item" onclick="ctStudy(5,[33, 35, 54, 56, 57, 58, 59, 60, 61, 62],'FCI Cerrados')">
+      <div class="ct-sub-dot" style="background:var(--m6)"></div>
+      <span class="ct-sub-label">FCI Cerrados</span>
+      <span class="ct-sub-count">10</span>
+    </div>
+
+    <div class="ct-sub-item" onclick="ctStudy(5,[18, 19, 20, 21, 22, 23, 24, 25, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105],'Fideicomiso Financiero')">
+      <div class="ct-sub-dot" style="background:var(--m6)"></div>
+      <span class="ct-sub-label">Fideicomiso Financiero</span>
+      <span class="ct-sub-count">49</span>
+    </div>
+
+    <button class="ct-study-btn" onclick="ctStudyAll('ct-Inversion_Colectiva')">
+      📖 Estudiar todos los temas de Inversión Colectiva
+    </button>
+  </div>
+</div>
+
+<button class="ct-export-btn" onclick="ctExportPDF()">📄 Exportar mapa a PDF</button>
+</div>
+    </div>
     </div>
 
     <!-- QUIZ (block study) -->
@@ -913,7 +1312,6 @@ canvas.chart{width:100%;display:block;border-radius:8px}
           <button class="ai-ask-btn" id="ai-ask-btn" onclick="askAI()">✨ Explicame esta pregunta</button>
           <div class="ai-loading" id="ai-loading">⏳ Consultando IA...</div>
           <div class="ai-response" id="ai-response"></div>
-          <div class="radar-wrap" id="ai-radar" style="display:none"></div>
           <div class="audio-wrap" id="ai-audio" style="display:none"></div>
         </div>
         <div class="quiz-nav" id="quiz-nav" style="display:none">
@@ -1140,6 +1538,433 @@ canvas.chart{width:100%;display:block;border-radius:8px}
       <div id="recs-content"></div>
     </div>
 
+
+    <!-- BIBLIOGRAFÍA -->
+    <div class="view" id="view-biblio">
+      <div class="page-header">
+        <div class="page-title">📚 Bibliografía</div>
+        <div class="page-sub">Fuentes oficiales citadas en la guía de estudio, por módulo</div>
+      </div>
+      <div class="bib-wrap">
+<div class="bib-mod-card" id="bib-mod-0">
+  <div class="bib-mod-header" onclick="bibToggle('bib-mod-0')">
+    <div class="bib-mod-dot" style="background:var(--m1)"></div>
+    <span class="bib-mod-title">Módulo I — Marco Normativo del Mercado de Capitales</span>
+    <span class="bib-mod-chevron" id="bib-chev-0">▸</span>
+  </div>
+  <div class="bib-mod-body"><div class="bib-item">
+          <span class="bib-item-icon">📜</span>
+          <div>
+            <span class="bib-item-text">Ley 26.831 de Mercado de Capitales</span>
+            <span class="bib-badge">Ley</span>
+            <br>
+            <a class="bib-item-link" href="https://www.argentina.gob.ar/normativa/nacional/ley-26831-206592" target="_blank" rel="noopener">🔗 Ver en Infoleg / fuente oficial</a>
+          </div>
+        </div><div class="bib-item">
+          <span class="bib-item-icon">📋</span>
+          <div>
+            <span class="bib-item-text">Normas CNV (N.T. 2013 y mod.) – Títulos I, II, III, IV, V, VI, XVI</span>
+            <span class="bib-badge">Norma</span>
+            <br>
+            <a class="bib-item-link" href="https://www.cnv.gov.ar/sitioWeb/MarcoRegulatorio?panel=3" target="_blank" rel="noopener">🔗 Ver en Infoleg / fuente oficial</a>
+          </div>
+        </div><div class="bib-item">
+          <span class="bib-item-icon">📜</span>
+          <div>
+            <span class="bib-item-text">Código Civil y Comercial de la Nación – Artículo 146</span>
+            <span class="bib-badge">Ley</span>
+            <br>
+            <a class="bib-item-link" href="https://www.argentina.gob.ar/normativa/nacional/ley-26994-235975" target="_blank" rel="noopener">🔗 Ver en Infoleg / fuente oficial</a>
+          </div>
+        </div><div class="bib-item">
+          <span class="bib-item-icon">📜</span>
+          <div>
+            <span class="bib-item-text">Ley 19.550 de Sociedades Comerciales – Arts. 280, 255 y 269</span>
+            <span class="bib-badge">Ley</span>
+            <br>
+            <a class="bib-item-link" href="https://www.argentina.gob.ar/normativa/nacional/ley-19550-25553" target="_blank" rel="noopener">🔗 Ver en Infoleg / fuente oficial</a>
+          </div>
+        </div><div class="bib-item">
+          <span class="bib-item-icon">📜</span>
+          <div>
+            <span class="bib-item-text">Ley 23.576 de Obligaciones Negociables</span>
+            <span class="bib-badge">Ley</span>
+            <br>
+            <a class="bib-item-link" href="https://www.argentina.gob.ar/normativa/nacional/ley-23576-20643" target="_blank" rel="noopener">🔗 Ver en Infoleg / fuente oficial</a>
+          </div>
+        </div><div class="bib-item">
+          <span class="bib-item-icon">📄</span>
+          <div>
+            <span class="bib-item-text">Decreto 1087/1993 y modificatorios</span>
+            <span class="bib-badge">Decreto</span>
+            <br>
+            <a class="bib-item-link" href="https://www.argentina.gob.ar/normativa/nacional/decreto-1087-1993-25477" target="_blank" rel="noopener">🔗 Ver en Infoleg / fuente oficial</a>
+          </div>
+        </div><div class="bib-item">
+          <span class="bib-item-icon">📜</span>
+          <div>
+            <span class="bib-item-text">Ley 24.467 de Pequeña y Mediana Empresa</span>
+            <span class="bib-badge">Ley</span>
+            <br>
+            <a class="bib-item-link" href="https://www.argentina.gob.ar/normativa/nacional/ley-24467-15932" target="_blank" rel="noopener">🔗 Ver en Infoleg / fuente oficial</a>
+          </div>
+        </div></div>
+</div>
+<div class="bib-mod-card" id="bib-mod-1">
+  <div class="bib-mod-header" onclick="bibToggle('bib-mod-1')">
+    <div class="bib-mod-dot" style="background:var(--m2)"></div>
+    <span class="bib-mod-title">Módulo II — Prevención de Lavado de Activos y FT</span>
+    <span class="bib-mod-chevron" id="bib-chev-1">▸</span>
+  </div>
+  <div class="bib-mod-body"><div class="bib-item">
+          <span class="bib-item-icon">🌐</span>
+          <div>
+            <span class="bib-item-text">Las 40 Recomendaciones del FATF-GAFI</span>
+            <span class="bib-badge">Internacional</span>
+            <br>
+            <a class="bib-item-link" href="https://www.fatf-gafi.org/content/dam/fatf-gafi/translations/Recommendations/FATF-40-Rec-2012-Spanish.pdf" target="_blank" rel="noopener">🔗 Ver en Infoleg / fuente oficial</a>
+          </div>
+        </div><div class="bib-item">
+          <span class="bib-item-icon">📜</span>
+          <div>
+            <span class="bib-item-text">Ley 25.246 de Lavado de Activos de Origen Delictivo</span>
+            <span class="bib-badge">Ley</span>
+            <br>
+            <a class="bib-item-link" href="https://www.argentina.gob.ar/normativa/nacional/ley-25246-62977" target="_blank" rel="noopener">🔗 Ver en Infoleg / fuente oficial</a>
+          </div>
+        </div><div class="bib-item">
+          <span class="bib-item-icon">📜</span>
+          <div>
+            <span class="bib-item-text">Ley 26.831 de Mercado de Capitales</span>
+            <span class="bib-badge">Ley</span>
+            <br>
+            <a class="bib-item-link" href="https://www.argentina.gob.ar/normativa/nacional/ley-26831-206592" target="_blank" rel="noopener">🔗 Ver en Infoleg / fuente oficial</a>
+          </div>
+        </div><div class="bib-item">
+          <span class="bib-item-icon">📋</span>
+          <div>
+            <span class="bib-item-text">Normas CNV (N.T. 2013 y mod.) – Título XI</span>
+            <span class="bib-badge">Norma</span>
+            <br>
+            <a class="bib-item-link" href="https://www.cnv.gov.ar/sitioWeb/MarcoRegulatorio?panel=3" target="_blank" rel="noopener">🔗 Ver en Infoleg / fuente oficial</a>
+          </div>
+        </div><div class="bib-item">
+          <span class="bib-item-icon">📄</span>
+          <div>
+            <span class="bib-item-text">Decreto 918/2012</span>
+            <span class="bib-badge">Decreto</span>
+            <br>
+            <a class="bib-item-link" href="https://www.argentina.gob.ar/normativa/nacional/decreto-918-2012-198578" target="_blank" rel="noopener">🔗 Ver en Infoleg / fuente oficial</a>
+          </div>
+        </div><div class="bib-item">
+          <span class="bib-item-icon">🔖</span>
+          <div>
+            <span class="bib-item-text">Resolución UIF 29/2013 – Obligación de Reportar Hechos u Operaciones Sospechosas</span>
+            <span class="bib-badge">Resolución UIF</span>
+            <br>
+            <a class="bib-item-link" href="https://www.argentina.gob.ar/normativa/nacional/resoluci%C3%B3n-29-2013-208510/texto" target="_blank" rel="noopener">🔗 Ver en Infoleg / fuente oficial</a>
+          </div>
+        </div><div class="bib-item">
+          <span class="bib-item-icon">🔖</span>
+          <div>
+            <span class="bib-item-text">Resolución UIF 3/2014 – Reporte de Registración y cumplimiento</span>
+            <span class="bib-badge">Resolución UIF</span>
+            <br>
+            <a class="bib-item-link" href="https://www.argentina.gob.ar/uif/normativa-uif" target="_blank" rel="noopener">🔗 Ver en Infoleg / fuente oficial</a>
+          </div>
+        </div><div class="bib-item">
+          <span class="bib-item-icon">🔖</span>
+          <div>
+            <span class="bib-item-text">Resolución UIF 72/2023 – Supervisión del cumplimiento normativo UIF</span>
+            <span class="bib-badge">Resolución UIF</span>
+            <br>
+            <a class="bib-item-link" href="https://www.argentina.gob.ar/normativa/nacional/resoluci%C3%B3n-72-2023-383138/texto" target="_blank" rel="noopener">🔗 Ver en Infoleg / fuente oficial</a>
+          </div>
+        </div><div class="bib-item">
+          <span class="bib-item-icon">🔖</span>
+          <div>
+            <span class="bib-item-text">Resolución UIF 22/2011 – CNV – Sujetos Obligados</span>
+            <span class="bib-badge">Resolución UIF</span>
+            <br>
+            <a class="bib-item-link" href="https://www.argentina.gob.ar/normativa/nacional/resoluci%C3%B3n-72-2023-383138/texto" target="_blank" rel="noopener">🔗 Ver en Infoleg / fuente oficial</a>
+          </div>
+        </div><div class="bib-item">
+          <span class="bib-item-icon">🔖</span>
+          <div>
+            <span class="bib-item-text">Resolución UIF 78/2023 – Mercado de Capitales</span>
+            <span class="bib-badge">Resolución UIF</span>
+            <br>
+            <a class="bib-item-link" href="https://www.argentina.gob.ar/normativa/nacional/resoluci%C3%B3n-78-2023-383462" target="_blank" rel="noopener">🔗 Ver en Infoleg / fuente oficial</a>
+          </div>
+        </div><div class="bib-item">
+          <span class="bib-item-icon">🔖</span>
+          <div>
+            <span class="bib-item-text">Resolución UIF 56/2024 – Plazos para la realización de ROS</span>
+            <span class="bib-badge">Resolución UIF</span>
+            <br>
+            <a class="bib-item-link" href="https://www.argentina.gob.ar/normativa/nacional/resoluci%C3%B3n-56-2024-397646" target="_blank" rel="noopener">🔗 Ver en Infoleg / fuente oficial</a>
+          </div>
+        </div><div class="bib-item">
+          <span class="bib-item-icon">🔖</span>
+          <div>
+            <span class="bib-item-text">Resolución UIF 192/2024 – PEPs</span>
+            <span class="bib-badge">Resolución UIF</span>
+            <br>
+            <a class="bib-item-link" href="https://www.argentina.gob.ar/normativa/nacional/resoluci%C3%B3n-192-2024-407011/texto" target="_blank" rel="noopener">🔗 Ver en Infoleg / fuente oficial</a>
+          </div>
+        </div><div class="bib-item">
+          <span class="bib-item-icon">📜</span>
+          <div>
+            <span class="bib-item-text">Ley 27.739 – Modificaciones al Código Penal</span>
+            <span class="bib-badge">Ley</span>
+            <br>
+            <a class="bib-item-link" href="https://www.argentina.gob.ar/normativa/nacional/ley-27739-397355" target="_blank" rel="noopener">🔗 Ver en Infoleg / fuente oficial</a>
+          </div>
+        </div></div>
+</div>
+<div class="bib-mod-card" id="bib-mod-2">
+  <div class="bib-mod-header" onclick="bibToggle('bib-mod-2')">
+    <div class="bib-mod-dot" style="background:var(--m3)"></div>
+    <span class="bib-mod-title">Módulo III — Transparencia y Gobierno Corporativo</span>
+    <span class="bib-mod-chevron" id="bib-chev-2">▸</span>
+  </div>
+  <div class="bib-mod-body"><div class="bib-item">
+          <span class="bib-item-icon">📋</span>
+          <div>
+            <span class="bib-item-text">Normas CNV (N.T. 2013 y mod.) – Títulos II, IV, VII, XII, XIII (Cap. I) y XVI</span>
+            <span class="bib-badge">Norma</span>
+            <br>
+            <a class="bib-item-link" href="https://www.cnv.gov.ar/sitioWeb/MarcoRegulatorio?panel=3" target="_blank" rel="noopener">🔗 Ver en Infoleg / fuente oficial</a>
+          </div>
+        </div><div class="bib-item">
+          <span class="bib-item-icon">📜</span>
+          <div>
+            <span class="bib-item-text">Ley 26.831 de Mercado de Capitales</span>
+            <span class="bib-badge">Ley</span>
+            <br>
+            <a class="bib-item-link" href="https://www.argentina.gob.ar/normativa/nacional/ley-26831-206592" target="_blank" rel="noopener">🔗 Ver en Infoleg / fuente oficial</a>
+          </div>
+        </div><div class="bib-item">
+          <span class="bib-item-icon">📜</span>
+          <div>
+            <span class="bib-item-text">Ley 19.550 de Sociedades Comerciales – Conflicto de Interés</span>
+            <span class="bib-badge">Ley</span>
+            <br>
+            <a class="bib-item-link" href="https://www.argentina.gob.ar/normativa/nacional/ley-19550-25553" target="_blank" rel="noopener">🔗 Ver en Infoleg / fuente oficial</a>
+          </div>
+        </div></div>
+</div>
+<div class="bib-mod-card" id="bib-mod-3">
+  <div class="bib-mod-header" onclick="bibToggle('bib-mod-3')">
+    <div class="bib-mod-dot" style="background:var(--m4)"></div>
+    <span class="bib-mod-title">Módulo IV — Contabilidad, Auditoría y Finanzas</span>
+    <span class="bib-mod-chevron" id="bib-chev-3">▸</span>
+  </div>
+  <div class="bib-mod-body"><div class="bib-item">
+          <span class="bib-item-icon">📜</span>
+          <div>
+            <span class="bib-item-text">Ley 26.831 – Art. 19; Título III, Cap. V, Sección III (arts. 104 a 108)</span>
+            <span class="bib-badge">Ley</span>
+            <br>
+            <a class="bib-item-link" href="https://www.argentina.gob.ar/normativa/nacional/ley-26831-206592" target="_blank" rel="noopener">🔗 Ver en Infoleg / fuente oficial</a>
+          </div>
+        </div><div class="bib-item">
+          <span class="bib-item-icon">📜</span>
+          <div>
+            <span class="bib-item-text">Ley 22.169 – CNV / Sociedades por Acciones</span>
+            <span class="bib-badge">Ley</span>
+            <br>
+            <a class="bib-item-link" href="https://servicios.infoleg.gob.ar/infolegInternet/anexos/35000-39999/37432/texact.htm" target="_blank" rel="noopener">🔗 Ver en Infoleg / fuente oficial</a>
+          </div>
+        </div><div class="bib-item">
+          <span class="bib-item-icon">📜</span>
+          <div>
+            <span class="bib-item-text">Ley 23.576 de Obligaciones Negociables – Art. 10</span>
+            <span class="bib-badge">Ley</span>
+            <br>
+            <a class="bib-item-link" href="https://www.argentina.gob.ar/normativa/nacional/ley-23576-20643" target="_blank" rel="noopener">🔗 Ver en Infoleg / fuente oficial</a>
+          </div>
+        </div><div class="bib-item">
+          <span class="bib-item-icon">📜</span>
+          <div>
+            <span class="bib-item-text">Ley 19.550 de Sociedades Comerciales – Arts. 5º, 11, 60, 188, 208, 213, 235 y 238</span>
+            <span class="bib-badge">Ley</span>
+            <br>
+            <a class="bib-item-link" href="https://www.argentina.gob.ar/normativa/nacional/ley-19550-25553" target="_blank" rel="noopener">🔗 Ver en Infoleg / fuente oficial</a>
+          </div>
+        </div><div class="bib-item">
+          <span class="bib-item-icon">📋</span>
+          <div>
+            <span class="bib-item-text">Normas CNV (N.T. 2013 y mod.) – Título II (Cap. II, III y IV) y Título IV (Cap. I y III)</span>
+            <span class="bib-badge">Norma</span>
+            <br>
+            <a class="bib-item-link" href="https://www.cnv.gov.ar/sitioWeb/MarcoRegulatorio?panel=3" target="_blank" rel="noopener">🔗 Ver en Infoleg / fuente oficial</a>
+          </div>
+        </div><div class="bib-item">
+          <span class="bib-item-icon">📋</span>
+          <div>
+            <span class="bib-item-text">Resolución Técnica N° 37 – FACPCE – Normas de Auditoría</span>
+            <span class="bib-badge">Norma FACPCE</span>
+            <br>
+            <a class="bib-item-link" href="https://servicios.infoleg.gob.ar/infolegInternet/verNorma.do?id=233667" target="_blank" rel="noopener">🔗 Ver en Infoleg / fuente oficial</a>
+          </div>
+        </div><div class="bib-item">
+          <span class="bib-item-icon">📋</span>
+          <div>
+            <span class="bib-item-text">Régimen Informativo Periódico y Nuevo Informe Extenso de Auditoría (KAM)</span>
+            <span class="bib-badge">Norma</span>
+            <br>
+            <a class="bib-item-link" href="https://www.cnv.gov.ar/sitioWeb/MarcoRegulatorio?panel=3" target="_blank" rel="noopener">🔗 Ver en Infoleg / fuente oficial</a>
+          </div>
+        </div><div class="bib-item">
+          <span class="bib-item-icon">📚</span>
+          <div>
+            <span class="bib-item-text">"Mercado de Capitales: Manual para no especialistas" – IAMC – Caps. 6, 12 y 13</span>
+            <span class="bib-badge">Manual</span>
+            <br>
+            <a class="bib-item-link" href="https://www.iamc.com.ar/educacion/" target="_blank" rel="noopener">🔗 Ver en Infoleg / fuente oficial</a>
+          </div>
+        </div><div class="bib-item">
+          <span class="bib-item-icon">📚</span>
+          <div>
+            <span class="bib-item-text">"Manual de estudio de contratos de futuros y opciones" – Mercado a Término de Buenos Aires</span>
+            <span class="bib-badge">Manual</span>
+            <br>
+            <a class="bib-item-link" href="https://www.matbarofex.com.ar/educacion" target="_blank" rel="noopener">🔗 Ver en Infoleg / fuente oficial</a>
+          </div>
+        </div><div class="bib-item">
+          <span class="bib-item-icon">📚</span>
+          <div>
+            <span class="bib-item-text">"Operaciones con Futuros" – ROFEX</span>
+            <span class="bib-badge">Manual</span>
+            <br>
+            <a class="bib-item-link" href="https://www.matbarofex.com.ar/educacion" target="_blank" rel="noopener">🔗 Ver en Infoleg / fuente oficial</a>
+          </div>
+        </div><div class="bib-item">
+          <span class="bib-item-icon">📚</span>
+          <div>
+            <span class="bib-item-text">"Estrategias con Futuros y Opciones" – ROFEX</span>
+            <span class="bib-badge">Manual</span>
+            <br>
+            <a class="bib-item-link" href="https://www.matbarofex.com.ar/educacion" target="_blank" rel="noopener">🔗 Ver en Infoleg / fuente oficial</a>
+          </div>
+        </div></div>
+</div>
+<div class="bib-mod-card" id="bib-mod-4">
+  <div class="bib-mod-header" onclick="bibToggle('bib-mod-4')">
+    <div class="bib-mod-dot" style="background:var(--m5)"></div>
+    <span class="bib-mod-title">Módulo V — Agentes, Instrumentos y Operaciones</span>
+    <span class="bib-mod-chevron" id="bib-chev-4">▸</span>
+  </div>
+  <div class="bib-mod-body"><div class="bib-item">
+          <span class="bib-item-icon">📜</span>
+          <div>
+            <span class="bib-item-text">Ley 26.831 – Arts. 2, 99, 100, 112, 115, 120 y Caps. I y II del Título II</span>
+            <span class="bib-badge">Ley</span>
+            <br>
+            <a class="bib-item-link" href="https://www.argentina.gob.ar/normativa/nacional/ley-26831-206592" target="_blank" rel="noopener">🔗 Ver en Infoleg / fuente oficial</a>
+          </div>
+        </div><div class="bib-item">
+          <span class="bib-item-icon">📜</span>
+          <div>
+            <span class="bib-item-text">Ley 27.440 de Financiamiento Productivo – Arts. 1 a 25 y 195 a 199</span>
+            <span class="bib-badge">Ley</span>
+            <br>
+            <a class="bib-item-link" href="https://servicios.infoleg.gob.ar/infolegInternet/anexos/310000-314999/314132/texact.htm" target="_blank" rel="noopener">🔗 Ver en Infoleg / fuente oficial</a>
+          </div>
+        </div><div class="bib-item">
+          <span class="bib-item-icon">📋</span>
+          <div>
+            <span class="bib-item-text">Normas CNV (N.T. 2013 y mod.) – Títulos VI a IX y XIV</span>
+            <span class="bib-badge">Norma</span>
+            <br>
+            <a class="bib-item-link" href="https://www.cnv.gov.ar/sitioWeb/MarcoRegulatorio?panel=3" target="_blank" rel="noopener">🔗 Ver en Infoleg / fuente oficial</a>
+          </div>
+        </div><div class="bib-item">
+          <span class="bib-item-icon">📚</span>
+          <div>
+            <span class="bib-item-text">"Mercado de Capitales: Manual para no especialistas" – IAMC – Cap. 7</span>
+            <span class="bib-badge">Manual</span>
+            <br>
+            <a class="bib-item-link" href="https://www.iamc.com.ar/educacion/" target="_blank" rel="noopener">🔗 Ver en Infoleg / fuente oficial</a>
+          </div>
+        </div><div class="bib-item">
+          <span class="bib-item-icon">📚</span>
+          <div>
+            <span class="bib-item-text">"Manual de estudio de contratos de futuros y opciones" – Mercado a Término de Buenos Aires</span>
+            <span class="bib-badge">Manual</span>
+            <br>
+            <a class="bib-item-link" href="https://www.matbarofex.com.ar/educacion" target="_blank" rel="noopener">🔗 Ver en Infoleg / fuente oficial</a>
+          </div>
+        </div><div class="bib-item">
+          <span class="bib-item-icon">📚</span>
+          <div>
+            <span class="bib-item-text">"Operaciones con Futuros" – ROFEX</span>
+            <span class="bib-badge">Manual</span>
+            <br>
+            <a class="bib-item-link" href="https://www.matbarofex.com.ar/educacion" target="_blank" rel="noopener">🔗 Ver en Infoleg / fuente oficial</a>
+          </div>
+        </div><div class="bib-item">
+          <span class="bib-item-icon">📚</span>
+          <div>
+            <span class="bib-item-text">"Estrategias con Futuros y Opciones" – ROFEX</span>
+            <span class="bib-badge">Manual</span>
+            <br>
+            <a class="bib-item-link" href="https://www.matbarofex.com.ar/educacion" target="_blank" rel="noopener">🔗 Ver en Infoleg / fuente oficial</a>
+          </div>
+        </div></div>
+</div>
+<div class="bib-mod-card" id="bib-mod-5">
+  <div class="bib-mod-header" onclick="bibToggle('bib-mod-5')">
+    <div class="bib-mod-dot" style="background:var(--m6)"></div>
+    <span class="bib-mod-title">Módulo VI — Productos de Inversión Colectiva</span>
+    <span class="bib-mod-chevron" id="bib-chev-5">▸</span>
+  </div>
+  <div class="bib-mod-body"><div class="bib-item">
+          <span class="bib-item-icon">📜</span>
+          <div>
+            <span class="bib-item-text">Ley 24.083 de Fondos Comunes de Inversión</span>
+            <span class="bib-badge">Ley</span>
+            <br>
+            <a class="bib-item-link" href="https://servicios.infoleg.gob.ar/infolegInternet/anexos/0-4999/538/texact.htm" target="_blank" rel="noopener">🔗 Ver en Infoleg / fuente oficial</a>
+          </div>
+        </div><div class="bib-item">
+          <span class="bib-item-icon">📋</span>
+          <div>
+            <span class="bib-item-text">Normas CNV (N.T. 2013 y mod.) – Título V (Caps. I a X), Título II (Cap. IX) y Título VI (Cap. IV)</span>
+            <span class="bib-badge">Norma</span>
+            <br>
+            <a class="bib-item-link" href="https://www.cnv.gov.ar/sitioWeb/MarcoRegulatorio?panel=3" target="_blank" rel="noopener">🔗 Ver en Infoleg / fuente oficial</a>
+          </div>
+        </div><div class="bib-item">
+          <span class="bib-item-icon">📜</span>
+          <div>
+            <span class="bib-item-text">Código Civil y Comercial de la Nación – Capítulo 30 y concordantes</span>
+            <span class="bib-badge">Ley</span>
+            <br>
+            <a class="bib-item-link" href="https://www.argentina.gob.ar/normativa/nacional/ley-26994-235975" target="_blank" rel="noopener">🔗 Ver en Infoleg / fuente oficial</a>
+          </div>
+        </div><div class="bib-item">
+          <span class="bib-item-icon">📜</span>
+          <div>
+            <span class="bib-item-text">Ley 24.441 de Fideicomisos – parte no derogada</span>
+            <span class="bib-badge">Ley</span>
+            <br>
+            <a class="bib-item-link" href="https://servicios.infoleg.gob.ar/infolegInternet/anexos/0-4999/804/texact.htm" target="_blank" rel="noopener">🔗 Ver en Infoleg / fuente oficial</a>
+          </div>
+        </div><div class="bib-item">
+          <span class="bib-item-icon">📚</span>
+          <div>
+            <span class="bib-item-text">"Mercado de Capitales: Manual para no especialistas" – IAMC – Cap. 6</span>
+            <span class="bib-badge">Manual</span>
+            <br>
+            <a class="bib-item-link" href="https://www.iamc.com.ar/educacion/" target="_blank" rel="noopener">🔗 Ver en Infoleg / fuente oficial</a>
+          </div>
+        </div></div>
+</div>
+</div>
+    </div>
+
   </div><!-- /views -->
 </div><!-- /main -->
 
@@ -1167,7 +1992,7 @@ canvas.chart{width:100%;display:block;border-radius:8px}
       </div>
     </div>
     <!-- Active flashcard -->
-    <div id="fc-active" style="display:none;max-width:560px">
+    <div id="fc-active" style="display:none">
       <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
         <div style="font-size:12px;color:var(--text2);font-family:var(--mono)" id="fc-counter">1 / 20</div>
         <div style="flex:1;height:4px;background:var(--border2);border-radius:2px">
@@ -1462,10 +2287,11 @@ function navigate(view) {
   curView = view;
   const titles = {dashboard:'Dashboard',study:'Estudiar',exam:'Examen',
     review:'Repaso inteligente',flagged:'Marcadas',notes:'Notas',
-    history:'Historial',achievements:'Logros',recs:'Recomendaciones',
+    history:'Historial',achievements:'Logros',recs:'Recomendaciones',biblio:'Bibliografía',
     flashcards:'Flashcards'};
   $('tb-title').textContent = titles[view] || '';
   closeSidebar();
+  buildMimiPanel();
   if (view==='dashboard')     buildDashboard();
   if (view==='study')         buildStudyView();
   if (view==='exam')          buildExamSetup();
@@ -1475,6 +2301,7 @@ function navigate(view) {
   if (view==='history')       buildHistory('daily');
   if (view==='achievements')  buildAchievements();
   if (view==='recs')          { buildRecs(); initStudyPlan(); }
+  if (view==='biblio')        {} // static view
   if (view==='flashcards')    buildFlashcardSetup();
 }
 
@@ -1531,6 +2358,15 @@ function buildDashboard() {
 
   // Morning plan
   buildMorningPlan();
+
+  // Pre-render radar content (hidden until toggled)
+  renderRadar(-1);
+
+  // Countdown
+  buildCountdown();
+
+  // Mimi sidebar panel
+  buildMimiPanel();
 
   // Charts
   setTimeout(() => { drawChart('chart-answered','answered'); drawChart('chart-progress','pct'); }, 80);
@@ -2023,8 +2859,10 @@ IMPORTANTE: No inventes normas, leyes ni artículos. Si no hay norma explícita,
     $('ai-response').innerHTML = '<p>' + formatted + '</p>';
     $('ai-response').style.display = 'block';
 
-    // Show radar
-    renderRadar(q.mi);
+    // Refresh radar in dashboard if it's open
+    if ($('dash-radar-content').style.display !== 'none') {
+      renderRadar(q.mi);
+    }
 
     // Show audio block
     if (audioText) {
@@ -3043,7 +3881,102 @@ function exportPDF() {
   h1{font-size:20px;margin-bottom:8px}h2{font-size:15px;color:#555;margin:16px 0 8px}
   .s{font-size:24px;font-weight:bold;margin-bottom:4px}
   .ok{color:green}.bad{color:red}.row{padding:8px 0;border-bottom:1px solid #eee;font-size:13px}
-  </style></head><body>
+  
+/* ── Árbol Conceptual (ct-) ────────────────────────── */
+.ct-wrap{margin-top:20px}
+.ct-section-title{font-size:12px;font-weight:700;color:var(--text2);letter-spacing:.08em;
+  text-transform:uppercase;margin:18px 0 8px;padding-bottom:4px;border-bottom:1px solid var(--border)}
+.ct-node{border-radius:var(--r);overflow:hidden;margin-bottom:4px}
+.ct-node-header{
+  display:flex;align-items:center;gap:8px;padding:9px 12px;
+  cursor:pointer;background:var(--card);border:1px solid var(--border);
+  border-radius:var(--r);transition:background var(--tr);user-select:none;
+}
+.ct-node-header:hover{background:var(--card2)}
+.ct-node-header.ct-open{border-bottom-left-radius:0;border-bottom-right-radius:0;border-bottom-color:transparent}
+.ct-toggle{font-size:13px;color:var(--text2);width:16px;flex-shrink:0;text-align:center}
+.ct-label{flex:1;font-size:13px;font-weight:600;color:var(--text)}
+.ct-count{font-size:11px;font-family:var(--mono);color:var(--text2);
+  background:var(--card2);border:1px solid var(--border);padding:2px 7px;border-radius:4px;flex-shrink:0}
+.ct-body{
+  display:none;padding:10px 12px 12px;
+  background:var(--card);border:1px solid var(--border);border-top:none;
+  border-bottom-left-radius:var(--r);border-bottom-right-radius:var(--r);
+}
+.ct-node.ct-open .ct-body{display:block}
+.ct-node.ct-open .ct-node-header{background:var(--card2)}
+.ct-sub-item{
+  display:flex;align-items:center;gap:8px;padding:5px 6px;
+  border-radius:6px;cursor:pointer;transition:background var(--tr);
+}
+.ct-sub-item:hover{background:var(--card2)}
+.ct-sub-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.ct-sub-label{font-size:12px;color:var(--text);flex:1}
+.ct-sub-count{font-size:11px;color:var(--text2);font-family:var(--mono)}
+.ct-study-btn{
+  margin-top:10px;width:100%;padding:7px;border-radius:var(--r);
+  border:none;background:var(--blue);color:#fff;
+  font-size:12px;font-weight:600;cursor:pointer;transition:opacity .2s;
+}
+.ct-study-btn:hover{opacity:.85}
+.ct-export-btn{
+  margin-top:12px;width:100%;padding:8px;border-radius:var(--r);
+  border:1px solid var(--border);background:var(--card2);color:var(--text);
+  font-size:12px;font-weight:600;cursor:pointer;display:flex;align-items:center;
+  justify-content:center;gap:6px;transition:background var(--tr);
+}
+.ct-export-btn:hover{background:var(--card)}
+
+
+/* ── Bibliografía (bib-) ─────────────────────────── */
+.bib-wrap{margin-top:0}
+.bib-mod-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);margin-bottom:10px;overflow:hidden}
+.bib-mod-header{display:flex;align-items:center;gap:10px;padding:11px 14px;cursor:pointer;transition:background var(--tr)}
+.bib-mod-header:hover{background:var(--card2)}
+.bib-mod-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.bib-mod-title{flex:1;font-size:13px;font-weight:700;color:var(--text)}
+.bib-mod-chevron{font-size:12px;color:var(--text2);transition:transform .2s}
+.bib-mod-body{display:none;padding:4px 14px 14px}
+.bib-mod-card.bib-open .bib-mod-body{display:block}
+.bib-mod-card.bib-open .bib-mod-header{background:var(--card2)}
+.bib-item{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);font-size:12px;line-height:1.5}
+.bib-item:last-child{border-bottom:none}
+.bib-item-icon{flex-shrink:0;margin-top:1px;font-size:13px}
+.bib-item-text{flex:1;color:var(--text)}
+.bib-item-link{display:inline-flex;align-items:center;gap:4px;margin-top:4px;font-size:11px;color:var(--blue);text-decoration:none;opacity:.85}
+.bib-item-link:hover{opacity:1;text-decoration:underline}
+.bib-badge{font-size:10px;padding:1px 6px;border-radius:3px;background:var(--card2);color:var(--text2);border:1px solid var(--border);margin-left:6px;vertical-align:middle}
+
+
+/* Mimi sidebar panel radar */
+.mimi-bar-row{display:flex;align-items:center;gap:6px;margin-bottom:4px}
+.mimi-bar-label{font-size:10px;color:var(--text2);width:72px;flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mimi-bar-track{flex:1;height:5px;background:var(--border2);border-radius:3px;overflow:hidden}
+.mimi-bar-fill{height:100%;border-radius:3px;transition:width .5s ease}
+.mimi-bar-pct{font-size:10px;font-family:var(--mono);color:var(--text2);width:26px;text-align:right;flex-shrink:0}
+.cntd-card{display:none;margin-bottom:16px}
+.cntd-inner{display:flex;align-items:center;gap:12px}
+.cntd-days{font-size:36px;font-weight:800;font-family:var(--mono);color:var(--blue);line-height:1}
+.cntd-label{font-size:12px;color:var(--text2);margin-top:2px}
+.cntd-date{font-size:11px;color:var(--text2);margin-top:1px}
+.cntd-ring{width:56px;height:56px;flex-shrink:0;margin-left:auto}
+/* ── Confidence Simulator ─────────── */
+.conf-row{display:flex;align-items:center;gap:8px;margin-bottom:7px}
+.conf-name{font-size:12px;color:var(--text);flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.conf-range{width:90px;accent-color:var(--blue);flex-shrink:0}
+.conf-star{font-size:12px;width:22px;text-align:center;font-weight:700;flex-shrink:0}
+.hm-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:5px;margin-top:8px}
+@media(min-width:500px){.hm-grid{grid-template-columns:repeat(4,1fr)}}
+.hm-cell{padding:7px 6px;border-radius:6px;text-align:center;border:1px solid transparent}
+.hm-cell-label{font-size:10px;font-weight:600;line-height:1.3}
+.hm-cell-val{font-size:13px;margin-top:2px}
+/* ── Tree sources panel ───────────── */
+.ct-src-panel{margin-top:10px;padding:9px 12px;background:var(--card2);border-left:3px solid var(--gold);border-radius:var(--r)}
+.ct-src-title{font-size:10px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+.ct-src-item{font-size:11px;color:var(--text2);padding:2px 0;display:flex;gap:6px;align-items:baseline}
+.ct-src-item a{color:var(--blue);font-size:11px;text-decoration:none}
+.ct-src-item a:hover{text-decoration:underline}
+</style></head><body>
   <h1>📝 CNV Idoneidad — Resultado de Examen</h1>
   <p>Fecha: ${last.date}</p>
   <div class="s ${last.score>=70?'ok':'bad'}">${last.score}%</div>
@@ -3677,7 +4610,8 @@ function getCompetencyPct(mods) {
 }
 
 function renderRadar(highlightMi) {
-  const el = $('ai-radar');
+  const el = $('dash-radar-content');
+  if (!el) return;
   const rows = COMPETENCIES.map(c => {
     const pct = getCompetencyPct(c.mods);
     const isActive = c.mods.includes(highlightMi);
@@ -3695,13 +4629,21 @@ function renderRadar(highlightMi) {
   const totalPct = TOTAL_Q > 0 ? Math.round(totalSeen / TOTAL_Q * 100) : 0;
 
   el.innerHTML = `
-    <div class="radar-title">📊 Mapa de Progreso por Competencias</div>
     ${rows}
     <div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--border);display:flex;justify-content:space-between;font-size:11px">
       <span style="color:var(--text2)">Progreso global</span>
       <span style="font-family:var(--mono);font-weight:700;color:var(--blue)">${totalPct}% (${totalSeen}/${TOTAL_Q})</span>
     </div>`;
-  el.style.display = 'block';
+  // If radar card is open, keep it open; otherwise leave collapsed
+}
+
+function toggleDashRadar() {
+  const content = $('dash-radar-content');
+  const chevron = $('dash-radar-chevron');
+  const isOpen = content.style.display !== 'none';
+  content.style.display = isOpen ? 'none' : 'block';
+  chevron.textContent = isOpen ? '▸' : '▾';
+  if (!isOpen) renderRadar(-1); // render without highlight when opening from dashboard
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -3860,6 +4802,369 @@ function buildMorningPlan() {
     ${todayAnswered > 0 ? `<div style="margin-top:8px;font-size:11px;color:var(--green)">✓ Ya respondiste ${todayAnswered} preguntas hoy.</div>` : ''}
   `;
   card.style.display = 'block';
+}
+
+
+
+// ── Árbol Conceptual ────────────────────────────────
+const CT_DATA = {"OPA": {"mi": 0, "qis": [5, 16, 18, 24, 25, 27, 28, 29, 44, 60]}, "Oferta Pública / Prospecto": {"mi": 0, "qis": [4, 6, 10, 13, 32, 35, 51, 56, 62, 66, 67, 68]}, "Emisor Frecuente / PyME CNV": {"mi": 0, "qis": [9, 30, 31, 50, 52, 57, 64, 70, 71, 72, 74, 75, 76, 77, 78, 118, 119]}, "Sanciones y Sumarios CNV": {"mi": 0, "qis": [8, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101]}, "Control Societario CNV": {"mi": 0, "qis": [3, 22, 40, 41, 42, 48, 49, 58, 59, 103, 106, 107]}, "Etapas del Lavado": {"mi": 1, "qis": [0, 1, 17, 31, 37, 56]}, "Sujetos Obligados": {"mi": 1, "qis": [6, 41, 42, 50, 69, 70]}, "PEP y Debida Diligencia": {"mi": 1, "qis": [8, 15, 27, 40, 43, 49, 60, 61, 84, 85]}, "ROS y Plazos": {"mi": 1, "qis": [4, 5, 19, 23, 34, 35, 36, 44, 47, 48, 93]}, "Oficial de Cumplimiento": {"mi": 1, "qis": [39, 41, 75, 76, 78, 79, 80, 81]}, "Activos Virtuales / PSAV": {"mi": 1, "qis": [83, 86, 89, 91]}, "Hechos Relevantes": {"mi": 2, "qis": [3, 11, 21, 22, 54, 77, 80, 81, 98]}, "Insider Trading": {"mi": 2, "qis": [1, 13, 30, 39, 46, 47, 50, 57]}, "Gobierno Corporativo": {"mi": 2, "qis": [8, 17, 82, 83, 84, 85, 86, 87, 88, 93, 101, 102]}, "Idoneidad y Registro": {"mi": 2, "qis": [59, 60, 61, 62, 65, 66, 70, 71, 73]}, "Atención al Inversor": {"mi": 2, "qis": [5, 7, 14, 20, 27, 29, 40, 42, 58, 67, 68, 92, 99]}, "Estados Financieros NIIF": {"mi": 3, "qis": [18, 23, 57, 59, 60, 61, 63, 64, 66, 67, 68, 71, 122, 123, 132]}, "Ratios Financieros": {"mi": 3, "qis": [37, 38, 39, 40, 41, 42, 48, 49, 55, 103, 104]}, "Auditoría Externa": {"mi": 3, "qis": [20, 21, 28, 33, 34, 35, 36, 43, 44, 47, 50, 51, 52, 53, 54, 65, 69, 70, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 130, 131]}, "Bonos y Renta Fija": {"mi": 3, "qis": [2, 3, 101, 113, 115, 116, 117]}, "Futuros y Opciones": {"mi": 3, "qis": [12, 13, 14, 15, 16, 17, 105, 106, 108, 109, 110, 111, 112, 118]}, "Agentes y Categorías": {"mi": 4, "qis": [0, 1, 2, 3, 4, 5, 26, 38, 48, 60, 61, 62, 63, 64, 65, 66]}, "Caución y Pase": {"mi": 4, "qis": [42, 43, 44, 74, 75, 76, 77, 91, 92, 93, 94, 95, 100]}, "Futuros ROFEX": {"mi": 4, "qis": [12, 45, 46, 101]}, "Opciones": {"mi": 4, "qis": [13, 15, 16, 102, 103]}, "CPD y FCE": {"mi": 4, "qis": [49, 50, 51, 52, 53, 54, 67]}, "Suscripción de Acciones": {"mi": 4, "qis": [85, 86, 87, 88, 89, 90]}, "FCI Abiertos": {"mi": 5, "qis": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 14, 15, 16, 17, 31, 32, 34, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 52, 53, 55]}, "FCI Cerrados": {"mi": 5, "qis": [33, 35, 54, 56, 57, 58, 59, 60, 61, 62]}, "Fideicomiso Financiero": {"mi": 5, "qis": [18, 19, 20, 21, 22, 23, 24, 25, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105]}};
+
+const CT_ALL = {
+  "Marco Normativo CNV": [],
+};
+
+function ctToggle(id) {
+  const node = document.getElementById(id);
+  const icon = document.getElementById(id+'-icon');
+  if (!node) return;
+  node.classList.toggle('ct-open');
+  icon.textContent = node.classList.contains('ct-open') ? '－' : '＋';
+}
+
+function ctStudy(mi, qis, label) {
+  if (!qis || !qis.length) { toast('Sin preguntas para este tema'); return; }
+  const mod = MODULES[mi];
+  if (!mod) return;
+  curBlockMi = mi; curBlockBi = -1;
+  bqQs = qis.map(qi => {
+    const [num,q,a,opts] = mod.questions[qi];
+    return {qi, num, q, a, opts: opts||[], mi};
+  }).sort(() => Math.random() - 0.5);
+  bqIndex=0; bqAnswered=new Array(bqQs.length).fill(null); bqOk=0; bqBad=0;
+  $('qh-tag').textContent = 'Árbol Conceptual · M'+(mi+1);
+  $('qh-title').textContent = '📚 ' + label + ' — ' + bqQs.length + ' preguntas';
+  $('qh-ok').textContent = '✓ 0';
+  $('qh-bad').textContent = '✗ 0';
+  $('quiz-result').style.display='none';
+  $('quiz-nav-fixed').style.display='none';
+  navigate('quiz');
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  $('quiz-view').classList.add('active');
+  renderQuestion();
+}
+
+function ctStudyAll(nodeId) {
+  // Collect all qis from all children within this node
+  const body = document.querySelector('#'+nodeId+' .ct-body');
+  if (!body) return;
+  const items = body.querySelectorAll('.ct-sub-item');
+  // Each item has onclick with ctStudy args - we re-collect from CT_DATA
+  // instead, collect all subtopics visible under this node
+  let allQs = [];
+  items.forEach(item => {
+    const onclick = item.getAttribute('onclick');
+    if (!onclick) return;
+    const match = onclick.match(/ctStudy\((\d+),(\[[^\]]+\]),'([^']+)'\)/);
+    if (!match) return;
+    const mi = parseInt(match[1]);
+    const qis = JSON.parse(match[2]);
+    const mod = MODULES[mi];
+    if (!mod) return;
+    qis.forEach(qi => {
+      const [num,q,a,opts] = mod.questions[qi];
+      allQs.push({qi, num, q, a, opts: opts||[], mi});
+    });
+  });
+  if (!allQs.length) { toast('Sin preguntas'); return; }
+  // Deduplicate
+  const seen = new Set();
+  allQs = allQs.filter(q => {
+    const k = q.mi+'_'+q.qi;
+    if (seen.has(k)) return false;
+    seen.add(k); return true;
+  }).sort(() => Math.random() - 0.5);
+  curBlockMi = -1; curBlockBi = -1;
+  bqQs = allQs;
+  bqIndex=0; bqAnswered=new Array(bqQs.length).fill(null); bqOk=0; bqBad=0;
+  $('qh-tag').textContent = 'Árbol Conceptual';
+  $('qh-title').textContent = '📚 Todos los temas — ' + bqQs.length + ' preguntas';
+  $('qh-ok').textContent = '✓ 0';
+  $('qh-bad').textContent = '✗ 0';
+  $('quiz-result').style.display='none';
+  $('quiz-nav-fixed').style.display='none';
+  navigate('quiz');
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  $('quiz-view').classList.add('active');
+  renderQuestion();
+}
+
+function ctExportPDF() {
+  // Expand all nodes first
+  document.querySelectorAll('.ct-node').forEach(n => {
+    n.classList.add('ct-open');
+    const icon = n.querySelector('.ct-toggle');
+    if (icon) icon.textContent = '－';
+  });
+  // Use window.print with a print-specific style
+  const style = document.createElement('style');
+  style.id = 'ct-print-style';
+  style.textContent = `
+    @media print {
+      body > * { display: none !important; }
+      #ct-print-container { display: block !important; }
+    }
+  `;
+  document.head.appendChild(style);
+  
+  const container = document.createElement('div');
+  container.id = 'ct-print-container';
+  container.style.cssText = 'display:none;position:fixed;top:0;left:0;width:100%;z-index:99999;background:#fff;padding:20px';
+  container.innerHTML = '<h2 style="font-family:sans-serif;margin-bottom:16px">📚 Árbol Conceptual CNV</h2>' + ($('ct-wrap') ? $('ct-wrap').innerHTML : '');
+  document.body.appendChild(container);
+  
+  window.print();
+  
+  setTimeout(() => {
+    document.body.removeChild(container);
+    document.head.removeChild(style);
+  }, 1000);
+}
+
+
+function ctToggleSection() {
+  const body = document.getElementById('ct-section-body');
+  const chevron = document.getElementById('ct-section-chevron');
+  if (!body) return;
+  const isOpen = body.style.display !== 'none';
+  body.style.display = isOpen ? 'none' : 'block';
+  chevron.textContent = isOpen ? '▸' : '▾';
+}
+
+
+
+function bibToggle(id) {
+  const card = document.getElementById(id);
+  if (!card) return;
+  card.classList.toggle('bib-open');
+  const idx = id.split('-').pop();
+  const chev = document.getElementById('bib-chev-'+idx);
+  if (chev) chev.textContent = card.classList.contains('bib-open') ? '▾' : '▸';
+}
+
+
+// ═══════════════════════════════════════════════════════
+// COUNTDOWN
+// ═══════════════════════════════════════════════════════
+function mimiExpand() {
+  const exp = $('mimi-expanded');
+  if (exp) exp.style.display = 'block';
+}
+function mimiCollapse() {
+  const exp = $('mimi-expanded');
+  if (exp) exp.style.display = 'none';
+}
+
+function buildMimiPanel() {
+  const saved = localStorage.getItem(SK('examDate'));
+  const daysEl = $('mimi-days');
+  const dateEl = $('mimi-date');
+
+  if (saved) {
+    const exam = new Date(saved + 'T12:00:00');
+    const now  = new Date(); now.setHours(0,0,0,0);
+    const days = Math.ceil((exam - now) / 86400000);
+
+    if (days > 0) {
+      if (daysEl) {
+        daysEl.textContent = days;
+        daysEl.style.color = days <= 7 ? 'var(--red)' : days <= 30 ? 'var(--orange)' : 'var(--blue)';
+      }
+      if (dateEl) dateEl.textContent = '📅 ' + exam.toLocaleDateString('es-AR',{day:'numeric',month:'long',year:'numeric'});
+      const cntd = $('mimi-countdown');
+      if (cntd) cntd.style.display = 'none'; // hide the fallback msg
+    } else {
+      if (daysEl) { daysEl.textContent = '✓'; daysEl.style.color = 'var(--green)'; }
+      if (dateEl) dateEl.textContent = '¡Día del examen!';
+    }
+  } else {
+    if (daysEl) daysEl.textContent = '—';
+    if (dateEl) dateEl.textContent = '';
+    const cntd = $('mimi-countdown');
+    if (cntd) cntd.style.display = 'block'; // show fallback
+  }
+}
+
+function buildCountdown() {
+  const saved = localStorage.getItem(SK('examDate'));
+  const card  = $('dash-countdown-card');
+  if (!saved || !card) return;
+  const exam = new Date(saved + 'T12:00:00');
+  const now  = new Date(); now.setHours(0,0,0,0);
+  const days = Math.ceil((exam - now) / 86400000);
+  if (days <= 0) { card.style.display='none'; return; }
+  card.style.display = 'block';
+  const daysEl = $('cntd-days');
+  const dateEl = $('cntd-date');
+  if (daysEl) {
+    daysEl.textContent = days;
+    daysEl.style.color = days <= 7 ? 'var(--red)' : days <= 30 ? 'var(--orange)' : 'var(--blue)';
+  }
+  if (dateEl) dateEl.textContent = exam.toLocaleDateString('es-AR',{day:'numeric',month:'long',year:'numeric'});
+}
+
+// ═══════════════════════════════════════════════════════
+// CONFIDENCE SIMULATOR
+// Topics come directly from guide temarios
+// ═══════════════════════════════════════════════════════
+const CONF_TOPICS = [
+  // M1 — Marco Normativo
+  {label:'Marco Normativo CNV', mi:0},
+  {label:'OPA y Oferta Pública', mi:0},
+  {label:'Sanciones y Sumarios', mi:0},
+  {label:'Emisoras y PyME CNV', mi:0},
+  // M2 — PLD
+  {label:'Etapas del Lavado', mi:1},
+  {label:'Sujetos Obligados', mi:1},
+  {label:'PEP y Debida Diligencia', mi:1},
+  {label:'ROS y Plazos UIF', mi:1},
+  {label:'Oficial de Cumplimiento', mi:1},
+  // M3 — Transparencia
+  {label:'Hechos Relevantes', mi:2},
+  {label:'Gobierno Corporativo', mi:2},
+  {label:'Insider Trading', mi:2},
+  {label:'Idoneidad CNV', mi:2},
+  // M4 — Contabilidad
+  {label:'NIIF / Estados Financieros', mi:3},
+  {label:'Auditoría Externa', mi:3},
+  {label:'Ratios Financieros', mi:3},
+  {label:'Bonos y Duration', mi:3},
+  {label:'Futuros y Opciones', mi:3},
+  // M5 — Agentes
+  {label:'Categorías de Agentes', mi:4},
+  {label:'Caución y Pase', mi:4},
+  {label:'CPD / FCE / Pagaré', mi:4},
+  {label:'Suscripción de Acciones', mi:4},
+  // M6 — Inversión Colectiva
+  {label:'FCI Abiertos', mi:5},
+  {label:'FCI Cerrados', mi:5},
+  {label:'Fideicomiso Financiero', mi:5},
+];
+
+const CONF_COLORS = ['','#f05070','#f08040','#f0c040','#60b040','#22d3a0'];
+const CONF_BG     = ['','rgba(240,80,112,.15)','rgba(240,128,64,.15)','rgba(240,192,64,.15)','rgba(96,176,64,.15)','rgba(34,211,160,.15)'];
+const CONF_STARS  = ['','★☆☆☆☆','★★☆☆☆','★★★☆☆','★★★★☆','★★★★★'];
+
+function confToggle() {
+  const body = $('conf-body');
+  const chev = $('conf-chev');
+  if (!body) return;
+  const open = body.style.display !== 'none';
+  body.style.display = open ? 'none' : 'block';
+  chev.textContent = open ? '▸' : '▾';
+  if (!open) confBuildSliders();
+}
+
+function confBuildSliders() {
+  const saved = JSON.parse(localStorage.getItem(SK('confidence')) || '{}');
+  const el = $('conf-sliders');
+  if (!el) return;
+  el.innerHTML = CONF_TOPICS.map((t, i) => {
+    const v = saved[i] !== undefined ? saved[i] : 3;
+    return `<div class="conf-row">
+      <span class="conf-name">M${t.mi+1} · ${t.label}</span>
+      <input type="range" class="conf-range" min="1" max="5" value="${v}"
+        oninput="confSave(${i},+this.value);$('cstar${i}').textContent=${JSON.stringify(CONF_STARS)}[+this.value];$('cstar${i}').style.color=${JSON.stringify(CONF_COLORS)}[+this.value]">
+      <span class="conf-star" id="cstar${i}" style="color:${CONF_COLORS[v]}">${CONF_STARS[v]}</span>
+    </div>`;
+  }).join('');
+}
+
+function confSave(i, val) {
+  const saved = JSON.parse(localStorage.getItem(SK('confidence')) || '{}');
+  saved[i] = val;
+  localStorage.setItem(SK('confidence'), JSON.stringify(saved));
+}
+
+function confBuildHeatmap() {
+  const saved = JSON.parse(localStorage.getItem(SK('confidence')) || '{}');
+  const hm = $('conf-heatmap');
+  if (!hm) return;
+  hm.style.display = 'block';
+  const weak = CONF_TOPICS.filter((_,i) => (saved[i]||3) <= 2).map(t=>t.label);
+  const strong = CONF_TOPICS.filter((_,i) => (saved[i]||3) >= 4).map(t=>t.label);
+  hm.innerHTML = `
+    <div style="font-size:11px;color:var(--text2);margin-bottom:8px;font-weight:600">
+      🟢 Verde = fuerte &nbsp;·&nbsp; 🔴 Rojo = reforzar
+    </div>
+    <div class="hm-grid">
+      ${CONF_TOPICS.map((t,i) => {
+        const v = saved[i] || 3;
+        return `<div class="hm-cell" style="background:${CONF_BG[v]};border-color:${CONF_COLORS[v]}44">
+          <div class="hm-cell-label" style="color:${CONF_COLORS[v]}">${t.label}</div>
+          <div class="hm-cell-val">${CONF_STARS[v]}</div>
+        </div>`;
+      }).join('')}
+    </div>
+    ${weak.length ? `<div style="margin-top:8px;font-size:11px;color:var(--red)">⚠️ A reforzar: <strong>${weak.join(', ')}</strong></div>` : ''}
+    ${strong.length ? `<div style="margin-top:4px;font-size:11px;color:var(--green)">✅ Puntos fuertes: <strong>${strong.join(', ')}</strong></div>` : ''}`;
+}
+
+// ═══════════════════════════════════════════════════════
+// TREE + BIBLIOGRAPHY SOURCES (from guide only)
+// Each ctStudy topic linked to its guide bibliography
+// ═══════════════════════════════════════════════════════
+const CT_TOPIC_SOURCES = {
+  // M1 sources (Ley 26.831, Normas CNV, CCyCN, L19550, L23576, D1087, L24467)
+  'OPA':                    ['Ley 26.831 – Arts. 87 a 97','Normas CNV N.T. 2013 – Título III'],
+  'Oferta Pública / Prospecto': ['Ley 26.831 – Arts. 2 y 14','Normas CNV N.T. 2013 – Títulos II y III','Ley 23.576 de Obligaciones Negociables'],
+  'Emisor Frecuente / PyME CNV': ['Ley 26.831','Ley 24.467 de PyME','Normas CNV N.T. 2013 – Título II'],
+  'Sanciones y Sumarios CNV': ['Ley 26.831 – Título VIII (arts. 132 y ss.)','Normas CNV N.T. 2013 – Título XVI'],
+  'Control Societario CNV': ['Ley 26.831 – Art. 19','Ley 19.550 – Arts. 255, 269 y 280','Código Civil y Comercial – Art. 146'],
+  // M2 sources (L25246, L26831, Normas XI, D918, Res. UIF, L27739, GAFI)
+  'Etapas del Lavado':        ['Ley 25.246 – Arts. 278 y 303 Cód. Penal','Las 40 Recomendaciones FATF-GAFI'],
+  'Sujetos Obligados':        ['Ley 25.246 – Art. 20','Normas CNV N.T. 2013 – Título XI','Resolución UIF 78/2023'],
+  'PEP y Debida Diligencia':  ['Resolución UIF 192/2024 – PEPs','Resolución UIF 78/2023','Decreto 918/2012'],
+  'ROS y Plazos':             ['Resolución UIF 29/2013','Resolución UIF 56/2024','Ley 25.246 – Art. 21'],
+  'Oficial de Cumplimiento':  ['Resolución UIF 78/2023','Normas CNV N.T. 2013 – Título XI','Resolución UIF 72/2023'],
+  'Activos Virtuales / PSAV': ['Ley 27.739 – Modificaciones al Código Penal','Normas CNV N.T. 2013'],
+  // M3 sources (Normas XII, XIII, L26831, L19550)
+  'Hechos Relevantes':        ['Normas CNV N.T. 2013 – Título IV (Cap. II)','Ley 26.831 – Art. 99'],
+  'Insider Trading':          ['Ley 26.831 – Art. 117','Normas CNV N.T. 2013 – Título XII'],
+  'Gobierno Corporativo':     ['Normas CNV N.T. 2013 – Título XII','Ley 19.550 – Art. 272','Ley 26.831 – Art. 110'],
+  'Idoneidad y Registro':     ['Normas CNV N.T. 2013 – Título XIII (Cap. I)','Ley 26.831 – Art. 19 inc. k)'],
+  'Atención al Inversor':     ['Normas CNV N.T. 2013 – Título XIII','Ley 26.831'],
+  // M4 sources (RT37, NIIF, L26831, L19550, L23576, IAMC, ROFEX)
+  'Estados Financieros NIIF': ['Normas CNV N.T. 2013 – Título IV (Cap. I y III)','Ley 26.831 – Arts. 104 a 108','IAMC – Manual Caps. 6 y 12'],
+  'Ratios Financieros':       ['Normas CNV N.T. 2013 – Título IV','IAMC – Manual Cap. 13'],
+  'Auditoría Externa':        ['Resolución Técnica N° 37 – FACPCE','Ley 26.831 – Título III Cap. V Secc. III','Normas CNV N.T. 2013 – Título II Cap. III'],
+  'Bonos y Renta Fija':       ['Ley 23.576 – Art. 10','IAMC – Manual Cap. 6'],
+  'Futuros y Opciones':       ['Ley 26.831','ROFEX – Operaciones con Futuros','ROFEX – Estrategias con Futuros y Opciones','Manual MATBA – Futuros y Opciones'],
+  // M5 sources (L26831, L27440, Normas VI-IX, IAMC, ROFEX)
+  'Agentes y Categorías':     ['Ley 26.831 – Arts. 47 a 50 y Título II','Normas CNV N.T. 2013 – Títulos VII y VIII'],
+  'Caución y Pase':           ['Normas CNV N.T. 2013 – Título VI','IAMC – Manual Cap. 7'],
+  'Futuros ROFEX':            ['Ley 26.831','ROFEX – Operaciones con Futuros','Manual MATBA – Futuros y Opciones'],
+  'Opciones':                 ['Ley 26.831','ROFEX – Estrategias con Futuros y Opciones'],
+  'CPD y FCE':                ['Ley 27.440 – Arts. 1 a 25','Normas CNV N.T. 2013 – Título VI'],
+  'Suscripción de Acciones':  ['Ley 26.831 – Arts. 99 y 100','Ley 19.550','Normas CNV N.T. 2013'],
+  // M6 sources (L24083, Normas Título V, CCyCN, L24441, IAMC)
+  'FCI Abiertos':             ['Ley 24.083 de FCI','Normas CNV N.T. 2013 – Título V (Caps. I a X)','IAMC – Manual Cap. 6'],
+  'FCI Cerrados':             ['Ley 24.083 de FCI','Normas CNV N.T. 2013 – Título V'],
+  'Fideicomiso Financiero':   ['Ley 24.441 – parte no derogada','Código Civil y Comercial – Cap. 30','Normas CNV N.T. 2013 – Título II Cap. IX y Título VI Cap. IV'],
+};
+
+// Inject sources panel into ctStudy and ctStudyAll flows
+const _origCtStudy = ctStudy;
+function ctStudy(mi, qis, label) {
+  _origCtStudy(mi, qis, label);
+  setTimeout(() => ctInjectSources(label), 100);
+}
+
+function ctInjectSources(label) {
+  const sources = CT_TOPIC_SOURCES[label];
+  if (!sources || !sources.length) return;
+  // Find the quiz body area and inject after qh-title
+  const panel = document.createElement('div');
+  panel.className = 'ct-src-panel';
+  panel.id = 'ct-src-panel-active';
+  panel.innerHTML = `<div class="ct-src-title">📎 Fuentes oficiales consultadas (Guía CNV)</div>` +
+    sources.map(s => `<div class="ct-src-item"><span>·</span><span>${s}</span></div>`).join('');
+  // Insert after quiz header
+  const qhStats = document.querySelector('.qh-stats');
+  if (qhStats) {
+    const existing = document.getElementById('ct-src-panel-active');
+    if (existing) existing.remove();
+    qhStats.parentNode.insertBefore(panel, qhStats.nextSibling);
+  }
 }
 
 </script>
