@@ -1287,7 +1287,7 @@ canvas.chart{width:100%;display:block;border-radius:8px}
         <div class="quiz-feedback" id="q-feedback"></div>
         <div class="flag-row">
           <button class="flag-btn" id="flag-btn" onclick="toggleFlag()">🚩 Marcar difícil</button>
-          <span style="font-size:11px;color:var(--muted)">Guardada en "Marcadas"</span>
+          <button class="flag-btn" id="fav-btn" onclick="toggleFav()" style="margin-left:8px">☆ Favorita</button>
         </div>
         <!-- Tabs: Notas / IA -->
         <div class="ai-panel-tabs">
@@ -1472,9 +1472,11 @@ canvas.chart{width:100%;display:block;border-radius:8px}
       <div style="display:flex;gap:8px;margin-bottom:14px">
         <button class="ai-tab-btn active" id="notes-tab-btn-manual" onclick="switchNotesTab('manual')">📝 Mis notas</button>
         <button class="ai-tab-btn" id="notes-tab-btn-ai" onclick="switchNotesTab('ai')">✨ Explicaciones IA</button>
+        <button class="ai-tab-btn" id="notes-tab-btn-favs" onclick="switchNotesTab('favs')">⭐ Favoritas</button>
       </div>
       <div id="notes-list"></div>
       <div id="ai-explanations-list" style="display:none"></div>
+      <div id="favs-list" style="display:none"></div>
     </div>
 
     <!-- HISTORY -->
@@ -2174,6 +2176,7 @@ let notesSaved   = {};
 let aiExplanations = {};
 let fcHistory = [];
 let flagged      = new Set();
+let favorites    = new Set();
 let pomDone      = 0;
 let pomMinToday  = 0;
 
@@ -2185,6 +2188,7 @@ function loadAll() {
   notesSaved   = JSON.parse(localStorage.getItem(SK('notes'))     || '{}');
   aiExplanations = JSON.parse(localStorage.getItem(SK('aiexp'))   || '{}');
   fcHistory = JSON.parse(localStorage.getItem(SK('fcHist')) || '[]');
+  favorites    = new Set(JSON.parse(localStorage.getItem(SK('favs'))  || '[]'));
   const fl     = JSON.parse(localStorage.getItem(SK('flagged'))   || '[]');
   flagged      = new Set(fl);
   pomDone      = parseInt(localStorage.getItem(SK('pomDone'))     || '0');
@@ -2199,6 +2203,7 @@ function saveAll() {
   localStorage.setItem(SK('aiexp'),      JSON.stringify(aiExplanations));
   localStorage.setItem(SK('fcHist'),     JSON.stringify(fcHistory));
   localStorage.setItem(SK('flagged'),    JSON.stringify([...flagged]));
+  localStorage.setItem(SK('favs'),       JSON.stringify([...favorites]));
   localStorage.setItem(SK('pomDone'),    pomDone);
   localStorage.setItem(SK('pomMinToday'),pomMinToday);
   if (currentUser) scheduleSave(); // sync to cloud
@@ -2550,6 +2555,9 @@ function renderQuestion() {
   fb2.classList.toggle('flagged', flagged.has(fk));
   fb2.textContent = flagged.has(fk) ? '🚩 Marcada' : '🚩 Marcar difícil';
 
+  // Fav state
+  updateFavBtn();
+
   // Note
   const noteEl = $('note-input');
   noteEl.value = notesSaved[fk] || '';
@@ -2559,8 +2567,7 @@ function renderQuestion() {
   switchAiTab('notes');
   $('ai-response').style.display = 'none';
   $('ai-response').textContent = '';
-  $('ai-radar').style.display = 'none';
-  $('ai-audio').style.display = 'none';
+  if ($('ai-audio')) $('ai-audio').style.display = 'none';
   $('ai-ask-btn').disabled = false;
 }
 
@@ -2860,7 +2867,7 @@ IMPORTANTE: No inventes normas, leyes ni artículos. Si no hay norma explícita,
     $('ai-response').style.display = 'block';
 
     // Refresh radar in dashboard if it's open
-    if ($('dash-radar-content').style.display !== 'none') {
+    if ($('dash-radar-content') && $('dash-radar-content').style.display !== 'none') {
       renderRadar(q.mi);
     }
 
@@ -3253,12 +3260,15 @@ function removeFlagged(fk) {
 // NOTES
 // ═══════════════════════════════════════════════════════════
 function switchNotesTab(tab) {
-  ['manual','ai'].forEach(t => {
-    $('notes-tab-btn-'+t).classList.toggle('active', t===tab);
+  ['manual','ai','favs'].forEach(t => {
+    const btn = $('notes-tab-btn-'+t);
+    if (btn) btn.classList.toggle('active', t===tab);
   });
   $('notes-list').style.display = tab==='manual' ? 'block' : 'none';
   $('ai-explanations-list').style.display = tab==='ai' ? 'block' : 'none';
+  if ($('favs-list')) $('favs-list').style.display = tab==='favs' ? 'block' : 'none';
   if (tab==='ai') buildAiExplanations();
+  if (tab==='favs') buildFavs();
 }
 
 function buildAiExplanations() {
@@ -4172,9 +4182,10 @@ async function loadFromCloud() {
   try {
     const uid = currentUser.id;
 
-    // Load mastery
+    // Load mastery — merge with local (local wins for unsync'd answers)
     const { data: prog } = await sbClient.from('user_progress').select('*').eq('user_id', uid);
     if (prog && prog.length) {
+      const localMastery = {...masteryData}; // save local before overwrite
       masteryData = {};
       prog.forEach(r => {
         masteryData[mKey(r.module_id, r.question_idx)] = {
@@ -4182,13 +4193,28 @@ async function loadFromCloud() {
           errors: r.errors, lastSeen: r.last_seen
         };
       });
+      // Restore any local entries with more attempts (not yet synced to cloud)
+      Object.entries(localMastery).forEach(([k, local]) => {
+        const cloud = masteryData[k];
+        if (!cloud || local.attempts > cloud.attempts) {
+          masteryData[k] = local;
+        }
+      });
     }
 
-    // Load daily stats
+    // Load daily stats — preserve local today if higher (avoids sync overwrite)
     const { data: daily } = await sbClient.from('daily_stats').select('*').eq('user_id', uid);
     if (daily && daily.length) {
+      const localToday = dailyStats[today()] || null; // save before overwrite
       dailyStats = {};
       daily.forEach(r => { dailyStats[r.date] = { answered: r.answered, pct: r.pct }; });
+      // Restore today's local value if it's higher than cloud (not yet synced)
+      if (localToday) {
+        const cloudToday = dailyStats[today()];
+        if (!cloudToday || localToday.answered > cloudToday.answered) {
+          dailyStats[today()] = localToday;
+        }
+      }
     }
 
     // Load notes
@@ -4640,6 +4666,7 @@ function renderRadar(highlightMi) {
 function toggleDashRadar() {
   const content = $('dash-radar-content');
   const chevron = $('dash-radar-chevron');
+  if (!content) return;
   const isOpen = content.style.display !== 'none';
   content.style.display = isOpen ? 'none' : 'block';
   chevron.textContent = isOpen ? '▸' : '▾';
@@ -4702,6 +4729,66 @@ function saveErrNote(fk) {
   }
   toast('✓ Nota guardada');
 }
+
+function toggleFav() {
+  const q = bqQs[bqIndex];
+  if (!q) return;
+  const fk = `${q.mi}_${q.qi}`;
+  if (favorites.has(fk)) {
+    favorites.delete(fk);
+    toast('☆ Quitada de favoritas');
+  } else {
+    favorites.add(fk);
+    toast('⭐ Guardada en favoritas');
+  }
+  saveAll();
+  updateFavBtn();
+}
+
+function updateFavBtn() {
+  const btn = $('fav-btn');
+  if (!btn) return;
+  const q = bqQs[bqIndex];
+  if (!q) return;
+  const fk = `${q.mi}_${q.qi}`;
+  const isFav = favorites.has(fk);
+  btn.textContent = isFav ? '⭐ Favorita' : '☆ Favorita';
+  btn.style.color = isFav ? 'var(--gold)' : '';
+  btn.style.fontWeight = isFav ? '700' : '';
+}
+
+function buildFavs() {
+  const el = $('favs-list');
+  if (!el) return;
+  const entries = [...favorites];
+  if (!entries.length) {
+    el.innerHTML = '<div class="card"><p style="color:var(--text2);text-align:center;padding:20px">No tenés preguntas favoritas todavía.<br><span style="font-size:12px">Tocá ☆ en cualquier pregunta para agregarla.</span></p></div>';
+    return;
+  }
+  el.innerHTML = entries.map(fk => {
+    const [mi, qi] = fk.split('_').map(Number);
+    if (!MODULES[mi] || !MODULES[mi].questions[qi]) return '';
+    const [num, q, a] = MODULES[mi].questions[qi];
+    const modColors = ['var(--m1)','var(--m2)','var(--m3)','var(--m4)','var(--m5)','var(--m6)'];
+    return `<div class="flagged-item">
+      <div class="flagged-meta" style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+        <span class="tag" style="background:${modColors[mi]}22;color:${modColors[mi]}">M${mi+1} · #${num}</span>
+        <button style="margin-left:auto;background:none;border:none;cursor:pointer;font-size:14px;color:var(--gold)" onclick="removeFav('${fk}')">⭐</button>
+      </div>
+      <div style="font-size:13px;color:var(--text);line-height:1.5;margin-bottom:4px">${q}</div>
+      <div style="font-size:12px;color:var(--green)">✔ ${a}</div>
+    </div>`;
+  }).filter(Boolean).join('');
+}
+
+function removeFav(fk) {
+  favorites.delete(fk);
+  saveAll();
+  buildFavs();
+  toast('☆ Quitada de favoritas');
+}
+
+function buildFavorites() { buildFavs(); }
 
 function toggleMorningPlan() {
   const content = $('morning-plan-content');
@@ -4987,11 +5074,12 @@ function buildMimiPanel() {
 function buildCountdown() {
   const saved = localStorage.getItem(SK('examDate'));
   const card  = $('dash-countdown-card');
-  if (!saved || !card) return;
+  if (!saved) return;
+  if (card) card.style.display = 'block';
   const exam = new Date(saved + 'T12:00:00');
   const now  = new Date(); now.setHours(0,0,0,0);
   const days = Math.ceil((exam - now) / 86400000);
-  if (days <= 0) { card.style.display='none'; return; }
+  if (days <= 0) { if (card) card.style.display='none'; return; }
   card.style.display = 'block';
   const daysEl = $('cntd-days');
   const dateEl = $('cntd-date');
@@ -5047,7 +5135,7 @@ const CONF_STARS  = ['','★☆☆☆☆','★★☆☆☆','★★★☆☆','�
 function confToggle() {
   const body = $('conf-body');
   const chev = $('conf-chev');
-  if (!body) return;
+  if (!body) return; // simulator removed
   const open = body.style.display !== 'none';
   body.style.display = open ? 'none' : 'block';
   chev.textContent = open ? '▸' : '▾';
