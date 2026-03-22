@@ -2189,6 +2189,7 @@ let aiExplanations = {};
 let fcHistory = [];
 let flagged      = new Set();
 let favorites    = new Set();
+let editedAnswers = {}; // admin edits: {mi_qi: {question, correct, options}}
 let pomDone      = 0;
 let pomMinToday  = 0;
 
@@ -2201,6 +2202,7 @@ function loadAll() {
   aiExplanations = JSON.parse(localStorage.getItem(SK('aiexp'))   || '{}');
   fcHistory = JSON.parse(localStorage.getItem(SK('fcHist')) || '[]');
   favorites    = new Set(JSON.parse(localStorage.getItem(SK('favs'))  || '[]'));
+  editedAnswers = JSON.parse(localStorage.getItem(SK('editedAnswers')) || '{}');
   const fl     = JSON.parse(localStorage.getItem(SK('flagged'))   || '[]');
   flagged      = new Set(fl);
   pomDone      = parseInt(localStorage.getItem(SK('pomDone'))     || '0');
@@ -2216,6 +2218,7 @@ function saveAll() {
   localStorage.setItem(SK('fcHist'),     JSON.stringify(fcHistory));
   localStorage.setItem(SK('flagged'),    JSON.stringify([...flagged]));
   localStorage.setItem(SK('favs'),       JSON.stringify([...favorites]));
+  localStorage.setItem(SK('editedAnswers'), JSON.stringify(editedAnswers));
   localStorage.setItem(SK('pomDone'),    pomDone);
   localStorage.setItem(SK('pomMinToday'),pomMinToday);
   if (currentUser) scheduleSave(); // sync to cloud
@@ -2610,8 +2613,50 @@ function showFeedback(chosen, correct, mi, qi, restore) {
   const fb = $('q-feedback');
   const isOk = chosen===correct;
   fb.className = 'quiz-feedback show ' + (isOk?'ok':'wrong');
-  fb.textContent = isOk ? '✓ ¡Correcto!' : `✗ Incorrecto. La respuesta es: ${correct}`;
   fb.style.display='block';
+
+  // Build feedback content
+  const editedKey = `${mi}_${qi}`;
+  const displayCorrect = editedAnswers[editedKey] || correct;
+  const isAdmin = currentUser && currentUser.email === 'miriamalcarazdiaz@gmail.com';
+
+  let fbHTML = isOk
+    ? '✓ ¡Correcto!'
+    : `✗ Incorrecto. La respuesta es: ${displayCorrect}`;
+
+  if (isAdmin) {
+    const q = MODULES[mi].questions[qi];
+    const curQ    = q[1];
+    const curOpts = q[3] || [];
+    const curCorr = q[2];
+    fbHTML += `<div id="edit-answer-wrap" style="margin-top:8px">
+      <button class="btn btn-ghost btn-sm" style="font-size:11px;color:var(--gold)" onclick="toggleEditAnswer()">✏️ Editar pregunta</button>
+      <div id="edit-answer-panel" style="display:none;margin-top:8px;padding:10px 12px;background:var(--card2);border-radius:var(--r);border:1px solid var(--border)">
+        <div style="font-size:11px;font-weight:700;color:var(--gold);margin-bottom:8px">✏️ Editar pregunta #${q[0]} — M${mi+1}</div>
+
+        <label style="font-size:10px;color:var(--text2);font-weight:600;display:block;margin-bottom:3px">PREGUNTA</label>
+        <textarea id="ea-q" style="width:100%;min-height:50px;resize:vertical;padding:7px 10px;border-radius:var(--r);border:1px solid var(--border);background:var(--card);color:var(--text);font-size:12px;margin-bottom:8px">${curQ}</textarea>
+
+        <label style="font-size:10px;color:var(--text2);font-weight:600;display:block;margin-bottom:3px">OPCIONES (marcá cuál es la correcta)</label>
+        ${curOpts.map((opt, oi) => `
+        <div style="display:flex;align-items:center;gap:6px;margin-bottom:5px">
+          <input type="radio" name="ea-correct" id="ea-r${oi}" value="${esc(opt)}" ${opt===curCorr?'checked':''} style="flex-shrink:0">
+          <textarea id="ea-opt${oi}" style="flex:1;min-height:36px;resize:vertical;padding:5px 8px;border-radius:6px;border:1px solid var(--border);background:var(--card);color:var(--text);font-size:12px">${opt}</textarea>
+          <label for="ea-r${oi}" style="font-size:10px;color:var(--green);flex-shrink:0">✔</label>
+        </div>`).join('')}
+
+        <div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap">
+          <button class="btn btn-primary btn-sm" onclick="saveFullEdit(${mi},${qi},${curOpts.length})">💾 Guardar en Supabase</button>
+          <button class="btn btn-ghost btn-sm" onclick="toggleEditAnswer()">Cancelar</button>
+          ${editedAnswers[editedKey] ? `<button class="btn btn-ghost btn-sm" style="color:var(--red)" onclick="restoreOriginal(${mi},${qi})">↩ Restaurar original</button>` : ''}
+        </div>
+        <div id="ea-status" style="font-size:11px;color:var(--text2);margin-top:6px"></div>
+      </div>
+    </div>`;
+  }
+
+  fb.innerHTML = fbHTML;
+
   $('quiz-nav').style.display='flex';
   $('quiz-nav-fixed').style.display='flex';
   $('qn-prev').disabled = bqIndex===0;
@@ -4219,11 +4264,13 @@ async function onLogin() {
   updateUserChip();
   initSettings();
   loadAll(); // load localStorage as instant fallback
+  applyEditedAnswers();
   buildDashboard();
   updateBadges();
   syncPomUI();
   // Then load from cloud (overwrites local)
   await loadFromCloud();
+  await loadEditsFromCloud();
   buildDashboard();
   updateBadges();
   updateTopbarStats();
@@ -4413,6 +4460,7 @@ async function pushExamToCloud(examEntry) {
     // Fallback: work offline with localStorage
     $('auth-overlay').style.display = 'none';
     loadAll();
+    applyEditedAnswers();
     buildDashboard();
     updateBadges();
     toast('⚠️ Sin conexión — trabajando offline', 4000);
@@ -4864,6 +4912,135 @@ function removeFav(fk) {
   saveAll();
   buildFavs();
   toast('☆ Quitada de favoritas');
+}
+
+function toggleEditAnswer() {
+  const panel = $('edit-answer-panel');
+  if (!panel) return;
+  panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+}
+
+async function saveFullEdit(mi, qi, numOpts) {
+  const statusEl = $('ea-status');
+  if (statusEl) statusEl.textContent = '⏳ Guardando...';
+
+  // Read question text
+  const newQ = $('ea-q')?.value.trim();
+
+  // Read options
+  const newOpts = [];
+  for (let i = 0; i < numOpts; i++) {
+    newOpts.push($('ea-opt'+i)?.value.trim() || '');
+  }
+
+  // Read which is correct (by radio)
+  let newCorrect = null;
+  for (let i = 0; i < numOpts; i++) {
+    const radio = document.getElementById('ea-r'+i);
+    if (radio && radio.checked) {
+      newCorrect = newOpts[i]; // use the possibly-edited option text
+      break;
+    }
+  }
+  if (!newCorrect) { if (statusEl) statusEl.textContent = '⚠️ Marcá cuál es la respuesta correcta'; return; }
+
+  const key = `${mi}_${qi}`;
+  const edit = { question: newQ, correct: newCorrect, options: newOpts };
+
+  // Save locally
+  editedAnswers[key] = edit;
+  MODULES[mi].questions[qi][1] = newQ;
+  MODULES[mi].questions[qi][2] = newCorrect;
+  MODULES[mi].questions[qi][3] = newOpts;
+  localStorage.setItem(SK('editedAnswers'), JSON.stringify(editedAnswers));
+
+  // Save to Supabase
+  await saveEditToCloud(mi, qi, edit);
+
+  if (statusEl) statusEl.textContent = '✓ Guardado en Supabase';
+  toast('✓ Pregunta actualizada para todos los usuarios');
+
+  // Re-render question
+  setTimeout(() => {
+    renderQuestion();
+    // Re-show feedback if was answered
+    if (bqAnswered[bqIndex]) {
+      showFeedback(bqAnswered[bqIndex], newCorrect, mi, qi, true);
+    }
+  }, 800);
+}
+
+async function restoreOriginal(mi, qi) {
+  const key = `${mi}_${qi}`;
+  delete editedAnswers[key];
+  localStorage.setItem(SK('editedAnswers'), JSON.stringify(editedAnswers));
+  await deleteEditFromCloud(mi, qi);
+  // Reload edits and re-apply (will restore original from MODULES data)
+  location.reload();
+}
+
+function saveEditedAnswer(mi, qi) { saveFullEdit(mi, qi, MODULES[mi]?.questions[qi]?.[3]?.length || 4); }
+function deleteEditedAnswer(mi, qi) { restoreOriginal(mi, qi); }
+
+function applyEditedAnswers() {
+  Object.entries(editedAnswers).forEach(([key, edit]) => {
+    const [mi, qi] = key.split('_').map(Number);
+    const q = MODULES[mi]?.questions[qi];
+    if (!q) return;
+    if (edit.question) q[1] = edit.question;
+    if (edit.correct)  q[2] = edit.correct;
+    if (edit.options)  q[3] = edit.options;
+  });
+}
+
+// Load edits from Supabase (called on login)
+async function loadEditsFromCloud() {
+  if (!sbClient) return;
+  try {
+    const { data, error } = await sbClient.from('question_edits').select('*');
+    if (error || !data) return;
+    data.forEach(row => {
+      const key = `${row.module_id}_${row.question_idx}`;
+      editedAnswers[key] = {
+        question: row.question,
+        correct:  row.correct,
+        options:  [row.option_0, row.option_1, row.option_2, row.option_3].filter(Boolean)
+      };
+    });
+    applyEditedAnswers();
+  } catch(e) { console.warn('loadEditsFromCloud:', e); }
+}
+
+// Save edit to Supabase
+async function saveEditToCloud(mi, qi, edit) {
+  if (!sbClient || !currentUser) return;
+  try {
+    const row = {
+      module_id:    mi,
+      question_idx: qi,
+      question:     edit.question || null,
+      correct:      edit.correct  || null,
+      option_0:     edit.options?.[0] || null,
+      option_1:     edit.options?.[1] || null,
+      option_2:     edit.options?.[2] || null,
+      option_3:     edit.options?.[3] || null,
+      edited_by:    currentUser.email,
+    };
+    const { error } = await sbClient.from('question_edits')
+      .upsert(row, { onConflict: 'module_id,question_idx' });
+    if (error) console.error('saveEditToCloud:', error);
+  } catch(e) { console.warn('saveEditToCloud:', e); }
+}
+
+// Delete edit from Supabase
+async function deleteEditFromCloud(mi, qi) {
+  if (!sbClient || !currentUser) return;
+  try {
+    await sbClient.from('question_edits')
+      .delete()
+      .eq('module_id', mi)
+      .eq('question_idx', qi);
+  } catch(e) { console.warn('deleteEditFromCloud:', e); }
 }
 
 function buildFavorites() { buildFavs(); }
