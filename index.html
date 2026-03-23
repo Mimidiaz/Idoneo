@@ -471,7 +471,26 @@ canvas.chart{width:100%;display:block;border-radius:8px}
 .ai-section-title{font-size:11px;font-weight:700;color:var(--blue);letter-spacing:.06em;
   text-transform:uppercase;margin:10px 0 4px;padding-top:8px;border-top:1px solid var(--border);}
 .ai-section-title:first-child{border-top:none;padding-top:0;margin-top:0}
-/* Morning plan */
+/* Performance card */
+.perf-tab-btn{padding:4px 10px;border-radius:6px;border:1px solid var(--border);background:none;color:var(--text2);font-size:11px;cursor:pointer;font-weight:600;transition:all .2s}
+.perf-tab-btn.active{background:var(--blue);border-color:var(--blue);color:#fff}
+.perf-mod-row{display:flex;align-items:center;gap:8px;margin-bottom:7px}
+.perf-mod-name{font-size:11px;color:var(--text2);width:36px;flex-shrink:0;font-weight:600}
+.perf-bars{flex:1;display:flex;flex-direction:column;gap:2px}
+.perf-bar-wrap{display:flex;align-items:center;gap:4px;height:10px}
+.perf-bar-bg{flex:1;height:10px;background:var(--border2);border-radius:3px;overflow:hidden;position:relative}
+.perf-bar-ok{height:100%;background:var(--green);border-radius:3px;transition:width .5s ease;float:left}
+.perf-bar-bad{height:100%;background:var(--red);border-radius:3px;transition:width .5s ease;float:left}
+.perf-stat{font-size:10px;font-family:var(--mono);width:32px;text-align:right;flex-shrink:0}
+/* Day chart */
+.day-chart-wrap{display:flex;align-items:flex-end;gap:3px;height:100px;margin-top:8px}
+.day-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer}
+.day-col:hover .day-bar-ok,.day-col:hover .day-bar-bad{opacity:.75}
+.day-bar-stack{flex:1;width:100%;display:flex;flex-direction:column;justify-content:flex-end;gap:1px}
+.day-bar-ok{width:100%;background:var(--green);border-radius:2px 2px 0 0;min-height:2px}
+.day-bar-bad{width:100%;background:var(--red);min-height:2px}
+.day-lbl{font-size:9px;color:var(--text2);white-space:nowrap}
+.day-tooltip{font-size:10px;color:var(--text2);text-align:center;height:14px}
 .mp-row{display:flex;align-items:flex-start;gap:8px;padding:5px 0;border-bottom:1px solid var(--border);font-size:12px}
 .mp-row:last-child{border-bottom:none}
 .mp-icon{font-size:14px;flex-shrink:0;width:20px}
@@ -954,6 +973,20 @@ canvas.chart{width:100%;display:block;border-radius:8px}
           <div class="section-title">💡 Datos clave — CNV</div>
           <div id="postit-container"></div>
         </div>
+      </div>
+
+      <!-- Performance Card -->
+      <div class="card" style="margin-bottom:16px">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+          <span style="font-size:15px">📊</span>
+          <div style="font-size:13px;font-weight:700;color:var(--text)">Mi Rendimiento</div>
+          <div style="display:flex;gap:6px;margin-left:auto">
+            <button class="perf-tab-btn active" id="perf-tab-mod" onclick="switchPerfTab('mod')">Por módulo</button>
+            <button class="perf-tab-btn" id="perf-tab-day" onclick="switchPerfTab('day')">Por día</button>
+          </div>
+        </div>
+        <div id="perf-mod" style="display:block"></div>
+        <div id="perf-day" style="display:none"></div>
       </div>
 
       <!-- Charts -->
@@ -2275,8 +2308,15 @@ function addDailyAnswered(n) {
   dailyStats[k].pct = TOTAL_Q>0 ? Math.round(getTotalSeen()/TOTAL_Q*100) : 0;
   localStorage.setItem(SK('daily'), JSON.stringify(dailyStats));
 }
+function getTodayAnswered() {
+  const todayKey = today();
+  // Count from masteryData directly (always accurate, never lost on sync)
+  const fromMastery = Object.values(masteryData).filter(m => m.lastSeen === todayKey && m.attempts > 0).length;
+  // Also check dailyStats in case mastery doesn't have lastSeen
+  const fromDaily = dailyStats[todayKey]?.answered || 0;
+  return Math.max(fromMastery, fromDaily);
+}
 function addStudyMinutes(m) {
-  const k = today();
   studyMinutes[k] = (studyMinutes[k]||0) + m;
   saveAll();
 }
@@ -2334,8 +2374,7 @@ function buildDashboard() {
   const totalCorrect = Object.values(masteryData).reduce((s,m) => s+(m.correct||0), 0);
   const pct  = TOTAL_Q>0 ? Math.round(seen/TOTAL_Q*100) : 0;
   const streak = getStreak();
-  const todayKey = today();
-  const todayAnswered = dailyStats[todayKey]?.answered || 0;
+  const todayAnswered = getTodayAnswered();
 
   // Greeting
   const h = new Date().getHours();
@@ -2379,6 +2418,9 @@ function buildDashboard() {
   // Morning plan
   buildMorningPlan();
 
+  // Performance card
+  buildPerfMod();
+
   // Pre-render radar content (hidden until toggled)
   renderRadar(-1);
 
@@ -2399,12 +2441,96 @@ function buildDashboard() {
 }
 
 function buildPostits() {
-  const shuffled = [...POSTITS].sort(()=>Math.random()-.5).slice(0,3);
-  $('postit-container').innerHTML = shuffled.map(p=>`
-    <div class="postit" style="border-left-color:${p.color};margin-bottom:8px">
-      <h4>${p.title}</h4>
-      <p>${p.text}</p>
+  const container = $('postit-container');
+  if (!container) return;
+
+  const cards = [];
+  const modColors = ['var(--m1)','var(--m2)','var(--m3)','var(--m4)','var(--m5)','var(--m6)'];
+  const modNames  = ['Marco Normativo','PLD','Transparencia','Contabilidad','Agentes','Inv. Colectiva'];
+
+  // ── CARD 1: pregunta con más errores ──────────────────────
+  let worstQ = null, worstErrors = 0;
+  MODULES.forEach((mod, mi) => {
+    mod.questions.forEach((q, qi) => {
+      const m = getMastery(mi, qi);
+      if ((m.errors||0) > worstErrors) {
+        worstErrors = m.errors;
+        worstQ = { mi, qi, q };
+      }
+    });
+  });
+
+  if (worstQ && worstErrors > 0) {
+    const [num, question, answer] = worstQ.q;
+    cards.push({
+      color: 'var(--red)',
+      icon: '🔴',
+      tag: `M${worstQ.mi+1} · #${num} · ${worstErrors} errores`,
+      title: question.length > 80 ? question.substring(0,78)+'…' : question,
+      text: answer
+    });
+  }
+
+  // ── CARD 2: pregunta no vista con respuesta más larga (definición clave) ──
+  const unseen = [];
+  MODULES.forEach((mod, mi) => {
+    mod.questions.forEach((q, qi) => {
+      const m = getMastery(mi, qi);
+      if (!m.attempts || m.attempts === 0) {
+        unseen.push({ mi, qi, q });
+      }
+    });
+  });
+
+  if (unseen.length > 0) {
+    // Pick from top definitions: prefer longer answers (more explanatory)
+    const seeded = unseen.sort((a, b) => {
+      // Prioritize longer answers and questions with "qué es", "definir", "concepto"
+      const keywordsA = /qué es|definici|concepto|significa|se entiende/i.test(a.q[1]) ? 100 : 0;
+      const keywordsB = /qué es|definici|concepto|significa|se entiende/i.test(b.q[1]) ? 100 : 0;
+      return (b.q[2].length + keywordsB) - (a.q[2].length + keywordsA);
+    });
+    // Pick deterministically based on today's date so it rotates daily
+    const dayIndex = Math.floor(Date.now() / 86400000) % Math.min(seeded.length, 20);
+    const pick = seeded[dayIndex] || seeded[0];
+    const [num, question, answer] = pick.q;
+    cards.push({
+      color: 'var(--blue)',
+      icon: '📖',
+      tag: `${modNames[pick.mi]} · #${num} · Sin ver`,
+      title: question.length > 80 ? question.substring(0,78)+'…' : question,
+      text: answer
+    });
+  }
+
+  // ── CARD 3: rotativa de POSTITS fijos (definiciones clave del examen) ──
+  if (POSTITS && POSTITS.length) {
+    const fixedIdx = Math.floor(Math.random() * POSTITS.length);
+    const p = POSTITS[fixedIdx];
+    cards.push({
+      color: p.color,
+      icon: '💡',
+      tag: 'Dato clave CNV',
+      title: p.title,
+      text: p.text
+    });
+  }
+
+  // ── Render ──────────────────────────────────────────────
+  container.innerHTML = cards.map(c => `
+    <div class="postit" style="border-left-color:${c.color};margin-bottom:8px">
+      <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px">
+        <span>${c.icon}</span>
+        <span style="font-size:10px;color:var(--text2);font-weight:600">${c.tag}</span>
+      </div>
+      <h4 style="font-size:12px;font-weight:700;margin-bottom:4px;line-height:1.4">${c.title}</h4>
+      <p style="font-size:11px;color:var(--text2);line-height:1.5">${c.text.length > 120 ? c.text.substring(0,118)+'…' : c.text}</p>
     </div>`).join('');
+
+  // If no cards at all, show placeholder
+  if (cards.length === 0) {
+    container.innerHTML = '<p style="font-size:12px;color:var(--text2);padding:8px 0">Respondé algunas preguntas para ver sugerencias personalizadas.</p>';
+  }
 }
 
 function buildDashRecs() {
@@ -5053,13 +5179,175 @@ function toggleMorningPlan() {
   chevron.textContent = isOpen ? '▸' : '▾';
 }
 
+function switchPerfTab(tab) {
+  ['mod','day'].forEach(t => {
+    $('perf-tab-'+t).classList.toggle('active', t===tab);
+    $('perf-'+t).style.display = t===tab ? 'block' : 'none';
+  });
+  if (tab==='day') buildPerfDay();
+}
+
+function buildPerfMod() {
+  const el = $('perf-mod');
+  if (!el) return;
+
+  const modFullNames = [
+    'Marco Normativo','PLD','Transparencia',
+    'Contabilidad','Agentes','Inv. Colectiva'
+  ];
+  const modColors = ['var(--m1)','var(--m2)','var(--m3)','var(--m4)','var(--m5)','var(--m6)'];
+  const modTotals = [121,96,104,133,109,110];
+
+  const rows = MODULES.map((mod, mi) => {
+    let ok=0, bad=0, seen=0;
+    mod.questions.forEach((_,qi) => {
+      const m = getMastery(mi,qi);
+      if ((m.attempts||0) > 0) {
+        seen++;
+        ok  += m.correct||0;
+        bad += Math.max(0,(m.attempts||0)-(m.correct||0));
+      }
+    });
+    const total  = ok + bad;
+    const acc    = total>0 ? Math.round(ok/total*100) : null;
+    const visPct = Math.round(seen/modTotals[mi]*100);
+    const okW    = total>0 ? Math.round(ok/total*100)  : 0;
+    const badW   = total>0 ? Math.round(bad/total*100) : 0;
+    const accColor = acc===null ? 'var(--text2)' : acc>=70 ? 'var(--green)' : acc>=40 ? 'var(--gold)' : 'var(--red)';
+
+    return `<tr>
+      <td style="font-size:12px;font-weight:700;color:${modColors[mi]};white-space:nowrap">M${mi+1}</td>
+      <td style="font-size:11px;color:var(--text2)">${modFullNames[mi]}</td>
+      <td style="font-size:11px;text-align:right">
+        <span style="color:var(--green)">✓${ok}</span>
+        <span style="color:var(--text2);margin:0 3px">·</span>
+        <span style="color:var(--red)">✗${bad}</span>
+      </td>
+      <td style="min-width:120px">
+        <div style="display:flex;align-items:center;gap:4px">
+          <div style="flex:1;height:8px;background:var(--border2);border-radius:4px;overflow:hidden">
+            <div style="float:left;height:100%;background:var(--green);width:${okW}%;border-radius:4px 0 0 4px"></div>
+            <div style="float:left;height:100%;background:var(--red);width:${badW}%"></div>
+          </div>
+          <span style="font-size:11px;font-weight:700;color:${accColor};width:32px;text-align:right">${acc!==null?acc+'%':'—'}</span>
+        </div>
+      </td>
+      <td style="font-size:11px;color:var(--text2);text-align:right">${visPct}% visto</td>
+    </tr>`;
+  }).join('');
+
+  // Global accuracy
+  let gOk=0, gBad=0;
+  Object.values(masteryData).forEach(m => {
+    gOk  += m.correct||0;
+    gBad += Math.max(0,(m.attempts||0)-(m.correct||0));
+  });
+  const gTotal = gOk+gBad;
+  const gAcc   = gTotal>0 ? Math.round(gOk/gTotal*100) : 0;
+  const gAccColor = gAcc>=70?'var(--green)':gAcc>=40?'var(--gold)':'var(--red)';
+
+  el.innerHTML = `
+    <table style="width:100%;border-collapse:collapse">
+      <thead>
+        <tr style="border-bottom:1px solid var(--border)">
+          <th style="font-size:10px;color:var(--text2);font-weight:600;padding:4px 6px 6px;text-align:left">MOD</th>
+          <th style="font-size:10px;color:var(--text2);font-weight:600;padding:4px 6px 6px;text-align:left">NOMBRE</th>
+          <th style="font-size:10px;color:var(--text2);font-weight:600;padding:4px 6px 6px;text-align:right">CORRECTAS / INCORRECTAS</th>
+          <th style="font-size:10px;color:var(--text2);font-weight:600;padding:4px 6px 6px">% ACIERTOS</th>
+          <th style="font-size:10px;color:var(--text2);font-weight:600;padding:4px 6px 6px;text-align:right">PROGRESO</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${rows}
+        <tr style="border-top:1px solid var(--border)">
+          <td colspan="2" style="font-size:12px;font-weight:700;color:var(--text);padding:8px 6px 4px">TOTAL</td>
+          <td style="font-size:11px;text-align:right;padding:8px 6px 4px">
+            <span style="color:var(--green)">✓${gOk}</span>
+            <span style="color:var(--text2);margin:0 3px">·</span>
+            <span style="color:var(--red)">✗${gBad}</span>
+          </td>
+          <td style="padding:8px 6px 4px">
+            <div style="display:flex;align-items:center;gap:4px">
+              <div style="flex:1;height:8px;background:var(--border2);border-radius:4px;overflow:hidden">
+                <div style="float:left;height:100%;background:var(--green);width:${gTotal>0?Math.round(gOk/gTotal*100):0}%;border-radius:4px"></div>
+              </div>
+              <span style="font-size:12px;font-weight:700;color:${gAccColor};width:32px;text-align:right">${gAcc}%</span>
+            </div>
+          </td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+    <div style="display:flex;gap:12px;margin-top:8px;font-size:10px;color:var(--text2)">
+      <span><span style="color:var(--green)">■</span> Correctas</span>
+      <span><span style="color:var(--red)">■</span> Incorrectas</span>
+      <span style="margin-left:auto">Tocá "Por día" para ver evolución diaria</span>
+    </div>`;
+}
+
+function buildPerfDay() {
+  const el = $('perf-day');
+  if (!el) return;
+
+  // Get last 14 days
+  const days = [];
+  for (let i=13; i>=0; i--) {
+    const d = new Date(); d.setDate(d.getDate()-i);
+    const key = d.toISOString().split('T')[0];
+    const lbl = d.toLocaleDateString('es-AR',{day:'numeric',month:'numeric'});
+    days.push({key, lbl});
+  }
+
+  // Calculate correct/incorrect per day from masteryData lastSeen
+  // We only have answered count in dailyStats, so use that + pct
+  // For correct/incorrect per day we need to track from mastery lastSeen
+  const dayOk  = {};
+  const dayBad = {};
+  Object.entries(masteryData).forEach(([k, m]) => {
+    if (!m.lastSeen || !m.attempts) return;
+    const d = m.lastSeen;
+    // Approximate: distribute correct/incorrect to lastSeen day
+    dayOk[d]  = (dayOk[d]||0)  + (m.correct||0);
+    dayBad[d] = (dayBad[d]||0) + Math.max(0,(m.attempts||0)-(m.correct||0));
+  });
+
+  const maxVal = Math.max(1, ...days.map(d => (dayOk[d.key]||0)+(dayBad[d.key]||0)));
+
+  el.innerHTML = `
+    <div style="font-size:11px;color:var(--text2);margin-bottom:4px">Correctas <span style="color:var(--green)">■</span> e incorrectas <span style="color:var(--red)">■</span> por día</div>
+    <div class="day-chart-wrap">
+      ${days.map(d => {
+        const ok  = dayOk[d.key]||0;
+        const bad = dayBad[d.key]||0;
+        const total = ok+bad;
+        const okH  = total>0 ? Math.round(ok/maxVal*80)  : 0;
+        const badH = total>0 ? Math.round(bad/maxVal*80) : 0;
+        const isToday = d.key === today();
+        return `<div class="day-col" title="${d.lbl}: ✓${ok} ✗${bad}">
+          <div class="day-tooltip">${total>0?total:''}</div>
+          <div class="day-bar-stack">
+            ${okH>0  ? `<div class="day-bar-ok"  style="height:${okH}px"></div>` : ''}
+            ${badH>0 ? `<div class="day-bar-bad" style="height:${badH}px"></div>` : ''}
+          </div>
+          <div class="day-lbl" style="${isToday?'color:var(--blue);font-weight:700':''}">
+            ${d.lbl}
+          </div>
+        </div>`;
+      }).join('')}
+    </div>
+    <div style="margin-top:8px;display:flex;gap:16px;font-size:11px;color:var(--text2)">
+      <span>Total respondidas: <strong style="color:var(--text)">${Object.values(dayOk).reduce((a,b)=>a+b,0)+Object.values(dayBad).reduce((a,b)=>a+b,0)}</strong></span>
+      <span>Correctas: <strong style="color:var(--green)">${Object.values(dayOk).reduce((a,b)=>a+b,0)}</strong></span>
+      <span>Incorrectas: <strong style="color:var(--red)">${Object.values(dayBad).reduce((a,b)=>a+b,0)}</strong></span>
+    </div>`;
+}
+
 function buildMorningPlan() {
   const card = $('morning-plan-card');
   const content = $('morning-plan-content');
   if (!card || !content) return;
 
-  const todayKey = today();
-  const todayAnswered = dailyStats[todayKey]?.answered || 0;
+  const todayAnswered = getTodayAnswered();
   const totalSeen = Object.keys(masteryData).filter(k=>masteryData[k].attempts>0).length;
   const pending = TOTAL_Q - totalSeen;
   const errorsQ = Object.values(masteryData).filter(m=>m.errors>0&&m.level<2).length;
