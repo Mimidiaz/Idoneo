@@ -2173,6 +2173,10 @@ body { font-size: 1rem; }
     <span class="tb-title" id="tb-title">Dashboard</span>
     <div class="tb-stat"><span id="tb-mastered" class="val">0</span>&nbsp;<span>✓</span>&nbsp;<span id="tb-pct" style="color:var(--green)">0%</span></div>
     <div class="tb-stat" id="tb-streak-wrap"><span id="tb-streak" class="val">0</span>&nbsp;🔥</div>
+    <div id="tb-sync-status" onclick="forceSyncNow()" title="Estado de sincronización — click para sincronizar ahora" style="cursor:pointer;display:flex;align-items:center;gap:5px;padding:4px 8px;border-radius:6px;font-size:11px;color:var(--text2);transition:all var(--tr)">
+      <span id="tb-sync-dot" style="width:7px;height:7px;border-radius:50%;background:var(--muted);flex-shrink:0;transition:background .3s"></span>
+      <span id="tb-sync-label" style="font-size:10px">sync</span>
+    </div>
     <div id="tb-pom" onclick="openPomModal()">
       <span id="pom-phase-icon">🍅</span>
       <span id="pom-time">25:00</span>
@@ -6601,10 +6605,40 @@ function updateUserChip() {
 
 // ── SYNC STATUS ──────────────────────────────────────────────
 function setSyncStatus(status) {
+  // Legacy sidebar dot
   const dot = $('sync-dot');
-  if (!dot) return;
-  dot.className = 'sync-dot' + (status==='syncing'?' syncing':status==='error'?' error':'');
-  dot.title = status==='syncing'?'Sincronizando...':status==='error'?'Error de sincronización':'Sincronizado';
+  if (dot) {
+    dot.className = 'sync-dot' + (status==='syncing'?' syncing':status==='error'?' error':'');
+  }
+  // Topbar sync indicator
+  const tbDot   = $('tb-sync-dot');
+  const tbLabel = $('tb-sync-label');
+  const tbWrap  = $('tb-sync-status');
+  if (!tbDot) return;
+  if (status === 'syncing') {
+    tbDot.style.background = 'var(--gold)';
+    if (tbLabel) tbLabel.textContent = 'sincronizando…';
+    if (tbWrap)  tbWrap.style.color = 'var(--gold)';
+  } else if (status === 'error') {
+    tbDot.style.background = 'var(--red)';
+    if (tbLabel) tbLabel.textContent = '⚠ error sync';
+    if (tbWrap)  tbWrap.style.color = 'var(--red)';
+    toast('⚠️ Error al sincronizar. Tocá el indicador de sync para reintentar.', 5000);
+  } else {
+    tbDot.style.background = 'var(--green)';
+    if (tbLabel) tbLabel.textContent = '✓ sync';
+    if (tbWrap)  tbWrap.style.color = 'var(--green)';
+  }
+}
+
+async function forceSyncNow() {
+  if (!currentUser || !sbClient) {
+    toast('⚠️ No estás logueado — no se puede sincronizar.'); return;
+  }
+  toast('⏳ Sincronizando…');
+  pendingSync = true;
+  await pushToCloud();
+  toast('✓ Sincronización completada');
 }
 
 // ── LOAD FROM CLOUD ──────────────────────────────────────────
@@ -6739,6 +6773,9 @@ async function pushToCloud() {
     console.error('pushToCloud error:', e);
     setSyncStatus('error');
     pendingSync = true; // retry next time
+    // Show error details in toast
+    const msg = e.message || String(e);
+    toast('⚠️ Sync error: ' + msg.slice(0,80), 6000);
   }
 }
 
