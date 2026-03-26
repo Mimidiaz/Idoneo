@@ -3650,6 +3650,7 @@ function getModSeen(mi) {
   return mod.questions.filter((_,qi) => getMastery(mi,qi).attempts>0).length;
 }
 function countByLevel(l)    { return Object.values(masteryData).filter(m=>m.level===l).length; }
+function countErrors()      { return Object.values(masteryData).filter(m=>(m.errors||0)>0 && m.level<3).length; }
 function getModMastered(mi) {
   const mod = MODULES[mi];
   return mod.questions.filter((_,qi) => getMastery(mi,qi).level===4).length;
@@ -3741,7 +3742,7 @@ function buildDashboard() {
   const gAcc     = totalAtt>0 ? Math.round(totalCorrect/totalAtt*100) : null;
   const streak   = getStreak();
   const todayAns = getTodayAnswered();
-  const level1   = countByLevel(1);
+  const level1   = countErrors();
   const mastered = getTotalMastered();
 
   // ── Greeting ──────────────────────────────────────────────
@@ -5062,7 +5063,7 @@ function buildReviewSetup() {
   $('review-stats').innerHTML = `
     <div class="grid3">
       <div class="stat-card card-sm"><div class="stat-val">${due}</div><div class="stat-label">Para repasar</div></div>
-      <div class="stat-card card-sm"><div class="stat-val">${countByLevel(1)}</div><div class="stat-label">Nivel 1 (falladas)</div></div>
+      <div class="stat-card card-sm"><div class="stat-val">${countErrors()}</div><div class="stat-label">Con erroredas)</div></div>
       <div class="stat-card card-sm"><div class="stat-val">${countByLevel(0)}</div><div class="stat-label">Sin ver</div></div>
     </div>`;
 }
@@ -5801,7 +5802,7 @@ function getTopRecs(n) {
     else if (acc!==null && acc<50) recs.push({icon:'⚠️',priority:8,title:`Revisar Módulo ${mi+1}`,sub:`Tasa de aciertos: ${acc}% con ${modCorrect} respuestas correctas.`,mi});
     else if (seenPct<50) recs.push({icon:'📈',priority:5,title:`Avanzar en Módulo ${mi+1}`,sub:`${seen} de ${total} vistas (${seenPct}%). Seguí practicando.`,mi});
   });
-  const level1=countByLevel(1);
+  const level1=countErrors();
   if (level1>10) recs.push({icon:'🔁',priority:7,title:`${level1} preguntas falladas`,sub:'Hacé el repaso inteligente para recuperarlas.',action:'review'});
   if (flagged.size>0) recs.push({icon:'🚩',priority:6,title:`${flagged.size} preguntas difíciles`,sub:'Repasá las preguntas que marcaste.',action:'flagged'});
   recs.sort((a,b)=>b.priority-a.priority);
@@ -5846,7 +5847,7 @@ function buildRecs() {
   const coverage = Math.round(getTotalSeen()/TOTAL_Q*100);
   const streak   = getStreak();
   const todayAns = getTodayAnswered();
-  const level1   = countByLevel(1);
+  const level1   = countErrors();
 
   // ── Block 1: Prioridad Crítica ───────────────────────────
   const critical = mods.filter(m => m.visPct < 20 || (m.acc !== null && m.acc < 40));
