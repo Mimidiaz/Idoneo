@@ -1986,6 +1986,396 @@ body { font-size: 1rem; }
   display: inline-block; font-size: 10px; font-weight: 700;
   padding: 2px 8px; border-radius: 4px; margin-bottom: 6px;
 }
+
+/* ── Plan 20 horas ─────────────────────────────────────────── */
+.p20-hero {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--rl);
+  padding: 18px 22px;
+  margin-bottom: 16px;
+  display: flex; align-items: center; gap: 20px; flex-wrap: wrap;
+}
+.p20-hero-stat {
+  text-align: center; flex-shrink: 0;
+}
+.p20-hero-num {
+  font-size: 36px; font-weight: 800; font-family: var(--mono);
+  line-height: 1; color: var(--blue);
+}
+.p20-hero-lbl { font-size: 10px; color: var(--text2); margin-top: 3px; }
+.p20-hero-sep { width: 1px; height: 48px; background: var(--border); flex-shrink: 0; }
+.p20-hero-text { flex: 1; min-width: 180px; }
+.p20-hero-title { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+.p20-hero-sub { font-size: 12px; color: var(--text2); line-height: 1.5; }
+.p20-progress-bar {
+  height: 6px; background: var(--border2); border-radius: 3px; overflow: hidden; margin-top: 10px;
+}
+.p20-progress-fill {
+  height: 100%; background: var(--blue); border-radius: 3px; transition: width .5s ease;
+}
+
+/* Session cards */
+.p20-session {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--border);
+  border-radius: var(--rl);
+  margin-bottom: 10px;
+  overflow: hidden;
+  transition: border-color var(--tr), box-shadow var(--tr);
+}
+.p20-session:hover { box-shadow: 0 2px 8px rgba(0,0,0,.2); }
+.p20-session.done {
+  border-left-color: var(--green);
+  opacity: .85;
+}
+.p20-session.done .p20-session-header { background: rgba(34,211,160,.04); }
+.p20-session-header {
+  display: flex; align-items: center; gap: 12px;
+  padding: 13px 16px; cursor: pointer;
+  transition: background var(--tr);
+}
+.p20-session-header:hover { background: var(--card2); }
+.p20-session-num {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: var(--card2); border: 1px solid var(--border2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700; font-family: var(--mono);
+  color: var(--text2); flex-shrink: 0;
+}
+.p20-session.done .p20-session-num {
+  background: rgba(34,211,160,.15); border-color: var(--green); color: var(--green);
+}
+.p20-session-info { flex: 1; min-width: 0; }
+.p20-session-title { font-size: 13px; font-weight: 700; color: var(--text); }
+.p20-session-sub { font-size: 11px; color: var(--text2); margin-top: 1px; }
+.p20-session-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.p20-done-badge {
+  font-size: 9px; font-weight: 700; padding: 2px 8px; border-radius: 4px;
+  background: rgba(34,211,160,.12); color: var(--green);
+  border: 1px solid rgba(34,211,160,.25);
+}
+.p20-chev { font-size: 11px; color: var(--text2); transition: transform var(--tr); }
+.p20-chev.open { transform: rotate(90deg); }
+
+/* Session body */
+.p20-session-body {
+  display: none; padding: 0 16px 16px; border-top: 1px solid var(--border);
+}
+.p20-session-body.open { display: block; }
+.p20-nucleos {
+  display: flex; flex-wrap: wrap; gap: 6px; margin: 12px 0 10px;
+}
+.p20-nucleo-tag {
+  font-size: 10px; font-weight: 600; padding: 3px 9px;
+  border-radius: 4px; background: rgba(64,144,240,.1); color: var(--blue);
+  border: 1px solid rgba(64,144,240,.2);
+}
+.p20-table { width: 100%; border-collapse: collapse; margin-bottom: 12px; }
+.p20-table th {
+  font-size: 9px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .1em; color: var(--muted); padding: 6px 8px;
+  text-align: left; border-bottom: 1px solid var(--border);
+}
+.p20-table td {
+  font-size: 12px; padding: 8px 8px; color: var(--text);
+  border-bottom: 1px solid var(--border); vertical-align: top;
+  line-height: 1.5;
+}
+.p20-table tr:last-child td { border-bottom: none; }
+.p20-table td:last-child { color: var(--text2); font-size: 11px; }
+.p20-actions { display: flex; gap: 7px; flex-wrap: wrap; margin-top: 4px; }
+.p20-review-box {
+  background: var(--card2); border-left: 2px solid var(--gold);
+  border-radius: 0 var(--r) var(--r) 0; padding: 9px 12px;
+  margin-top: 12px; font-size: 12px; color: var(--text2); line-height: 1.6;
+}
+.p20-review-box strong { color: var(--gold); display: block; font-size: 10px;
+  text-transform: uppercase; letter-spacing: .1em; margin-bottom: 3px; }
+.p20-check-btn {
+  font-size: 11px; padding: 6px 14px; border-radius: 6px;
+  border: 1px solid var(--border2); background: none;
+  color: var(--text2); cursor: pointer; transition: all var(--tr);
+}
+.p20-check-btn:hover { background: var(--card2); color: var(--text); }
+.p20-check-btn.done-btn {
+  background: rgba(34,211,160,.1); border-color: rgba(34,211,160,.3);
+  color: var(--green);
+}
+
+/* ── ¿Por qué? — Elaborative Interrogation ─────────────── */
+.porq-wrap { display: flex; flex-direction: column; gap: 10px; margin-top: 4px; }
+.porq-card {
+  background: var(--card2); border: 1px solid var(--border);
+  border-radius: var(--r); overflow: hidden;
+}
+.porq-card-header {
+  display: flex; align-items: center; gap: 10px;
+  padding: 12px 14px; cursor: pointer;
+  transition: background var(--tr);
+}
+.porq-card-header:hover { background: var(--card); }
+.porq-q-text {
+  flex: 1; font-size: 13px; font-weight: 600; color: var(--text); line-height: 1.45;
+}
+.porq-chev { font-size: 11px; color: var(--text2); flex-shrink: 0; transition: transform var(--tr); }
+.porq-chev.open { transform: rotate(90deg); }
+.porq-body { display: none; padding: 12px 14px 14px; border-top: 1px solid var(--border); }
+.porq-body.open { display: block; }
+.porq-think-label {
+  font-size: 10px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .1em; color: var(--muted); margin-bottom: 8px;
+}
+.porq-think-box {
+  background: var(--card); border: 1px dashed var(--border2);
+  border-radius: var(--r); padding: 10px 12px; min-height: 52px;
+  font-size: 12px; color: var(--text2); line-height: 1.5;
+  margin-bottom: 12px; cursor: text;
+}
+.porq-reveal-btn {
+  font-size: 11px; padding: 6px 14px; border-radius: 6px;
+  border: 1px solid rgba(64,144,240,.3); background: rgba(64,144,240,.08);
+  color: var(--blue); cursor: pointer; transition: all var(--tr);
+  margin-bottom: 12px;
+}
+.porq-reveal-btn:hover { background: rgba(64,144,240,.15); }
+.porq-answer {
+  display: none; background: rgba(34,211,160,.06);
+  border-left: 2px solid var(--green); border-radius: 0 var(--r) var(--r) 0;
+  padding: 10px 14px; font-size: 12px; color: var(--text);
+  line-height: 1.65; margin-bottom: 12px;
+}
+.porq-answer.show { display: block; }
+.porq-rate-label {
+  font-size: 10px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .1em; color: var(--muted); margin-bottom: 8px;
+}
+.porq-rate-btns { display: flex; gap: 8px; flex-wrap: wrap; }
+.porq-rate-btn {
+  font-size: 11px; padding: 5px 14px; border-radius: 6px;
+  border: 1px solid var(--border2); background: none;
+  color: var(--text2); cursor: pointer; transition: all var(--tr);
+}
+.porq-rate-btn.selected-yes {
+  background: rgba(34,211,160,.12); border-color: rgba(34,211,160,.3); color: var(--green); font-weight: 700;
+}
+.porq-rate-btn.selected-no {
+  background: rgba(240,80,112,.10); border-color: rgba(240,80,112,.25); color: var(--red); font-weight: 700;
+}
+
+/* Tab bar for view-biblio/CT */
+.porq-section-header {
+  display: flex; align-items: center; justify-content: space-between;
+  cursor: pointer; padding: 14px 16px;
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--r); margin-bottom: 10px;
+}
+.porq-section-title { font-size: 13px; font-weight: 700; color: var(--text); }
+.porq-section-sub { font-size: 11px; color: var(--text2); margin-top: 2px; }
+.porq-topic-group { margin-bottom: 14px; }
+.porq-topic-name {
+  font-size: 10px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .1em; color: var(--text2); padding: 6px 0;
+  border-bottom: 1px solid var(--border); margin-bottom: 8px;
+}
+
+/* ── Dashboard Editor ─────────────────────────────────── */
+#dash-editor-modal {
+  display: none; position: fixed; inset: 0; z-index: 9000;
+  background: rgba(0,0,0,.6); backdrop-filter: blur(3px);
+  overflow-y: auto; padding: 24px 16px;
+}
+#dash-editor-modal.open { display: flex; align-items: flex-start; justify-content: center; }
+.de-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 16px; width: 100%; max-width: 560px;
+  overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,.5);
+  margin: auto;
+}
+.de-header {
+  padding: 18px 22px 16px; border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; gap: 12px;
+}
+.de-title { font-size: 15px; font-weight: 700; color: var(--text); flex: 1; }
+.de-close {
+  background: none; border: none; cursor: pointer; font-size: 22px;
+  color: var(--text2); padding: 4px 8px; border-radius: 6px; line-height: 1;
+  transition: color var(--tr);
+}
+.de-close:hover { color: var(--text); }
+.de-body { padding: 18px 22px 22px; }
+.de-section-label {
+  font-size: 10px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .12em; color: var(--muted); margin-bottom: 10px;
+}
+.de-panels { display: flex; flex-direction: column; gap: 8px; margin-bottom: 18px; }
+.de-panel-row {
+  display: flex; align-items: center; gap: 12px;
+  background: var(--card2); border: 1px solid var(--border);
+  border-radius: var(--r); padding: 11px 14px;
+  cursor: grab; transition: all var(--tr); user-select: none;
+}
+.de-panel-row:hover { border-color: var(--border2); background: var(--card); }
+.de-panel-row.dragging { opacity: .4; border-style: dashed; }
+.de-panel-row.drag-over { border-color: var(--blue); background: rgba(64,144,240,.06); }
+.de-drag-handle { color: var(--muted); font-size: 14px; cursor: grab; flex-shrink: 0; }
+.de-panel-info { flex: 1; min-width: 0; }
+.de-panel-name { font-size: 13px; font-weight: 600; color: var(--text); }
+.de-panel-desc { font-size: 11px; color: var(--text2); margin-top: 1px; }
+.de-toggle {
+  position: relative; width: 36px; height: 20px; flex-shrink: 0;
+}
+.de-toggle input { opacity: 0; width: 0; height: 0; position: absolute; }
+.de-toggle-slider {
+  position: absolute; inset: 0; border-radius: 10px;
+  background: var(--border2); cursor: pointer; transition: background .2s;
+}
+.de-toggle-slider:before {
+  content: ''; position: absolute; width: 14px; height: 14px;
+  left: 3px; top: 3px; border-radius: 50%;
+  background: white; transition: transform .2s;
+}
+.de-toggle input:checked + .de-toggle-slider { background: var(--blue); }
+.de-toggle input:checked + .de-toggle-slider:before { transform: translateX(16px); }
+
+.de-size-row {
+  display: flex; align-items: center; gap: 10px;
+  margin-top: 6px;
+}
+.de-size-label { font-size: 10px; color: var(--text2); flex-shrink: 0; }
+.de-size-btns { display: flex; gap: 4px; }
+.de-size-btn {
+  font-size: 10px; padding: 3px 9px; border-radius: 4px;
+  border: 1px solid var(--border); background: none;
+  color: var(--text2); cursor: pointer; transition: all var(--tr);
+}
+.de-size-btn.active, .de-size-btn:hover {
+  background: var(--blue); border-color: var(--blue); color: #fff;
+}
+.de-actions {
+  display: flex; gap: 8px; padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+.de-hint {
+  font-size: 11px; color: var(--text2); margin-bottom: 14px; line-height: 1.5;
+}
+
+/* ── Learning Path — Nuevo diseño ──────────────────── */
+.lp-command {
+  display:flex; align-items:flex-start; gap:16px;
+  background:var(--card2); border:1px solid var(--border);
+  border-radius:var(--r); padding:18px 20px; margin-bottom:14px;
+  flex-wrap:wrap;
+}
+.lp-cmd-left { display:flex; align-items:center; gap:14px; flex:1; min-width:200px; }
+.lp-score-ring-wrap { flex-shrink:0; }
+.lp-cmd-meta { display:flex; flex-direction:column; gap:3px; }
+.lp-cmd-status { font-size:16px; font-weight:800; line-height:1; }
+.lp-cmd-sub { font-size:11px; color:var(--text2); }
+.lp-cmd-streak { font-size:11px; color:var(--gold); margin-top:2px; }
+.lp-cmd-right { flex:1; min-width:180px; }
+.lp-cmd-action-label { font-size:10px; font-weight:700; text-transform:uppercase;
+  letter-spacing:.1em; color:var(--muted); margin-bottom:8px; }
+.lp-cmd-cta { display:flex; align-items:center; gap:12px;
+  padding:11px 14px; border-radius:var(--r); cursor:pointer;
+  transition:all var(--tr); border:1px solid transparent; }
+.lp-cta-red  { background:rgba(240,80,112,.08);  border-color:rgba(240,80,112,.2); }
+.lp-cta-blue { background:rgba(64,144,240,.08);  border-color:rgba(64,144,240,.2); }
+.lp-cta-green{ background:rgba(34,211,160,.08);  border-color:rgba(34,211,160,.2); }
+.lp-cta-icon { font-size:20px; flex-shrink:0; }
+.lp-cta-title { font-size:13px; font-weight:700; color:var(--text); }
+.lp-cta-desc  { font-size:11px; color:var(--text2); margin-top:1px; }
+
+.lp-micro {
+  background:rgba(64,144,240,.06); border:1px solid rgba(64,144,240,.2);
+  border-radius:var(--r); padding:14px 16px; margin-bottom:14px;
+}
+.lp-micro-header { display:flex; align-items:center; gap:12px; flex-wrap:wrap; }
+.lp-micro-icon { font-size:22px; flex-shrink:0; }
+.lp-micro-title { font-size:13px; font-weight:700; color:var(--text); }
+.lp-micro-sub { font-size:11px; color:var(--text2); margin-top:1px; }
+.lp-micro-btn {
+  margin-left:auto; padding:8px 18px; border-radius:var(--r);
+  background:var(--blue); border:none; color:#fff; font-size:12px;
+  font-weight:700; cursor:pointer; flex-shrink:0;
+  transition:opacity var(--tr);
+}
+.lp-micro-btn:hover { opacity:.85; }
+
+.lp-section-label {
+  font-size:10px; font-weight:700; text-transform:uppercase;
+  letter-spacing:.12em; color:var(--muted); margin:16px 0 8px;
+}
+
+.lp-mod-grid {
+  display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+  gap:12px; margin-bottom:4px;
+}
+.lp-mod-card {
+  background:var(--card2); border:1px solid var(--border);
+  border-radius:var(--r); padding:14px; transition:border-color var(--tr);
+}
+.lp-mod-card:hover { border-color:var(--border2); }
+.lp-mod-card-top { display:flex; align-items:flex-start; justify-content:space-between;
+  margin-bottom:10px; gap:8px; }
+.lp-mod-rank { font-size:9px; font-weight:700; color:var(--muted); text-transform:uppercase;
+  letter-spacing:.1em; margin-bottom:2px; }
+.lp-mod-name { font-size:12px; font-weight:700; line-height:1.3; }
+.lp-mod-badges { display:flex; flex-direction:column; align-items:flex-end; gap:4px; flex-shrink:0; }
+.lp-badge { font-size:9px; font-weight:700; padding:2px 7px; border-radius:4px;
+  white-space:nowrap; }
+.lp-badge-impact { background:var(--card); border:1px solid var(--border);
+  color:var(--text2); }
+
+.lp-mod-bars { display:flex; flex-direction:column; gap:5px; margin-bottom:10px; }
+.lp-bar-row { display:flex; align-items:center; gap:7px; }
+.lp-bar-lbl { font-size:10px; color:var(--text2); width:52px; flex-shrink:0; }
+.lp-bar-track { flex:1; height:5px; background:var(--border2); border-radius:3px; overflow:hidden; }
+.lp-bar-fill  { height:100%; border-radius:3px; transition:width .5s ease; }
+.lp-bar-val   { font-size:11px; font-family:var(--mono); font-weight:700; width:30px; text-align:right; }
+
+.lp-error-type {
+  font-size:11px; padding:5px 9px; border-radius:5px; border:1px solid;
+  margin-bottom:7px; display:inline-block;
+}
+.lp-top-err {
+  font-size:11px; color:var(--text2); line-height:1.45;
+  border-left:2px solid var(--border2); padding:4px 8px; margin-bottom:8px;
+}
+.lp-mod-actions { display:flex; gap:6px; flex-wrap:wrap; margin-top:2px; }
+
+.lp-cross-scroll {
+  display:flex; gap:10px; overflow-x:auto; padding-bottom:6px; margin-bottom:4px;
+  scrollbar-width:thin;
+}
+.lp-cross-chip {
+  flex-shrink:0; min-width:150px; background:var(--card2);
+  border:1px solid var(--border); border-radius:var(--r);
+  padding:11px 13px; cursor:pointer; transition:border-color var(--tr);
+}
+.lp-cross-chip:hover { border-color:var(--border2); }
+.lp-cross-name { font-size:12px; font-weight:700; margin-bottom:2px; }
+.lp-cross-desc { font-size:10px; color:var(--text2); margin-bottom:6px; }
+.lp-cross-stats { display:flex; gap:8px; font-size:11px; font-weight:600; }
+
+.lp-projection { padding:16px 18px; margin-bottom:14px; }
+.lp-proj-stats { display:flex; gap:0; margin-bottom:10px; flex-wrap:wrap; }
+.lp-proj-stat { flex:1; min-width:110px; text-align:center; padding:8px; }
+.lp-proj-val { font-size:24px; font-weight:800; font-family:var(--mono); line-height:1; }
+.lp-proj-lbl { font-size:10px; color:var(--text2); margin-top:3px; line-height:1.3; }
+.lp-proj-msg { font-size:12px; color:var(--text); line-height:1.5;
+  padding:8px 10px; background:var(--card); border-radius:var(--r);
+  border-left:3px solid var(--border2); }
+
+.lp-footer-strip {
+  display:flex; align-items:center; gap:8px; flex-wrap:wrap;
+  background:var(--card2); border:1px solid var(--border);
+  border-radius:var(--r); padding:12px 16px; margin-top:4px;
+  font-size:12px; color:var(--text);
+}
+.lp-footer-item { display:flex; align-items:center; gap:4px; }
+.lp-footer-sep { color:var(--border2); }
 </style>
 <!-- Auth modal styles -->
 <style>
@@ -2216,10 +2606,15 @@ body { font-size: 1rem; }
       <!-- ── HEADER ──────────────────────────────────────── -->
       <div class="db-header">
         <div class="db-header-left">
-          <div class="db-greeting" id="dash-greeting">Bienvenida</div>
+          <div class="db-greeting"><span id="dash-greeting">Bienvenida</span><span id="dash-user-name" style="color:var(--blue)"></span></div>
           <div class="db-date" id="dash-date"></div>
         </div>
-        <div class="db-header-right" id="db-insight-badge"></div>
+        <div class="db-header-right" style="display:flex;align-items:center;gap:10px">
+          <div id="db-insight-badge"></div>
+          <button onclick="openDashEditor()" title="Personalizar dashboard" style="background:none;border:1px solid var(--border);border-radius:8px;padding:5px 10px;cursor:pointer;font-size:12px;color:var(--text2);display:flex;align-items:center;gap:5px;transition:all var(--tr)" onmouseover="this.style.background='var(--card2)';this.style.color='var(--text)'" onmouseout="this.style.background='none';this.style.color='var(--text2)'">
+            ✏️ <span style="font-size:11px">Editar panel</span>
+          </button>
+        </div>
       </div>
 
       <!-- ── EXAM COUNTDOWN (shown only when date is set) ── -->
@@ -2268,7 +2663,7 @@ body { font-size: 1rem; }
       </div>
 
       <!-- ── METRICS ROW ──────────────────────────────────── -->
-      <div class="db-metrics-row">
+      <div class="db-metrics-row" id="db-metrics-row">
         <div class="db-metric">
           <div class="db-metric-val" id="ds-mastered">0</div>
           <div class="db-metric-label">Preguntas vistas</div>
@@ -2295,11 +2690,11 @@ body { font-size: 1rem; }
       </div>
 
       <!-- ── MAIN GRID ─────────────────────────────────────── -->
-      <div class="db-main-grid">
+      <div class="db-main-grid" id="db-panel-main-grid">
 
-        <!-- Left: Progress ring + modules -->
-        <div class="db-left-col">
-          <div class="card db-card-clean">
+        <!-- Left: Progress ring + modules urgency -->
+        <div class="db-left-col" id="db-panel-left">
+          <div class="card db-card-clean" style="margin-bottom:12px" id="db-panel-progress">
             <div class="db-card-title">Progreso global</div>
             <div class="db-ring-row">
               <div class="ring-wrap">
@@ -2312,11 +2707,15 @@ body { font-size: 1rem; }
               <div class="db-mod-list" id="mod-bars"></div>
             </div>
           </div>
+          <div class="card db-card-clean" id="db-panel-modules">
+            <div class="db-card-title">Módulos — estado y prioridad</div>
+            <div id="db-modules-urgency"></div>
+          </div>
         </div>
 
         <!-- Right: Datos clave -->
-        <div class="db-right-col">
-          <div class="card db-card-clean">
+        <div class="db-right-col" id="db-panel-right">
+          <div class="card db-card-clean" id="db-panel-datos">
             <div class="db-card-title">Datos clave — CNV</div>
             <div id="postit-container"></div>
           </div>
@@ -2324,20 +2723,14 @@ body { font-size: 1rem; }
 
       </div>
 
-      <!-- ── MODULES BY URGENCY ────────────────────────────── -->
-      <div class="card db-card-clean" style="margin-bottom:16px">
-        <div class="db-card-title">Módulos — estado y prioridad</div>
-        <div id="db-modules-urgency"></div>
-      </div>
-
       <!-- ── QUICK WINS ──────────────────────────────────────── -->
-      <div class="card db-card-clean" style="margin-bottom:16px">
+      <div class="card db-card-clean" id="db-quick-wins-card" style="margin-bottom:16px">
         <div class="db-card-title">Acciones rápidas — avanzá hoy</div>
         <div id="db-quick-wins"></div>
       </div>
 
       <!-- ── QUICK WINS + RECS ─────────────────────────────── -->
-      <div class="db-bottom-grid">
+      <div class="db-bottom-grid" id="db-recs-card">
         <div class="card db-card-clean">
           <div class="db-card-title">Sugerencias de repaso</div>
           <div id="dash-recs"></div>
@@ -2878,7 +3271,8 @@ body { font-size: 1rem; }
         <div class="page-title">📊 Historial de progreso</div>
       </div>
       <div class="hist-tabs">
-        <button class="hist-tab active" onclick="showHistTab('daily',this)">Diario</button>
+        <button class="hist-tab active" onclick="showHistTab('progreso',this)">📈 Progreso</button>
+        <button class="hist-tab" onclick="showHistTab('daily',this)">Diario</button>
         <button class="hist-tab" onclick="showHistTab('rendimiento',this)">📊 Rendimiento</button>
         <button class="hist-tab" onclick="showHistTab('modules',this)">Por módulo</button>
         <button class="hist-tab" onclick="showHistTab('exams',this)">Exámenes</button>
@@ -2935,8 +3329,23 @@ body { font-size: 1rem; }
         </div>
         <div id="study-plan-content"></div>
       </div>
+      <!-- Plan 20 horas toggle -->
+      <div class="card" style="margin-bottom:16px">
+        <div style="display:flex;align-items:center;justify-content:space-between;cursor:pointer" onclick="togglePlan20Block()">
+          <div>
+            <div class="section-title" style="margin-bottom:2px">⚡ Plan 20 horas — Método Pareto</div>
+            <div style="font-size:11px;color:var(--text2)">El 20% de contenido que genera el 80% de tus resultados</div>
+          </div>
+          <span id="plan20-chev" style="font-size:13px;color:var(--text2);margin-left:12px;flex-shrink:0">▸</span>
+        </div>
+        <div id="plan20-block" style="display:none;margin-top:14px">
+          <div id="plan20-content"></div>
+        </div>
+      </div>
+
       <div id="recs-content"></div>
     </div>
+
 
 
     <!-- BIBLIOGRAFÍA -->
@@ -3723,10 +4132,10 @@ function navigate(view) {
   if (view==='review')        buildReviewSetup();
   if (view==='flagged')       buildFlagged();
   if (view==='notes')         { buildNotes(); switchNotesTab('manual'); }
-  if (view==='history')       buildHistory('daily');
+  if (view==='history')       buildHistory('progreso');
   if (view==='path')          buildLearningPath();
   if (view==='achievements')  buildAchievements();
-  if (view==='recs')          { buildRecs(); initStudyPlan(); }
+  if (view==='recs')          { buildRecs(); initStudyPlan(); buildPlan20(); }
   if (view==='biblio')        {} // static view
   if (view==='flashcards')    buildFlashcardSetup();
 }
@@ -3749,7 +4158,14 @@ function buildDashboard() {
   const h = new Date().getHours();
   const greet = h<12 ? 'Buenos días' : h<18 ? 'Buenas tardes' : 'Buenas noches';
   const dayName = new Date().toLocaleDateString('es-AR',{weekday:'long',day:'numeric',month:'long'});
-  $('dash-greeting').textContent = greet;
+  $('dash-greeting').textContent = greet + (currentUser ? ', ' : '');
+  // Show user first name
+  const nameEl = $('dash-user-name');
+  if (nameEl && currentUser) {
+    const fullName = currentUser.user_metadata?.full_name || currentUser.email.split('@')[0];
+    const firstName = fullName.split(' ')[0];
+    nameEl.textContent = firstName.charAt(0).toUpperCase() + firstName.slice(1) + ' 👋';
+  }
   $('dash-date').textContent = dayName.charAt(0).toUpperCase() + dayName.slice(1);
 
   // ── Insight badge ──────────────────────────────────────────
@@ -3767,7 +4183,7 @@ function buildDashboard() {
     badge.innerHTML = worstMi >= 0
       ? `<div class="db-insight-pill">Punto crítico hoy: <strong>${MOD_SHORT[worstMi]}</strong></div>`
       : pct >= 80 ? `<div class="db-insight-pill db-insight-green">Preparación avanzada · ${pct}% cubierto</div>`
-      : `<div class="db-insight-pill">Cobertura actual: <strong>${pct}%</strong></div>`;
+      : `<div class="db-insight-pill">Progreso actual: <strong>${pct}%</strong></div>`;
   }
 
   // ── Stat cards ────────────────────────────────────────────
@@ -3799,7 +4215,7 @@ function buildDashboard() {
       pTitle = 'Expandí tu cobertura de la guía';
       pSub   = `Llevas el ${pct}% de la guía vista. Estudiar módulos nuevos maximiza tu preparación.`;
       pBtn   = `<button class="btn btn-primary db-priority-btn" onclick="navigate('study')">Explorar módulos</button>`;
-      pStat  = `<div class="db-ps-val" style="color:var(--blue)">${pct}%</div><div class="db-ps-lbl">cobertura actual</div>`;
+      pStat  = `<div class="db-ps-val" style="color:var(--blue)">${pct}%</div><div class="db-ps-lbl">progreso actual</div>`;
     } else if (gAcc !== null && gAcc < 60) {
       pTitle = `Precisión del ${gAcc}% — reforzá los conceptos clave`;
       pSub   = 'Antes de avanzar en cobertura, consolidá lo ya visto con mayor profundidad.';
@@ -3993,7 +4409,7 @@ function _buildQuickWins() {
       color:'var(--gold)', bg:'rgba(240,192,64,.06)', border:'rgba(240,192,64,.2)',
       tag:'Ampliar cobertura',
       title:'Avanzar en ' + MOD_NAMES[modPartial.mi],
-      body:'Llevás el ' + modPartial.visPct + '% del módulo. Cada pregunta nueva suma a tu cobertura global.',
+      body:'Llevás el ' + modPartial.visPct + '% del módulo. Cada pregunta nueva suma a tu progreso global.',
       cta:'Continuar M' + (modPartial.mi + 1), time:'~5 min'
     });
   }
@@ -5353,6 +5769,7 @@ function buildHistory(tab) {
   document.querySelector(`.hist-tab[onclick*="${tab}"]`)?.classList.add('active');
   const el=$('hist-content');
   if (tab==='rendimiento') { _buildRendimientoTab(); return; }
+  if (tab==='progreso')    { _buildProgresoTab(); return; }
   if (tab==='daily') {
     const days=[];
     for(let i=29;i>=0;i--){
@@ -5545,19 +5962,19 @@ function showHistTab(tab,btn) {
 const ACHIEVEMENTS = [
 
   // ── COBERTURA ─────────────────────────────────────────────────────────
-  {id:'q1',    cat:'Cobertura',  stars:1, icon:'🌱', name:'Primera pregunta',    desc:'Respondiste tu primera pregunta',          fn:()=>getTotalSeen()>=1,    prog:()=>({v:Math.min(getTotalSeen(),1),   t:1})},
-  {id:'q10',   cat:'Cobertura',  stars:1, icon:'🔟', name:'10 respondidas',      desc:'10 preguntas respondidas',                 fn:()=>getTotalSeen()>=10,   prog:()=>({v:Math.min(getTotalSeen(),10),  t:10})},
-  {id:'q25',   cat:'Cobertura',  stars:1, icon:'📌', name:'25 respondidas',      desc:'25 preguntas respondidas',                 fn:()=>getTotalSeen()>=25,   prog:()=>({v:Math.min(getTotalSeen(),25),  t:25})},
-  {id:'q50',   cat:'Cobertura',  stars:1, icon:'📖', name:'50 respondidas',      desc:'50 preguntas respondidas',                 fn:()=>getTotalSeen()>=50,   prog:()=>({v:Math.min(getTotalSeen(),50),  t:50})},
-  {id:'q100',  cat:'Cobertura',  stars:2, icon:'💯', name:'100 respondidas',     desc:'100 preguntas respondidas',                fn:()=>getTotalSeen()>=100,  prog:()=>({v:Math.min(getTotalSeen(),100), t:100})},
-  {id:'q150',  cat:'Cobertura',  stars:2, icon:'📗', name:'150 respondidas',     desc:'150 preguntas respondidas',                fn:()=>getTotalSeen()>=150,  prog:()=>({v:Math.min(getTotalSeen(),150), t:150})},
-  {id:'q200',  cat:'Cobertura',  stars:2, icon:'📚', name:'200 respondidas',     desc:'200 preguntas respondidas',                fn:()=>getTotalSeen()>=200,  prog:()=>({v:Math.min(getTotalSeen(),200), t:200})},
-  {id:'q300',  cat:'Cobertura',  stars:2, icon:'🗂️',name:'300 respondidas',     desc:'300 preguntas respondidas',                fn:()=>getTotalSeen()>=300,  prog:()=>({v:Math.min(getTotalSeen(),300), t:300})},
-  {id:'q337',  cat:'Cobertura',  stars:3, icon:'⭐', name:'Mitad del camino',    desc:'Más de la mitad de la guía vista',         fn:()=>getTotalSeen()>=337,  prog:()=>({v:Math.min(getTotalSeen(),337), t:337})},
-  {id:'q400',  cat:'Cobertura',  stars:3, icon:'🎯', name:'400 respondidas',     desc:'400 preguntas respondidas',                fn:()=>getTotalSeen()>=400,  prog:()=>({v:Math.min(getTotalSeen(),400), t:400})},
-  {id:'q500',  cat:'Cobertura',  stars:3, icon:'🔥', name:'500 respondidas',     desc:'500 preguntas respondidas',                fn:()=>getTotalSeen()>=500,  prog:()=>({v:Math.min(getTotalSeen(),500), t:500})},
-  {id:'q600',  cat:'Cobertura',  stars:4, icon:'🔬', name:'600 respondidas',     desc:'600 preguntas respondidas',                fn:()=>getTotalSeen()>=600,  prog:()=>({v:Math.min(getTotalSeen(),600), t:600})},
-  {id:'q673',  cat:'Cobertura',  stars:5, icon:'🏛️',name:'Guía completa',       desc:'Todas las 673 preguntas vistas',           fn:()=>getTotalSeen()>=673,  prog:()=>({v:Math.min(getTotalSeen(),673), t:673})},
+  {id:'q1',    cat:'Progreso',  stars:1, icon:'🌱', name:'Primera pregunta',    desc:'Respondiste tu primera pregunta',          fn:()=>getTotalSeen()>=1,    prog:()=>({v:Math.min(getTotalSeen(),1),   t:1})},
+  {id:'q10',   cat:'Progreso',  stars:1, icon:'🔟', name:'10 respondidas',      desc:'10 preguntas respondidas',                 fn:()=>getTotalSeen()>=10,   prog:()=>({v:Math.min(getTotalSeen(),10),  t:10})},
+  {id:'q25',   cat:'Progreso',  stars:1, icon:'📌', name:'25 respondidas',      desc:'25 preguntas respondidas',                 fn:()=>getTotalSeen()>=25,   prog:()=>({v:Math.min(getTotalSeen(),25),  t:25})},
+  {id:'q50',   cat:'Progreso',  stars:1, icon:'📖', name:'50 respondidas',      desc:'50 preguntas respondidas',                 fn:()=>getTotalSeen()>=50,   prog:()=>({v:Math.min(getTotalSeen(),50),  t:50})},
+  {id:'q100',  cat:'Progreso',  stars:2, icon:'💯', name:'100 respondidas',     desc:'100 preguntas respondidas',                fn:()=>getTotalSeen()>=100,  prog:()=>({v:Math.min(getTotalSeen(),100), t:100})},
+  {id:'q150',  cat:'Progreso',  stars:2, icon:'📗', name:'150 respondidas',     desc:'150 preguntas respondidas',                fn:()=>getTotalSeen()>=150,  prog:()=>({v:Math.min(getTotalSeen(),150), t:150})},
+  {id:'q200',  cat:'Progreso',  stars:2, icon:'📚', name:'200 respondidas',     desc:'200 preguntas respondidas',                fn:()=>getTotalSeen()>=200,  prog:()=>({v:Math.min(getTotalSeen(),200), t:200})},
+  {id:'q300',  cat:'Progreso',  stars:2, icon:'🗂️',name:'300 respondidas',     desc:'300 preguntas respondidas',                fn:()=>getTotalSeen()>=300,  prog:()=>({v:Math.min(getTotalSeen(),300), t:300})},
+  {id:'q337',  cat:'Progreso',  stars:3, icon:'⭐', name:'Mitad del camino',    desc:'Más de la mitad de la guía vista',         fn:()=>getTotalSeen()>=337,  prog:()=>({v:Math.min(getTotalSeen(),337), t:337})},
+  {id:'q400',  cat:'Progreso',  stars:3, icon:'🎯', name:'400 respondidas',     desc:'400 preguntas respondidas',                fn:()=>getTotalSeen()>=400,  prog:()=>({v:Math.min(getTotalSeen(),400), t:400})},
+  {id:'q500',  cat:'Progreso',  stars:3, icon:'🔥', name:'500 respondidas',     desc:'500 preguntas respondidas',                fn:()=>getTotalSeen()>=500,  prog:()=>({v:Math.min(getTotalSeen(),500), t:500})},
+  {id:'q600',  cat:'Progreso',  stars:4, icon:'🔬', name:'600 respondidas',     desc:'600 preguntas respondidas',                fn:()=>getTotalSeen()>=600,  prog:()=>({v:Math.min(getTotalSeen(),600), t:600})},
+  {id:'q673',  cat:'Progreso',  stars:5, icon:'🏛️',name:'Guía completa',       desc:'Todas las 673 preguntas vistas',           fn:()=>getTotalSeen()>=673,  prog:()=>({v:Math.min(getTotalSeen(),673), t:673})},
 
   // ── MÓDULOS ───────────────────────────────────────────────────────────
   {id:'m1_25', cat:'Módulos',    stars:1, icon:'⚖️', name:'M1 iniciado',         desc:'25% del Módulo Marco Normativo',           fn:()=>getModSeen(0)>=30,    prog:()=>({v:getModSeen(0), t:30})},
@@ -5634,7 +6051,7 @@ const ACHIEVEMENTS = [
   {id:'sp_inv',   cat:'Especiales', stars:3, icon:'💼', name:'Gestor de Fondos', desc:'Módulo Inv. Colectiva completado al 100%', fn:()=>getModSeen(5)>=110,    prog:()=>({v:getModSeen(5), t:110})},
   {id:'sp_come',  cat:'Especiales', stars:2, icon:'📐', name:'Madrugador',       desc:'Estudiaste en más de 10 días distintos',   fn:()=>Object.keys(dailyStats).filter(k=>dailyStats[k]?.answered>0).length>=10, prog:()=>({v:Math.min(Object.keys(dailyStats).filter(k=>dailyStats[k]?.answered>0).length,10),t:10})},
   {id:'sp_back',  cat:'Especiales', stars:3, icon:'🔮', name:'Constante',        desc:'Estudiaste en más de 20 días distintos',   fn:()=>Object.keys(dailyStats).filter(k=>dailyStats[k]?.answered>0).length>=20, prog:()=>({v:Math.min(Object.keys(dailyStats).filter(k=>dailyStats[k]?.answered>0).length,20),t:20})},
-  {id:'sp_prep',  cat:'Especiales', stars:4, icon:'🎓', name:'Preparado',        desc:'Cobertura global 80%+ y precisión 70%+',   fn:()=>{let ok=0,tot=0;Object.values(masteryData).forEach(m=>{ok+=m.correct||0;tot+=m.attempts||0});return getTotalSeen()/673>=.8&&tot>0&&ok/tot>=.7}, prog:()=>{let ok=0,tot=0;Object.values(masteryData).forEach(m=>{ok+=m.correct||0;tot+=m.attempts||0});const cov=Math.round(getTotalSeen()/673*100);const prec=tot>0?Math.round(ok/tot*100):0;return {v:Math.min(cov,prec),t:75,unit:'%'}}},
+  {id:'sp_prep',  cat:'Especiales', stars:4, icon:'🎓', name:'Preparado',        desc:'Progreso global 80%+ y precisión 70%+',   fn:()=>{let ok=0,tot=0;Object.values(masteryData).forEach(m=>{ok+=m.correct||0;tot+=m.attempts||0});return getTotalSeen()/673>=.8&&tot>0&&ok/tot>=.7}, prog:()=>{let ok=0,tot=0;Object.values(masteryData).forEach(m=>{ok+=m.correct||0;tot+=m.attempts||0});const cov=Math.round(getTotalSeen()/673*100);const prec=tot>0?Math.round(ok/tot*100):0;return {v:Math.min(cov,prec),t:75,unit:'%'}}},
   {id:'sp_elite', cat:'Especiales', stars:5, icon:'👑', name:'Candidato élite',  desc:'Guía completa + 85%+ de precisión',        fn:()=>{let ok=0,tot=0;Object.values(masteryData).forEach(m=>{ok+=m.correct||0;tot+=m.attempts||0});return getTotalSeen()>=673&&tot>0&&ok/tot>=.85}, prog:()=>{let ok=0,tot=0;Object.values(masteryData).forEach(m=>{ok+=m.correct||0;tot+=m.attempts||0});return {v:Math.min(getTotalSeen(),673),t:673}}},
   {id:'sp_exam5', cat:'Especiales', stars:4, icon:'🏆', name:'Examinador serial',desc:'5 exámenes con 70%+',                      fn:()=>examHistory.filter(e=>e.score>=70).length>=5, prog:()=>({v:Math.min(examHistory.filter(e=>e.score>=70).length,5),t:5})},
 ];
@@ -5659,7 +6076,7 @@ function buildAchievements() {
   const earnedStars = ACHIEVEMENTS.filter(a => unlocked.has(a.id)).reduce((s,a) => s+a.stars, 0);
   const pct         = Math.round(earnedStars / totalStars * 100);
   const cats        = [...new Set(ACHIEVEMENTS.map(a => a.cat))];
-  const catOrder    = ['Cobertura','Módulos','Precisión','Rachas','Exámenes','Herramientas','Especiales'];
+  const catOrder    = ['Progreso','Módulos','Precisión','Rachas','Exámenes','Herramientas','Especiales'];
   const sortedCats  = catOrder.filter(c => cats.includes(c));
 
   const pctColor = pct >= 80 ? 'var(--green)' : pct >= 50 ? 'var(--gold)' : 'var(--blue)';
@@ -5883,7 +6300,7 @@ function buildRecs() {
       <div class="rp-diag-grid">
         <div class="rp-diag-cell">
           <div class="rp-diag-val" style="color:${coverage>=70?'var(--green)':coverage>=40?'var(--gold)':'var(--red)'}">${coverage}%</div>
-          <div class="rp-diag-lbl">Cobertura</div>
+          <div class="rp-diag-lbl">Progreso</div>
         </div>
         <div class="rp-diag-sep"></div>
         <div class="rp-diag-cell">
@@ -5903,7 +6320,7 @@ function buildRecs() {
       </div>
       <div class="rp-diag-bar-wrap">
         <div style="flex:1">
-          <div class="rp-diag-bar-lbl">Cobertura</div>
+          <div class="rp-diag-bar-lbl">Progreso</div>
           <div class="rp-bar-track"><div class="rp-bar-fill" style="width:${coverage}%;background:${coverage>=70?'var(--green)':coverage>=40?'var(--gold)':'var(--red)'}"></div></div>
         </div>
         <div style="flex:1">
@@ -5954,7 +6371,7 @@ function buildRecs() {
             <div class="rp-item-reason">${reason}</div>
             <div class="rp-item-progress">
               <div style="display:flex;justify-content:space-between;margin-bottom:3px">
-                <span class="rp-prog-lbl">Cobertura</span>
+                <span class="rp-prog-lbl">Progreso</span>
                 <span class="rp-prog-lbl">${m.seen}/${MOD_TOTALS[m.mi]} (${m.visPct}%)</span>
               </div>
               <div class="rp-bar-track">
@@ -6427,7 +6844,26 @@ function exportPDF() {
   <div class="s ${last.score>=70?'ok':'bad'}">${last.score}%</div>
   <p>${last.correct} correctas de ${last.answered} respondidas</p>
   <p class="${last.score>=70?'ok':'bad'}">${last.score>=70?'✓ APROBADO':'✗ DESAPROBADO'}</p>
-  </body></html>`);
+  
+  <!-- DASHBOARD EDITOR MODAL -->
+  <div id="dash-editor-modal" style="display:none" onclick="if(event.target===this)closeDashEditor()">
+    <div class="de-card">
+      <div class="de-header">
+        <div class="de-title">✏️ Personalizar dashboard</div>
+        <button class="de-close" onclick="closeDashEditor()">×</button>
+      </div>
+      <div class="de-body">
+        <div class="de-hint">Activá o desactivá cada sección, y arrastrálas para reordenarlas. Los cambios se guardan automáticamente.</div>
+        <div class="de-section-label">Secciones del dashboard</div>
+        <div class="de-panels" id="de-panels-list"></div>
+        <div class="de-actions">
+          <button class="btn btn-primary" onclick="applyDashLayout();closeDashEditor()">Aplicar cambios</button>
+          <button class="btn btn-ghost" onclick="resetDashLayout()">Restablecer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</body></html>`);
   w.document.close();
   w.print();
 }
@@ -7309,9 +7745,8 @@ async function saveFullEdit(mi, qi, numOpts) {
   localStorage.setItem(SK('editedAnswers'), JSON.stringify(editedAnswers));
 
   // Save to Supabase
-  await saveEditToCloud(mi, qi, edit);
-
-  if (statusEl) statusEl.textContent = '✓ Guardado en Supabase';
+  const saved = await saveEditToCloud(mi, qi, edit);
+  if (statusEl) statusEl.textContent = saved ? '✓ Guardado en Supabase' : '⚠️ Guardado local solo (error en Supabase)';
   toast('✓ Pregunta actualizada para todos los usuarios');
 
   // Re-render question
@@ -7379,11 +7814,26 @@ async function saveEditToCloud(mi, qi, edit) {
       option_2:     edit.options?.[2] || null,
       option_3:     edit.options?.[3] || null,
       edited_by:    currentUser.email,
+      updated_at:   new Date().toISOString(),
     };
     const { error } = await sbClient.from('question_edits')
       .upsert(row, { onConflict: 'module_id,question_idx' });
-    if (error) console.error('saveEditToCloud:', error);
-  } catch(e) { console.warn('saveEditToCloud:', e); }
+    if (error) {
+      console.error('saveEditToCloud:', error);
+      // Show error to admin
+      const statusEl = $('ea-status');
+      if (statusEl) statusEl.textContent = '⚠️ Error Supabase: ' + (error.message || error.code || JSON.stringify(error));
+      toast('⚠️ No se pudo guardar en Supabase: ' + (error.message || error.code), 6000);
+      return false;
+    }
+    return true;
+  } catch(e) {
+    console.error('saveEditToCloud exception:', e);
+    const statusEl = $('ea-status');
+    if (statusEl) statusEl.textContent = '⚠️ Error: ' + e.message;
+    toast('⚠️ Error al guardar: ' + e.message, 6000);
+    return false;
+  }
 }
 
 // Delete edit from Supabase
@@ -8089,235 +8539,440 @@ function buildLearningPath() {
   if (!el) return;
 
   const MOD_NAMES  = ['Marco Normativo','PLD','Transparencia','Contabilidad','Agentes','Inv. Colectiva'];
-  const MOD_SHORT  = ['Marco Norm.','PLD','Transparencia','Contabilidad','Agentes','Inv. Colectiva'];
   const MOD_TOTALS = [121,96,104,133,109,110];
   const MOD_CVARS  = ['--m1','--m2','--m3','--m4','--m5','--m6'];
-  const MOD_TOPICS = [
-    ['OPA','Oferta Pública','Sanciones','Emisoras PyME','Control Societario'],
-    ['Etapas Lavado','Sujetos Obligados','PEP / DD','ROS y Plazos','Oficial Cumplimiento'],
-    ['Hechos Relevantes','Insider Trading','Gobierno Corp.','Idoneidad','Atención Inversor'],
-    ['NIIF / EEFF','Ratios Financieros','Auditoría','Bonos / Duration','Futuros y Opciones'],
-    ['Categorías Agentes','Caución y Pase','CPD / FCE','Opciones','Suscripción Acciones'],
-    ['FCI Abiertos','FCI Cerrados','Fideicomiso Financiero','Reglas del FCI','Cuotapartes'],
-  ];
 
-  // Per-module stats
+  // ── Per-module stats ────────────────────────────────────
   const mods = MODULES.map((mod, mi) => {
-    let ok = 0, bad = 0, seen = 0, lastErr = null;
+    let ok=0, bad=0, seen=0, errors=0, topErrQ=null;
     mod.questions.forEach((q, qi) => {
       const m = getMastery(mi, qi);
       if ((m.attempts||0) > 0) {
         seen++;
-        ok  += m.correct || 0;
-        bad += Math.max(0, (m.attempts||0) - (m.correct||0));
-        if ((m.errors||0) > 0 && (lastErr === null || m.errors > lastErr.errors)) {
-          lastErr = { qi, num: q[0], question: q[1], errors: m.errors };
-        }
+        ok  += m.correct||0;
+        bad += Math.max(0,(m.attempts||0)-(m.correct||0));
+        errors += m.errors||0;
+        if ((m.errors||0)>0 && (!topErrQ || m.errors > topErrQ.errors))
+          topErrQ = { qi, num:q[0], q:q[1], errors:m.errors };
       }
     });
-    const total  = ok + bad;
-    const acc    = total > 0 ? Math.round(ok / total * 100) : null;
-    const visPct = Math.round(seen / MOD_TOTALS[mi] * 100);
-    const score  = acc !== null ? Math.round(visPct * 0.4 + acc * 0.6) : Math.round(visPct * 0.3);
-    const unseen = MOD_TOTALS[mi] - seen;
-    return { mi, ok, bad, seen, total, acc, visPct, score, unseen, lastErr };
+    const total  = ok+bad;
+    const acc    = total>0 ? Math.round(ok/total*100) : null;
+    const visPct = Math.round(seen/MOD_TOTALS[mi]*100);
+    // Impact score: how much score gain if this module goes to 70% acc
+    const unseen     = MOD_TOTALS[mi] - seen;
+    const accGap     = acc !== null ? Math.max(0, 70-acc) : 70;
+    const covGap     = Math.max(0, 60-visPct);
+    const impactScore= Math.round(covGap*0.6 + accGap*0.4);
+    return { mi, ok, bad, seen, total, acc, visPct, errors, unseen, topErrQ, impactScore };
   });
 
-  // Global
-  let gOk = 0, gBad = 0;
-  mods.forEach(m => { gOk += m.ok; gBad += m.bad; });
-  const gTotal    = gOk + gBad;
-  const gAcc      = gTotal > 0 ? Math.round(gOk / gTotal * 100) : 0;
-  const gCoverage = Math.round(getTotalSeen() / 673 * 100);
-  const gScore    = Math.round(gCoverage * 0.4 + gAcc * 0.6);
-  const dash      = 2 * Math.PI * 34;
+  // Sort by impact (highest first)
+  const modsByImpact = [...mods].sort((a,b) => b.impactScore - a.impactScore);
 
-  function sc(s) { return s >= 68 ? 'var(--green)' : s >= 42 ? 'var(--gold)' : 'var(--red)'; }
-  function sl(s) { return s >= 68 ? 'Dominado' : s >= 42 ? 'En desarrollo' : s >= 15 ? 'Inicial' : 'Sin explorar'; }
+  // ── Global metrics ──────────────────────────────────────
+  let gOk=0, gBad=0;
+  mods.forEach(m => { gOk+=m.ok; gBad+=m.bad; });
+  const gTotal    = gOk+gBad;
+  const gAcc      = gTotal>0 ? Math.round(gOk/gTotal*100) : 0;
+  const gCoverage = Math.round(getTotalSeen()/673*100);
+  const gScore    = Math.round(gCoverage*0.4 + gAcc*0.6);
+  const streak    = getStreak();
+  const errCount  = countErrors();
 
-  function suggestion(m) {
-    if (m.visPct < 20) return { icon:'📖', text:'Empezá a explorar este módulo — todavía no lo tocaste.' };
-    if (m.acc !== null && m.acc < 45) return { icon:'🔴', text:`Tasa de error alta (${100-m.acc}%). Revisá los conceptos base antes de avanzar.` };
-    if (m.acc !== null && m.acc < 65) return { icon:'⚠️', text:`Precisión media (${m.acc}%). Repasá con foco en los errores cometidos.` };
-    if (m.visPct < 50) return { icon:'📚', text:`Buen rendimiento, pero solo viste el ${m.visPct}% del módulo. Expandí la cobertura.` };
-    if (m.unseen > 0) return { icon:'🔍', text:`Quedan ${m.unseen} preguntas sin ver en este módulo.` };
-    return { icon:'✅', text:'Módulo bien dominado. Hacé repasos periódicos para retener.' };
+  // ── Score color helper ───────────────────────────────────
+  function sc(s) { return s>=70?'var(--green)':s>=45?'var(--gold)':'var(--red)'; }
+  function sl(s) { return s>=70?'Preparado/a':'Avanzando'; }
+
+  // ── Error classification (heuristic) ────────────────────
+  function classifyErrors(mi) {
+    const types = { normativo:0, memoria:0, conceptual:0, lectura:0 };
+    MODULES[mi].questions.forEach((q,qi) => {
+      const m = getMastery(mi,qi);
+      if (!m.errors) return;
+      const qt = q[1].toLowerCase();
+      if (/qué norma|ley\s+\d|artículo|resolución|plazo|días hábiles/.test(qt)) types.normativo++;
+      else if (/cuánto|monto|porcentaje|%|días|años|meses/.test(qt)) types.memoria++;
+      else if (/por qué|cuál es el objetivo|finalidad|qué implica/.test(qt)) types.conceptual++;
+      else types.lectura++;
+    });
+    const max = Object.entries(types).sort((a,b)=>b[1]-a[1])[0];
+    const labels = { normativo:'Confusión normativa', memoria:'Error de memoria', conceptual:'Error conceptual', lectura:'Error de lectura' };
+    const icons  = { normativo:'📋', memoria:'🔢', conceptual:'🧠', lectura:'👁' };
+    const colors = { normativo:'var(--blue)', memoria:'var(--orange)', conceptual:'var(--purple)', lectura:'var(--gold)' };
+    return max[1]>0 ? { label:labels[max[0]], icon:icons[max[0]], color:colors[max[0]] } : null;
   }
 
-  function phaseTag(m) {
-    if (m.visPct < 20) return { label:'Sin explorar', bg:'rgba(64,144,240,.15)', color:'var(--blue)' };
-    if (m.score < 42)  return { label:'Refuerzo urgente', bg:'rgba(240,80,112,.15)', color:'var(--red)' };
-    if (m.score < 68)  return { label:'En consolidación', bg:'rgba(240,192,64,.15)', color:'var(--gold)' };
-    return { label:'Dominado', bg:'rgba(34,211,160,.15)', color:'var(--green)' };
+  // ── Microlearning 7 questions ────────────────────────────
+  function buildMicroSession() {
+    const pool = [];
+    // 40% errors
+    MODULES.forEach((mod,mi) => mod.questions.forEach((q,qi) => {
+      const m=getMastery(mi,qi);
+      if ((m.errors||0)>0 && m.level<3) pool.push({mi,qi,w:10+m.errors,q,m});
+    }));
+    // 30% unseen from critical modules
+    modsByImpact.slice(0,3).forEach(mod => {
+      MODULES[mod.mi].questions.forEach((q,qi) => {
+        const m=getMastery(mod.mi,qi);
+        if (!m.attempts) pool.push({mi:mod.mi,qi,w:7,q,m});
+      });
+    });
+    // 30% random
+    MODULES.forEach((mod,mi) => mod.questions.forEach((q,qi) => {
+      const m=getMastery(mi,qi);
+      pool.push({mi,qi,w:1+Math.random()*3,q,m});
+    }));
+    // Weighted shuffle, pick 7
+    pool.sort((a,b)=>b.w-a.w);
+    const seen=new Set(); const out=[];
+    for (const p of pool) {
+      const k=p.mi+'_'+p.qi;
+      if (!seen.has(k)) { seen.add(k); out.push(p); }
+      if (out.length>=7) break;
+    }
+    return out;
   }
 
-  // Build phases
-  const phases = [
-    { n:1, icon:'🔴', label:'Refuerzo urgente', color:'var(--red)',
-      desc:'Módulos con alta tasa de error o muy poco visto — prioritarios ahora',
-      mods: mods.filter(m => m.score < 35 && m.seen > 2) },
-    { n:2, icon:'📖', label:'Exploración pendiente', color:'var(--blue)',
-      desc:'Módulos con menos del 35% de cobertura — expandí el terreno antes del examen',
-      mods: mods.filter(m => m.visPct < 35) },
-    { n:3, icon:'📊', label:'Consolidación', color:'var(--gold)',
-      desc:'Módulos en desarrollo — solidificá con práctica específica en los puntos débiles',
-      mods: mods.filter(m => m.score >= 35 && m.score < 68) },
-    { n:4, icon:'✅', label:'Mantenimiento', color:'var(--green)',
-      desc:'Módulos dominados — repasos breves para mantener la retención',
-      mods: mods.filter(m => m.score >= 68) },
-  ].filter(p => p.mods.length > 0);
+  // ── Cross-module topics ──────────────────────────────────
+  const CROSS_TOPICS = [
+    { label:'OPA', mods:[0], qCount:10, desc:'Oferta Pública de Adquisición — M1', color:'var(--m1)' },
+    { label:'PLD', mods:[1,0], qCount:45, desc:'Prevención Lavado — M1+M2', color:'var(--m2)' },
+    { label:'CNV — Funciones', mods:[0,2], qCount:22, desc:'Atribuciones CNV — M1+M3', color:'var(--m3)' },
+    { label:'Hechos Relevantes', mods:[2], qCount:15, desc:'Info privilegiada — M3', color:'var(--m4)' },
+    { label:'Agentes CNV', mods:[4,2], qCount:30, desc:'Categorías y obligaciones — M3+M5', color:'var(--m5)' },
+    { label:'FCI+FF', mods:[5], qCount:55, desc:'Inversión Colectiva — M6', color:'var(--m6)' },
+  ];
 
+  function crossTopicPct(topic) {
+    let seen=0, total=0;
+    topic.mods.forEach(mi => {
+      total += MODULES[mi].questions.length;
+      seen  += getModSeen(mi);
+    });
+    return total>0 ? Math.round(seen/total*100) : 0;
+  }
+  function crossTopicAcc(topic) {
+    let ok=0,tot=0;
+    topic.mods.forEach(mi => {
+      MODULES[mi].questions.forEach((_,qi) => {
+        const m=getMastery(mi,qi);
+        ok+=m.correct||0; tot+=m.attempts||0;
+      });
+    });
+    return tot>0 ? Math.round(ok/tot*100) : null;
+  }
+
+  // ── Weekly projection ────────────────────────────────────
+  function buildProjection() {
+    const last14 = [];
+    for (let i=13;i>=0;i--) {
+      const d=new Date(); d.setDate(d.getDate()-i);
+      const k=d.toISOString().slice(0,10);
+      last14.push(dailyStats[k]?.answered||0);
+    }
+    const avgWeek = last14.reduce((a,b)=>a+b,0)/2; // avg per week
+    const remaining = 673 - getTotalSeen();
+    const weeksLeft  = avgWeek>0 ? Math.ceil(remaining/avgWeek) : null;
+    return { avgWeek: Math.round(avgWeek), weeksLeft };
+  }
+
+  const proj = buildProjection();
+  const microQs = buildMicroSession();
+
+  // ── Render ───────────────────────────────────────────────
   el.innerHTML = `
-    <!-- Hero card: compact score + mini bars -->
-    <div class="card" style="margin-bottom:18px;padding:18px 20px">
-      <div style="display:flex;align-items:center;gap:16px;margin-bottom:16px">
-        <!-- Ring: fixed 72×72, SVG with explicit dimensions -->
-        <div style="position:relative;width:72px;height:72px;flex-shrink:0">
-          <svg width="72" height="72" viewBox="0 0 72 72" style="display:block">
-            <circle cx="36" cy="36" r="30" fill="none" stroke="var(--border2)" stroke-width="7"/>
-            <circle cx="36" cy="36" r="30" fill="none" stroke="${sc(gScore)}" stroke-width="7"
-              stroke-dasharray="${(2*Math.PI*30).toFixed(1)}"
-              stroke-dashoffset="${(2*Math.PI*30*(1-gScore/100)).toFixed(1)}"
-              stroke-linecap="round" transform="rotate(-90 36 36)"/>
-          </svg>
-          <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
-            font-size:16px;font-weight:800;font-family:var(--mono);color:${sc(gScore)}">${gScore}</div>
-        </div>
-        <div style="flex:1">
-          <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;
-            color:var(--text2);margin-bottom:3px">Score de preparación</div>
-          <div style="font-size:17px;font-weight:700;color:${sc(gScore)};margin-bottom:2px">${sl(gScore)}</div>
-          <div style="font-size:11px;color:var(--text2)">
-            Cobertura <strong style="color:var(--text)">${gCoverage}%</strong> ·
-            Precisión <strong style="color:var(--text)">${gAcc}%</strong> ·
-            ${673 - getTotalSeen()} preguntas sin ver
-          </div>
-        </div>
+
+  <!-- ═══ A. COMANDO CENTRAL ════════════════════════════ -->
+  <div class="lp-command">
+    <div class="lp-cmd-left">
+      <div class="lp-score-ring-wrap">
+        <svg width="80" height="80" viewBox="0 0 80 80">
+          <circle cx="40" cy="40" r="34" fill="none" stroke="var(--border2)" stroke-width="8"/>
+          <circle cx="40" cy="40" r="34" fill="none" stroke="${sc(gScore)}" stroke-width="8"
+            stroke-dasharray="${(2*Math.PI*34).toFixed(1)}"
+            stroke-dashoffset="${(2*Math.PI*34*(1-gScore/100)).toFixed(1)}"
+            stroke-linecap="round" transform="rotate(-90 40 40)"/>
+          <text x="40" y="44" text-anchor="middle" font-size="17" font-weight="800"
+            fill="${sc(gScore)}" font-family="monospace">${gScore}</text>
+        </svg>
       </div>
-      <!-- Module mini bars -->
-      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:5px 20px">
-        ${mods.map(m => {
-          const ph = phaseTag(m);
-          return `<div style="display:flex;align-items:center;gap:7px">
-            <div style="font-size:10px;font-weight:700;color:var(${MOD_CVARS[m.mi]});width:22px;flex-shrink:0">M${m.mi+1}</div>
-            <div style="flex:1;height:5px;background:var(--border2);border-radius:2px;overflow:hidden">
-              <div style="width:${m.score}%;height:100%;background:${sc(m.score)};border-radius:2px;transition:width .6s ease"></div>
-            </div>
-            <div style="font-size:10px;font-family:var(--mono);color:${sc(m.score)};width:28px;text-align:right;font-weight:600">${m.score}%</div>
-          </div>`;
-        }).join('')}
+      <div class="lp-cmd-meta">
+        <div class="lp-cmd-status" style="color:${sc(gScore)}">${sl(gScore)}</div>
+        <div class="lp-cmd-sub">Progreso ${gCoverage}% · Precisión ${gAcc}%</div>
+        <div class="lp-cmd-streak">${streak>0?`🔥 ${streak} días de racha`:'Sin racha activa — empezá hoy'}</div>
       </div>
     </div>
+    <div class="lp-cmd-right">
+      <div class="lp-cmd-action-label">¿Qué hacés hoy?</div>
+      ${(()=>{
+        const worstMod = modsByImpact[0];
+        if (errCount > 10) return `
+          <div class="lp-cmd-cta lp-cta-red" onclick="navigate('review')">
+            <span class="lp-cta-icon">🔁</span>
+            <div><div class="lp-cta-title">Repasar ${errCount} errores</div>
+            <div class="lp-cta-desc">Mayor impacto en score hoy</div></div>
+          </div>`;
+        if (worstMod && worstMod.impactScore > 20) return `
+          <div class="lp-cmd-cta lp-cta-blue" onclick="navigate('study');setTimeout(()=>toggleMod(${worstMod.mi}),250)">
+            <span class="lp-cta-icon">📖</span>
+            <div><div class="lp-cta-title">Estudiar M${worstMod.mi+1} — ${MOD_NAMES[worstMod.mi]}</div>
+            <div class="lp-cta-desc">Módulo con mayor impacto en tu score</div></div>
+          </div>`;
+        return `
+          <div class="lp-cmd-cta lp-cta-green" onclick="navigate('exam')">
+            <span class="lp-cta-icon">📝</span>
+            <div><div class="lp-cta-title">Simulacro de calibración</div>
+            <div class="lp-cta-desc">Buen momento para medir tu nivel</div></div>
+          </div>`;
+      })()}
+    </div>
+  </div>
 
-    <!-- Phase cards -->
-    ${phases.map(ph => `
-      <div class="card" style="margin-bottom:14px;padding:0;overflow:hidden;border-left:3px solid ${ph.color}">
-        <!-- Phase header -->
-        <div style="padding:14px 18px 12px;border-bottom:1px solid var(--border)">
-          <div style="display:flex;align-items:center;gap:10px">
-            <span style="font-size:18px">${ph.icon}</span>
-            <div>
-              <div style="font-size:13px;font-weight:700;color:var(--text)">Fase ${ph.n} — ${ph.label}</div>
-              <div style="font-size:11px;color:var(--text2);margin-top:1px">${ph.desc}</div>
-            </div>
-            <span style="margin-left:auto;font-size:11px;font-weight:700;color:${ph.color};
-              background:${ph.color}18;padding:3px 8px;border-radius:4px">${ph.mods.length} módulo${ph.mods.length>1?'s':''}</span>
+  <!-- ═══ B. MICROLEARNING ══════════════════════════════ -->
+  <div class="lp-micro">
+    <div class="lp-micro-header">
+      <span class="lp-micro-icon">⚡</span>
+      <div>
+        <div class="lp-micro-title">Sesión rápida — 7 preguntas de alto impacto</div>
+        <div class="lp-micro-sub">
+          ${(()=>{
+            const errQs  = microQs.filter(p=>p.m.errors>0).length;
+            const unQs   = microQs.filter(p=>!p.m.attempts).length;
+            const parts  = [];
+            if (errQs>0)  parts.push(`${errQs} errores recientes`);
+            if (unQs>0)   parts.push(`${unQs} sin ver`);
+            if (parts.length===0) parts.push('selección adaptativa');
+            return parts.join(' · ') + ' · ~5 min';
+          })()}
+        </div>
+      </div>
+      <button class="lp-micro-btn" onclick="lpStartMicro()">▶ Iniciar</button>
+    </div>
+  </div>
+
+  <!-- ═══ C. MÓDULOS POR PRIORIDAD DE IMPACTO ═════════ -->
+  <div class="lp-section-label">Módulos ordenados por impacto en tu score</div>
+
+  <div class="lp-mod-grid">
+    ${modsByImpact.map((m,rank) => {
+      const errType = m.total>0 ? classifyErrors(m.mi) : null;
+      const statusLabel = m.visPct<15 ? 'Sin explorar' :
+        (m.acc!==null&&m.acc<45) ? 'Alta prioridad' :
+        (m.acc!==null&&m.acc<65) ? 'En consolidación' :
+        m.visPct<60 ? 'Expandir' : 'Sólido';
+      const statusColor = m.visPct<15 ? 'var(--blue)' :
+        (m.acc!==null&&m.acc<45) ? 'var(--red)' :
+        (m.acc!==null&&m.acc<65) ? 'var(--orange)' :
+        m.visPct<60 ? 'var(--gold)' : 'var(--green)';
+      const impactLabel = m.impactScore>40?'Alto':m.impactScore>15?'Medio':'Bajo';
+      const ctaLabel = m.visPct<15 ? 'Empezar' :
+        (m.acc!==null&&m.acc<55) ? 'Repasar errores' :
+        m.unseen>0 ? `${m.unseen} sin ver` : 'Mantener';
+      const ctaFn = m.visPct<15 || m.unseen>0
+        ? `navigate('study');setTimeout(()=>toggleMod(${m.mi}),250)`
+        : `lpStartReview(${m.mi})`;
+      return `
+      <div class="lp-mod-card" style="border-top:3px solid var(${MOD_CVARS[m.mi]})">
+        <div class="lp-mod-card-top">
+          <div>
+            <div class="lp-mod-rank">#${rank+1}</div>
+            <div class="lp-mod-name" style="color:var(${MOD_CVARS[m.mi]})">M${m.mi+1} · ${MOD_NAMES[m.mi]}</div>
+          </div>
+          <div class="lp-mod-badges">
+            <span class="lp-badge" style="color:${statusColor};background:${statusColor}18">${statusLabel}</span>
+            <span class="lp-badge lp-badge-impact">⬆ ${impactLabel}</span>
           </div>
         </div>
-        <!-- Module list -->
-        <div style="padding:12px 18px;display:flex;flex-direction:column;gap:12px">
-          ${ph.mods.map(m => {
-            const sug = suggestion(m);
-            const tag = phaseTag(m);
-            const topics = MOD_TOPICS[m.mi] || [];
-            return `
-              <div style="background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:14px;
-                transition:border-color var(--tr)" onmouseover="this.style.borderColor='var(--border2)'"
-                onmouseout="this.style.borderColor='var(--border)'">
 
-                <!-- Module header row -->
-                <div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:10px">
-                  <div style="flex:1">
-                    <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
-                      <span style="font-size:12px;font-weight:700;color:var(${MOD_CVARS[m.mi]})">M${m.mi+1} · ${MOD_NAMES[m.mi]}</span>
-                      <span style="font-size:10px;font-weight:600;padding:2px 7px;border-radius:4px;
-                        background:${tag.bg};color:${tag.color}">${tag.label}</span>
-                    </div>
-                    <!-- Stats row -->
-                    <div style="display:flex;gap:12px;font-size:11px;color:var(--text2);flex-wrap:wrap">
-                      <span>📖 ${m.seen}/${MOD_TOTALS[m.mi]} vistas (${m.visPct}%)</span>
-                      <span style="color:var(--green)">✓ ${m.ok}</span>
-                      <span style="color:var(--red)">✗ ${m.bad}</span>
-                      ${m.acc !== null ? `<span style="font-weight:600;color:${sc(m.acc)}">${m.acc}% aciertos</span>` : '<span>Sin intentar</span>'}
-                    </div>
-                  </div>
-                  <!-- Score badge -->
-                  <div style="text-align:center;flex-shrink:0">
-                    <div style="font-size:20px;font-weight:800;font-family:var(--mono);color:${sc(m.score)};line-height:1">${m.score}</div>
-                    <div style="font-size:9px;color:var(--text2);margin-top:1px">score</div>
-                  </div>
-                </div>
-
-                <!-- Progress bar -->
-                <div style="height:5px;background:var(--border2);border-radius:3px;overflow:hidden;margin-bottom:10px">
-                  <div style="width:${m.score}%;height:100%;background:${sc(m.score)};border-radius:3px;transition:width .5s ease"></div>
-                </div>
-
-                <!-- Suggestion -->
-                <div style="background:var(--card);border-radius:6px;padding:8px 11px;margin-bottom:10px;
-                  border-left:2px solid ${sug.icon==='✅'?'var(--green)':sug.icon==='🔴'?'var(--red)':'var(--gold)'}">
-                  <div style="font-size:11px;color:var(--text);line-height:1.5">
-                    <span>${sug.icon}</span> <strong>Sugerencia:</strong> ${sug.text}
-                  </div>
-                  ${m.lastErr ? `<div style="font-size:10px;color:var(--red);margin-top:4px;opacity:.85">
-                    <span style="font-weight:700">M${m.mi+1} · Pregunta #${m.lastErr.num}</span> — Pregunta más fallada: "${m.lastErr.question.substring(0,55)}${m.lastErr.question.length>55?'…':''}" (${m.lastErr.errors}✗)
-                  </div>` : ''}
-                </div>
-
-                <!-- Key topics -->
-                <div style="margin-bottom:10px">
-                  <div style="font-size:10px;color:var(--text2);font-weight:600;text-transform:uppercase;
-                    letter-spacing:.08em;margin-bottom:5px">Temas clave</div>
-                  <div style="display:flex;flex-wrap:wrap;gap:4px">
-                    ${topics.map(t => `<span style="font-size:10px;padding:2px 8px;border-radius:4px;
-                      background:var(${MOD_CVARS[m.mi]})18;color:var(${MOD_CVARS[m.mi]});
-                      border:1px solid var(${MOD_CVARS[m.mi]})30;font-weight:500">${t}</span>`).join('')}
-                  </div>
-                </div>
-
-                <!-- Action buttons -->
-                <div style="display:flex;gap:7px;flex-wrap:wrap">
-                  <button class="btn btn-primary btn-sm"
-                    style="font-size:11px;padding:6px 12px"
-                    onclick="navigate('study');setTimeout(()=>toggleMod(${m.mi}),250)">
-                    📖 Estudiar M${m.mi+1}
-                  </button>
-                  <button class="btn btn-ghost btn-sm"
-                    style="font-size:11px;padding:6px 12px"
-                    onclick="lpStartReview(${m.mi})">
-                    🔁 Repasar errores
-                  </button>
-                  <button class="btn btn-ghost btn-sm"
-                    style="font-size:11px;padding:6px 12px"
-                    onclick="buildFlashcardForMod(${m.mi})">
-                    🃏 Flashcards
-                  </button>
-                </div>
-              </div>`;
-          }).join('')}
+        <div class="lp-mod-bars">
+          <div class="lp-bar-row">
+            <span class="lp-bar-lbl">Progreso</span>
+            <div class="lp-bar-track"><div class="lp-bar-fill" style="width:${m.visPct}%;background:var(${MOD_CVARS[m.mi]})"></div></div>
+            <span class="lp-bar-val">${m.visPct}%</span>
+          </div>
+          ${m.acc!==null?`<div class="lp-bar-row">
+            <span class="lp-bar-lbl">Precisión</span>
+            <div class="lp-bar-track"><div class="lp-bar-fill" style="width:${m.acc}%;background:${sc(m.acc)}"></div></div>
+            <span class="lp-bar-val" style="color:${sc(m.acc)}">${m.acc}%</span>
+          </div>`:''}
         </div>
-      </div>`).join('')}
 
-    ${phases.length === 0 ? `
-      <div class="card" style="text-align:center;padding:48px 24px">
-        <div style="font-size:36px;margin-bottom:14px">🎓</div>
-        <div style="font-size:15px;font-weight:700;color:var(--text);margin-bottom:6px">Comenzá a estudiar</div>
-        <div style="font-size:12px;color:var(--text2);max-width:300px;margin:0 auto 20px">
-          Tu Learning Path personalizado aparecerá aquí después de responder algunas preguntas
+        ${errType?`<div class="lp-error-type" style="color:${errType.color};border-color:${errType.color}30">
+          ${errType.icon} ${errType.label}
+        </div>`:''}
+
+        ${m.topErrQ?`<div class="lp-top-err">
+          <span style="font-weight:700;color:var(--red)">Más fallada:</span>
+          "${m.topErrQ.q.substring(0,65)}${m.topErrQ.q.length>65?'…':''}" ×${m.topErrQ.errors}
+        </div>`:''}
+
+        <div class="lp-mod-actions">
+          <button class="btn btn-primary btn-sm" style="font-size:11px" onclick="${ctaFn}">
+            📖 ${ctaLabel}
+          </button>
+          <button class="btn btn-ghost btn-sm" style="font-size:11px" onclick="lpStartReview(${m.mi})">🔁 Errores</button>
+          <button class="btn btn-ghost btn-sm" style="font-size:11px" onclick="buildFlashcardForMod(${m.mi})">🃏 FC</button>
         </div>
-        <button class="btn btn-primary" onclick="navigate('study')">📖 Empezar ahora</button>
-      </div>` : ''}
+      </div>`}).join('')}
+  </div>
+
+  <!-- ═══ D. TEMAS TRANSVERSALES ════════════════════════ -->
+  <div class="lp-section-label">Temas transversales — aparecen en múltiples módulos</div>
+  <div class="lp-cross-scroll">
+    ${CROSS_TOPICS.map(t => {
+      const pct = crossTopicPct(t);
+      const acc = crossTopicAcc(t);
+      const status = pct<30?'Sin explorar':acc!==null&&acc<60?'Revisar':'OK';
+      const statusC= pct<30?'var(--blue)':acc!==null&&acc<60?'var(--orange)':'var(--green)';
+      return `<div class="lp-cross-chip" style="border-color:${t.color}40" onclick="lpStudyCrossTopicByLabel('${t.label}')">
+        <div class="lp-cross-name" style="color:${t.color}">${t.label}</div>
+        <div class="lp-cross-desc">${t.desc}</div>
+        <div class="lp-cross-stats">
+          <span style="color:${statusC}">${status}</span>
+          ${acc!==null?`<span style="color:${sc(acc)}">${acc}%</span>`:''}
+        </div>
+      </div>`;
+    }).join('')}
+  </div>
+
+  <!-- ═══ E. PROYECCIÓN ═════════════════════════════════ -->
+  <div class="lp-section-label">Tu proyección de avance</div>
+  <div class="lp-projection card db-card-clean">
+    <div class="lp-proj-stats">
+      <div class="lp-proj-stat">
+        <div class="lp-proj-val" style="color:var(--blue)">${673-getTotalSeen()}</div>
+        <div class="lp-proj-lbl">Preguntas restantes</div>
+      </div>
+      <div class="lp-proj-stat">
+        <div class="lp-proj-val" style="color:var(--gold)">${proj.avgWeek}</div>
+        <div class="lp-proj-lbl">Preguntas/semana (ritmo actual)</div>
+      </div>
+      <div class="lp-proj-stat">
+        <div class="lp-proj-val" style="color:${proj.weeksLeft&&proj.weeksLeft<=8?'var(--green)':'var(--orange)'}">${proj.weeksLeft ? proj.weeksLeft+'s' : '—'}</div>
+        <div class="lp-proj-lbl">Semanas para completar guía</div>
+      </div>
+    </div>
+    ${proj.weeksLeft ? `<div class="lp-proj-msg">
+      ${proj.weeksLeft<=3 ? '🟢 Ritmo excelente. Si mantenés este paso completás la guía en tiempo.' :
+        proj.weeksLeft<=8 ? '🟡 Ritmo moderado. Aumentá a '+Math.ceil(proj.avgWeek*1.5)+' preguntas/semana para llegar más colgado.' :
+        '🔴 Ritmo lento. Para completar la guía en 4 semanas necesitás '+Math.ceil((673-getTotalSeen())/4)+' preguntas/semana.'}
+    </div>` : '<div class="lp-proj-msg">📌 Respondé algunas preguntas para ver tu proyección.</div>'}
+    <canvas id="lp-proj-canvas" height="90" style="width:100%;margin-top:10px"></canvas>
+  </div>
+
+  <!-- ═══ F. LOGROS + RACHA ══════════════════════════════ -->
+  <div class="lp-footer-strip">
+    <div class="lp-footer-item">🔥 <strong>${streak}</strong> días de racha</div>
+    <div class="lp-footer-sep">·</div>
+    <div class="lp-footer-item">📚 <strong>${getTotalSeen()}</strong> preguntas vistas</div>
+    <div class="lp-footer-sep">·</div>
+    <div class="lp-footer-item" onclick="navigate('achievements')" style="cursor:pointer;color:var(--gold)">
+      🏆 Ver todos los logros →
+    </div>
+    ${(()=>{
+      const next = 673-getTotalSeen();
+      const milestones = [100,200,300,400,500,600,673];
+      const nm = milestones.find(m=>m>getTotalSeen());
+      if (!nm) return '';
+      const daysToNext = proj.avgWeek>0 ? Math.ceil((nm-getTotalSeen())/(proj.avgWeek/7)) : null;
+      return `<div class="lp-footer-sep">·</div>
+        <div class="lp-footer-item" style="color:var(--text2)">
+          Próximo hito: ${nm} preguntas${daysToNext?` · ~${daysToNext} días`:''}
+        </div>`;
+    })()}
+  </div>
   `;
+
+  // Store microQs globally for lpStartMicro
+  window._lpMicroQs = microQs;
+
+  // Draw projection chart
+  setTimeout(() => {
+    const canvas = document.getElementById('lp-proj-canvas');
+    if (!canvas) return;
+    const W = canvas.parentElement.offsetWidth || 500;
+    const H = 90;
+    canvas.width = W; canvas.height = H;
+    const ctx = canvas.getContext('2d');
+    const pad = {t:8,r:16,b:20,l:36};
+    const cW = W-pad.l-pad.r, cH = H-pad.t-pad.b;
+
+    // Historical: last 8 weeks of coverage %
+    const weeks = [];
+    for (let i=7;i>=0;i--) {
+      const d = new Date(); d.setDate(d.getDate()-i*7);
+      const k = d.toISOString().slice(0,10);
+      // Find closest pct from dailyStats
+      let pct = 0;
+      Object.entries(dailyStats).forEach(([date,ds]) => {
+        if (date<=k && ds.pct>pct) pct=ds.pct;
+      });
+      weeks.push({w:'S-'+i, pct, future:false});
+    }
+    // Projection: 4 more weeks
+    const lastPct = weeks[weeks.length-1].pct || gCoverage;
+    const weeklyGain = proj.avgWeek>0 ? Math.round(proj.avgWeek/673*100) : 2;
+    for (let i=1;i<=4;i++) {
+      weeks.push({w:'S+'+i, pct:Math.min(100,lastPct+i*weeklyGain), future:true});
+    }
+
+    // Grid lines
+    ctx.strokeStyle='rgba(100,140,200,.06)'; ctx.lineWidth=1;
+    [25,50,75,100].forEach(v => {
+      const y=pad.t+cH*(1-v/100);
+      ctx.beginPath(); ctx.moveTo(pad.l,y); ctx.lineTo(W-pad.r,y); ctx.stroke();
+      ctx.fillStyle='rgba(143,163,192,.4)'; ctx.font='7px monospace'; ctx.textAlign='right';
+      ctx.fillText(v+'%',pad.l-3,y+3);
+    });
+
+    // Past area
+    ctx.beginPath();
+    weeks.filter(w=>!w.future).forEach((w,i)=>{
+      const x=pad.l+i/Math.max(weeks.length-1,1)*cW, y=pad.t+cH*(1-w.pct/100);
+      i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+    });
+    const histLen = weeks.filter(w=>!w.future).length;
+    const lastHistX = pad.l+(histLen-1)/Math.max(weeks.length-1,1)*cW;
+    ctx.lineTo(lastHistX,pad.t+cH); ctx.lineTo(pad.l,pad.t+cH);
+    ctx.closePath(); ctx.fillStyle='rgba(64,144,240,.12)'; ctx.fill();
+
+    // Past line
+    ctx.beginPath(); ctx.strokeStyle='var(--blue)'; ctx.lineWidth=2; ctx.lineJoin='round';
+    weeks.filter(w=>!w.future).forEach((w,i)=>{
+      const x=pad.l+i/Math.max(weeks.length-1,1)*cW, y=pad.t+cH*(1-w.pct/100);
+      i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+    });
+    ctx.stroke();
+
+    // Future dashed
+    ctx.beginPath(); ctx.strokeStyle='rgba(34,211,160,.6)'; ctx.lineWidth=1.5;
+    ctx.setLineDash([4,3]); ctx.lineJoin='round';
+    const futureWeeks = weeks.filter(w=>true); // all
+    let started=false;
+    futureWeeks.forEach((w,i)=>{
+      if (!w.future&&i<histLen-1) return;
+      const x=pad.l+i/Math.max(weeks.length-1,1)*cW, y=pad.t+cH*(1-w.pct/100);
+      if(!started){ctx.moveTo(x,y);started=true;}else ctx.lineTo(x,y);
+    });
+    ctx.stroke(); ctx.setLineDash([]);
+
+    // Labels
+    ctx.fillStyle='rgba(143,163,192,.45)'; ctx.font='7px monospace'; ctx.textAlign='center';
+    weeks.forEach((w,i)=>{
+      if (i%2===0||i===weeks.length-1) {
+        const x=pad.l+i/Math.max(weeks.length-1,1)*cW;
+        ctx.fillText(w.future?'→':'', x, H-3);
+      }
+    });
+
+    // Legend
+    ctx.font='8px monospace'; ctx.textAlign='left';
+    ctx.fillStyle='rgba(64,144,240,.8)'; ctx.fillRect(pad.l,H-12,16,3);
+    ctx.fillStyle='rgba(143,163,192,.6)'; ctx.fillText('histórico',pad.l+20,H-9);
+    ctx.fillStyle='rgba(34,211,160,.8)'; ctx.fillRect(pad.l+90,H-12,16,3);
+    ctx.fillStyle='rgba(143,163,192,.6)'; ctx.fillText('proyección',pad.l+110,H-9);
+  }, 100);
 }
 
 function lpStartReview(mi) {
@@ -8397,7 +9052,7 @@ function _buildRendimientoTab() {
       </div>
       <div class="stat-card">
         <div class="stat-val" style="color:var(--gold)">${Math.round(getTotalSeen()/673*100)}%</div>
-        <div class="stat-label">Cobertura</div>
+        <div class="stat-label">Progreso</div>
         <div class="stat-sub">de la guía completa</div>
       </div>
     </div>
@@ -8408,7 +9063,7 @@ function _buildRendimientoTab() {
       <table style="width:100%;border-collapse:collapse">
         <thead>
           <tr>
-            ${['Módulo','Nombre','✓ / ✗','% Aciertos','Cobertura'].map(h =>
+            ${['Módulo','Nombre','✓ / ✗','% Aciertos','Progreso'].map(h =>
               `<th style="font-size:10px;color:var(--text2);font-weight:700;text-transform:uppercase;
                 letter-spacing:.07em;padding:6px 8px;text-align:left;border-bottom:1px solid var(--border)">${h}</th>`
             ).join('')}
@@ -8791,7 +9446,7 @@ const HELP_CONTENT = {
       <div class="help-section-title">Entender tu progreso</div>
       <div class="help-card">
         <div class="help-card-title">📊 Cobertura vs Precisión</div>
-        <div class="help-card-body"><strong>Cobertura:</strong> qué % de las 673 preguntas de la guía ya viste al menos una vez. Apuntá a llegar al 100% antes del examen.<br><strong>Precisión:</strong> de las que respondiste, qué % fue correcto. El mínimo para aprobar el examen real es 70%.</div>
+        <div class="help-card-body"><strong>Progreso:</strong> qué % de las 673 preguntas de la guía ya viste al menos una vez. Apuntá a llegar al 100% antes del examen.<br><strong>Precisión:</strong> de las que respondiste, qué % fue correcto. El mínimo para aprobar el examen real es 70%.</div>
       </div>
       <div class="help-card">
         <div class="help-card-title">⭐ Niveles de dominio</div>
@@ -8831,6 +9486,986 @@ function showHelpTab(tab, btn) {
   if (body) body.innerHTML = HELP_CONTENT[tab] || '';
 }
 
+
+const PLAN20_QUESTIONS = {"1": [{"mi": 0, "qi": 5}, {"mi": 0, "qi": 16}, {"mi": 0, "qi": 18}, {"mi": 0, "qi": 24}, {"mi": 0, "qi": 25}, {"mi": 0, "qi": 27}, {"mi": 0, "qi": 28}, {"mi": 0, "qi": 29}, {"mi": 0, "qi": 44}, {"mi": 0, "qi": 60}, {"mi": 0, "qi": 4}, {"mi": 0, "qi": 6}, {"mi": 0, "qi": 10}, {"mi": 0, "qi": 13}, {"mi": 0, "qi": 32}, {"mi": 0, "qi": 35}, {"mi": 0, "qi": 51}, {"mi": 0, "qi": 56}, {"mi": 0, "qi": 62}, {"mi": 0, "qi": 66}, {"mi": 0, "qi": 67}, {"mi": 0, "qi": 68}, {"mi": 0, "qi": 8}, {"mi": 0, "qi": 80}, {"mi": 0, "qi": 81}, {"mi": 0, "qi": 82}, {"mi": 0, "qi": 83}, {"mi": 0, "qi": 84}, {"mi": 0, "qi": 85}, {"mi": 0, "qi": 86}, {"mi": 0, "qi": 87}, {"mi": 0, "qi": 88}, {"mi": 0, "qi": 89}, {"mi": 0, "qi": 90}, {"mi": 0, "qi": 91}, {"mi": 0, "qi": 92}, {"mi": 0, "qi": 93}, {"mi": 0, "qi": 94}, {"mi": 0, "qi": 95}, {"mi": 0, "qi": 96}, {"mi": 0, "qi": 97}, {"mi": 0, "qi": 98}, {"mi": 0, "qi": 99}, {"mi": 0, "qi": 100}, {"mi": 0, "qi": 101}], "2": [{"mi": 1, "qi": 0}, {"mi": 1, "qi": 1}, {"mi": 1, "qi": 17}, {"mi": 1, "qi": 31}, {"mi": 1, "qi": 37}, {"mi": 1, "qi": 56}, {"mi": 1, "qi": 6}, {"mi": 1, "qi": 41}, {"mi": 1, "qi": 42}, {"mi": 1, "qi": 50}, {"mi": 1, "qi": 69}, {"mi": 1, "qi": 70}, {"mi": 1, "qi": 39}, {"mi": 1, "qi": 75}, {"mi": 1, "qi": 76}, {"mi": 1, "qi": 78}, {"mi": 1, "qi": 79}, {"mi": 1, "qi": 80}, {"mi": 1, "qi": 81}, {"mi": 1, "qi": 8}, {"mi": 1, "qi": 15}, {"mi": 1, "qi": 27}, {"mi": 1, "qi": 40}, {"mi": 1, "qi": 43}, {"mi": 1, "qi": 49}, {"mi": 1, "qi": 60}, {"mi": 1, "qi": 61}, {"mi": 1, "qi": 84}, {"mi": 1, "qi": 85}], "3": [{"mi": 1, "qi": 4}, {"mi": 1, "qi": 5}, {"mi": 1, "qi": 19}, {"mi": 1, "qi": 23}, {"mi": 1, "qi": 34}, {"mi": 1, "qi": 35}, {"mi": 1, "qi": 36}, {"mi": 1, "qi": 44}, {"mi": 1, "qi": 47}, {"mi": 1, "qi": 48}, {"mi": 1, "qi": 93}, {"mi": 1, "qi": 8}, {"mi": 1, "qi": 15}, {"mi": 1, "qi": 27}, {"mi": 1, "qi": 40}, {"mi": 1, "qi": 43}, {"mi": 1, "qi": 49}, {"mi": 1, "qi": 60}, {"mi": 1, "qi": 61}, {"mi": 1, "qi": 84}, {"mi": 1, "qi": 85}, {"mi": 1, "qi": 83}, {"mi": 1, "qi": 86}, {"mi": 1, "qi": 89}, {"mi": 1, "qi": 91}], "4": [{"mi": 2, "qi": 1}, {"mi": 2, "qi": 13}, {"mi": 2, "qi": 30}, {"mi": 2, "qi": 39}, {"mi": 2, "qi": 46}, {"mi": 2, "qi": 47}, {"mi": 2, "qi": 50}, {"mi": 2, "qi": 57}, {"mi": 2, "qi": 3}, {"mi": 2, "qi": 11}, {"mi": 2, "qi": 21}, {"mi": 2, "qi": 22}, {"mi": 2, "qi": 54}, {"mi": 2, "qi": 77}, {"mi": 2, "qi": 80}, {"mi": 2, "qi": 81}, {"mi": 2, "qi": 98}, {"mi": 2, "qi": 8}, {"mi": 2, "qi": 17}, {"mi": 2, "qi": 82}, {"mi": 2, "qi": 83}, {"mi": 2, "qi": 84}, {"mi": 2, "qi": 85}, {"mi": 2, "qi": 86}, {"mi": 2, "qi": 87}, {"mi": 2, "qi": 88}, {"mi": 2, "qi": 93}, {"mi": 2, "qi": 101}, {"mi": 2, "qi": 102}, {"mi": 2, "qi": 59}, {"mi": 2, "qi": 60}, {"mi": 2, "qi": 61}, {"mi": 2, "qi": 62}, {"mi": 2, "qi": 65}, {"mi": 2, "qi": 66}, {"mi": 2, "qi": 70}, {"mi": 2, "qi": 71}, {"mi": 2, "qi": 73}], "5": [{"mi": 5, "qi": 0}, {"mi": 5, "qi": 1}, {"mi": 5, "qi": 2}, {"mi": 5, "qi": 3}, {"mi": 5, "qi": 4}, {"mi": 5, "qi": 5}, {"mi": 5, "qi": 6}, {"mi": 5, "qi": 7}, {"mi": 5, "qi": 8}, {"mi": 5, "qi": 9}, {"mi": 5, "qi": 10}, {"mi": 5, "qi": 12}, {"mi": 5, "qi": 14}, {"mi": 5, "qi": 15}, {"mi": 5, "qi": 16}, {"mi": 5, "qi": 17}, {"mi": 5, "qi": 31}, {"mi": 5, "qi": 32}, {"mi": 5, "qi": 34}, {"mi": 5, "qi": 36}, {"mi": 5, "qi": 37}, {"mi": 5, "qi": 38}, {"mi": 5, "qi": 39}, {"mi": 5, "qi": 40}, {"mi": 5, "qi": 41}, {"mi": 5, "qi": 42}, {"mi": 5, "qi": 43}, {"mi": 5, "qi": 44}, {"mi": 5, "qi": 45}, {"mi": 5, "qi": 46}, {"mi": 5, "qi": 47}, {"mi": 5, "qi": 48}, {"mi": 5, "qi": 49}, {"mi": 5, "qi": 52}, {"mi": 5, "qi": 53}, {"mi": 5, "qi": 55}], "6": [{"mi": 5, "qi": 18}, {"mi": 5, "qi": 19}, {"mi": 5, "qi": 20}, {"mi": 5, "qi": 21}, {"mi": 5, "qi": 22}, {"mi": 5, "qi": 23}, {"mi": 5, "qi": 24}, {"mi": 5, "qi": 25}, {"mi": 5, "qi": 65}, {"mi": 5, "qi": 66}, {"mi": 5, "qi": 67}, {"mi": 5, "qi": 68}, {"mi": 5, "qi": 69}, {"mi": 5, "qi": 70}, {"mi": 5, "qi": 71}, {"mi": 5, "qi": 72}, {"mi": 5, "qi": 73}, {"mi": 5, "qi": 74}, {"mi": 5, "qi": 75}, {"mi": 5, "qi": 76}, {"mi": 5, "qi": 77}, {"mi": 5, "qi": 78}, {"mi": 5, "qi": 79}, {"mi": 5, "qi": 80}, {"mi": 5, "qi": 81}, {"mi": 5, "qi": 82}, {"mi": 5, "qi": 83}, {"mi": 5, "qi": 84}, {"mi": 5, "qi": 85}, {"mi": 5, "qi": 86}, {"mi": 5, "qi": 87}, {"mi": 5, "qi": 88}, {"mi": 5, "qi": 89}, {"mi": 5, "qi": 90}, {"mi": 5, "qi": 91}, {"mi": 5, "qi": 92}, {"mi": 5, "qi": 93}, {"mi": 5, "qi": 94}, {"mi": 5, "qi": 95}, {"mi": 5, "qi": 96}, {"mi": 5, "qi": 97}, {"mi": 5, "qi": 98}, {"mi": 5, "qi": 99}, {"mi": 5, "qi": 100}, {"mi": 5, "qi": 101}, {"mi": 5, "qi": 102}, {"mi": 5, "qi": 103}, {"mi": 5, "qi": 104}, {"mi": 5, "qi": 105}, {"mi": 5, "qi": 33}, {"mi": 5, "qi": 35}, {"mi": 5, "qi": 54}, {"mi": 5, "qi": 56}, {"mi": 5, "qi": 57}, {"mi": 5, "qi": 58}, {"mi": 5, "qi": 59}, {"mi": 5, "qi": 60}, {"mi": 5, "qi": 61}, {"mi": 5, "qi": 62}], "7": [{"mi": 4, "qi": 0}, {"mi": 4, "qi": 1}, {"mi": 4, "qi": 2}, {"mi": 4, "qi": 3}, {"mi": 4, "qi": 4}, {"mi": 4, "qi": 5}, {"mi": 4, "qi": 26}, {"mi": 4, "qi": 38}, {"mi": 4, "qi": 48}, {"mi": 4, "qi": 60}, {"mi": 4, "qi": 61}, {"mi": 4, "qi": 62}, {"mi": 4, "qi": 63}, {"mi": 4, "qi": 64}, {"mi": 4, "qi": 65}, {"mi": 4, "qi": 66}, {"mi": 4, "qi": 42}, {"mi": 4, "qi": 43}, {"mi": 4, "qi": 44}, {"mi": 4, "qi": 74}, {"mi": 4, "qi": 75}, {"mi": 4, "qi": 76}, {"mi": 4, "qi": 77}, {"mi": 4, "qi": 91}, {"mi": 4, "qi": 92}, {"mi": 4, "qi": 93}, {"mi": 4, "qi": 94}, {"mi": 4, "qi": 95}, {"mi": 4, "qi": 100}, {"mi": 4, "qi": 49}, {"mi": 4, "qi": 50}, {"mi": 4, "qi": 51}, {"mi": 4, "qi": 52}, {"mi": 4, "qi": 53}, {"mi": 4, "qi": 54}, {"mi": 4, "qi": 67}], "8": [{"mi": 3, "qi": 20}, {"mi": 3, "qi": 21}, {"mi": 3, "qi": 28}, {"mi": 3, "qi": 33}, {"mi": 3, "qi": 34}, {"mi": 3, "qi": 35}, {"mi": 3, "qi": 36}, {"mi": 3, "qi": 43}, {"mi": 3, "qi": 44}, {"mi": 3, "qi": 47}, {"mi": 3, "qi": 50}, {"mi": 3, "qi": 51}, {"mi": 3, "qi": 52}, {"mi": 3, "qi": 53}, {"mi": 3, "qi": 54}, {"mi": 3, "qi": 65}, {"mi": 3, "qi": 69}, {"mi": 3, "qi": 70}, {"mi": 3, "qi": 72}, {"mi": 3, "qi": 73}, {"mi": 3, "qi": 74}, {"mi": 3, "qi": 75}, {"mi": 3, "qi": 76}, {"mi": 3, "qi": 77}, {"mi": 3, "qi": 78}, {"mi": 3, "qi": 79}, {"mi": 3, "qi": 80}, {"mi": 3, "qi": 81}, {"mi": 3, "qi": 130}, {"mi": 3, "qi": 131}, {"mi": 3, "qi": 37}, {"mi": 3, "qi": 38}, {"mi": 3, "qi": 39}, {"mi": 3, "qi": 40}, {"mi": 3, "qi": 41}, {"mi": 3, "qi": 42}, {"mi": 3, "qi": 48}, {"mi": 3, "qi": 49}, {"mi": 3, "qi": 55}, {"mi": 3, "qi": 103}, {"mi": 3, "qi": 104}, {"mi": 3, "qi": 18}, {"mi": 3, "qi": 23}, {"mi": 3, "qi": 57}, {"mi": 3, "qi": 59}, {"mi": 3, "qi": 60}, {"mi": 3, "qi": 61}, {"mi": 3, "qi": 63}, {"mi": 3, "qi": 64}, {"mi": 3, "qi": 66}, {"mi": 3, "qi": 67}, {"mi": 3, "qi": 68}, {"mi": 3, "qi": 71}, {"mi": 3, "qi": 122}, {"mi": 3, "qi": 123}, {"mi": 3, "qi": 132}]};
+
+function startPlan20Session(n) {
+  const topics = PLAN20_QUESTIONS[n];
+  if (!topics || !topics.length) { toast('Sin preguntas para esta sesión'); return; }
+
+  // Build deduplicated question array
+  const seen = new Set();
+  const pool = [];
+  topics.forEach(function(t) {
+    const mod = MODULES[t.mi];
+    if (!mod) return;
+    const key = t.mi + '_' + t.qi;
+    if (seen.has(key)) return;
+    seen.add(key);
+    const q = mod.questions[t.qi];
+    if (!q) return;
+    pool.push({ mi: t.mi, qi: t.qi, num: q[0], q: q[1], a: q[2], opts: q[3] || [] });
+  });
+
+  if (!pool.length) { toast('Sin preguntas para esta sesión'); return; }
+
+  // Order: unseen first, then by error count desc, then random within each group
+  pool.sort(function(a, b) {
+    const ma = getMastery(a.mi, a.qi);
+    const mb = getMastery(b.mi, b.qi);
+    const unseenA = (ma.attempts || 0) === 0 ? 0 : 1;
+    const unseenB = (mb.attempts || 0) === 0 ? 0 : 1;
+    if (unseenA !== unseenB) return unseenA - unseenB; // unseen first
+    // both seen: most errors first
+    return (mb.errors || 0) - (ma.errors || 0);
+  });
+
+  // Session names
+  const names = {
+    1: 'Sesión 1 · Arquitectura CNV',
+    2: 'Sesión 2 · PLD Parte 1',
+    3: 'Sesión 3 · PLD Parte 2',
+    4: 'Sesión 4 · Transparencia',
+    5: 'Sesión 5 · FCI Abiertos',
+    6: 'Sesión 6 · Fideicomiso Financiero',
+    7: 'Sesión 7 · Caución y Agentes',
+    8: 'Sesión 8 · Contabilidad esencial',
+  };
+
+  curBlockMi = -1; curBlockBi = -1;
+  bqQs = pool;
+  bqIndex = 0;
+  bqAnswered = new Array(bqQs.length).fill(null);
+  bqOk = 0; bqBad = 0;
+
+  $('qh-tag').textContent  = '⚡ Plan 20 horas';
+  $('qh-title').textContent = (names[n] || 'Sesión ' + n) + ' — ' + pool.length + ' preguntas';
+  $('qh-ok').textContent   = '✓ 0';
+  $('qh-bad').textContent  = '✗ 0';
+  $('quiz-result').style.display = 'none';
+  $('quiz-nav-fixed').style.display = 'none';
+
+  navigate('quiz');
+  document.querySelectorAll('.view').forEach(function(v) { v.classList.remove('active'); });
+  $('quiz-view').classList.add('active');
+  document.querySelector('.quiz-body').style.display = 'block';
+  $('tb-title').textContent = names[n] || 'Plan 20h · Sesión ' + n;
+  renderQuestion();
+}
+
+
+function togglePlan20Block() {
+  const block = document.getElementById('plan20-block');
+  const chev  = document.getElementById('plan20-chev');
+  if (!block) return;
+  const open = block.style.display !== 'none';
+  block.style.display = open ? 'none' : 'block';
+  if (chev) chev.textContent = open ? '▸' : '▾';
+  if (!open) buildPlan20();
+}
+
+// ── PLAN 20 HORAS ────────────────────────────────────────────────────────
+const PLAN20_SESSIONS = [
+  {
+    n: 1,
+    title: 'Arquitectura del sistema CNV',
+    sub: 'Quién es quién y qué puede hacer cada uno',
+    color: 'var(--m1)',
+    nucleos: ['Funciones CNV', 'Oferta Pública', 'Valores Negociables', 'Sanciones'],
+    tabla: [
+      ['Funciones de la CNV', 'Pregunta fija en todo examen'],
+      ['Oferta pública — definición y requisitos', 'Base de M1 completo'],
+      ['Categorías de valores negociables', 'Aparece en M1, M4 y M5'],
+      ['Sanciones: tipos, montos máximos, prescripción', 'Bloque de 8-10 preguntas en el examen'],
+    ],
+    recursos: 'Módulo 1 · Árbol Conceptual → OPA y Oferta Pública',
+    revision: '¿Qué puede prohibir la CNV? ¿Cuál es la sanción máxima? ¿Qué es oferta pública? Respondé 5 preguntas del bloque en la app sin ver las opciones.',
+    acciones: [
+      { label: '▶ Iniciar sesión 1 (45 preguntas)', fn: 'startPlan20Session(1)', primary: true },
+      { label: '🔁 Repaso M1', fn: "document.getElementById('review-mod-select')&&(document.getElementById('review-mod-select').value='0');navigate('review');setTimeout(startSmartReview,300)" },
+    ]
+  },
+  {
+    n: 2,
+    title: 'PLD Parte 1: el sistema',
+    sub: 'Etapas, sujetos y obligaciones básicas',
+    color: 'var(--m2)',
+    nucleos: ['3 Etapas del Lavado', 'Sujetos Obligados', 'Oficial de Cumplimiento', 'Debida Diligencia'],
+    tabla: [
+      ['3 etapas del lavado + ejemplos concretos', 'Siempre en el examen, con casos prácticos'],
+      ['Sujetos obligados — lista completa', 'Preguntas de "¿quién debe reportar?"'],
+      ['Oficial de Cumplimiento — requisitos y funciones', 'Bloque de 6+ preguntas'],
+      ['Debida diligencia — niveles (básica, reforzada, simplificada)', 'Muy preguntado'],
+    ],
+    recursos: 'Módulo 2, bloques 1-4 · Árbol Conceptual → Etapas del Lavado + Sujetos Obligados',
+    revision: 'Definí las 3 etapas con un ejemplo real de cada una. ¿Qué diferencia DD básica de reforzada? Flashcards de M2 en la app.',
+    acciones: [
+      { label: '▶ Iniciar sesión 2 (29 preguntas)', fn: 'startPlan20Session(2)', primary: true },
+      { label: '🃏 Flashcards M2', fn: "navigate('flashcards')" },
+    ]
+  },
+  {
+    n: 3,
+    title: 'PLD Parte 2: plazos y reportes',
+    sub: 'Los números exactos que el examen pregunta',
+    color: 'var(--m2)',
+    nucleos: ['ROS y Plazos', 'PEPs', 'Activos Virtuales', 'Umbrales en efectivo'],
+    tabla: [
+      ['ROS — plazo (30 días hábiles), a quién se reporta, confidencialidad', 'Una de las preguntas más repetidas'],
+      ['PEPs — definición, plazos de monitoreo, familiares alcanzados', '4-5 preguntas en examen real'],
+      ['Activos virtuales / PSAV — obligaciones desde Ley 27.739', 'Temática nueva, muy preguntada'],
+      ['Operaciones en efectivo — umbrales de reporte', 'Detalle técnico que siempre aparece'],
+    ],
+    recursos: 'Módulo 2, bloques 5-8 · Árbol Conceptual → ROS y Plazos + PEP',
+    revision: '¿En cuántos días se reporta un ROS? ¿Quién es PEP? ¿Qué pasa si vence el plazo? Repaso inteligente filtrado por M2.',
+    acciones: [
+      { label: '▶ Iniciar sesión 3 (25 preguntas)', fn: 'startPlan20Session(3)', primary: true },
+    ]
+  },
+  {
+    n: 4,
+    title: 'Transparencia: insider y gobierno',
+    sub: 'Qué se puede y qué no se puede hacer',
+    color: 'var(--m3)',
+    nucleos: ['Insider Trading', 'Hechos Relevantes', 'Gobierno Corporativo', 'Idoneidad CNV'],
+    tabla: [
+      ['Insider trading — quiénes son insiders, qué información es privilegiada', 'Bloque de 8 preguntas, muy conceptual'],
+      ['Hechos relevantes — qué son, plazos de publicación, excepciones', 'Siempre presente'],
+      ['Gobierno corporativo — comité de auditoría, directores independientes', '6+ preguntas'],
+      ['Idoneidad CNV — requisitos, renovación, causales de inhabilitación', 'Preguntas directas de definición'],
+    ],
+    recursos: 'Módulo 3, bloques 1-5 · Árbol Conceptual → Insider Trading + Hechos Relevantes',
+    revision: '¿Qué hace ilegal una operación de insider? ¿En cuánto tiempo se publica un hecho relevante? Marcá con 🚩 las que no sabés.',
+    acciones: [
+      { label: '▶ Iniciar sesión 4 (38 preguntas)', fn: 'startPlan20Session(4)', primary: true },
+    ]
+  },
+  {
+    n: 5,
+    title: 'FCI Abiertos: el núcleo del M6',
+    sub: 'El tema con más preguntas del examen entero',
+    color: 'var(--m6)',
+    nucleos: ['Sociedad Gerente', 'Depositaria', 'Cuotapartes', 'Tipos de FCI'],
+    tabla: [
+      ['Sociedad Gerente vs Depositaria — roles, responsabilidades', '"¿Quién hace qué?" — pregunta clásica'],
+      ['Cuotapartes — tipos, rescate, suscripción, plazos', 'Aparece en todas las variantes'],
+      ['Tipos de FCI — dinero, renta fija, mixtos, infraestructura', 'Clasificación que siempre se pregunta'],
+      ['Reglamento de gestión — qué contiene, quién lo aprueba', 'Detalle técnico muy preguntado'],
+    ],
+    recursos: 'Módulo 6, bloques 1-6 · Árbol Conceptual → FCI Abiertos',
+    revision: '¿Puede la Sociedad Gerente ser también Depositaria? ¿Qué es una cuotaparte de copropiedad? Simulacro de 10 preguntas solo de FCI.',
+    acciones: [
+      { label: '▶ Iniciar sesión 5 (36 preguntas)', fn: 'startPlan20Session(5)', primary: true },
+      { label: '🃏 Flashcards M6', fn: "navigate('flashcards')" },
+    ]
+  },
+  {
+    n: 6,
+    title: 'Fideicomiso Financiero',
+    sub: 'La otra mitad del M6, muy preguntada',
+    color: 'var(--m6)',
+    nucleos: ['Partes del Fideicomiso', 'CP vs TD', 'Titulización', 'Tipos de Fideicomiso'],
+    tabla: [
+      ['Partes — fiduciante, fiduciario, beneficiario, fideicomisario', 'Confusión clásica en el examen'],
+      ['Certificados de participación vs títulos de deuda', 'Diferencia clave que siempre se pregunta'],
+      ['Proceso de titulización — para qué sirve, pasos', 'Concepto estructural'],
+      ['Fideicomiso de garantía vs financiero', 'Distinción que aparece en casos prácticos'],
+    ],
+    recursos: 'Módulo 6, bloques 7-12 · Árbol Conceptual → Fideicomiso Financiero',
+    revision: '¿Quién es el fiduciario en un FF típico? ¿Qué diferencia un CP de un TD? Flashcards de M6.',
+    acciones: [
+      { label: '▶ Iniciar sesión 6 (59 preguntas)', fn: 'startPlan20Session(6)', primary: true },
+      { label: '🃏 Flashcards M6', fn: "navigate('flashcards')" },
+    ]
+  },
+  {
+    n: 7,
+    title: 'Instrumentos: caución y agentes',
+    sub: 'Operativa de mercado esencial',
+    color: 'var(--m5)',
+    nucleos: ['Caución Bursátil', 'Categorías Agentes', 'CPD y FCE', 'Pase Bursátil'],
+    tabla: [
+      ['Caución bursátil — tomador/colocador, plazos, garantías', '6-8 preguntas, muy operativa'],
+      ['Categorías de agentes CNV — ALyC, AN, APO, etc.', '"¿Quién puede hacer qué?"'],
+      ['CPD y FCE — qué son, quién puede emitirlos', 'Temática de M5 muy preguntada'],
+      ['Pase bursátil — diferencia con caución', 'Confusión clásica'],
+    ],
+    recursos: 'Módulo 5, bloques 1-6 · Árbol Conceptual → Agentes y Categorías + Caución y Pase',
+    revision: '¿Qué es un tomador en una caución? ¿Qué diferencia un ALyC de un AN? Repaso inteligente filtrado por M5.',
+    acciones: [
+      { label: '▶ Iniciar sesión 7 (36 preguntas)', fn: 'startPlan20Session(7)', primary: true },
+    ]
+  },
+  {
+    n: 8,
+    title: 'Contabilidad esencial',
+    sub: 'Solo los conceptos que aparecen en el examen real',
+    color: 'var(--m4)',
+    nucleos: ['Tipos de Opinión', 'Ratios Clave', 'EBITDA', 'Estados Financieros'],
+    tabla: [
+      ['Tipos de opinión de auditoría — limpia, con salvedades, adversa, abstención', 'Bloque de 8-10 preguntas'],
+      ['Ratios clave — liquidez corriente, endeudamiento, rentabilidad', 'Cálculos directos en el examen'],
+      ['EBITDA y su interpretación', 'Aparece en preguntas de análisis'],
+      ['Estados financieros — qué muestra cada uno', 'Base conceptual de M4'],
+    ],
+    recursos: 'Módulo 4 · Árbol Conceptual → Auditoría Externa + Ratios Financieros',
+    revision: '¿Cuándo se emite una opinión adversa vs abstención? Calculá liquidez corriente con un ejemplo. Flashcards de M4.',
+    acciones: [
+      { label: '▶ Iniciar sesión 8 (56 preguntas)', fn: 'startPlan20Session(8)', primary: true },
+      { label: '🃏 Flashcards M4', fn: "navigate('flashcards')" },
+    ]
+  },
+  {
+    n: 9,
+    title: 'Simulacro diagnóstico',
+    sub: 'Medir, no estudiar — identificar puntos ciegos reales',
+    color: 'var(--blue)',
+    nucleos: ['60 preguntas todos los módulos', 'Corrección detallada', 'Análisis de errores'],
+    tabla: [
+      ['Primera hora: Simulacro de 60 preguntas, todos los módulos, sin tiempo límite', 'Condiciones reales'],
+      ['Segunda hora: Corrección detallada — para cada error, leé la explicación', 'Anotá el concepto en Mis Notas'],
+    ],
+    recursos: 'Examen → 60 preguntas · Historial → pestaña Errores',
+    revision: '¿En qué módulo erraste más? ¿Hay algún tema que aparece mucho y no dominás? Eso es tu agenda para la sesión 10.',
+    acciones: [
+      { label: '📝 Iniciar simulacro', fn: "navigate('exam')" },
+      { label: '📊 Ver mis errores', fn: "navigate('history');setTimeout(()=>showHistTab('errors'),200)" },
+    ]
+  },
+  {
+    n: 10,
+    title: 'Refuerzo quirúrgico + simulacro final',
+    sub: 'Cerrar las brechas · Meta: 70%+ en el simulacro final',
+    color: 'var(--green)',
+    nucleos: ['Repaso de errores', 'Simulacro 90 min', 'Meta 70%'],
+    tabla: [
+      ['Primera hora: Repaso inteligente en módulos donde más erraste en sesión 9', 'Mínimo 30 preguntas de repaso'],
+      ['Segunda hora: Simulacro final de 60 preguntas con tiempo (90 minutos)', 'Condiciones exactas del examen real'],
+    ],
+    recursos: 'Repaso Inteligente · Examen con límite de tiempo',
+    revision: 'Si llegaste a 70% → estás lista para rendir. Si no → identificá los 3 temas más fallados y hacé una sesión extra solo con esos.',
+    acciones: [
+      { label: '🔁 Repaso inteligente', fn: "navigate('review')" },
+      { label: '📝 Simulacro final', fn: "navigate('exam')" },
+      { label: '🏆 Ver logros', fn: "navigate('achievements')" },
+    ]
+  },
+];
+
+function buildPlan20() {
+  const el = document.getElementById('plan20-content');
+  if (!el) return;
+
+  const SK_P20 = 'cnv_local_plan20_done';
+  const done = new Set(JSON.parse(localStorage.getItem(SK_P20) || '[]'));
+
+  function saveDone() {
+    localStorage.setItem(SK_P20, JSON.stringify([...done]));
+  }
+
+  const doneCount = done.size;
+  const totalH = doneCount * 2;
+
+  el.innerHTML = `
+    <!-- Hero -->
+    <div class="p20-hero">
+      <div class="p20-hero-stat">
+        <div class="p20-hero-num">${totalH}</div>
+        <div class="p20-hero-lbl">horas completadas</div>
+      </div>
+      <div class="p20-hero-sep"></div>
+      <div class="p20-hero-stat">
+        <div class="p20-hero-num" style="color:var(--green)">${doneCount}</div>
+        <div class="p20-hero-lbl">de 10 sesiones</div>
+      </div>
+      <div class="p20-hero-sep"></div>
+      <div class="p20-hero-text">
+        <div class="p20-hero-title">Plan Pareto — Idoneidad CNV</div>
+        <div class="p20-hero-sub">El 20% de contenido que genera el 80% de tus resultados. 10 sesiones · 2 hs cada una · revisión de 15 min al final.</div>
+        <div class="p20-progress-bar">
+          <div class="p20-progress-fill" style="width:${Math.round(doneCount/10*100)}%"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sessions -->
+    ${PLAN20_SESSIONS.map(s => {
+      const isDone = done.has(s.n);
+      return `
+      <div class="p20-session ${isDone ? 'done' : ''}" id="p20-s${s.n}">
+        <div class="p20-session-header" onclick="p20Toggle(${s.n})">
+          <div class="p20-session-num">${isDone ? '✓' : s.n}</div>
+          <div class="p20-session-info">
+            <div class="p20-session-title" style="color:${s.color}">Sesión ${s.n} — ${s.title}</div>
+            <div class="p20-session-sub">${s.sub} · 2 horas + 15 min revisión</div>
+          </div>
+          <div class="p20-session-right">
+            ${isDone ? '<span class="p20-done-badge">✓ Completada</span>' : ''}
+            <span class="p20-chev" id="p20-chev-${s.n}">▸</span>
+          </div>
+        </div>
+        <div class="p20-session-body" id="p20-body-${s.n}">
+          <div class="p20-nucleos">
+            ${s.nucleos.map(n => `<span class="p20-nucleo-tag" style="background:${s.color}15;color:${s.color};border-color:${s.color}30">${n}</span>`).join('')}
+          </div>
+          <table class="p20-table">
+            <thead><tr><th>Concepto clave</th><th>Por qué importa</th></tr></thead>
+            <tbody>${s.tabla.map(r => `<tr><td>${r[0]}</td><td>${r[1]}</td></tr>`).join('')}</tbody>
+          </table>
+          <div style="font-size:11px;color:var(--text2);margin-bottom:10px">
+            <span style="font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;font-size:9px">Recursos · </span>${s.recursos}
+          </div>
+          <div class="p20-actions">
+            ${s.acciones.map(a => `<button class="btn btn-sm ${a.primary ? 'btn-primary' : 'rp-btn-blue'}" onclick="${a.fn}">${a.label}</button>`).join('')}
+            <button class="p20-check-btn ${isDone ? 'done-btn' : ''}" onclick="p20ToggleDone(${s.n})">
+              ${isDone ? '✓ Completada' : 'Marcar como completada'}
+            </button>
+          </div>
+          <div class="p20-review-box">
+            <strong>⏱ Revisión 15 min</strong>
+            ${s.revision}
+          </div>
+        </div>
+      </div>`;
+    }).join('')}
+
+    <!-- Reglas -->
+    <div class="card db-card-clean" style="margin-top:16px">
+      <div class="db-card-title">Reglas del plan</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin-top:4px">
+        ${[
+          ['Antes de cada sesión', 'Abrí la app, mirá el dashboard, respondé 5 preguntas del tema para activar la memoria.'],
+          ['Durante', 'Usá la IA para las preguntas que no entendés — no sigas sin entender el "por qué".'],
+          ['Después', 'Marcá con 🚩 todo lo que no salió fluido. Esas preguntas son tu banco de repaso.'],
+          ['Frecuencia ideal', '2 sesiones/semana = 5 semanas · 3 sesiones = 3 semanas · todos los días = 10 días.'],
+        ].map(([t,b]) => `
+          <div style="background:var(--card2);border:1px solid var(--border);border-radius:var(--r);padding:12px">
+            <div style="font-size:10px;font-weight:700;color:var(--text);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px">${t}</div>
+            <div style="font-size:12px;color:var(--text2);line-height:1.55">${b}</div>
+          </div>`).join('')}
+      </div>
+    </div>
+  `;
+
+  // ── helpers ────────────────────────────────────────────────
+  window.p20Toggle = function(n) {
+    const body = document.getElementById('p20-body-' + n);
+    const chev = document.getElementById('p20-chev-' + n);
+    const isOpen = body.classList.contains('open');
+    // Close all
+    document.querySelectorAll('.p20-session-body').forEach(b => b.classList.remove('open'));
+    document.querySelectorAll('.p20-chev').forEach(c => { c.textContent = '▸'; c.classList.remove('open'); });
+    // Toggle clicked
+    if (!isOpen) {
+      body.classList.add('open');
+      chev.textContent = '▾';
+      chev.classList.add('open');
+    }
+  };
+
+  window.p20ToggleDone = function(n) {
+    if (done.has(n)) done.delete(n); else done.add(n);
+    saveDone();
+    buildPlan20(); // re-render
+  };
+}
+
+
+const PORQUES = {"OPA": [{"q": "¿Por qué la CNV exige una OPA cuando alguien supera el 35% del capital de una empresa cotizante?", "r": "Porque a partir de ese umbral el adquirente tiene control efectivo sobre las decisiones societarias. La OPA obliga a ofrecerle a todos los accionistas minoritarios la posibilidad de salir en igualdad de condiciones al precio de adquisición, evitando que el controlante los 'atrape' en una empresa que ya no elegirían tener."}, {"q": "¿Por qué el precio de la OPA no puede ser inferior al mayor precio pagado por el oferente en los últimos 12 meses?", "r": "Porque si el adquirente ya pagó un precio mayor en el mercado, ese precio revela cuánto vale realmente el control para él. Permitir un precio menor sería permitirle capturar el control pagando menos de lo que ya demostró que vale, en perjuicio de los minoritarios."}], "Oferta Pública / Prospecto": [{"q": "¿Por qué se exige un prospecto para hacer una oferta pública de valores?", "r": "Porque el mercado de capitales funciona sobre la base de información simétrica. El prospecto es el mecanismo que equilibra la asimetría de información entre el emisor (que conoce todo sobre el activo) y el inversor (que no conoce nada). Sin él, el inversor estaría comprando a ciegas."}, {"q": "¿Por qué la oferta privada no requiere autorización de la CNV pero la oferta pública sí?", "r": "Porque en la oferta privada los inversores son sofisticados, en número limitado, y pueden negociar directamente sus condiciones. La oferta pública llega al público general, incluyendo inversores minoristas que necesitan protección estatal para compensar su menor capacidad de análisis."}], "Emisor Frecuente / PyME CNV": [{"q": "¿Por qué un emisor frecuente puede hacer ofertas con un régimen simplificado?", "r": "Porque ya tiene un historial de información pública verificada por la CNV. El mercado lo conoce, sus estados contables están auditados y disponibles. Exigirle el mismo proceso que a un emisor nuevo sería ineficiente sin agregar protección real al inversor."}], "Sanciones y Sumarios CNV": [{"q": "¿Por qué la CNV puede aplicar sanciones sin necesidad de acudir a la justicia?", "r": "Porque es un organismo con facultades cuasi-jurisdiccionales en su área de competencia. La eficiencia regulatoria requiere que el regulador pueda actuar rápido ante infracciones de mercado — esperar al proceso judicial haría ineficaz toda la regulación. La revisión judicial existe pero es posterior."}, {"q": "¿Por qué la multa máxima se calcula como múltiplo del beneficio obtenido y no como monto fijo?", "r": "Porque una multa fija puede ser 'precio del delito' si el beneficio supera la sanción. Al calcularla como múltiplo del beneficio se garantiza que el infractor nunca salga ganando — el costo esperado de infringir siempre supera el beneficio esperado."}], "Control Societario CNV": [{"q": "¿Por qué la CNV regula los cambios de control en empresas cotizantes aunque sea un acuerdo privado entre accionistas?", "r": "Porque el cambio de quien controla una empresa cotizante afecta a todos los accionistas que no participan de ese acuerdo. El nuevo controlante puede tomar decisiones que perjudiquen a los minoritarios. La regulación protege a quienes no estuvieron en la negociación."}], "Etapas del Lavado": [{"q": "¿Por qué el lavado de activos requiere necesariamente tres etapas y no puede hacerse en una sola operación?", "r": "Porque el objetivo es desconectar el dinero de su origen ilícito. Una sola operación grande es trazable. Las tres etapas — colocación, estratificación e integración — crean capas de transacciones que hacen cada vez más difícil seguir el rastro hasta el origen. Cada etapa agrega opacidad."}, {"q": "¿Por qué la estratificación es la etapa más compleja de detectar?", "r": "Porque en la colocación el dinero todavía tiene características del delito original y en la integración ya está en la economía legítima. La estratificación es la etapa intermedia donde el dinero se mueve rápidamente entre múltiples jurisdicciones y vehículos — es el corazón del proceso de ocultamiento."}], "Sujetos Obligados": [{"q": "¿Por qué los agentes del mercado de capitales son sujetos obligados ante la UIF?", "r": "Porque el mercado de capitales es un canal natural para la estratificación e integración del dinero ilícito — permite mover grandes sumas con relativa velocidad y crear rastros financieros complejos. Al obligar a los agentes a reportar operaciones sospechosas se convierte al sector en un filtro activo contra el lavado."}], "PEP y Debida Diligencia": [{"q": "¿Por qué los PEPs reciben un tratamiento de debida diligencia reforzada aunque no hayan cometido ningún delito?", "r": "Porque su posición de poder les da acceso a recursos públicos y capacidad de tomar decisiones que afectan grandes sumas. El riesgo de corrupción y lavado es estadísticamente mayor en ese perfil. La DD reforzada no implica culpabilidad — es gestión de riesgo preventiva basada en el cargo, no en la persona."}, {"q": "¿Por qué la condición de PEP se extiende a familiares y colaboradores cercanos?", "r": "Porque si solo se controlara al funcionario directamente, sería trivial usar a un familiar o testaferro para mover los fondos. La extensión cierra ese canal alternativo — el riesgo asociado al cargo no desaparece porque otro gestione los activos."}], "ROS y Plazos": [{"q": "¿Por qué el ROS debe ser confidencial y el cliente no puede saber que fue reportado?", "r": "Porque si el cliente supiera del reporte podría destruir evidencia, mover los fondos o alertar a cómplices. La confidencialidad es lo que hace al sistema de reportes efectivo — la UIF necesita tiempo para investigar sin que el sospechoso tome contramedidas."}, {"q": "¿Por qué el plazo del ROS es de 30 días hábiles desde que se detecta la operación sospechosa y no desde que ocurre?", "r": "Porque el sujeto obligado necesita tiempo para analizar si la operación realmente es sospechosa. Reportar todo de inmediato generaría una avalancha de falsos positivos que colapsaría a la UIF. El plazo desde la detección (no desde la operación) da margen para un análisis razonable antes de reportar."}], "Oficial de Cumplimiento": [{"q": "¿Por qué el Oficial de Cumplimiento debe ser designado ante la UIF y no es simplemente un cargo interno?", "r": "Porque es el punto de contacto oficial entre la institución y el regulador. La designación formal crea responsabilidad personal y verificable. Si el OC es solo un cargo interno sin registro, la institución podría cambiarlo o ignorarlo sin consecuencias — la designación ante la UIF lo hace responsable legalmente."}], "Activos Virtuales / PSAV": [{"q": "¿Por qué los proveedores de activos virtuales (PSAV) se incorporaron como sujetos obligados ante la UIF?", "r": "Porque los activos virtuales permiten transferencias pseudoanónimas, transfronterizas e instantáneas — características ideales para la etapa de estratificación del lavado. Sin regular a los PSAV existiría un canal paralelo al sistema financiero convencional sin controles anti-lavado."}], "Hechos Relevantes": [{"q": "¿Por qué una empresa debe publicar un hecho relevante antes de que se concrete, si todavía es incierto?", "r": "Porque si espera a la certeza, los que ya sabían del hecho habrán operado con información privilegiada durante todo el período de incertidumbre. La obligación de publicar apenas el hecho es 'apto para influir' en el precio minimiza la ventana de tiempo en que existe información asimétrica."}], "Insider Trading": [{"q": "¿Por qué el insider trading daña al mercado aunque la operación en sí sea rentable para quien la hace?", "r": "Porque destruye la confianza en que el mercado es un campo de juego parejo. Si los inversores saben que algunos operan con información que ellos no tienen, dejan de participar — el mercado pierde liquidez y profundidad. El daño no es la operación individual sino el efecto sistémico sobre la confianza."}, {"q": "¿Por qué el insider trading se sanciona aunque el que opera no haya obtenido ganancia?", "r": "Porque el delito es usar información privilegiada, no obtener ganancia. Alguien puede usar información privilegiada para evitar una pérdida (vender antes de una mala noticia) — el beneficio es real aunque no sea una ganancia directa. La ley sanciona el uso indebido de la información, independientemente del resultado."}], "Gobierno Corporativo": [{"q": "¿Por qué se exige que haya directores independientes en empresas cotizantes si los accionistas ya eligen al directorio?", "r": "Porque los accionistas mayoritarios eligen al directorio, lo que puede llevar a un directorio que protege sus intereses a costa de los minoritarios. Los directores independientes no tienen relación con el grupo controlante, por lo que pueden cuestionar decisiones que perjudiquen a los accionistas en general."}], "Idoneidad y Registro": [{"q": "¿Por qué se exige idoneidad certificada para asesorar en inversiones y no alcanza con la experiencia práctica?", "r": "Porque el asesor maneja el ahorro de terceros. La certificación garantiza un piso mínimo de conocimientos verificables y actualizados sobre el marco normativo vigente. La experiencia práctica no certifica que el asesor conoce las reglas del juego que debe respetar para proteger al inversor."}], "Atención al Inversor": [{"q": "¿Por qué la CNV obliga a los agentes a conocer el perfil de riesgo del cliente antes de recomendarle productos?", "r": "Porque un producto adecuado para un inversor sofisticado puede ser catastrófico para uno conservador. La obligación de conocer el perfil traslada la responsabilidad al agente — si recomendó sin conocer el perfil, no puede alegar que el cliente aceptó. Protege al inversor de su propio desconocimiento del producto."}], "Estados Financieros NIIF": [{"q": "¿Por qué Argentina adoptó las NIIF para empresas cotizantes pero no para todas las empresas?", "r": "Porque las NIIF están diseñadas para que los estados financieros sean comparables internacionalmente — algo crucial para empresas que acceden a mercados de capitales globales. Para empresas que solo operan localmente, el costo de adoptar NIIF supera el beneficio. Las cotizantes necesitan ser comparables con sus pares internacionales para atraer inversión."}], "Ratios Financieros": [{"q": "¿Por qué la liquidez corriente puede ser alta y aún así la empresa estar en problemas?", "r": "Porque la liquidez corriente incluye activos como inventarios que pueden no ser convertibles en efectivo rápidamente. Una empresa con muchos inventarios obsoletos puede tener liquidez corriente alta pero no tener efectivo para pagar deudas inmediatas. Por eso existe la prueba ácida, que excluye inventarios."}, {"q": "¿Por qué el ratio de endeudamiento alto no siempre es una señal de riesgo?", "r": "Porque depende del sector y la calidad de los activos que respaldan la deuda. Una empresa con activos de alta calidad y flujos de caja predecibles puede sostener más deuda que una con activos volátiles. El endeudamiento es riesgo solo cuando los flujos de caja no pueden cubrir el servicio de deuda — el ratio solo da una señal inicial."}], "Auditoría Externa": [{"q": "¿Por qué el auditor emite una opinión 'con abstención' en lugar de 'adversa' cuando no puede obtener evidencia suficiente?", "r": "Porque son situaciones distintas. La opinión adversa significa que el auditor obtuvo evidencia suficiente y esa evidencia muestra que los estados están mal. La abstención significa que no pudo obtener la evidencia necesaria para opinar en ningún sentido — no sabe si están bien o mal. Son grados de incertidumbre diferentes."}, {"q": "¿Por qué la independencia del auditor es tan crítica que se regula hasta quiénes pueden ser sus clientes?", "r": "Porque el auditor certifica información que el mercado usa para tomar decisiones de inversión. Si el auditor depende económicamente del auditado — por honorarios excesivos, por relaciones familiares, por servicios adicionales — su incentivo es no encontrar problemas. La independencia es la única garantía de que la certificación tiene valor."}], "Bonos y Renta Fija": [{"q": "¿Por qué el precio de un bono baja cuando suben las tasas de interés del mercado?", "r": "Porque el bono paga cupones fijos. Si el mercado ofrece tasas más altas, ese bono fijo se vuelve menos atractivo — nadie paga el valor nominal por algo que rinde menos que las alternativas. El precio baja hasta el punto en que el rendimiento del bono sea equivalente al de mercado. Es una relación matemática, no de confianza."}], "Futuros y Opciones": [{"q": "¿Por qué los futuros obligan a ambas partes pero las opciones solo obligan al vendedor?", "r": "Porque en los futuros ambas partes quieren fijar el precio — el comprador se cubre de que suba y el vendedor de que baje. En las opciones, el comprador paga una prima para tener el derecho de decidir — si el precio lo favorece ejerce, si no lo favorece no ejerce. El vendedor cobra la prima por asumir esa asimetría."}], "Agentes y Categorías": [{"q": "¿Por qué un Agente de Liquidación y Compensación (ALyC) tiene más requisitos de capital que un Agente de Negociación (AN)?", "r": "Porque el ALyC garantiza la liquidación de las operaciones — si un cliente no puede pagar, el ALyC responde. Ese riesgo de contraparte requiere capital suficiente para absorber pérdidas. El AN solo negocia, no garantiza — su riesgo patrimonial es menor y por eso sus requisitos de capital son menores."}], "Caución y Pase": [{"q": "¿Por qué la caución bursátil es más segura que un préstamo bancario tradicional para el colocador?", "r": "Porque la garantía son los títulos valores depositados en la cámara compensadora, no una promesa del tomador. Si el tomador no devuelve el dinero, los títulos se ejecutan automáticamente. No hay proceso judicial, no hay riesgo de insolvencia del tomador — la garantía es inmediata y líquida."}, {"q": "¿Por qué el pase bursátil no es simplemente una compraventa de títulos con recompra acordada?", "r": "Porque en el pase el precio de recompra ya está fijado desde el inicio y la diferencia entre el precio de venta y el de recompra es implícitamente una tasa de interés. Económicamente es un préstamo garantizado con títulos, igual que la caución — la diferencia es la modalidad operativa y el tratamiento impositivo."}], "Futuros ROFEX": [{"q": "¿Por qué los futuros de ROFEX requieren depósitos de garantía diarios (márgenes) y no solo al inicio?", "r": "Porque el precio del futuro fluctúa cada día y las pérdidas se acumulan. Si solo se exigiera margen al inicio, una pérdida acumulada podría superar la garantía depositada sin que el operador pueda cubrir la diferencia. Los márgenes diarios garantizan que la posición siempre esté respaldada — eliminan el riesgo de contraparte."}], "Opciones": [{"q": "¿Por qué el comprador de una opción tiene pérdida máxima limitada pero el vendedor tiene pérdida potencialmente ilimitada?", "r": "Porque el comprador pagó la prima y eso es todo lo que puede perder — si la opción no le conviene, simplemente no la ejerce. El vendedor cobró la prima pero se comprometió a comprar o vender al precio de ejercicio sin importar cuánto se haya movido el mercado. Si el precio se mueve mucho en su contra, su pérdida no tiene techo."}], "CPD y FCE": [{"q": "¿Por qué el Cheque de Pago Diferido (CPD) permite a una PyME obtener financiamiento antes del vencimiento del cheque?", "r": "Porque al negociarlo en el mercado de capitales, cede el derecho de cobro a un inversor que paga hoy un precio menor al valor nominal. La PyME obtiene liquidez inmediata a cambio de ceder parte del valor futuro. El inversor obtiene una tasa de retorno. El mercado actúa como intermediario entre quien necesita liquidez y quien tiene excedentes."}], "Suscripción de Acciones": [{"q": "¿Por qué los accionistas existentes tienen derecho de suscripción preferente cuando la empresa emite nuevas acciones?", "r": "Porque sin ese derecho, una emisión de nuevas acciones a precio bajo diluiría la participación de los accionistas actuales — tendrían el mismo número de acciones pero sobre un capital mayor, perdiendo valor relativo. El derecho preferente les permite mantener su porcentaje de participación si lo desean, protegiéndolos de la dilución."}], "FCI Abiertos": [{"q": "¿Por qué en un FCI abierto el inversor puede rescatar sus cuotapartes en cualquier momento pero en uno cerrado no?", "r": "Porque en el abierto el fondo invierte en activos líquidos — puede venderlos rápido para pagar el rescate. En el cerrado invierte en activos ilíquidos como infraestructura o créditos a largo plazo — no puede venderlos rápido sin pérdida de valor. La restricción al rescate protege a todos los cuotapartistas de que los rescates de unos fuercen ventas a pérdida que perjudiquen a los que se quedan."}, {"q": "¿Por qué la Sociedad Gerente y la Depositaria deben ser entidades separadas e independientes?", "r": "Porque si fueran la misma entidad, quien decide las inversiones también custodia los activos — no habría control cruzado. La separación es un mecanismo de control: la Depositaria puede detectar irregularidades de la Gerente porque custodia los activos y ve lo que realmente tiene el fondo versus lo que dice la Gerente que tiene."}], "FCI Cerrados": [{"q": "¿Por qué las cuotapartes de los FCI cerrados cotizan en bolsa si ya se suscribieron al momento de la oferta?", "r": "Porque como no hay rescate directo, la única forma de salir del fondo es vendiendo las cuotapartes a otro inversor. La cotización en bolsa es el mecanismo de liquidez secundaria — sin ella, el inversor quedaría atrapado hasta el vencimiento del fondo. La bolsa provee la salida que el fondo en sí no puede proveer."}], "Fideicomiso Financiero": [{"q": "¿Por qué el fideicomiso financiero permite separar el riesgo del activo del riesgo de la empresa que lo origina?", "r": "Porque al transferir los activos al fideicomiso, salen del patrimonio del originante — si el originante quiebra, los activos del fideicomiso no forman parte de su masa concursal. El inversor está expuesto al riesgo de los activos (ej: que los deudores no paguen) pero no al riesgo de quiebra del originante. Eso se llama 'quiebra remota'."}, {"q": "¿Por qué los Certificados de Participación tienen mayor rendimiento esperado que los Títulos de Deuda del mismo fideicomiso?", "r": "Porque los TD cobran primero y a tasa fija — son la deuda senior del fideicomiso. Los CP cobran lo que sobra después de pagar a los TD — son equity residual. Si los activos rinden bien, los CP ganan más; si rinden mal, los CP absorben las pérdidas primero. Mayor riesgo, mayor rendimiento esperado."}]};
+
+function buildPorques() {
+  const el = document.getElementById('porques-content');
+  if (!el) return;
+
+  // Track ratings in localStorage
+  const SK_PQ = 'cnv_local_porques';
+  const ratings = JSON.parse(localStorage.getItem(SK_PQ) || '{}');
+  function saveRatings() { localStorage.setItem(SK_PQ, JSON.stringify(ratings)); }
+
+  // Count stats
+  const total = Object.values(PORQUES).reduce((s, qs) => s + qs.length, 0);
+  const answered = Object.keys(ratings).length;
+  const knew = Object.values(ratings).filter(v => v === 'yes').length;
+
+  el.innerHTML = `
+    <div style="display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap">
+      <div style="flex:1;min-width:100px;text-align:center;padding:12px;background:var(--card2);border:1px solid var(--border);border-radius:var(--r)">
+        <div style="font-size:24px;font-weight:800;font-family:var(--mono);color:var(--blue)">${answered}</div>
+        <div style="font-size:11px;color:var(--text2)">de ${total} respondidas</div>
+      </div>
+      <div style="flex:1;min-width:100px;text-align:center;padding:12px;background:var(--card2);border:1px solid var(--border);border-radius:var(--r)">
+        <div style="font-size:24px;font-weight:800;font-family:var(--mono);color:var(--green)">${knew}</div>
+        <div style="font-size:11px;color:var(--text2)">conceptos que ya sabías</div>
+      </div>
+      <div style="flex:1;min-width:100px;text-align:center;padding:12px;background:var(--card2);border:1px solid var(--border);border-radius:var(--r)">
+        <div style="font-size:24px;font-weight:800;font-family:var(--mono);color:var(--orange)">${answered - knew}</div>
+        <div style="font-size:11px;color:var(--text2)">para reforzar</div>
+      </div>
+    </div>
+    ${Object.entries(PORQUES).map(([topic, qs]) => `
+      <div class="porq-topic-group">
+        <div class="porq-topic-name">${topic}</div>
+        <div class="porq-wrap">
+          ${qs.map((item, qi) => {
+            const key = topic + '_' + qi;
+            const rating = ratings[key];
+            return `
+            <div class="porq-card" id="porqcard-${key.replace(/[^a-zA-Z0-9]/g,'_')}">
+              <div class="porq-card-header" onclick="porqToggle('${key.replace(/[^a-zA-Z0-9]/g,'_')}')">
+                <div class="porq-q-text">${item.q}</div>
+                ${rating ? `<span style="font-size:13px">${rating === 'yes' ? '✅' : '❌'}</span>` : ''}
+                <span class="porq-chev" id="porqchev-${key.replace(/[^a-zA-Z0-9]/g,'_')}">▸</span>
+              </div>
+              <div class="porq-body" id="porqbody-${key.replace(/[^a-zA-Z0-9]/g,'_')}">
+                <div class="porq-think-label">Pensá tu respuesta antes de revelar</div>
+                <div class="porq-think-box">¿Por qué es así? Intentá explicarlo con tus palabras antes de ver la respuesta…</div>
+                <button class="porq-reveal-btn" onclick="porqReveal('${key.replace(/[^a-zA-Z0-9]/g,'_')}')">👁 Ver respuesta modelo</button>
+                <div class="porq-answer" id="porqans-${key.replace(/[^a-zA-Z0-9]/g,'_')}">${item.r}</div>
+                <div class="porq-rate-label" id="porqratelbl-${key.replace(/[^a-zA-Z0-9]/g,'_')}" style="display:none">¿Lo sabías?</div>
+                <div class="porq-rate-btns" id="porqratebtn-${key.replace(/[^a-zA-Z0-9]/g,'_')}" style="display:none">
+                  <button class="porq-rate-btn ${rating==='yes'?'selected-yes':''}" onclick="porqRate('${key.replace(/[^a-zA-Z0-9]/g,'_')}','${topic}',${qi},'yes')">✅ Sí lo sabía</button>
+                  <button class="porq-rate-btn ${rating==='no'?'selected-no':''}" onclick="porqRate('${key.replace(/[^a-zA-Z0-9]/g,'_')}','${topic}',${qi},'no')">❌ No del todo</button>
+                </div>
+              </div>
+            </div>`;
+          }).join('')}
+        </div>
+      </div>`).join('')}
+  `;
+
+  window.porqToggle = function(safeKey) {
+    const body  = document.getElementById('porqbody-' + safeKey);
+    const chev  = document.getElementById('porqchev-' + safeKey);
+    const isOpen = body.classList.contains('open');
+    document.querySelectorAll('.porq-body').forEach(b => b.classList.remove('open'));
+    document.querySelectorAll('.porq-chev').forEach(c => { c.textContent = '▸'; c.classList.remove('open'); });
+    if (!isOpen) {
+      body.classList.add('open');
+      chev.textContent = '▾';
+      chev.classList.add('open');
+    }
+  };
+
+  window.porqReveal = function(safeKey) {
+    const ans = document.getElementById('porqans-' + safeKey);
+    const lbl = document.getElementById('porqratelbl-' + safeKey);
+    const btn = document.getElementById('porqratebtn-' + safeKey);
+    if (ans) ans.classList.add('show');
+    if (lbl) lbl.style.display = 'block';
+    if (btn) btn.style.display = 'flex';
+  };
+
+  window.porqRate = function(safeKey, topic, qi, val) {
+    const key = topic + '_' + qi;
+    ratings[key] = val;
+    saveRatings();
+    // Update button styles
+    const container = document.getElementById('porqratebtn-' + safeKey);
+    if (container) {
+      container.querySelectorAll('.porq-rate-btn').forEach(b => {
+        b.classList.remove('selected-yes', 'selected-no');
+      });
+      const btns = container.querySelectorAll('.porq-rate-btn');
+      if (btns[0]) btns[0].classList.toggle('selected-yes', val === 'yes');
+      if (btns[1]) btns[1].classList.toggle('selected-no',  val === 'no');
+    }
+    // Update header emoji
+    const card = document.getElementById('porqcard-' + safeKey);
+    if (card) {
+      const header = card.querySelector('.porq-card-header');
+      let emoji = header.querySelector('.porq-emoji');
+      if (!emoji) {
+        emoji = document.createElement('span');
+        emoji.className = 'porq-emoji';
+        emoji.style.fontSize = '13px';
+        header.insertBefore(emoji, header.querySelector('.porq-chev'));
+      }
+      emoji.textContent = val === 'yes' ? '✅' : '❌';
+    }
+    // Refresh stats
+    const newAnswered = Object.keys(ratings).length;
+    const newKnew = Object.values(ratings).filter(v => v === 'yes').length;
+    const statEls = el.querySelectorAll('.porq-stat-val');
+    // simple refresh of the 3 stat divs
+    buildPorques();
+  };
+}
+
+
+// ── DASHBOARD EDITOR ──────────────────────────────────────
+const DASH_PANELS = [
+  { id: 'dash-countdown-card', name: 'Cuenta regresiva',     desc: 'Días, horas y minutos al examen', defaultOn: true  },
+  { id: 'morning-plan-card',   name: 'Plan del día',         desc: 'Acciones y metas de la sesión',   defaultOn: true  },
+  { id: 'db-priority-card',    name: 'Prioridad del día',    desc: 'Qué estudiar hoy según tu historial', defaultOn: true },
+  { id: 'db-metrics-row',      name: 'Métricas',             desc: 'Preguntas vistas, racha, precisión', defaultOn: true },
+  { id: 'db-panel-progress',   name: 'Progreso global',      desc: 'Anillo de cobertura y barras por módulo', defaultOn: true },
+  { id: 'db-panel-modules',    name: 'Módulos y prioridad',  desc: 'Estado de cada módulo ordenado por urgencia', defaultOn: true },
+  { id: 'db-panel-datos',      name: 'Datos clave CNV',      desc: 'Error frecuente, pregunta sin ver, dato teórico', defaultOn: true },
+  { id: 'db-quick-wins-card',  name: 'Acciones rápidas',     desc: 'Consolidación, simulacro, flashcards', defaultOn: true },
+  { id: 'db-recs-card',        name: 'Sugerencias de repaso',desc: 'Preguntas recomendadas del día',  defaultOn: true },
+];
+
+const SK_DASH = 'cnv_local_dash_layout';
+
+function getDashLayout() {
+  try { return JSON.parse(localStorage.getItem(SK_DASH) || 'null'); } catch(e) { return null; }
+}
+
+function saveDashLayout(layout) {
+  localStorage.setItem(SK_DASH, JSON.stringify(layout));
+}
+
+function applyDashLayout(layout) {
+  const L = layout || getDashLayout();
+  if (!L) return;
+  // Apply visibility
+  DASH_PANELS.forEach(function(p) {
+    const cfg = L.find(function(c) { return c.id === p.id; });
+    const el = document.getElementById(p.id);
+    if (!el) return;
+    const visible = cfg ? cfg.on : p.defaultOn;
+    el.style.display = visible ? '' : 'none';
+  });
+  // Apply order — reorder within their parent containers
+  if (L.length) {
+    // Reorder main grid panels
+    const mainGrid = document.getElementById('db-panel-main-grid');
+    const leftCol  = document.getElementById('db-panel-left');
+    const rightCol = document.getElementById('db-panel-right');
+    // For now order the top-level cards
+    const outerContainer = document.getElementById('view-dashboard');
+    if (!outerContainer) return;
+    const orderedIds = L.map(function(c) { return c.id; });
+    orderedIds.forEach(function(pid) {
+      const el = document.getElementById(pid);
+      if (!el) return;
+      const parent = el.parentElement;
+      if (parent) parent.appendChild(el);
+    });
+  }
+}
+
+function openDashEditor() {
+  const modal = document.getElementById('dash-editor-modal');
+  if (!modal) return;
+  modal.style.display = 'flex';
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  buildDashEditorPanels();
+}
+
+function closeDashEditor() {
+  const modal = document.getElementById('dash-editor-modal');
+  if (!modal) return;
+  modal.style.display = 'none';
+  modal.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function buildDashEditorPanels() {
+  const container = document.getElementById('de-panels-list');
+  if (!container) return;
+  const saved = getDashLayout() || DASH_PANELS.map(function(p) {
+    return { id: p.id, on: p.defaultOn };
+  });
+
+  container.innerHTML = DASH_PANELS.map(function(p, i) {
+    const cfg = saved.find(function(c) { return c.id === p.id; }) || { on: p.defaultOn };
+    const checked = cfg.on ? 'checked' : '';
+    return '<div class="de-panel-row" draggable="true" data-panel-id="' + p.id + '" id="derow-' + p.id + '">' +
+      '<span class="de-drag-handle">⠿</span>' +
+      '<div class="de-panel-info">' +
+        '<div class="de-panel-name">' + p.name + '</div>' +
+        '<div class="de-panel-desc">' + p.desc + '</div>' +
+      '</div>' +
+      '<label class="de-toggle">' +
+        '<input type="checkbox" ' + checked + ' onchange="deTogglePanel(\'' + p.id + '\',this.checked)">' +
+        '<span class="de-toggle-slider"></span>' +
+      '</label>' +
+    '</div>';
+  }).join('');
+
+  // Drag and drop
+  let dragSrc = null;
+  container.querySelectorAll('.de-panel-row').forEach(function(row) {
+    row.addEventListener('dragstart', function(e) {
+      dragSrc = row;
+      setTimeout(function() { row.classList.add('dragging'); }, 0);
+      e.dataTransfer.effectAllowed = 'move';
+    });
+    row.addEventListener('dragend', function() {
+      row.classList.remove('dragging');
+      container.querySelectorAll('.de-panel-row').forEach(function(r) { r.classList.remove('drag-over'); });
+    });
+    row.addEventListener('dragover', function(e) {
+      e.preventDefault();
+      if (row !== dragSrc) {
+        container.querySelectorAll('.de-panel-row').forEach(function(r) { r.classList.remove('drag-over'); });
+        row.classList.add('drag-over');
+      }
+    });
+    row.addEventListener('drop', function(e) {
+      e.preventDefault();
+      if (dragSrc && dragSrc !== row) {
+        const rows = [...container.querySelectorAll('.de-panel-row')];
+        const srcIdx = rows.indexOf(dragSrc);
+        const dstIdx = rows.indexOf(row);
+        if (srcIdx < dstIdx) container.insertBefore(dragSrc, row.nextSibling);
+        else container.insertBefore(dragSrc, row);
+      }
+      row.classList.remove('drag-over');
+    });
+  });
+}
+
+function deTogglePanel(id, on) {
+  // Visual preview immediately
+  const el = document.getElementById(id);
+  if (el) el.style.display = on ? '' : 'none';
+}
+
+function applyDashLayout() {
+  const container = document.getElementById('de-panels-list');
+  if (!container) return;
+  const rows = container.querySelectorAll('.de-panel-row');
+  const layout = [];
+  rows.forEach(function(row) {
+    const id = row.dataset.panelId;
+    const toggle = row.querySelector('input[type="checkbox"]');
+    layout.push({ id: id, on: toggle ? toggle.checked : true });
+  });
+  saveDashLayout(layout);
+  // Apply order to dashboard
+  const outerContainer = document.querySelector('#view-dashboard');
+  if (!outerContainer) return;
+  layout.forEach(function(cfg) {
+    const el = document.getElementById(cfg.id);
+    if (!el) return;
+    el.style.display = cfg.on ? '' : 'none';
+  });
+  toast('✓ Dashboard personalizado guardado');
+}
+
+function resetDashLayout() {
+  localStorage.removeItem(SK_DASH);
+  DASH_PANELS.forEach(function(p) {
+    const el = document.getElementById(p.id);
+    if (el) el.style.display = '';
+  });
+  buildDashEditorPanels();
+  toast('✓ Dashboard restablecido');
+}
+
+// Dashboard layout applied only when user clicks "Editar panel"
+
+
+// ── HISTORIAL DE PROGRESO ─────────────────────────────────
+function _buildProgresoTab() {
+  const el = document.getElementById('hist-content');
+  if (!el) return;
+
+  // Current state
+  const totalSeen = Object.keys(masteryData).filter(k => masteryData[k].attempts > 0).length;
+  const totalPct  = Math.round(totalSeen / 673 * 100);
+  let gOk = 0, gBad = 0;
+  Object.values(masteryData).forEach(m => { gOk += m.correct||0; gBad += Math.max(0,(m.attempts||0)-(m.correct||0)); });
+  const gAcc = (gOk + gBad) > 0 ? Math.round(gOk / (gOk+gBad) * 100) : 0;
+
+  // Build daily data from masteryData.lastSeen and dailyStats
+  const dayData = {}; // date → {answered, ok, bad, pct}
+  // From dailyStats
+  Object.entries(dailyStats).forEach(([date, d]) => {
+    dayData[date] = dayData[date] || {answered:0, ok:0, bad:0, pct:0};
+    dayData[date].answered = d.answered || 0;
+    dayData[date].pct      = d.pct || 0;
+  });
+  // Enrich with correct/wrong from masteryData
+  Object.values(masteryData).forEach(m => {
+    if (!m.lastSeen || !m.attempts) return;
+    dayData[m.lastSeen] = dayData[m.lastSeen] || {answered:0, ok:0, bad:0, pct:0};
+    dayData[m.lastSeen].ok  += m.correct || 0;
+    dayData[m.lastSeen].bad += Math.max(0,(m.attempts||0)-(m.correct||0));
+  });
+
+  const allDates = Object.keys(dayData).sort();
+  const firstDate = allDates[0];
+  const todayStr  = today();
+
+  // Filter periods
+  let activeFilter = '30d';
+
+  function getFilteredDates(filter) {
+    const now = new Date(); now.setHours(0,0,0,0);
+    const days = {
+      '7d': 7, '30d': 30, '90d': 90,
+      '1s': 7, // semana
+    };
+    const nDays = days[filter];
+    if (filter === 'todo') return allDates;
+    if (filter === 'semana') {
+      // current week Mon-Sun
+      const day = now.getDay() || 7;
+      const mon = new Date(now); mon.setDate(now.getDate() - day + 1);
+      const dates = [];
+      for (let i=0; i<7; i++) {
+        const d = new Date(mon); d.setDate(mon.getDate()+i);
+        dates.push(d.toISOString().split('T')[0]);
+      }
+      return dates;
+    }
+    if (filter === 'mes') {
+      const y = now.getFullYear(), m = now.getMonth();
+      const daysInMonth = new Date(y, m+1, 0).getDate();
+      const dates = [];
+      for (let i=1; i<=daysInMonth; i++) {
+        const d = new Date(y, m, i);
+        dates.push(d.toISOString().split('T')[0]);
+      }
+      return dates;
+    }
+    const dates = [];
+    for (let i=nDays-1; i>=0; i--) {
+      const d = new Date(now); d.setDate(now.getDate()-i);
+      dates.push(d.toISOString().split('T')[0]);
+    }
+    return dates;
+  }
+
+  function renderProgreso(filter) {
+    activeFilter = filter;
+    const dates = getFilteredDates(filter);
+    const points = dates.map(d => ({
+      date: d,
+      answered: dayData[d]?.answered || 0,
+      ok:       dayData[d]?.ok  || 0,
+      bad:      dayData[d]?.bad || 0,
+      pct:      dayData[d]?.pct || 0,
+    }));
+
+    // Period stats
+    const periodAnswered = points.reduce((s,p) => s+p.answered, 0);
+    const periodOk       = points.reduce((s,p) => s+p.ok, 0);
+    const periodBad      = points.reduce((s,p) => s+p.bad, 0);
+    const periodAcc      = (periodOk+periodBad)>0 ? Math.round(periodOk/(periodOk+periodBad)*100) : 0;
+    const activeDays     = points.filter(p => p.answered > 0).length;
+
+    // Best day
+    const best = points.reduce((b,p) => p.answered > b.answered ? p : b, {answered:0,date:''});
+
+    el.innerHTML = `
+      <!-- Filter bar -->
+      <div style="display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap" id="prog-filters">
+        ${['7d','30d','90d','semana','mes','todo'].map(f => `
+          <button class="hist-tab ${f===filter?'active':''}" onclick="progRerender('${f}')"
+            style="font-size:11px;padding:5px 12px">
+            ${{
+              '7d':'7 días','30d':'30 días','90d':'90 días',
+              'semana':'Esta semana','mes':'Este mes','todo':'Todo el historial'
+            }[f]}
+          </button>`).join('')}
+      </div>
+
+      <!-- Summary cards -->
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;margin-bottom:16px">
+        ${[
+          {val: totalPct+'%',    lbl: 'Progreso total',    color:'var(--blue)',   sub: totalSeen+' / 673 preguntas'},
+          {val: gAcc+'%',        lbl: 'Precisión total',   color: gAcc>=70?'var(--green)':gAcc>=50?'var(--gold)':'var(--red)', sub: gOk+' correctas'},
+          {val: periodAnswered,  lbl: 'En este período',   color:'var(--text)',   sub: activeDays+' días activos'},
+          {val: periodAcc+'%',   lbl: 'Precisión período', color: periodAcc>=70?'var(--green)':periodAcc>=50?'var(--gold)':'var(--red)', sub: periodOk+' correctas'},
+          {val: best.answered||'—', lbl: 'Mejor día',      color:'var(--gold)',  sub: best.date ? new Date(best.date+'T12:00').toLocaleDateString('es-AR',{day:'numeric',month:'short'}) : '—'},
+          {val: getStreak(),     lbl: 'Racha actual',      color:'var(--orange)', sub: 'días consecutivos'},
+        ].map(c => `
+          <div style="background:var(--card2);border:1px solid var(--border);border-radius:var(--r);padding:12px;text-align:center">
+            <div style="font-size:22px;font-weight:800;font-family:var(--mono);color:${c.color};line-height:1">${c.val}</div>
+            <div style="font-size:11px;font-weight:600;color:var(--text);margin-top:3px">${c.lbl}</div>
+            <div style="font-size:10px;color:var(--text2);margin-top:1px">${c.sub}</div>
+          </div>`).join('')}
+      </div>
+
+      <!-- Progreso chart -->
+      <div class="card db-card-clean" style="margin-bottom:14px">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+          <div class="db-card-title" style="margin:0">Progreso acumulado (%)</div>
+        </div>
+        <div style="position:relative;height:120px">
+          <canvas id="prog-chart-pct" style="width:100%;height:120px"></canvas>
+        </div>
+      </div>
+
+      <!-- Activity chart -->
+      <div class="card db-card-clean" style="margin-bottom:14px">
+        <div class="db-card-title" style="margin-bottom:10px">Actividad diaria — preguntas respondidas</div>
+        <div style="display:flex;align-items:flex-end;gap:${points.length>30?'1':'2'}px;height:100px;overflow-x:auto;padding-bottom:4px" id="prog-activity-bars">
+          ${points.map(p => {
+            const maxAns = Math.max(1, ...points.map(x=>x.answered));
+            const h = p.answered > 0 ? Math.max(4, Math.round(p.answered/maxAns*80)) : 2;
+            const isToday = p.date === todayStr;
+            const lbl = new Date(p.date+'T12:00').toLocaleDateString('es-AR',{day:'numeric',month:'numeric'});
+            const accColor = (p.ok+p.bad)>0 ? (Math.round(p.ok/(p.ok+p.bad)*100)>=70?'var(--green)':'var(--orange)') : 'var(--border2)';
+            return `<div style="flex:1;min-width:${points.length>60?'4':'6'}px;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:default"
+              title="${lbl}: ${p.answered} preguntas · ✓${p.ok} ✗${p.bad}">
+              <div style="width:100%;background:${isToday?'var(--blue)':p.answered>0?accColor:'var(--border2)'};height:${h}px;border-radius:2px 2px 0 0;opacity:${p.answered>0?.85:.3}"></div>
+              ${points.length<=30?`<div style="font-size:8px;color:${isToday?'var(--blue)':'var(--text2)'};white-space:nowrap;overflow:hidden;max-width:24px;text-overflow:ellipsis">${lbl}</div>`:''}
+            </div>`;
+          }).join('')}
+        </div>
+        <div style="display:flex;gap:12px;margin-top:6px;font-size:10px;color:var(--text2)">
+          <span><span style="color:var(--green)">■</span> ≥70% precisión</span>
+          <span><span style="color:var(--orange)">■</span> &lt;70% precisión</span>
+          <span><span style="color:var(--blue)">■</span> Hoy</span>
+        </div>
+      </div>
+
+      <!-- Per-module progress -->
+      <div class="card db-card-clean">
+        <div class="db-card-title" style="margin-bottom:12px">Progreso por módulo</div>
+        ${MODULES.map((mod, mi) => {
+          const seen = getModSeen(mi);
+          const acc  = getModAccuracy(mi);
+          const pct  = Math.round(seen / [121,96,104,133,109,110][mi] * 100);
+          const col  = ['var(--m1)','var(--m2)','var(--m3)','var(--m4)','var(--m5)','var(--m6)'][mi];
+          const aCol = acc===null?'var(--text2)':acc>=70?'var(--green)':acc>=50?'var(--gold)':'var(--red)';
+          return `<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)">
+            <div style="width:8px;height:8px;border-radius:50%;background:${col};flex-shrink:0"></div>
+            <div style="font-size:12px;font-weight:600;color:${col};width:26px;flex-shrink:0">M${mi+1}</div>
+            <div style="flex:1;min-width:0">
+              <div style="font-size:12px;color:var(--text)">${['Marco Normativo','PLD','Transparencia','Contabilidad','Agentes','Inv. Colectiva'][mi]}</div>
+            </div>
+            <div style="width:120px;flex-shrink:0">
+              <div style="display:flex;align-items:center;gap:5px">
+                <div style="flex:1;height:5px;background:var(--border2);border-radius:3px;overflow:hidden">
+                  <div style="width:${pct}%;height:100%;background:${col};border-radius:3px"></div>
+                </div>
+                <span style="font-size:11px;font-family:var(--mono);font-weight:700;color:${col};width:30px;text-align:right">${pct}%</span>
+              </div>
+            </div>
+            <div style="font-size:11px;font-weight:700;color:${aCol};width:34px;text-align:right;flex-shrink:0">${acc!==null?acc+'%':'—'}</div>
+          </div>`;
+        }).join('')}
+        <div style="display:flex;gap:16px;margin-top:6px;font-size:10px;color:var(--text2);padding-top:8px">
+          <span>Barra = progreso · Número derecho = precisión</span>
+        </div>
+      </div>
+    `;
+
+    // Draw progress % line chart
+    setTimeout(() => {
+      const canvas = document.getElementById('prog-chart-pct');
+      if (!canvas) return;
+      const W = canvas.parentElement.offsetWidth || 600;
+      const H = 120;
+      canvas.width = W; canvas.height = H;
+      const ctx = canvas.getContext('2d');
+      const pad = {t:10,r:10,b:20,l:34};
+      const cW = W-pad.l-pad.r, cH = H-pad.t-pad.b;
+
+      // Build cumulative pct line from daily data
+      const pctPoints = points.map(p => p.pct);
+      // fill forward if 0
+      let last = 0;
+      const filled = pctPoints.map(v => { if(v>0) last=v; return last||0; });
+      const maxV = 100;
+
+      ctx.strokeStyle='rgba(100,140,200,0.06)'; ctx.lineWidth=1;
+      [25,50,75,100].forEach(f => {
+        const y = pad.t + cH*(1-f/100);
+        ctx.beginPath(); ctx.moveTo(pad.l,y); ctx.lineTo(W-pad.r,y); ctx.stroke();
+        ctx.fillStyle='rgba(143,163,192,0.4)'; ctx.font='8px monospace'; ctx.textAlign='right';
+        ctx.fillText(f+'%', pad.l-3, y+3);
+      });
+
+      // Area fill
+      ctx.beginPath();
+      filled.forEach((v,i) => {
+        const x = pad.l + i/Math.max(filled.length-1,1)*cW;
+        const y = pad.t + cH*(1-v/100);
+        i===0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y);
+      });
+      ctx.lineTo(pad.l+cW, pad.t+cH);
+      ctx.lineTo(pad.l, pad.t+cH);
+      ctx.closePath();
+      ctx.fillStyle = 'rgba(64,144,240,.12)';
+      ctx.fill();
+
+      // Line
+      ctx.beginPath(); ctx.strokeStyle='var(--blue)'; ctx.lineWidth=2; ctx.lineJoin='round';
+      filled.forEach((v,i) => {
+        const x = pad.l + i/Math.max(filled.length-1,1)*cW;
+        const y = pad.t + cH*(1-v/100);
+        i===0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y);
+      });
+      ctx.stroke();
+
+      // X labels (sparse)
+      ctx.fillStyle='rgba(143,163,192,.5)'; ctx.font='8px monospace'; ctx.textAlign='center';
+      const step = Math.max(1, Math.floor(points.length/8));
+      points.forEach((p,i) => {
+        if (i%step===0 || i===points.length-1) {
+          const x = pad.l + i/Math.max(points.length-1,1)*cW;
+          const lbl = new Date(p.date+'T12:00').toLocaleDateString('es-AR',{day:'numeric',month:'numeric'});
+          ctx.fillText(lbl, x, H-3);
+        }
+      });
+    }, 80);
+  }
+
+  // Store render fn for filter buttons
+  window.progRerender = function(filter) {
+    renderProgreso(filter);
+  };
+
+  renderProgreso('30d');
+}
+
+
+function lpStartMicro() {
+  const qs = window._lpMicroQs || [];
+  if (!qs.length) { toast('Sin preguntas disponibles'); return; }
+  curBlockMi = -1; curBlockBi = -1;
+  bqQs = qs.map(p => {
+    const [num,q,a,opts] = MODULES[p.mi].questions[p.qi];
+    return {mi:p.mi, qi:p.qi, num, q, a, opts:opts||[]};
+  });
+  bqIndex=0; bqAnswered=new Array(bqQs.length).fill(null); bqOk=0; bqBad=0;
+  $('qh-tag').textContent  = '⚡ Sesión rápida';
+  $('qh-title').textContent = '7 preguntas de alto impacto · generadas para vos';
+  $('qh-ok').textContent   = '✓ 0';
+  $('qh-bad').textContent  = '✗ 0';
+  $('quiz-result').style.display='none';
+  $('quiz-nav-fixed').style.display='none';
+  navigate('quiz');
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  $('quiz-view').classList.add('active');
+  document.querySelector('.quiz-body').style.display='block';
+  $('tb-title').textContent='Sesión rápida';
+  renderQuestion();
+}
+
+function lpStudyCrossTopicByLabel(label) {
+  const topicData = CT_DATA[label];
+  if (!topicData) { toast('Tema no encontrado en el árbol conceptual'); return; }
+  ctStudy(topicData.mi, topicData.qis, label);
+}
+
 </script>
+
+  <!-- DASHBOARD EDITOR MODAL -->
+  <div id="dash-editor-modal" style="display:none" onclick="if(event.target===this)closeDashEditor()">
+    <div class="de-card">
+      <div class="de-header">
+        <div class="de-title">✏️ Personalizar dashboard</div>
+        <button class="de-close" onclick="closeDashEditor()">×</button>
+      </div>
+      <div class="de-body">
+        <div class="de-hint">Activá o desactivá cada sección, y arrastrálas para reordenarlas. Los cambios se guardan automáticamente.</div>
+        <div class="de-section-label">Secciones del dashboard</div>
+        <div class="de-panels" id="de-panels-list"></div>
+        <div class="de-actions">
+          <button class="btn btn-primary" onclick="applyDashLayout();closeDashEditor()">Aplicar cambios</button>
+          <button class="btn btn-ghost" onclick="resetDashLayout()">Restablecer</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </body>
 </html>
