@@ -2376,6 +2376,161 @@ body { font-size: 1rem; }
 }
 .lp-footer-item { display:flex; align-items:center; gap:4px; }
 .lp-footer-sep { color:var(--border2); }
+
+/* ── Corrección Inteligente + Entrenamiento Focalizado ── */
+.ef-norm-btn {
+  padding: 7px 12px; border-radius: var(--r); font-size: 12px;
+  font-weight: 600; cursor: pointer; border: 1px solid var(--border);
+  background: var(--card2); color: var(--text2); transition: all var(--tr);
+  white-space: nowrap;
+}
+.ef-norm-btn:hover { border-color: var(--border2); color: var(--text); }
+.ef-norm-btn.active {
+  background: rgba(64,144,240,.12); border-color: var(--blue); color: var(--blue);
+}
+
+.ci-section { margin-bottom: 20px; }
+.ci-section-title {
+  font-size: 11px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .12em; color: var(--muted); margin-bottom: 10px;
+  display: flex; align-items: center; gap: 6px;
+}
+/* Heatmap */
+.ci-heatmap {
+  display: grid; grid-template-columns: repeat(6,1fr);
+  gap: 6px; margin-bottom: 4px;
+}
+.ci-hm-cell {
+  border-radius: 8px; padding: 10px 8px; text-align: center;
+  cursor: pointer; transition: transform .15s;
+}
+.ci-hm-cell:hover { transform: scale(1.04); }
+.ci-hm-mod  { font-size: 10px; font-weight: 700; margin-bottom: 2px; }
+.ci-hm-val  { font-size: 18px; font-weight: 800; font-family: var(--mono); }
+.ci-hm-lbl  { font-size: 9px; color: rgba(255,255,255,.75); margin-top: 1px; }
+
+/* Top 10 errors */
+.ci-err-list { display: flex; flex-direction: column; gap: 8px; }
+.ci-err-item {
+  background: var(--card2); border: 1px solid var(--border);
+  border-radius: var(--r); overflow: hidden;
+}
+.ci-err-header {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 13px; cursor: pointer;
+}
+.ci-err-badge {
+  font-size: 9px; font-weight: 700; padding: 2px 7px;
+  border-radius: 4px; flex-shrink: 0;
+  background: rgba(240,80,112,.15); color: var(--red);
+}
+.ci-err-q { flex: 1; font-size: 12px; color: var(--text); line-height: 1.4; }
+.ci-err-chev { font-size: 11px; color: var(--text2); flex-shrink: 0; transition: transform .2s; }
+.ci-err-chev.open { transform: rotate(90deg); }
+.ci-err-body {
+  display: none; padding: 10px 13px 13px;
+  border-top: 1px solid var(--border);
+}
+.ci-err-body.open { display: block; }
+.ci-err-answer { font-size: 12px; color: var(--green); margin-bottom: 8px; font-weight: 600; }
+.ci-err-concept {
+  font-size: 12px; color: var(--text); line-height: 1.6;
+  background: var(--card); border-left: 2px solid var(--border2);
+  padding: 7px 11px; border-radius: 0 var(--r) var(--r) 0;
+}
+
+/* Cause tree */
+.ci-cause-grid {
+  display: grid; grid-template-columns: repeat(2,1fr); gap: 8px;
+}
+.ci-cause-card {
+  background: var(--card2); border: 1px solid var(--border);
+  border-radius: var(--r); padding: 12px;
+}
+.ci-cause-icon { font-size: 20px; margin-bottom: 4px; }
+.ci-cause-name { font-size: 12px; font-weight: 700; color: var(--text); margin-bottom: 3px; }
+.ci-cause-val  { font-size: 22px; font-weight: 800; font-family: var(--mono); }
+.ci-cause-bar  { height: 4px; background: var(--border2); border-radius: 2px; margin-top: 6px; overflow: hidden; }
+.ci-cause-fill { height: 100%; border-radius: 2px; }
+
+/* Entrenamiento tabs */
+.ef-tabs {
+  display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px;
+}
+.ef-tab {
+  padding: 8px 14px; border-radius: var(--r); font-size: 12px;
+  font-weight: 600; cursor: pointer; border: 1px solid var(--border);
+  background: var(--card2); color: var(--text2); transition: all var(--tr);
+  display: flex; align-items: center; gap: 6px;
+}
+.ef-tab.active {
+  background: var(--blue); border-color: var(--blue); color: #fff;
+}
+.ef-tab:hover:not(.active) { border-color: var(--border2); color: var(--text); }
+.ef-pane { display: none; }
+.ef-pane.active { display: block; }
+
+/* Modo Diagnóstico */
+.ef-mod-selector {
+  display: grid; grid-template-columns: repeat(3,1fr); gap: 6px; margin-bottom: 12px;
+}
+.ef-mod-btn {
+  padding: 9px 8px; border-radius: var(--r); text-align: center;
+  cursor: pointer; border: 1px solid var(--border); background: var(--card2);
+  font-size: 11px; font-weight: 600; transition: all var(--tr);
+  color: var(--text2);
+}
+.ef-mod-btn.selected {
+  border-color: var(--blue); background: rgba(64,144,240,.1); color: var(--blue);
+}
+
+/* Práctica guiada */
+.ef-question-card {
+  background: var(--card2); border: 1px solid var(--border);
+  border-radius: var(--r); padding: 16px; margin-bottom: 12px;
+}
+.ef-question-text { font-size: 14px; font-weight: 600; color: var(--text);
+  line-height: 1.5; margin-bottom: 12px; }
+.ef-opts { display: flex; flex-direction: column; gap: 7px; }
+.ef-opt {
+  padding: 9px 13px; border-radius: var(--r); border: 1px solid var(--border);
+  background: var(--card); cursor: pointer; font-size: 13px; color: var(--text);
+  transition: all var(--tr); display: flex; align-items: center; gap: 10px;
+}
+.ef-opt:hover:not(:disabled) { border-color: var(--border2); background: var(--card2); }
+.ef-opt.correct { background: rgba(34,211,160,.1); border-color: var(--green); color: var(--green); }
+.ef-opt.wrong   { background: rgba(240,80,112,.1);  border-color: var(--red);   color: var(--red);   }
+.ef-opt.reveal  { background: rgba(34,211,160,.06); border-color: rgba(34,211,160,.3); }
+.ef-opt-letter  { font-size: 11px; font-weight: 700; width: 20px; flex-shrink: 0; }
+.ef-hint-box {
+  background: rgba(240,192,64,.08); border: 1px solid rgba(240,192,64,.2);
+  border-radius: var(--r); padding: 10px 13px; margin-top: 10px;
+  font-size: 12px; color: var(--text); line-height: 1.55;
+}
+.ef-mnemonic {
+  background: rgba(144,96,240,.08); border-left: 3px solid var(--purple);
+  padding: 9px 13px; border-radius: 0 var(--r) var(--r) 0;
+  font-size: 12px; color: var(--text); line-height: 1.55; margin-top: 8px;
+}
+.ef-feedback-ok  { color: var(--green); font-weight: 700; font-size: 13px; }
+.ef-feedback-bad { color: var(--red);   font-weight: 700; font-size: 13px; }
+
+/* Normas comparador */
+.ef-norm-table {
+  width: 100%; border-collapse: collapse; font-size: 12px;
+  margin-top: 8px;
+}
+.ef-norm-table th {
+  background: var(--card2); padding: 8px 10px; text-align: left;
+  font-size: 10px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .08em; color: var(--text2); border-bottom: 2px solid var(--border);
+}
+.ef-norm-table td {
+  padding: 9px 10px; border-bottom: 1px solid var(--border);
+  vertical-align: top; line-height: 1.5;
+}
+.ef-norm-table tr:hover td { background: var(--card2); }
+.ef-norm-highlight { color: var(--blue); font-weight: 700; }
 </style>
 <!-- Auth modal styles -->
 <style>
@@ -2463,18 +2618,17 @@ body { font-size: 1rem; }
     <div><div class="logo-text">Idoneidad</div><div class="logo-sub">Mercado de Capitales</div></div>
   </div>
   <div class="sb-nav">
-    <div class="sb-section-label">Principal</div>
+
+    <!-- HOME siempre visible como item principal -->
     <button class="sb-btn active" id="nav-dash" onclick="navigate('dashboard')">
       <span class="icon">⚡</span>Dashboard
     </button>
-    <button class="sb-btn" id="nav-study" onclick="navigate('study')">
-      <span class="icon">📖</span>Estudiar
-    </button>
-    <button class="sb-btn" id="nav-exam" onclick="navigate('exam')">
-      <span class="icon">📝</span>Examen
-    </button>
+
     <div class="sb-divider"></div>
-    <div class="sb-section-label">Herramientas</div>
+    <div class="sb-section-label">Estudiar</div>
+    <button class="sb-btn" id="nav-study" onclick="navigate('study')">
+      <span class="icon">📖</span>Módulos
+    </button>
     <button class="sb-btn" id="nav-review" onclick="navigate('review')">
       <span class="icon">🔁</span>Repaso inteligente
       <span class="badge" id="review-badge" style="display:none">0</span>
@@ -2482,32 +2636,39 @@ body { font-size: 1rem; }
     <button class="sb-btn" id="nav-flashcards" onclick="navigate('flashcards')">
       <span class="icon">🃏</span>Flashcards
     </button>
+    <button class="sb-btn" id="nav-exam" onclick="navigate('exam')">
+      <span class="icon">🎓</span>Simulacro
+    </button>
+
+    <div class="sb-divider"></div>
+    <div class="sb-section-label">Analizar</div>
+    <button class="sb-btn" id="nav-path" onclick="navigate('path')">
+      <span class="icon">🗺</span>Learning Path
+    </button>
+    <button class="sb-btn" id="nav-entrenamiento" onclick="navigate('entrenamiento')">
+      <span class="icon">🎯</span>Entrenamiento
+    </button>
+    <button class="sb-btn" id="nav-history" onclick="navigate('history')">
+      <span class="icon">📈</span>Historial
+    </button>
+
+    <div class="sb-divider"></div>
+    <div class="sb-section-label">Referencia</div>
     <button class="sb-btn" id="nav-flagged" onclick="navigate('flagged')">
       <span class="icon">🚩</span>Marcadas
       <span class="badge" id="flagged-badge" style="display:none">0</span>
     </button>
     <button class="sb-btn" id="nav-notes" onclick="navigate('notes')">
-      <span class="icon">📝</span>Notas
-    </button>
-    <div class="sb-divider"></div>
-    <div class="sb-section-label">Avanzado</div>
-    <button class="sb-btn" id="nav-path" onclick="navigate('path')">
-      <span class="icon">🗺</span>Learning Path
-    </button>
-    <div class="sb-divider"></div>
-    <div class="sb-section-label">Progreso</div>
-    <button class="sb-btn" id="nav-history" onclick="navigate('history')">
-      <span class="icon">📊</span>Historial
-    </button>
-    <button class="sb-btn" id="nav-achievements" onclick="navigate('achievements')">
-      <span class="icon">🏆</span>Logros
-    </button>
-    <button class="sb-btn" id="nav-biblio" onclick="navigate('biblio')">
-      <span class="icon">📚</span>Bibliografía
+      <span class="icon">🗒</span>Notas
     </button>
     <button class="sb-btn" id="nav-recs" onclick="navigate('recs')">
-      <span class="icon">💡</span>Recomendaciones
+      <span class="icon">📅</span>Plan de Estudio
     </button>
+    <div style="display:flex;gap:4px;padding:2px 8px 6px">
+      <button style="flex:1;font-size:10px;color:var(--text2);background:none;border:none;cursor:pointer;padding:4px 6px;text-align:left;border-radius:4px" onclick="navigate('achievements')">🏆 Logros</button>
+      <button style="flex:1;font-size:10px;color:var(--text2);background:none;border:none;cursor:pointer;padding:4px 6px;text-align:left;border-radius:4px" onclick="navigate('biblio')">📚 Bibliografía</button>
+    </div>
+
   </div>
 
   <!-- Mimi Panel -->
@@ -2538,7 +2699,10 @@ body { font-size: 1rem; }
   <div class="sb-footer">
     <div class="user-chip" id="user-chip">
       <div class="user-avatar" id="user-avatar">?</div>
-      <div class="user-name" id="user-name">...</div>
+      <div style="flex:1;min-width:0">
+        <div class="user-name" id="user-name">...</div>
+        <div id="sb-score-badge" style="font-size:10px;color:var(--text2);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis"></div>
+      </div>
       <div class="sync-dot" id="sync-dot" title="Sincronizado"></div>
     </div>
     <div class="theme-row">
@@ -2588,11 +2752,11 @@ body { font-size: 1rem; }
       </div>
       <div style="display:flex;gap:4px;padding:12px 24px;border-bottom:1px solid var(--border);overflow-x:auto;flex-wrap:nowrap" id="help-tab-bar">
         <button class="help-tab active" onclick="showHelpTab('start',this)">🚀 Primeros pasos</button>
-        <button class="help-tab" onclick="showHelpTab('modules',this)">📚 Los 6 módulos</button>
-        <button class="help-tab" onclick="showHelpTab('tools',this)">🛠 Herramientas</button>
+        <button class="help-tab" onclick="showHelpTab('nav',this)">🗂 Navegación</button>
+        <button class="help-tab" onclick="showHelpTab('modules',this)">📚 Módulos</button>
+        <button class="help-tab" onclick="showHelpTab('tools',this)">🔧 Herramientas</button>
         <button class="help-tab" onclick="showHelpTab('config',this)">⚙️ Configuración</button>
-        <button class="help-tab" onclick="showHelpTab('progress',this)">📈 Tu progreso</button>
-      </div>
+        <button class="help-tab" onclick="showHelpTab('progress',this)">📊 Progreso</button></div>
       <div id="help-body" style="padding:20px 24px 28px;max-height:62vh;overflow-y:auto"></div>
     </div>
   </div>
@@ -2706,6 +2870,16 @@ body { font-size: 1rem; }
               </div>
               <div class="db-mod-list" id="mod-bars"></div>
             </div>
+            <div style="margin-top:12px;padding-top:10px;border-top:1px solid var(--border)">
+              <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:5px">
+                <span style="font-size:10px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.08em">Si rindieras hoy</span>
+                <span id="db-conf-pct" style="font-size:18px;font-weight:800;font-family:var(--mono)">—</span>
+              </div>
+              <div style="height:5px;background:var(--border2);border-radius:3px;overflow:hidden">
+                <div id="db-conf-bar" style="height:100%;width:0%;border-radius:3px;transition:width .8s ease"></div>
+              </div>
+              <div id="db-conf-label" style="font-size:10px;color:var(--text2);margin-top:4px"></div>
+            </div>
           </div>
           <div class="card db-card-clean" id="db-panel-modules">
             <div class="db-card-title">Módulos — estado y prioridad</div>
@@ -2730,10 +2904,11 @@ body { font-size: 1rem; }
       </div>
 
       <!-- ── QUICK WINS + RECS ─────────────────────────────── -->
+      <div id="db-last-week-banner" style="display:none;margin-bottom:12px"></div>
       <div class="db-bottom-grid" id="db-recs-card">
         <div class="card db-card-clean">
-          <div class="db-card-title">Sugerencias de repaso</div>
-          <div id="dash-recs"></div>
+          <div class="db-card-title">📋 Sesión de hoy</div>
+          <div id="dash-guided-session"></div>
         </div>
       </div>
 
@@ -2747,12 +2922,20 @@ body { font-size: 1rem; }
       </div>
       <div class="mod-list" id="mod-list"></div>
     <!-- Árbol Conceptual -->
-    <div style="margin-top:20px;margin-bottom:6px;display:flex;align-items:center;gap:8px;cursor:pointer" onclick="ctToggleSection()">
-      <span style="font-size:16px">🌳</span>
-      <div style="font-size:13px;font-weight:700;color:var(--text)">Árbol Conceptual por Temas</div>
-      <span id="ct-section-chevron" style="font-size:13px;color:var(--text2);margin-left:auto">▸</span>
+    <div style="margin-top:20px;margin-bottom:8px">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+        <span style="font-size:16px">🌳</span>
+        <div style="font-size:13px;font-weight:700;color:var(--text)">Estudiar por tema</div>
+        <span style="font-size:11px;color:var(--text2)">— encontrá cualquier concepto</span>
+        <span id="ct-section-chevron" style="font-size:13px;color:var(--text2);margin-left:auto;cursor:pointer" onclick="ctToggleSection()">▾</span>
+      </div>
+      <input type="text" id="ct-search-input"
+        placeholder="Buscar concepto... ej: ROS, OPA, caución, FCI..."
+        style="width:100%;padding:9px 13px;border-radius:var(--r);border:1px solid var(--border);
+        background:var(--card2);color:var(--text);font-size:13px;box-sizing:border-box"
+        oninput="ctFilterTopics(this.value)">
     </div>
-    <div id="ct-section-body" style="display:none">
+    <div id="ct-section-body" style="display:block">
 <div class="ct-wrap" id="ct-wrap">
 
 <div class="ct-section-title">📜 Marco Normativo CNV</div>
@@ -3096,9 +3279,10 @@ body { font-size: 1rem; }
           <div class="result-verdict" id="res-verdict"></div>
         </div>
         <div id="res-breakdown" style="margin-top:20px"></div>
-        <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:20px">
-          <button class="btn btn-primary" onclick="exitQuiz()">← Volver a módulos</button>
-          <button class="btn btn-gold" onclick="restartBlock()">↺ Repetir bloque</button>
+        <div id="res-next-action" style="margin-top:16px"></div>
+        <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:12px">
+          <button class="btn btn-primary" onclick="exitQuiz()">← Volver</button>
+          <button class="btn btn-gold" onclick="restartBlock()">↺ Repetir</button>
         </div>
       </div>
     </div>
@@ -3268,16 +3452,15 @@ body { font-size: 1rem; }
     <!-- HISTORY -->
     <div class="view" id="view-history">
       <div class="page-header">
-        <div class="page-title">📊 Historial de progreso</div>
+        <div class="page-title">📊 Historial</div>
+        <div class="page-sub">Tu evolución — progreso, sesiones y exámenes anteriores</div>
       </div>
       <div class="hist-tabs">
         <button class="hist-tab active" onclick="showHistTab('progreso',this)">📈 Progreso</button>
         <button class="hist-tab" onclick="showHistTab('daily',this)">Diario</button>
-        <button class="hist-tab" onclick="showHistTab('rendimiento',this)">📊 Rendimiento</button>
         <button class="hist-tab" onclick="showHistTab('modules',this)">Por módulo</button>
         <button class="hist-tab" onclick="showHistTab('exams',this)">Exámenes</button>
         <button class="hist-tab" onclick="showHistTab('flashcards',this)">🃏 Flashcards</button>
-        <button class="hist-tab" onclick="showHistTab('errors',this)">⚠️ Errores</button>
       </div>
       <div id="hist-content"></div>
     </div>
@@ -3294,8 +3477,8 @@ body { font-size: 1rem; }
     <!-- RECOMMENDATIONS -->
     <div class="view" id="view-recs">
       <div class="page-header">
-        <div class="page-title">💡 Recomendaciones inteligentes</div>
-        <div class="page-sub">Plan personalizado basado en tu rendimiento</div>
+        <div class="page-title">📅 Plan de Estudio</div>
+        <div class="page-sub">Planificá tu preparación · Plan 20 horas método Pareto</div>
       </div>
       <!-- Study Plan -->
       <div class="card" style="margin-bottom:16px">
@@ -3779,11 +3962,20 @@ body { font-size: 1rem; }
     <div class="view" id="view-path">
       <div class="page-header">
         <div class="page-title">🗺 Learning Path</div>
-        <div class="page-sub">Camino de estudio personalizado según tu progreso actual</div>
+        <div class="page-sub">Módulos por prioridad de impacto · sesión rápida · proyección semanal</div>
       </div>
       <div id="path-content">
         <div style="color:var(--text2);text-align:center;padding:40px 20px;font-size:13px">Cargando...</div>
       </div>
+    </div>
+
+    <!-- ENTRENAMIENTO FOCALIZADO -->
+    <div class="view" id="view-entrenamiento">
+      <div class="page-header">
+        <div class="page-title">🎯 Entrenamiento Focalizado</div>
+        <div class="page-sub">Tu centro de análisis — errores, práctica guiada, repaso espaciado y comparador de normas</div>
+      </div>
+      <div id="entrenamiento-content"></div>
     </div>
   </div><!-- /views -->
 </div><!-- /main -->
@@ -4137,6 +4329,7 @@ function navigate(view) {
   if (view==='achievements')  buildAchievements();
   if (view==='recs')          { buildRecs(); initStudyPlan(); buildPlan20(); }
   if (view==='biblio')        {} // static view
+  if (view==='entrenamiento') buildEntrenamiento();
   if (view==='flashcards')    buildFlashcardSetup();
 }
 
@@ -4278,10 +4471,32 @@ function buildDashboard() {
   setTimeout(() => { drawChart('chart-answered','answered'); drawChart('chart-progress','pct'); }, 200);
 
   // ── Quick recs ────────────────────────────────────────────
-  buildDashRecs();
+  buildLastWeekBanner();
+  buildGuidedSession();
 
   // ── Badges ────────────────────────────────────────────────
   updateBadges();
+
+  // ── Si rindieras hoy ──────────────────────────────────────
+  (function(){
+    let confOk=0, confPool=0;
+    MODULES.forEach((m,mi)=>m.questions.forEach((_,qi)=>{
+      const mst=getMastery(mi,qi);
+      if((mst.attempts||0)>0){ confPool++; if((mst.level||0)>=2) confOk++; }
+    }));
+    const pctEl=$('db-conf-pct'), bar=$('db-conf-bar'), lbl=$('db-conf-label');
+    if(!pctEl||!bar||!lbl) return;
+    if(confPool<20){
+      pctEl.textContent='—'; pctEl.style.color='var(--text2)';
+      lbl.textContent='Respondé al menos 20 preguntas para ver tu estimación';
+      bar.style.width='0%'; return;
+    }
+    const cp=Math.min(99,Math.round(confOk/confPool*100));
+    pctEl.textContent=cp+'%';
+    const col=cp>=70?'var(--green)':cp>=55?'var(--gold)':'var(--red)';
+    pctEl.style.color=col; bar.style.width=cp+'%'; bar.style.background=col;
+    lbl.textContent=cp>=70?'✓ Nivel suficiente para aprobar':cp>=55?'Cerca — consolidá más antes de rendir':'Necesitás más práctica — seguí estudiando';
+  })();
 }
 
 function _buildModulesUrgency() {
@@ -4655,55 +4870,73 @@ function buildPostits() {
 }
 
 
-function buildDashRecs() {
-  const el = $('dash-recs');
+function buildGuidedSession() {
+  const el = $('dash-guided-session');
   if (!el) return;
-
-  // Pick 3 random questions from the guide with substantive answers (conceptual depth)
   const MOD_NAMES = ['Marco Normativo','PLD','Transparencia','Contabilidad','Agentes','Inv. Colectiva'];
   const MOD_CVARS = ['--m1','--m2','--m3','--m4','--m5','--m6'];
 
-  // Collect all questions — prefer definitional ones
-  const pool = [];
-  MODULES.forEach((mod, mi) => {
-    mod.questions.forEach((q, qi) => {
-      const [num, question, answer] = q;
-      if (answer && answer.length > 40) {
-        pool.push({ mi, qi, num, question, answer });
-      }
+  // Errors to review
+  const errorQs = [];
+  MODULES.forEach((m,mi)=>m.questions.forEach((_,qi)=>{
+    const mst=getMastery(mi,qi);
+    if((mst.errors||0)>0&&(mst.level||0)<3) errorQs.push({mi,qi,errors:mst.errors});
+  }));
+  const reviewCount = Math.min(errorQs.length, 10);
+
+  // Highest-impact unseen module
+  const modImpact = MODULES.map((_,mi)=>{
+    let seen=0, ok=0, tot=0;
+    MODULES[mi].questions.forEach((_,qi)=>{
+      const m=getMastery(mi,qi);
+      if(m.attempts>0){seen++;ok+=m.correct||0;tot+=m.attempts;}
     });
+    const acc=tot>0?ok/tot:0;
+    const unseen=MODULES[mi].questions.length-seen;
+    return {mi,unseen,impact:(1-acc)*0.6+(unseen/MODULES[mi].questions.length)*0.4};
+  }).sort((a,b)=>b.impact-a.impact);
+
+  const studyMod   = modImpact[0];
+  const studyCount = Math.min(studyMod.unseen, 15);
+  const totalQs    = reviewCount + studyCount;
+  const estMin     = Math.max(1, Math.round(totalQs*0.8));
+
+  const tasks = [];
+  if (reviewCount>0) tasks.push({
+    icon:'⚠️', color:'var(--red)',
+    label:`Repasar ${reviewCount} error${reviewCount>1?'es':''}`,
+    sub:'preguntas falladas por frecuencia',
+    fn:`navigate('review');setTimeout(()=>{const b=document.querySelector('[data-mode=errors]');if(b)setReviewMode(b,'errors');},300)`,
+  });
+  if (studyCount>0) tasks.push({
+    icon:'📖', color:`var(${MOD_CVARS[studyMod.mi]})`,
+    label:`Estudiar ${studyCount} preguntas de M${studyMod.mi+1}`,
+    sub:`${MOD_NAMES[studyMod.mi]}`,
+    fn:`navigate('study');setTimeout(()=>toggleMod(${studyMod.mi}),250)`,
+  });
+  if (tasks.length===0) tasks.push({
+    icon:'🎓', color:'var(--gold)',
+    label:'Hacé un simulacro de examen',
+    sub:'60 preguntas · condición real',
+    fn:`navigate('exam')`,
   });
 
-  if (!pool.length) {
-    el.innerHTML = '<p style="font-size:12px;color:var(--text2)">Sin contenido disponible.</p>';
-    return;
-  }
-
-  // Rotate daily but randomly within day (3 picks based on day seed)
-  const seed = Math.floor(Date.now() / 86400000);
-  const picks = [];
-  const used = new Set();
-  for (let i = 0; i < 3; i++) {
-    let idx2 = (seed * 31 + i * 127 + i * 13) % pool.length;
-    while (used.has(idx2)) idx2 = (idx2 + 1) % pool.length;
-    used.add(idx2);
-    picks.push(pool[idx2]);
-  }
-
-  el.innerHTML = picks.map(p => {
-    const short = p.answer.length > 100 ? p.answer.substring(0, 98) + '…' : p.answer;
-    return `<div class="dash-rec-item" onclick="navigate('study');setTimeout(()=>toggleMod(${p.mi}),250)">
-      <div class="dash-rec-meta">
-        <span class="dash-rec-tag" style="color:var(${MOD_CVARS[p.mi]});background:var(${MOD_CVARS[p.mi]})15">
-          M${p.mi+1} · ${MOD_NAMES[p.mi]}
-        </span>
-        <span class="dash-rec-num">Pregunta #${p.num}</span>
+  el.innerHTML=`
+    <div style="font-size:11px;color:var(--text2);margin-bottom:10px">
+      ${totalQs>0?`${totalQs} preguntas · ~${estMin} min`:'Tu plan personalizado para hoy'}
+    </div>
+    ${tasks.map(t=>`
+    <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;
+      background:var(--card);border:1px solid var(--border);border-radius:var(--r);
+      margin-bottom:7px;cursor:pointer"
+      onclick="${t.fn}">
+      <span style="font-size:18px;flex-shrink:0">${t.icon}</span>
+      <div style="flex:1;min-width:0">
+        <div style="font-size:12px;font-weight:700;color:${t.color}">${t.label}</div>
+        <div style="font-size:11px;color:var(--text2);margin-top:1px">${t.sub}</div>
       </div>
-      <div class="dash-rec-q">${p.question.length > 80 ? p.question.substring(0,78)+'…' : p.question}</div>
-      <div class="dash-rec-a">${short}</div>
-      <div class="dash-rec-cta">Estudiar este módulo →</div>
-    </div>`;
-  }).join('');
+      <span style="color:var(--text2);font-size:12px;flex-shrink:0">→</span>
+    </div>`).join('')}`;
 }
 
 
@@ -4945,6 +5178,25 @@ function showFeedback(chosen, correct, mi, qi, restore) {
     </div>`;
   }
 
+  // If wrong AND failed 2+ times → suggest AI explanation
+  if (chosen !== correct) {
+    const mst = getMastery(mi, qi);
+    if ((mst.errors||0) >= 2) {
+      const aiKey = mi+'_'+qi;
+      const hasAi = typeof aiExplanations !== 'undefined' && aiExplanations[aiKey];
+      fbHTML += `<div style="margin-top:8px;padding:8px 10px;background:rgba(144,96,240,.08);
+        border:1px solid rgba(144,96,240,.2);border-radius:var(--r);font-size:11px;color:var(--text)">
+        ⚠️ Fallaste esta pregunta ${mst.errors} vez${mst.errors>1?'es':''}.
+        ${hasAi
+          ? `<span style="color:var(--purple);cursor:pointer;font-weight:600;margin-left:4px"
+              onclick="navigate('notes');setTimeout(()=>switchNotesTab('ai'),200)">Ver explicación guardada →</span>`
+          : `<span style="color:var(--purple);cursor:pointer;font-weight:600;margin-left:4px"
+              onclick="openAiExplain(${mi},${qi})">Pedir explicación con IA →</span>`
+        }
+      </div>`;
+    }
+  }
+
   fb.innerHTML = fbHTML;
 
   $('quiz-nav').style.display='flex';
@@ -5035,6 +5287,33 @@ function showQuizResult() {
     ${lvlTotal===0?'<p style="font-size:12px;color:var(--muted);padding:8px 0">Sin datos históricos aún.</p>':''}
   </div>`;
   checkAchievements();
+
+  // ── Next action + failed questions list ───────────────────
+  const naEl = $('res-next-action');
+  if (naEl) {
+    const failed = bqQs.filter((_,i) => bqAnswered[i] !== null && bqAnswered[i] !== bqQs[i].a);
+    const failedList = failed.slice(0,6).map(q =>
+      `<div style="font-size:11px;padding:6px 0;border-bottom:1px solid var(--border)">
+        <span style="color:var(--red);font-weight:700">✗</span>
+        <span style="color:var(--text);margin-left:4px">${q.q.length>70?q.q.substring(0,68)+'…':q.q}</span><br>
+        <span style="color:var(--green);margin-left:12px;font-size:11px">→ ${q.a.length>70?q.a.substring(0,68)+'…':q.a}</span>
+      </div>`
+    ).join('');
+    const actionFn   = failed.length>0 ? "navigate('review');setTimeout(()=>{const b=document.querySelector('[data-mode=errors]');if(b)setReviewMode(b,'errors');},300)"
+                     : pct>=80          ? "navigate('exam')"
+                     :                    "navigate('review')";
+    const actionLbl  = failed.length>0 ? '⚠️ Repasar errores ahora'
+                     : pct>=80          ? '🎓 Hacer un simulacro'
+                     :                    '🔁 Continuar repaso';
+    naEl.innerHTML = failed.length===0 ? '' : `
+      <div style="background:var(--card2);border:1px solid var(--border);border-radius:var(--r);padding:12px 14px;margin-bottom:4px">
+        <div style="font-size:11px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px">
+          Fallaste ${failed.length} pregunta${failed.length>1?'s':''} esta sesión
+        </div>
+        ${failedList}
+        <button class="btn btn-primary" style="font-size:12px;width:100%;margin-top:10px" onclick="${actionFn}">${actionLbl}</button>
+      </div>`;
+  }
 }
 
 function exitQuiz() {
@@ -5464,6 +5743,33 @@ function finishExam(manual) {
   </div>`;
 
   checkAchievements();
+
+  // ── Next action + failed questions list ───────────────────
+  const naEl = $('res-next-action');
+  if (naEl) {
+    const failed = bqQs.filter((_,i) => bqAnswered[i] !== null && bqAnswered[i] !== bqQs[i].a);
+    const failedList = failed.slice(0,6).map(q =>
+      `<div style="font-size:11px;padding:6px 0;border-bottom:1px solid var(--border)">
+        <span style="color:var(--red);font-weight:700">✗</span>
+        <span style="color:var(--text);margin-left:4px">${q.q.length>70?q.q.substring(0,68)+'…':q.q}</span><br>
+        <span style="color:var(--green);margin-left:12px;font-size:11px">→ ${q.a.length>70?q.a.substring(0,68)+'…':q.a}</span>
+      </div>`
+    ).join('');
+    const actionFn   = failed.length>0 ? "navigate('review');setTimeout(()=>{const b=document.querySelector('[data-mode=errors]');if(b)setReviewMode(b,'errors');},300)"
+                     : pct>=80          ? "navigate('exam')"
+                     :                    "navigate('review')";
+    const actionLbl  = failed.length>0 ? '⚠️ Repasar errores ahora'
+                     : pct>=80          ? '🎓 Hacer un simulacro'
+                     :                    '🔁 Continuar repaso';
+    naEl.innerHTML = failed.length===0 ? '' : `
+      <div style="background:var(--card2);border:1px solid var(--border);border-radius:var(--r);padding:12px 14px;margin-bottom:4px">
+        <div style="font-size:11px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px">
+          Fallaste ${failed.length} pregunta${failed.length>1?'s':''} esta sesión
+        </div>
+        ${failedList}
+        <button class="btn btn-primary" style="font-size:12px;width:100%;margin-top:10px" onclick="${actionFn}">${actionLbl}</button>
+      </div>`;
+  }
 }
 
 function closeExamResult() {
@@ -5951,6 +6257,12 @@ function buildHistory(tab) {
   }
 }
 function showHistTab(tab,btn) {
+  // Errores y Rendimiento fueron movidos a Entrenamiento Focalizado
+  if (tab==='errors' || tab==='rendimiento') {
+    navigate('entrenamiento');
+    toast('💡 Análisis de errores está en Entrenamiento Focalizado');
+    return;
+  }
   document.querySelectorAll('.hist-tab').forEach(t=>t.classList.remove('active'));
   if(btn) btn.classList.add('active');
   buildHistory(tab);
@@ -5961,99 +6273,87 @@ function showHistTab(tab,btn) {
 // ═══════════════════════════════════════════════════════════
 const ACHIEVEMENTS = [
 
-  // ── COBERTURA ─────────────────────────────────────────────────────────
-  {id:'q1',    cat:'Progreso',  stars:1, icon:'🌱', name:'Primera pregunta',    desc:'Respondiste tu primera pregunta',          fn:()=>getTotalSeen()>=1,    prog:()=>({v:Math.min(getTotalSeen(),1),   t:1})},
-  {id:'q10',   cat:'Progreso',  stars:1, icon:'🔟', name:'10 respondidas',      desc:'10 preguntas respondidas',                 fn:()=>getTotalSeen()>=10,   prog:()=>({v:Math.min(getTotalSeen(),10),  t:10})},
-  {id:'q25',   cat:'Progreso',  stars:1, icon:'📌', name:'25 respondidas',      desc:'25 preguntas respondidas',                 fn:()=>getTotalSeen()>=25,   prog:()=>({v:Math.min(getTotalSeen(),25),  t:25})},
-  {id:'q50',   cat:'Progreso',  stars:1, icon:'📖', name:'50 respondidas',      desc:'50 preguntas respondidas',                 fn:()=>getTotalSeen()>=50,   prog:()=>({v:Math.min(getTotalSeen(),50),  t:50})},
-  {id:'q100',  cat:'Progreso',  stars:2, icon:'💯', name:'100 respondidas',     desc:'100 preguntas respondidas',                fn:()=>getTotalSeen()>=100,  prog:()=>({v:Math.min(getTotalSeen(),100), t:100})},
-  {id:'q150',  cat:'Progreso',  stars:2, icon:'📗', name:'150 respondidas',     desc:'150 preguntas respondidas',                fn:()=>getTotalSeen()>=150,  prog:()=>({v:Math.min(getTotalSeen(),150), t:150})},
-  {id:'q200',  cat:'Progreso',  stars:2, icon:'📚', name:'200 respondidas',     desc:'200 preguntas respondidas',                fn:()=>getTotalSeen()>=200,  prog:()=>({v:Math.min(getTotalSeen(),200), t:200})},
-  {id:'q300',  cat:'Progreso',  stars:2, icon:'🗂️',name:'300 respondidas',     desc:'300 preguntas respondidas',                fn:()=>getTotalSeen()>=300,  prog:()=>({v:Math.min(getTotalSeen(),300), t:300})},
-  {id:'q337',  cat:'Progreso',  stars:3, icon:'⭐', name:'Mitad del camino',    desc:'Más de la mitad de la guía vista',         fn:()=>getTotalSeen()>=337,  prog:()=>({v:Math.min(getTotalSeen(),337), t:337})},
-  {id:'q400',  cat:'Progreso',  stars:3, icon:'🎯', name:'400 respondidas',     desc:'400 preguntas respondidas',                fn:()=>getTotalSeen()>=400,  prog:()=>({v:Math.min(getTotalSeen(),400), t:400})},
-  {id:'q500',  cat:'Progreso',  stars:3, icon:'🔥', name:'500 respondidas',     desc:'500 preguntas respondidas',                fn:()=>getTotalSeen()>=500,  prog:()=>({v:Math.min(getTotalSeen(),500), t:500})},
-  {id:'q600',  cat:'Progreso',  stars:4, icon:'🔬', name:'600 respondidas',     desc:'600 preguntas respondidas',                fn:()=>getTotalSeen()>=600,  prog:()=>({v:Math.min(getTotalSeen(),600), t:600})},
-  {id:'q673',  cat:'Progreso',  stars:5, icon:'🏛️',name:'Guía completa',       desc:'Todas las 673 preguntas vistas',           fn:()=>getTotalSeen()>=673,  prog:()=>({v:Math.min(getTotalSeen(),673), t:673})},
+  // ── PROGRESO ───────────────────────────────────────────────
+  {id:'q1',   cat:'Progreso', stars:1, icon:'🌱', name:'Primera pregunta',
+   desc:'Respondiste tu primera pregunta',
+   fn:()=>getTotalSeen()>=1,
+   prog:()=>({v:Math.min(getTotalSeen(),1),t:1})},
 
-  // ── MÓDULOS ───────────────────────────────────────────────────────────
-  {id:'m1_25', cat:'Módulos',    stars:1, icon:'⚖️', name:'M1 iniciado',         desc:'25% del Módulo Marco Normativo',           fn:()=>getModSeen(0)>=30,    prog:()=>({v:getModSeen(0), t:30})},
-  {id:'m1_50', cat:'Módulos',    stars:2, icon:'📜', name:'M1 al 50%',           desc:'50% del Módulo Marco Normativo',           fn:()=>getModSeen(0)>=60,    prog:()=>({v:getModSeen(0), t:60})},
-  {id:'m1_100',cat:'Módulos',    stars:3, icon:'🏛️',name:'M1 completo',         desc:'Módulo 1 Marco Normativo completo',        fn:()=>getModSeen(0)>=121,   prog:()=>({v:getModSeen(0), t:121})},
-  {id:'m2_25', cat:'Módulos',    stars:1, icon:'🔍', name:'M2 iniciado',         desc:'25% del Módulo PLD',                       fn:()=>getModSeen(1)>=24,    prog:()=>({v:getModSeen(1), t:24})},
-  {id:'m2_50', cat:'Módulos',    stars:2, icon:'🛡️', name:'M2 al 50%',          desc:'50% del Módulo PLD',                       fn:()=>getModSeen(1)>=48,    prog:()=>({v:getModSeen(1), t:48})},
-  {id:'m2_100',cat:'Módulos',    stars:3, icon:'🔒', name:'M2 completo',         desc:'Módulo 2 Prevención de Lavado completo',   fn:()=>getModSeen(1)>=96,    prog:()=>({v:getModSeen(1), t:96})},
-  {id:'m3_25', cat:'Módulos',    stars:1, icon:'👁️', name:'M3 iniciado',        desc:'25% del Módulo Transparencia',             fn:()=>getModSeen(2)>=26,    prog:()=>({v:getModSeen(2), t:26})},
-  {id:'m3_50', cat:'Módulos',    stars:2, icon:'📋', name:'M3 al 50%',           desc:'50% del Módulo Transparencia',             fn:()=>getModSeen(2)>=52,    prog:()=>({v:getModSeen(2), t:52})},
-  {id:'m3_100',cat:'Módulos',    stars:3, icon:'🔎', name:'M3 completo',         desc:'Módulo 3 Transparencia completo',          fn:()=>getModSeen(2)>=104,   prog:()=>({v:getModSeen(2), t:104})},
-  {id:'m4_25', cat:'Módulos',    stars:1, icon:'📊', name:'M4 iniciado',         desc:'25% del Módulo Contabilidad',              fn:()=>getModSeen(3)>=33,    prog:()=>({v:getModSeen(3), t:33})},
-  {id:'m4_50', cat:'Módulos',    stars:2, icon:'💰', name:'M4 al 50%',           desc:'50% del Módulo Contabilidad',              fn:()=>getModSeen(3)>=66,    prog:()=>({v:getModSeen(3), t:66})},
-  {id:'m4_100',cat:'Módulos',    stars:3, icon:'🏦', name:'M4 completo',         desc:'Módulo 4 Contabilidad completo',           fn:()=>getModSeen(3)>=133,   prog:()=>({v:getModSeen(3), t:133})},
-  {id:'m5_25', cat:'Módulos',    stars:1, icon:'📈', name:'M5 iniciado',         desc:'25% del Módulo Agentes',                   fn:()=>getModSeen(4)>=27,    prog:()=>({v:getModSeen(4), t:27})},
-  {id:'m5_50', cat:'Módulos',    stars:2, icon:'🤝', name:'M5 al 50%',           desc:'50% del Módulo Agentes',                   fn:()=>getModSeen(4)>=54,    prog:()=>({v:getModSeen(4), t:54})},
-  {id:'m5_100',cat:'Módulos',    stars:3, icon:'🏢', name:'M5 completo',         desc:'Módulo 5 Agentes e Instrumentos completo', fn:()=>getModSeen(4)>=109,   prog:()=>({v:getModSeen(4), t:109})},
-  {id:'m6_25', cat:'Módulos',    stars:1, icon:'🌊', name:'M6 iniciado',         desc:'25% del Módulo Inv. Colectiva',            fn:()=>getModSeen(5)>=27,    prog:()=>({v:getModSeen(5), t:27})},
-  {id:'m6_50', cat:'Módulos',    stars:2, icon:'💹', name:'M6 al 50%',           desc:'50% del Módulo Inv. Colectiva',            fn:()=>getModSeen(5)>=55,    prog:()=>({v:getModSeen(5), t:55})},
-  {id:'m6_100',cat:'Módulos',    stars:3, icon:'🎓', name:'M6 completo',         desc:'Módulo 6 Inv. Colectiva completo',         fn:()=>getModSeen(5)>=110,   prog:()=>({v:getModSeen(5), t:110})},
-  {id:'m_all', cat:'Módulos',    stars:5, icon:'🌟', name:'Los 6 módulos',       desc:'Todos los módulos completados al 100%',    fn:()=>[0,1,2,3,4,5].every(mi=>getModSeen(mi)>=MODULES[mi].questions.length), prog:()=>({v:[0,1,2,3,4,5].filter(mi=>getModSeen(mi)>=MODULES[mi].questions.length).length,t:6})},
+  {id:'q100', cat:'Progreso', stars:2, icon:'💯', name:'100 respondidas',
+   desc:'Cubriste 100 preguntas de la guía',
+   fn:()=>getTotalSeen()>=100,
+   prog:()=>({v:Math.min(getTotalSeen(),100),t:100})},
 
-  // ── PRECISIÓN ─────────────────────────────────────────────────────────
-  {id:'p50',   cat:'Precisión',  stars:1, icon:'🎯', name:'50% de aciertos',     desc:'Precisión global del 50%',                 fn:()=>getModAccuracy(0)!==null&&(()=>{let ok=0,tot=0;Object.values(masteryData).forEach(m=>{ok+=m.correct||0;tot+=m.attempts||0});return tot>10&&ok/tot>=.5})(), prog:()=>{let ok=0,tot=0;Object.values(masteryData).forEach(m=>{ok+=m.correct||0;tot+=m.attempts||0});return {v:tot>0?Math.round(ok/tot*100):0,t:50,unit:'%'}}},
-  {id:'p60',   cat:'Precisión',  stars:2, icon:'🔐', name:'60% de aciertos',     desc:'Precisión global del 60%',                 fn:()=>{let ok=0,tot=0;Object.values(masteryData).forEach(m=>{ok+=m.correct||0;tot+=m.attempts||0});return tot>20&&ok/tot>=.6}, prog:()=>{let ok=0,tot=0;Object.values(masteryData).forEach(m=>{ok+=m.correct||0;tot+=m.attempts||0});return {v:tot>0?Math.round(ok/tot*100):0,t:60,unit:'%'}}},
-  {id:'p70',   cat:'Precisión',  stars:3, icon:'💎', name:'70% de aciertos',     desc:'Precisión global del 70%',                 fn:()=>{let ok=0,tot=0;Object.values(masteryData).forEach(m=>{ok+=m.correct||0;tot+=m.attempts||0});return tot>30&&ok/tot>=.7}, prog:()=>{let ok=0,tot=0;Object.values(masteryData).forEach(m=>{ok+=m.correct||0;tot+=m.attempts||0});return {v:tot>0?Math.round(ok/tot*100):0,t:70,unit:'%'}}},
-  {id:'p80',   cat:'Precisión',  stars:4, icon:'🏆', name:'80% de aciertos',     desc:'Precisión global del 80%',                 fn:()=>{let ok=0,tot=0;Object.values(masteryData).forEach(m=>{ok+=m.correct||0;tot+=m.attempts||0});return tot>50&&ok/tot>=.8}, prog:()=>{let ok=0,tot=0;Object.values(masteryData).forEach(m=>{ok+=m.correct||0;tot+=m.attempts||0});return {v:tot>0?Math.round(ok/tot*100):0,t:80,unit:'%'}}},
-  {id:'p90',   cat:'Precisión',  stars:5, icon:'👑', name:'90% de aciertos',     desc:'Precisión global del 90% — élite',         fn:()=>{let ok=0,tot=0;Object.values(masteryData).forEach(m=>{ok+=m.correct||0;tot+=m.attempts||0});return tot>50&&ok/tot>=.9}, prog:()=>{let ok=0,tot=0;Object.values(masteryData).forEach(m=>{ok+=m.correct||0;tot+=m.attempts||0});return {v:tot>0?Math.round(ok/tot*100):0,t:90,unit:'%'}}},
-  {id:'p10c',  cat:'Precisión',  stars:1, icon:'✅', name:'10 correctas seguidas',desc:'10 respuestas correctas consecutivas',     fn:()=>(()=>{const vals=Object.values(masteryData).filter(m=>m.attempts>0);let streak=0,max=0;vals.forEach(m=>{if((m.correct||0)>=(m.attempts||1)){streak++;max=Math.max(max,streak)}else streak=0});return max>=10})(), prog:()=>(()=>{const vals=Object.values(masteryData).filter(m=>m.attempts>0);let streak=0,max=0;vals.forEach(m=>{if((m.correct||0)>=(m.attempts||1)){streak++;max=Math.max(max,streak)}else streak=0});return {v:Math.min(max,10),t:10}})()},
-  {id:'p25c',  cat:'Precisión',  stars:3, icon:'⚡', name:'25 correctas seguidas',desc:'25 respuestas correctas consecutivas',     fn:()=>(()=>{const vals=Object.values(masteryData).filter(m=>m.attempts>0);let streak=0,max=0;vals.forEach(m=>{if((m.correct||0)>=(m.attempts||1)){streak++;max=Math.max(max,streak)}else streak=0});return max>=25})(), prog:()=>(()=>{const vals=Object.values(masteryData).filter(m=>m.attempts>0);let streak=0,max=0;vals.forEach(m=>{if((m.correct||0)>=(m.attempts||1)){streak++;max=Math.max(max,streak)}else streak=0});return {v:Math.min(max,25),t:25}})()},
-  {id:'p0err', cat:'Precisión',  stars:4, icon:'🧊', name:'Sin errores hoy',      desc:'Sesión de hoy sin ningún error',           fn:()=>{const t=today();let bad=0;Object.values(masteryData).forEach(m=>{if(m.lastSeen===t)bad+=Math.max(0,(m.attempts||0)-(m.correct||0))});return getTodayAnswered()>=10&&bad===0}, prog:()=>{const t=today();let bad=0,tot=0;Object.values(masteryData).forEach(m=>{if(m.lastSeen===t){bad+=Math.max(0,(m.attempts||0)-(m.correct||0));tot++}});return {v:Math.max(0,tot-bad),t:10}}},
+  {id:'q337', cat:'Progreso', stars:3, icon:'⭐', name:'Mitad del camino',
+   desc:'Llegaste a la mitad de la guía (337/673)',
+   fn:()=>getTotalSeen()>=337,
+   prog:()=>({v:Math.min(getTotalSeen(),337),t:337})},
 
-  // ── RACHAS ────────────────────────────────────────────────────────────
-  {id:'s2',    cat:'Rachas',     stars:1, icon:'🔥', name:'2 días seguidos',      desc:'2 días consecutivos de estudio',           fn:()=>getStreak()>=2,       prog:()=>({v:Math.min(getStreak(),2),  t:2})},
-  {id:'s3',    cat:'Rachas',     stars:1, icon:'🌡️',name:'3 días seguidos',      desc:'3 días consecutivos de estudio',           fn:()=>getStreak()>=3,       prog:()=>({v:Math.min(getStreak(),3),  t:3})},
-  {id:'s5',    cat:'Rachas',     stars:2, icon:'💥', name:'5 días seguidos',      desc:'5 días consecutivos de estudio',           fn:()=>getStreak()>=5,       prog:()=>({v:Math.min(getStreak(),5),  t:5})},
-  {id:'s7',    cat:'Rachas',     stars:3, icon:'📅', name:'Una semana',           desc:'7 días consecutivos de estudio',           fn:()=>getStreak()>=7,       prog:()=>({v:Math.min(getStreak(),7),  t:7})},
-  {id:'s14',   cat:'Rachas',     stars:4, icon:'🗓️',name:'Dos semanas',          desc:'14 días consecutivos de estudio',          fn:()=>getStreak()>=14,      prog:()=>({v:Math.min(getStreak(),14), t:14})},
-  {id:'s21',   cat:'Rachas',     stars:4, icon:'🌙', name:'3 semanas',            desc:'21 días consecutivos de estudio',          fn:()=>getStreak()>=21,      prog:()=>({v:Math.min(getStreak(),21), t:21})},
-  {id:'s30',   cat:'Rachas',     stars:5, icon:'🏅', name:'Un mes completo',      desc:'30 días consecutivos de estudio',          fn:()=>getStreak()>=30,      prog:()=>({v:Math.min(getStreak(),30), t:30})},
-  {id:'d20',   cat:'Rachas',     stars:2, icon:'⏰', name:'20 preguntas hoy',     desc:'20 preguntas respondidas en un día',       fn:()=>getTodayAnswered()>=20,prog:()=>({v:Math.min(getTodayAnswered(),20),  t:20})},
-  {id:'d50',   cat:'Rachas',     stars:3, icon:'🚀', name:'50 preguntas hoy',     desc:'50 preguntas respondidas en un día',       fn:()=>getTodayAnswered()>=50,prog:()=>({v:Math.min(getTodayAnswered(),50),  t:50})},
-  {id:'d100',  cat:'Rachas',     stars:4, icon:'⚡', name:'100 preguntas hoy',    desc:'100 preguntas respondidas en un día',      fn:()=>getTodayAnswered()>=100,prog:()=>({v:Math.min(getTodayAnswered(),100), t:100})},
+  {id:'q673', cat:'Progreso', stars:4, icon:'🏁', name:'Guía completa',
+   desc:'Respondiste las 673 preguntas al menos una vez',
+   fn:()=>getTotalSeen()>=673,
+   prog:()=>({v:Math.min(getTotalSeen(),673),t:673})},
 
-  // ── EXÁMENES ──────────────────────────────────────────────────────────
-  {id:'e1',    cat:'Exámenes',   stars:1, icon:'📝', name:'Primer examen',        desc:'Completaste tu primer examen',             fn:()=>examHistory.length>=1,  prog:()=>({v:Math.min(examHistory.length,1), t:1})},
-  {id:'e3',    cat:'Exámenes',   stars:2, icon:'📋', name:'3 exámenes',           desc:'3 exámenes completados',                   fn:()=>examHistory.length>=3,  prog:()=>({v:Math.min(examHistory.length,3), t:3})},
-  {id:'e5',    cat:'Exámenes',   stars:2, icon:'📄', name:'5 exámenes',           desc:'5 exámenes completados',                   fn:()=>examHistory.length>=5,  prog:()=>({v:Math.min(examHistory.length,5), t:5})},
-  {id:'e10',   cat:'Exámenes',   stars:3, icon:'🗒️',name:'10 exámenes',          desc:'10 exámenes completados',                  fn:()=>examHistory.length>=10, prog:()=>({v:Math.min(examHistory.length,10),t:10})},
-  {id:'ep60',  cat:'Exámenes',   stars:2, icon:'✔️', name:'Aprobado 60%',        desc:'Examen con 60% o más',                     fn:()=>examHistory.some(e=>e.score>=60),  prog:()=>({v:examHistory.length>0?Math.round(Math.max(...examHistory.map(e=>e.score||0))):0, t:60, unit:'%'})},
-  {id:'ep70',  cat:'Exámenes',   stars:3, icon:'🎖️',name:'Aprobado 70%',        desc:'Examen con 70% — nota de aprobación CNV',  fn:()=>examHistory.some(e=>e.score>=70),  prog:()=>({v:examHistory.length>0?Math.round(Math.max(...examHistory.map(e=>e.score||0))):0, t:70, unit:'%'})},
-  {id:'ep80',  cat:'Exámenes',   stars:4, icon:'🥇', name:'Nota 80%',            desc:'Examen con 80% o más',                     fn:()=>examHistory.some(e=>e.score>=80),  prog:()=>({v:examHistory.length>0?Math.round(Math.max(...examHistory.map(e=>e.score||0))):0, t:80, unit:'%'})},
-  {id:'ep90',  cat:'Exámenes',   stars:5, icon:'💯', name:'Nota 90%',            desc:'Examen con 90% o más — excelencia',        fn:()=>examHistory.some(e=>e.score>=90),  prog:()=>({v:examHistory.length>0?Math.round(Math.max(...examHistory.map(e=>e.score||0))):0, t:90, unit:'%'})},
-  {id:'e3run', cat:'Exámenes',   stars:3, icon:'🔄', name:'3 exámenes seguidos',  desc:'3 exámenes en días distintos consecutivos',fn:()=>examHistory.length>=3,  prog:()=>({v:Math.min(examHistory.length,3), t:3})},
+  // ── MÓDULOS ────────────────────────────────────────────────
+  {id:'m_all', cat:'Módulos', stars:3, icon:'🌟', name:'Los 6 módulos',
+   desc:'Iniciaste todos los módulos de la guía',
+   fn:()=>MODULES.every((_,mi)=>getModSeen(mi)>0),
+   prog:()=>({v:MODULES.filter((_,mi)=>getModSeen(mi)>0).length,t:6})},
 
-  // ── HERRAMIENTAS ──────────────────────────────────────────────────────
-  {id:'fc1',   cat:'Herramientas',stars:1,icon:'🃏', name:'Primer flashcard',     desc:'Completaste tu primera sesión de flashcards',fn:()=>fcHistory.length>=1,  prog:()=>({v:Math.min(fcHistory.length,1),  t:1})},
-  {id:'fc5',   cat:'Herramientas',stars:2,icon:'🎴', name:'5 sesiones FC',        desc:'5 sesiones de flashcards completadas',     fn:()=>fcHistory.length>=5,    prog:()=>({v:Math.min(fcHistory.length,5),  t:5})},
-  {id:'fc10',  cat:'Herramientas',stars:3,icon:'🃏', name:'10 sesiones FC',       desc:'10 sesiones de flashcards completadas',    fn:()=>fcHistory.length>=10,   prog:()=>({v:Math.min(fcHistory.length,10), t:10})},
-  {id:'fc80',  cat:'Herramientas',stars:3,icon:'🌟', name:'FC 80% aciertos',      desc:'Flashcard con 80%+ de aciertos',           fn:()=>fcHistory.some(f=>f.pct>=80), prog:()=>({v:fcHistory.length>0?Math.round(Math.max(...fcHistory.map(f=>f.pct||0))):0, t:80, unit:'%'})},
-  {id:'n1',    cat:'Herramientas',stars:1,icon:'📝', name:'Primera nota',         desc:'Guardaste tu primera nota',                fn:()=>Object.keys(notesSaved).length>=1, prog:()=>({v:Object.keys(notesSaved).length, t:1})},
-  {id:'n10',   cat:'Herramientas',stars:2,icon:'📓', name:'10 notas',             desc:'10 notas guardadas',                       fn:()=>Object.keys(notesSaved).length>=10,prog:()=>({v:Math.min(Object.keys(notesSaved).length,10),t:10})},
-  {id:'n25',   cat:'Herramientas',stars:3,icon:'📒', name:'25 notas',             desc:'25 notas guardadas',                       fn:()=>Object.keys(notesSaved).length>=25,prog:()=>({v:Math.min(Object.keys(notesSaved).length,25),t:25})},
-  {id:'f1',    cat:'Herramientas',stars:1,icon:'🚩', name:'Primera difícil',      desc:'Marcaste tu primera pregunta como difícil', fn:()=>flagged.size>=1,       prog:()=>({v:Math.min(flagged.size,1), t:1})},
-  {id:'f10',   cat:'Herramientas',stars:2,icon:'🏴', name:'10 marcadas',          desc:'10 preguntas marcadas como difíciles',     fn:()=>flagged.size>=10,      prog:()=>({v:Math.min(flagged.size,10),t:10})},
-  {id:'ai1',   cat:'Herramientas',stars:1,icon:'🤖', name:'Primera IA',           desc:'Usaste la IA para explicar una pregunta',  fn:()=>Object.keys(aiExplanations).length>=1, prog:()=>({v:Math.min(Object.keys(aiExplanations).length,1),t:1})},
-  {id:'ai10',  cat:'Herramientas',stars:2,icon:'🧠', name:'10 explicaciones IA',  desc:'10 explicaciones generadas con IA',        fn:()=>Object.keys(aiExplanations).length>=10,prog:()=>({v:Math.min(Object.keys(aiExplanations).length,10),t:10})},
-  {id:'rep1',  cat:'Herramientas',stars:1,icon:'🔁', name:'Primer repaso',        desc:'Completaste tu primera sesión de repaso',  fn:()=>localStorage.getItem(SK('lastReview'))!==null, prog:()=>({v:localStorage.getItem(SK('lastReview'))?1:0,t:1})},
+  {id:'m_dom', cat:'Módulos', stars:4, icon:'🎯', name:'Módulo dominado',
+   desc:'Un módulo con 70%+ de precisión',
+   fn:()=>MODULES.some((_,mi)=>{const a=getModAccuracy(mi);return a!==null&&a>=70&&getModSeen(mi)>=MODULES[mi].questions.length*0.8;}),
+   prog:()=>({v:MODULES.filter((_,mi)=>{const a=getModAccuracy(mi);return a!==null&&a>=70;}).length,t:6})},
 
-  // ── ESPECIALES ────────────────────────────────────────────────────────
-  {id:'sp_all6',  cat:'Especiales', stars:5, icon:'🌈', name:'Todo estudiado',    desc:'Los 6 módulos con 50%+ de cobertura cada uno',fn:()=>[0,1,2,3,4,5].every(mi=>getModSeen(mi)/MODULES[mi].questions.length>=.5), prog:()=>({v:[0,1,2,3,4,5].filter(mi=>getModSeen(mi)/MODULES[mi].questions.length>=.5).length,t:6})},
-  {id:'sp_niif',  cat:'Especiales', stars:3, icon:'📊', name:'Contador',         desc:'50+ preguntas de Contabilidad respondidas',fn:()=>getModSeen(3)>=50,     prog:()=>({v:Math.min(getModSeen(3),50), t:50})},
-  {id:'sp_pld',   cat:'Especiales', stars:3, icon:'🛡️',name:'Guardián',          desc:'Módulo PLD completado al 100%',            fn:()=>getModSeen(1)>=96,     prog:()=>({v:getModSeen(1), t:96})},
-  {id:'sp_inv',   cat:'Especiales', stars:3, icon:'💼', name:'Gestor de Fondos', desc:'Módulo Inv. Colectiva completado al 100%', fn:()=>getModSeen(5)>=110,    prog:()=>({v:getModSeen(5), t:110})},
-  {id:'sp_come',  cat:'Especiales', stars:2, icon:'📐', name:'Madrugador',       desc:'Estudiaste en más de 10 días distintos',   fn:()=>Object.keys(dailyStats).filter(k=>dailyStats[k]?.answered>0).length>=10, prog:()=>({v:Math.min(Object.keys(dailyStats).filter(k=>dailyStats[k]?.answered>0).length,10),t:10})},
-  {id:'sp_back',  cat:'Especiales', stars:3, icon:'🔮', name:'Constante',        desc:'Estudiaste en más de 20 días distintos',   fn:()=>Object.keys(dailyStats).filter(k=>dailyStats[k]?.answered>0).length>=20, prog:()=>({v:Math.min(Object.keys(dailyStats).filter(k=>dailyStats[k]?.answered>0).length,20),t:20})},
-  {id:'sp_prep',  cat:'Especiales', stars:4, icon:'🎓', name:'Preparado',        desc:'Progreso global 80%+ y precisión 70%+',   fn:()=>{let ok=0,tot=0;Object.values(masteryData).forEach(m=>{ok+=m.correct||0;tot+=m.attempts||0});return getTotalSeen()/673>=.8&&tot>0&&ok/tot>=.7}, prog:()=>{let ok=0,tot=0;Object.values(masteryData).forEach(m=>{ok+=m.correct||0;tot+=m.attempts||0});const cov=Math.round(getTotalSeen()/673*100);const prec=tot>0?Math.round(ok/tot*100):0;return {v:Math.min(cov,prec),t:75,unit:'%'}}},
-  {id:'sp_elite', cat:'Especiales', stars:5, icon:'👑', name:'Candidato élite',  desc:'Guía completa + 85%+ de precisión',        fn:()=>{let ok=0,tot=0;Object.values(masteryData).forEach(m=>{ok+=m.correct||0;tot+=m.attempts||0});return getTotalSeen()>=673&&tot>0&&ok/tot>=.85}, prog:()=>{let ok=0,tot=0;Object.values(masteryData).forEach(m=>{ok+=m.correct||0;tot+=m.attempts||0});return {v:Math.min(getTotalSeen(),673),t:673}}},
-  {id:'sp_exam5', cat:'Especiales', stars:4, icon:'🏆', name:'Examinador serial',desc:'5 exámenes con 70%+',                      fn:()=>examHistory.filter(e=>e.score>=70).length>=5, prog:()=>({v:Math.min(examHistory.filter(e=>e.score>=70).length,5),t:5})},
+  // ── PRECISIÓN ──────────────────────────────────────────────
+  {id:'p70',  cat:'Precisión', stars:3, icon:'💎', name:'70% de aciertos',
+   desc:'Precisión global ≥ 70% — nivel de aprobación',
+   fn:()=>{let ok=0,t=0;Object.values(masteryData).forEach(m=>{ok+=m.correct||0;t+=m.attempts||0;});return t>=20&&ok/t>=0.7;},
+   prog:()=>{let ok=0,t=0;Object.values(masteryData).forEach(m=>{ok+=m.correct||0;t+=m.attempts||0;});return {v:t>0?Math.round(ok/t*100):0,t:70,suffix:'%'};}},
+
+  {id:'p80',  cat:'Precisión', stars:4, icon:'🏆', name:'80% de aciertos',
+   desc:'Precisión global ≥ 80%',
+   fn:()=>{let ok=0,t=0;Object.values(masteryData).forEach(m=>{ok+=m.correct||0;t+=m.attempts||0;});return t>=20&&ok/t>=0.8;},
+   prog:()=>{let ok=0,t=0;Object.values(masteryData).forEach(m=>{ok+=m.correct||0;t+=m.attempts||0;});return {v:t>0?Math.round(ok/t*100):0,t:80,suffix:'%'};}},
+
+  // ── RACHAS ─────────────────────────────────────────────────
+  {id:'s5',   cat:'Rachas', stars:2, icon:'💥', name:'5 días seguidos',
+   desc:'Estudiaste 5 días consecutivos',
+   fn:()=>getStreak()>=5,
+   prog:()=>({v:Math.min(getStreak(),5),t:5})},
+
+  {id:'s14',  cat:'Rachas', stars:3, icon:'📅', name:'Dos semanas',
+   desc:'Estudiaste 14 días consecutivos',
+   fn:()=>getStreak()>=14,
+   prog:()=>({v:Math.min(getStreak(),14),t:14})},
+
+  // ── EXÁMENES ───────────────────────────────────────────────
+  {id:'e1',   cat:'Exámenes', stars:1, icon:'📝', name:'Primer simulacro',
+   desc:'Completaste tu primer examen de práctica',
+   fn:()=>examHistory.length>=1,
+   prog:()=>({v:Math.min(examHistory.length,1),t:1})},
+
+  {id:'ep70', cat:'Exámenes', stars:3, icon:'✔️', name:'Simulacro aprobado',
+   desc:'Obtuviste 70%+ en un simulacro',
+   fn:()=>examHistory.some(e=>e.pct>=70),
+   prog:()=>({v:examHistory.length?Math.max(...examHistory.map(e=>e.pct)):0,t:70,suffix:'%'})},
+
+  {id:'ep85', cat:'Exámenes', stars:4, icon:'🥇', name:'Simulacro con distinción',
+   desc:'Obtuviste 85%+ en un simulacro',
+   fn:()=>examHistory.some(e=>e.pct>=85),
+   prog:()=>({v:examHistory.length?Math.max(...examHistory.map(e=>e.pct)):0,t:85,suffix:'%'})},
+
+  // ── ESPECIALES ─────────────────────────────────────────────
+  {id:'sp_prep', cat:'Especiales', stars:4, icon:'🎓', name:'Lista para rendir',
+   desc:'Progreso ≥ 70% y precisión ≥ 70%',
+   fn:()=>{let ok=0,t=0;Object.values(masteryData).forEach(m=>{ok+=m.correct||0;t+=m.attempts||0;});return getTotalSeen()/673>=0.7&&t>0&&ok/t>=0.7;},
+   prog:()=>{let ok=0,t=0;Object.values(masteryData).forEach(m=>{ok+=m.correct||0;t+=m.attempts||0;});const acc=t>0?Math.round(ok/t*100):0;const cov=Math.round(getTotalSeen()/673*100);return {v:Math.min(cov,acc),t:70,suffix:'%'};}},
+
+  {id:'sp_elite', cat:'Especiales', stars:5, icon:'👑', name:'Candidata élite',
+   desc:'Progreso ≥ 90% y precisión ≥ 85%',
+   fn:()=>{let ok=0,t=0;Object.values(masteryData).forEach(m=>{ok+=m.correct||0;t+=m.attempts||0;});return getTotalSeen()/673>=0.9&&t>0&&ok/t>=0.85;},
+   prog:()=>{let ok=0,t=0;Object.values(masteryData).forEach(m=>{ok+=m.correct||0;t+=m.attempts||0;});const acc=t>0?Math.round(ok/t*100):0;const cov=Math.round(getTotalSeen()/673*100);return {v:Math.min(cov,acc),t:85,suffix:'%'};}},
+
 ];
 
 function checkAchievements() {
@@ -6227,346 +6527,48 @@ function getTopRecs(n) {
 }
 
 function buildRecs() {
+  // Recomendaciones = Plan de estudio + Plan 20 horas
+  // Análisis de módulos → Learning Path  |  Errores → Entrenamiento
   const el = $('recs-content');
   if (!el) return;
 
-  const MOD_NAMES  = ['Marco Normativo','PLD','Transparencia','Contabilidad','Agentes','Inv. Colectiva'];
-  const MOD_TOTALS = [121,96,104,133,109,110];
-  const MOD_CVARS  = ['--m1','--m2','--m3','--m4','--m5','--m6'];
-  const TOTAL_Q    = 673;
-
-  // ── Compute per-module analytics ────────────────────────
-  const mods = MODULES.map((mod, mi) => {
-    let ok = 0, bad = 0, seen = 0, errors = 0, topErr = null;
-    mod.questions.forEach((q, qi) => {
-      const m = getMastery(mi, qi);
-      if ((m.attempts||0) > 0) {
-        seen++;
-        ok   += m.correct||0;
-        bad  += Math.max(0,(m.attempts||0)-(m.correct||0));
-        errors += m.errors||0;
-        if ((m.errors||0) > 0 && (!topErr || m.errors > topErr.errors))
-          topErr = { q: q[1], errors: m.errors, mi: mi, qi: qi, num: q[0] };
-      }
-    });
-    const total  = ok + bad;
-    const acc    = total > 0 ? Math.round(ok/total*100) : null;
-    const visPct = Math.round(seen/MOD_TOTALS[mi]*100);
-    const impact = Math.round((MOD_TOTALS[mi] - seen) / TOTAL_Q * 100);
-    return { mi, ok, bad, seen, total, acc, visPct, errors, topErr, impact };
-  });
-
-  // ── Global metrics ───────────────────────────────────────
-  let gOk = 0, gBad = 0;
-  mods.forEach(m => { gOk += m.ok; gBad += m.bad; });
-  const gTotal   = gOk + gBad;
-  const gAcc     = gTotal > 0 ? Math.round(gOk/gTotal*100) : 0;
-  const coverage = Math.round(getTotalSeen()/TOTAL_Q*100);
-  const streak   = getStreak();
-  const todayAns = getTodayAnswered();
-  const level1   = countErrors();
-
-  // ── Block 1: Prioridad Crítica ───────────────────────────
-  const critical = mods.filter(m => m.visPct < 20 || (m.acc !== null && m.acc < 40));
-
-  // ── Block 2: Debilidades detectadas ─────────────────────
-  const weak = mods.filter(m => m.acc !== null && m.acc >= 40 && m.acc < 62 && m.seen > 5);
-
-  // ── Block 3: Oportunidades de mejora ────────────────────
-  const opps = mods.filter(m => m.visPct >= 20 && m.visPct < 65 && (m.acc === null || m.acc >= 62));
-
-  // ── Block 5: Insights ────────────────────────────────────
-  const insights = [];
-  if (level1 > 5)
-    insights.push({ icon:'↩', label:'Preguntas para recuperar', val: level1, note:'Respondiste mal y requieren repaso activo' });
-  if (flagged.size > 0)
-    insights.push({ icon:'⚑', label:'Marcadas como difíciles', val: flagged.size, note:'Preguntas que identificaste como complejas' });
-  const activeDays = Object.keys(dailyStats).filter(k => (dailyStats[k]?.answered||0) > 0).length;
-  if (activeDays > 0)
-    insights.push({ icon:'◈', label:'Días con actividad registrada', val: activeDays, note:`Racha actual: ${streak} días consecutivos` });
-  const avgPerDay = activeDays > 0 ? Math.round(getTotalSeen()/activeDays) : 0;
-  if (avgPerDay > 0)
-    insights.push({ icon:'≋', label:'Promedio de preguntas por sesión', val: avgPerDay, note:'Cantidad promedio en días activos' });
-  if (Object.keys(aiExplanations).length > 0)
-    insights.push({ icon:'◎', label:'Explicaciones IA guardadas', val: Object.keys(aiExplanations).length, note:'Base de conocimiento construida con asistencia IA' });
-
-  const noIssues = critical.length === 0 && weak.length === 0 && opps.length === 0;
+  const seen      = getTotalSeen();
+  const coverage  = Math.round(seen / 673 * 100);
+  let gOk=0, gTot=0;
+  Object.values(masteryData).forEach(m=>{gOk+=m.correct||0; gTot+=m.attempts||0;});
+  const gAcc = gTot>0 ? Math.round(gOk/gTot*100) : 0;
+  const errCount = countErrors();
 
   el.innerHTML = `
-
-    <!-- ═══ DIAGNOSTIC HEADER ═══════════════════════════════════ -->
-    <div class="rp-diagnostic">
-      <div class="rp-diag-title">Diagnóstico del Sistema</div>
-      <div class="rp-diag-grid">
-        <div class="rp-diag-cell">
-          <div class="rp-diag-val" style="color:${coverage>=70?'var(--green)':coverage>=40?'var(--gold)':'var(--red)'}">${coverage}%</div>
-          <div class="rp-diag-lbl">Progreso</div>
-        </div>
-        <div class="rp-diag-sep"></div>
-        <div class="rp-diag-cell">
-          <div class="rp-diag-val" style="color:${gAcc>=70?'var(--green)':gAcc>=50?'var(--gold)':'var(--red)'}">${gAcc}%</div>
-          <div class="rp-diag-lbl">Precisión</div>
-        </div>
-        <div class="rp-diag-sep"></div>
-        <div class="rp-diag-cell">
-          <div class="rp-diag-val" style="color:${streak>=7?'var(--green)':streak>=3?'var(--gold)':'var(--text2)'}">${streak}</div>
-          <div class="rp-diag-lbl">Días racha</div>
-        </div>
-        <div class="rp-diag-sep"></div>
-        <div class="rp-diag-cell">
-          <div class="rp-diag-val" style="color:var(--blue)">${todayAns}</div>
-          <div class="rp-diag-lbl">Hoy</div>
-        </div>
+    <!-- Quick status strip -->
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px">
+      <div style="flex:1;min-width:100px;text-align:center;padding:12px;background:var(--card2);
+        border:1px solid var(--border);border-radius:var(--r)">
+        <div style="font-size:22px;font-weight:800;font-family:var(--mono);color:var(--blue)">${coverage}%</div>
+        <div style="font-size:11px;color:var(--text2)">Progreso</div>
       </div>
-      <div class="rp-diag-bar-wrap">
-        <div style="flex:1">
-          <div class="rp-diag-bar-lbl">Progreso</div>
-          <div class="rp-bar-track"><div class="rp-bar-fill" style="width:${coverage}%;background:${coverage>=70?'var(--green)':coverage>=40?'var(--gold)':'var(--red)'}"></div></div>
-        </div>
-        <div style="flex:1">
-          <div class="rp-diag-bar-lbl">Precisión</div>
-          <div class="rp-bar-track"><div class="rp-bar-fill" style="width:${gAcc}%;background:${gAcc>=70?'var(--green)':gAcc>=50?'var(--gold)':'var(--red)'}"></div></div>
-        </div>
+      <div style="flex:1;min-width:100px;text-align:center;padding:12px;background:var(--card2);
+        border:1px solid var(--border);border-radius:var(--r)">
+        <div style="font-size:22px;font-weight:800;font-family:var(--mono);
+          color:${gAcc>=70?'var(--green)':gAcc>=50?'var(--gold)':'var(--red)'}">${gAcc}%</div>
+        <div style="font-size:11px;color:var(--text2)">Precisión</div>
+      </div>
+      <div style="flex:1;min-width:100px;text-align:center;padding:12px;background:var(--card2);
+        border:1px solid var(--border);border-radius:var(--r)">
+        <div style="font-size:22px;font-weight:800;font-family:var(--mono);
+          color:${errCount>20?'var(--red)':errCount>5?'var(--orange)':'var(--green)'}">${errCount}</div>
+        <div style="font-size:11px;color:var(--text2)">Errores activos</div>
       </div>
     </div>
-
-    ${noIssues ? `
-    <!-- All clear -->
-    <div class="rp-block rp-block-green">
-      <div class="rp-block-header">
-        <div class="rp-block-dot" style="background:var(--green)"></div>
-        <div>
-          <div class="rp-block-title">Sin áreas críticas detectadas</div>
-          <div class="rp-block-sub">Tu rendimiento es sólido en todos los módulos analizados</div>
-        </div>
-      </div>
-    </div>` : ''}
-
-    <!-- ═══ BLOQUE 1 — PRIORIDAD CRÍTICA ════════════════════════ -->
-    ${critical.length > 0 ? `
-    <div class="rp-block rp-block-red">
-      <div class="rp-block-header">
-        <div class="rp-block-dot" style="background:var(--red)"></div>
-        <div style="flex:1">
-          <div class="rp-block-title">Prioridad Crítica</div>
-          <div class="rp-block-sub">${critical.length} módulo${critical.length>1?'s requieren':'requiere'} atención inmediata</div>
-        </div>
-        <div class="rp-urgency-tag rp-urgency-red">URGENTE</div>
-      </div>
-      <div class="rp-items">
-        ${critical.map(m => {
-          const reason = m.visPct < 20 ? 'Cobertura insuficiente' : `Tasa de error: ${100-(m.acc||0)}%`;
-          const impact = m.visPct < 20
-            ? `Cubrir este módulo puede agregar ~${m.impact}% a tu cobertura total`
-            : `Mejorar precisión de ${m.acc||0}% a 70% puede sumar ${Math.round((70-(m.acc||0))*0.4)}pts al score`;
-          return `
-          <div class="rp-item rp-item-red">
-            <div class="rp-item-top">
-              <div class="rp-item-mod-tag" style="background:var(${MOD_CVARS[m.mi]})18;color:var(${MOD_CVARS[m.mi]})">
-                M${m.mi+1}
-              </div>
-              <div class="rp-item-name">${MOD_NAMES[m.mi]}</div>
-              <div class="rp-item-acc" style="color:var(--red)">${m.acc !== null ? m.acc+'%' : 'Sin datos'}</div>
-            </div>
-            <div class="rp-item-reason">${reason}</div>
-            <div class="rp-item-progress">
-              <div style="display:flex;justify-content:space-between;margin-bottom:3px">
-                <span class="rp-prog-lbl">Progreso</span>
-                <span class="rp-prog-lbl">${m.seen}/${MOD_TOTALS[m.mi]} (${m.visPct}%)</span>
-              </div>
-              <div class="rp-bar-track">
-                <div class="rp-bar-fill" style="width:${m.visPct}%;background:var(--red)"></div>
-              </div>
-            </div>
-            <div class="rp-impact">
-              <span class="rp-impact-icon">↑</span>
-              <span>${impact}</span>
-            </div>
-            <div class="rp-item-actions">
-              <button class="btn btn-sm rp-btn-red" onclick="navigate('study');setTimeout(()=>toggleMod(${m.mi}),250)">
-                Ir al módulo
-              </button>
-              <button class="btn btn-sm rp-btn-ghost" onclick="navigate('review')">
-                Repaso dirigido
-              </button>
-            </div>
-          </div>`;
-        }).join('')}
-      </div>
-    </div>` : ''}
-
-    <!-- ═══ BLOQUE 2 — DEBILIDADES DETECTADAS ═══════════════════ -->
-    ${weak.length > 0 ? `
-    <div class="rp-block rp-block-orange">
-      <div class="rp-block-header">
-        <div class="rp-block-dot" style="background:var(--orange)"></div>
-        <div style="flex:1">
-          <div class="rp-block-title">Debilidades Detectadas</div>
-          <div class="rp-block-sub">Módulos con precisión por debajo del umbral de aprobación (70%)</div>
-        </div>
-        <div class="rp-urgency-tag rp-urgency-orange">PRIORIDAD ALTA</div>
-      </div>
-      <div class="rp-items">
-        ${weak.map(m => `
-          <div class="rp-item rp-item-orange">
-            <div class="rp-item-top">
-              <div class="rp-item-mod-tag" style="background:var(${MOD_CVARS[m.mi]})18;color:var(${MOD_CVARS[m.mi]})">
-                M${m.mi+1}
-              </div>
-              <div class="rp-item-name">${MOD_NAMES[m.mi]}</div>
-              <div class="rp-item-acc" style="color:var(--orange)">${m.acc}%</div>
-            </div>
-            <div class="rp-item-stats-row">
-              <span class="rp-stat-chip rp-chip-green">✓ ${m.ok} correctas</span>
-              <span class="rp-stat-chip rp-chip-red">✗ ${m.bad} incorrectas</span>
-              ${m.errors > 0 ? `<span class="rp-stat-chip rp-chip-muted">⟳ ${m.errors} errores acum.</span>` : ''}
-            </div>
-            <div class="rp-item-progress">
-              <div style="display:flex;justify-content:space-between;margin-bottom:3px">
-                <span class="rp-prog-lbl">Tasa de aciertos</span>
-                <span class="rp-prog-lbl" style="color:var(--orange)">${m.acc}% · objetivo 70%</span>
-              </div>
-              <div class="rp-bar-track rp-bar-split">
-                <div style="width:${m.acc}%;height:100%;background:var(--orange);border-radius:3px;float:left"></div>
-                <div style="width:${70-m.acc}%;height:100%;background:rgba(240,128,64,.2);float:left"></div>
-              </div>
-            </div>
-            ${m.topErr ? `
-            <div class="rp-error-pattern">
-              <span class="rp-error-icon">▲</span>
-              <span style="font-size:10px;font-weight:700;color:var(--muted);margin-right:6px">M${m.topErr.mi+1} · #${m.topErr.num}</span>
-              <span>Pregunta más fallada: <em>"${m.topErr.q.substring(0,60)}${m.topErr.q.length>60?'…':''}"</em> (${m.topErr.errors}×)</span>
-            </div>` : ''}
-            <div class="rp-impact">
-              <span class="rp-impact-icon">↑</span>
-              Aumentar precisión a 70% agrega ~${Math.round((70-m.acc)*0.3)} puntos al score de preparación
-            </div>
-            <div class="rp-item-actions">
-              <button class="btn btn-sm rp-btn-orange" onclick="navigate('study');setTimeout(()=>toggleMod(${m.mi}),250)">
-                Practicar M${m.mi+1}
-              </button>
-              <button class="btn btn-sm rp-btn-ghost" onclick="navigate('flagged')">
-                Ver errores
-              </button>
-            </div>
-          </div>`).join('')}
-      </div>
-    </div>` : ''}
-
-    <!-- ═══ BLOQUE 3 — OPORTUNIDADES DE MEJORA ══════════════════ -->
-    ${opps.length > 0 ? `
-    <div class="rp-block rp-block-gold">
-      <div class="rp-block-header">
-        <div class="rp-block-dot" style="background:var(--gold)"></div>
-        <div style="flex:1">
-          <div class="rp-block-title">Oportunidades de Mejora</div>
-          <div class="rp-block-sub">Módulos con buen rendimiento pero cobertura parcial — terreno ganable</div>
-        </div>
-        <div class="rp-urgency-tag rp-urgency-gold">RECOMENDADO</div>
-      </div>
-      <div class="rp-items">
-        ${opps.map(m => `
-          <div class="rp-item rp-item-gold">
-            <div class="rp-item-top">
-              <div class="rp-item-mod-tag" style="background:var(${MOD_CVARS[m.mi]})18;color:var(${MOD_CVARS[m.mi]})">
-                M${m.mi+1}
-              </div>
-              <div class="rp-item-name">${MOD_NAMES[m.mi]}</div>
-              <div class="rp-item-acc" style="color:var(--gold)">${m.visPct}%</div>
-            </div>
-            <div class="rp-item-progress">
-              <div style="display:flex;justify-content:space-between;margin-bottom:3px">
-                <span class="rp-prog-lbl">Avance en el módulo</span>
-                <span class="rp-prog-lbl">${m.seen} vistas · ${MOD_TOTALS[m.mi]-m.seen} restantes</span>
-              </div>
-              <div class="rp-bar-track">
-                <div class="rp-bar-fill" style="width:${m.visPct}%;background:var(--gold)"></div>
-              </div>
-            </div>
-            ${m.acc !== null ? `
-            <div class="rp-impact">
-              <span class="rp-impact-icon">◆</span>
-              Precisión actual ${m.acc}% — seguí avanzando para consolidar dominio
-            </div>` : ''}
-            <div class="rp-item-actions">
-              <button class="btn btn-sm rp-btn-gold" onclick="navigate('study');setTimeout(()=>toggleMod(${m.mi}),250)">
-                Continuar M${m.mi+1}
-              </button>
-            </div>
-          </div>`).join('')}
-      </div>
-    </div>` : ''}
-
-    <!-- ═══ BLOQUE 4 — SESIÓN RECOMENDADA ═══════════════════════ -->
-    <div class="rp-block rp-block-blue">
-      <div class="rp-block-header">
-        <div class="rp-block-dot" style="background:var(--blue)"></div>
-        <div style="flex:1">
-          <div class="rp-block-title">Plan de Sesión Recomendada</div>
-          <div class="rp-block-sub">Secuencia óptima para maximizar el rendimiento de hoy</div>
-        </div>
-        <div class="rp-urgency-tag rp-urgency-blue">HOY</div>
-      </div>
-      <div class="rp-session-plan">
-        ${(()=>{
-          const steps = [];
-          const worstMod = mods.filter(m=>m.acc!==null).sort((a,b)=>a.acc-b.acc)[0];
-          if (worstMod) steps.push({
-            n:1, label:`Módulo débil — ${MOD_NAMES[worstMod.mi]}`,
-            detail:`15 preguntas del módulo con menor precisión (${worstMod.acc}%)`,
-            time:'~10 min', action:`navigate('study');setTimeout(()=>toggleMod(${worstMod.mi}),250)`, btn:'Iniciar'
-          });
-          if (level1 > 0) steps.push({
-            n:2, label:`Repaso de errores previos`,
-            detail:`${Math.min(level1,20)} preguntas priorizadas por historial de errores`,
-            time:'~8 min', action:`navigate('review')`, btn:'Repasar'
-          });
-          steps.push({
-            n:steps.length+1, label:'Mini simulacro de verificación',
-            detail:'20 preguntas en modo examen sin tiempo límite',
-            time:'~15 min', action:`navigate('exam')`, btn:'Simular'
-          });
-          if (flagged.size > 0) steps.push({
-            n:steps.length+1, label:'Revisión de preguntas difíciles',
-            detail:`Repasá las ${flagged.size} preguntas que marcaste como difíciles`,
-            time:'~5 min', action:`navigate('flagged')`, btn:'Revisar'
-          });
-          return steps.map(s => `
-            <div class="rp-session-step">
-              <div class="rp-step-num">${s.n}</div>
-              <div class="rp-step-body">
-                <div class="rp-step-label">${s.label}</div>
-                <div class="rp-step-detail">${s.detail}</div>
-                <div class="rp-step-meta">
-                  <span class="rp-step-time">⏱ ${s.time}</span>
-                  <button class="btn btn-sm rp-btn-blue" onclick="${s.action}">${s.btn}</button>
-                </div>
-              </div>
-            </div>`).join('');
-        })()}
-      </div>
+    <!-- Links to analysis tools -->
+    <div style="display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap">
+      <button class="btn btn-ghost btn-sm" onclick="navigate('path')" style="font-size:12px">
+        🗺 Ver Learning Path →
+      </button>
+      <button class="btn btn-ghost btn-sm" onclick="navigate('entrenamiento')" style="font-size:12px">
+        🎯 Ver Entrenamiento Focalizado →
+      </button>
     </div>
-
-    <!-- ═══ BLOQUE 5 — INSIGHTS ANALÍTICOS ══════════════════════ -->
-    ${insights.length > 0 ? `
-    <div class="rp-block rp-block-muted">
-      <div class="rp-block-header">
-        <div class="rp-block-dot" style="background:var(--text2)"></div>
-        <div>
-          <div class="rp-block-title">Análisis del Sistema</div>
-          <div class="rp-block-sub">Métricas computadas a partir de tu historial de actividad</div>
-        </div>
-      </div>
-      <div class="rp-insights-grid">
-        ${insights.map(ins => `
-          <div class="rp-insight-cell">
-            <div class="rp-insight-icon">${ins.icon}</div>
-            <div class="rp-insight-val">${ins.val}</div>
-            <div class="rp-insight-label">${ins.label}</div>
-            <div class="rp-insight-note">${ins.note}</div>
-          </div>`).join('')}
-      </div>
-    </div>` : ''}
   `;
 }
 
@@ -6819,6 +6821,22 @@ function updateTopbarStats() {
   $('tb-mastered').textContent=seen;
   $('tb-pct').textContent=pct+'%';
   $('tb-streak').textContent=getStreak();
+  // Sidebar score badge
+  const sbBadge = $('sb-score-badge');
+  if (sbBadge) {
+    let gOk=0,gTot=0;
+    Object.values(masteryData).forEach(m=>{gOk+=m.correct||0;gTot+=m.attempts||0;});
+    const gAcc = gTot>0?Math.round(gOk/gTot*100):0;
+    const worstMi = (() => {
+      let w=-1,wa=101;
+      MODULES.forEach((_,mi)=>{const a=getModAccuracy(mi);if(a!==null&&a<wa&&getModSeen(mi)>5){wa=a;w=mi;}});
+      return w;
+    })();
+    const modShort=['M1','M2 PLD','M3','M4','M5','M6'];
+    const critLabel = worstMi>=0 ? ` · ${modShort[worstMi]} crítico` : '';
+    sbBadge.textContent = pct+'% progreso'+critLabel;
+    sbBadge.style.color = pct>=70?'var(--green)':pct>=40?'var(--gold)':'var(--text2)';
+  }
 }
 function updateBadges() {
   const fc=flagged.size;
@@ -8683,53 +8701,9 @@ function buildLearningPath() {
   // ── Render ───────────────────────────────────────────────
   el.innerHTML = `
 
-  <!-- ═══ A. COMANDO CENTRAL ════════════════════════════ -->
-  <div class="lp-command">
-    <div class="lp-cmd-left">
-      <div class="lp-score-ring-wrap">
-        <svg width="80" height="80" viewBox="0 0 80 80">
-          <circle cx="40" cy="40" r="34" fill="none" stroke="var(--border2)" stroke-width="8"/>
-          <circle cx="40" cy="40" r="34" fill="none" stroke="${sc(gScore)}" stroke-width="8"
-            stroke-dasharray="${(2*Math.PI*34).toFixed(1)}"
-            stroke-dashoffset="${(2*Math.PI*34*(1-gScore/100)).toFixed(1)}"
-            stroke-linecap="round" transform="rotate(-90 40 40)"/>
-          <text x="40" y="44" text-anchor="middle" font-size="17" font-weight="800"
-            fill="${sc(gScore)}" font-family="monospace">${gScore}</text>
-        </svg>
-      </div>
-      <div class="lp-cmd-meta">
-        <div class="lp-cmd-status" style="color:${sc(gScore)}">${sl(gScore)}</div>
-        <div class="lp-cmd-sub">Progreso ${gCoverage}% · Precisión ${gAcc}%</div>
-        <div class="lp-cmd-streak">${streak>0?`🔥 ${streak} días de racha`:'Sin racha activa — empezá hoy'}</div>
-      </div>
-    </div>
-    <div class="lp-cmd-right">
-      <div class="lp-cmd-action-label">¿Qué hacés hoy?</div>
-      ${(()=>{
-        const worstMod = modsByImpact[0];
-        if (errCount > 10) return `
-          <div class="lp-cmd-cta lp-cta-red" onclick="navigate('review')">
-            <span class="lp-cta-icon">🔁</span>
-            <div><div class="lp-cta-title">Repasar ${errCount} errores</div>
-            <div class="lp-cta-desc">Mayor impacto en score hoy</div></div>
-          </div>`;
-        if (worstMod && worstMod.impactScore > 20) return `
-          <div class="lp-cmd-cta lp-cta-blue" onclick="navigate('study');setTimeout(()=>toggleMod(${worstMod.mi}),250)">
-            <span class="lp-cta-icon">📖</span>
-            <div><div class="lp-cta-title">Estudiar M${worstMod.mi+1} — ${MOD_NAMES[worstMod.mi]}</div>
-            <div class="lp-cta-desc">Módulo con mayor impacto en tu score</div></div>
-          </div>`;
-        return `
-          <div class="lp-cmd-cta lp-cta-green" onclick="navigate('exam')">
-            <span class="lp-cta-icon">📝</span>
-            <div><div class="lp-cta-title">Simulacro de calibración</div>
-            <div class="lp-cta-desc">Buen momento para medir tu nivel</div></div>
-          </div>`;
-      })()}
-    </div>
-  </div>
+  <!-- Comando Central removido — está en el Dashboard -->
 
-  <!-- ═══ B. MICROLEARNING ══════════════════════════════ -->
+    <!-- ═══ B. MICROLEARNING ══════════════════════════════ -->
   <div class="lp-micro">
     <div class="lp-micro-header">
       <span class="lp-micro-icon">⚡</span>
@@ -9337,21 +9311,63 @@ const HELP_CONTENT = {
     <div class="help-section">
       <div class="help-section-title">Cómo empezar en 5 pasos</div>
       <div class="help-step"><div class="help-step-num">1</div>
-        <div class="help-step-text"><strong>Configurá la fecha de examen</strong> — Andá a <em>Recomendaciones → Plan de estudio</em>, ingresá la fecha y hora de tu examen y hacé clic en "Generar plan". La cuenta regresiva aparecerá en el dashboard.</div>
+        <div class="help-step-text"><strong>Configurá la fecha del examen</strong> — Andá a <em>Recomendaciones → Plan de estudio</em>. Ingresá la fecha y hora. La cuenta regresiva aparece en el dashboard y el plan se genera automáticamente.</div>
       </div>
       <div class="help-step"><div class="help-step-num">2</div>
-        <div class="help-step-text"><strong>Empezá a estudiar por módulos</strong> — En la sección <em>Estudiar</em> encontrás los 6 módulos con bloques de preguntas. Respondé en orden: elegís un módulo, después un bloque, y respondés una a una.</div>
+        <div class="help-step-text"><strong>Estudiá por módulos</strong> — En <em>Módulos</em> (sección Estudiar) encontrás los 6 módulos con bloques de preguntas numerados. Respondé en orden: elegís un bloque, respondés una a una y el sistema registra tu nivel.</div>
       </div>
       <div class="help-step"><div class="help-step-num">3</div>
-        <div class="help-step-text"><strong>Usá el Repaso Inteligente seguido</strong> — Cada vez que errás una pregunta, el sistema la prioriza en el repaso. Hacé sesiones de repaso regulares para consolidar lo que ya viste.</div>
+        <div class="help-step-text"><strong>Usá el Repaso Inteligente seguido</strong> — Cada vez que errás, la pregunta queda priorizada. El Repaso Inteligente te la vuelve a mostrar en el momento justo. Hacé sesiones cortas pero frecuentes.</div>
       </div>
       <div class="help-step"><div class="help-step-num">4</div>
-        <div class="help-step-text"><strong>Tomá simulacros periódicos</strong> — En <em>Examen</em> podés hacer simulacros de 20 a 60 preguntas con tiempo. El examen oficial es de 60 preguntas y requiere 70% para aprobar.</div>
+        <div class="help-step-text"><strong>Revisá tu Learning Path y Entrenamiento</strong> — En la sección <em>Analizar</em> encontrás el Learning Path (estrategia global) y Entrenamiento Focalizado (corrección inteligente de tus errores reales con práctica guiada).</div>
       </div>
       <div class="help-step"><div class="help-step-num">5</div>
-        <div class="help-step-text"><strong>Revisá tu dashboard cada día</strong> — El dashboard muestra tu prioridad del día, módulos críticos, racha de estudio y acciones rápidas. Es tu punto de partida diario.</div>
+        <div class="help-step-text"><strong>Tomá simulacros periódicos</strong> — En <em>Simulacro</em> podés armar exámenes de 20 a 60 preguntas con o sin tiempo. El examen oficial CNV es 60 preguntas, 70% para aprobar.</div>
       </div>
-      <div class="help-tip">💡 <strong>Consejo:</strong> Lo más efectivo es hacer 15–20 preguntas por día, aunque sean en sesiones cortas. La consistencia supera a las sesiones largas esporádicas.</div>
+      <div class="help-tip">💡 <strong>Consejo:</strong> 15–20 preguntas por día, todos los días, supera ampliamente una sesión larga semanal. La racha de estudio es el indicador más importante.</div>
+    </div>`,
+
+  nav: `
+    <div class="help-section">
+      <div class="help-section-title">Cómo está organizada la app</div>
+      <p style="font-size:12px;color:var(--text2);margin-bottom:14px;line-height:1.6">El menú lateral tiene tres secciones con una lógica simple: <strong>¿qué querés hacer ahora?</strong></p>
+
+      <div class="help-card">
+        <div class="help-card-title">⚡ Dashboard — punto de entrada</div>
+        <div class="help-card-body">Siempre arriba del menú. Muestra tu estado actual, prioridad del día, módulos ordenados por urgencia, acciones rápidas y datos clave CNV. Es tu pantalla de inicio cada vez que abrís la app. Podés personalizar qué secciones ver con el botón <strong>✏️ Editar panel</strong>.</div>
+      </div>
+
+      <div class="help-card">
+        <div class="help-card-title">📖 Sección Estudiar</div>
+        <div class="help-card-body">
+          <strong>Módulos</strong> — 6 módulos con bloques numerados. Podés entrar por bloque o elegir "X preguntas sin ver" para avanzar aleatoriamente.<br>
+          <strong>Repaso inteligente</strong> — prioriza tus errores y preguntas con bajo dominio. Podés filtrar por módulo y elegir entre 10 y 50 preguntas.<br>
+          <strong>Flashcards</strong> — tarjetas de pregunta/respuesta. Ideal para repasar rápido antes del examen.<br>
+          <strong>Simulacro</strong> — examen con tiempo real, distribución por módulos a elección. Corrección detallada al terminar.
+        </div>
+      </div>
+
+      <div class="help-card">
+        <div class="help-card-title">📊 Sección Analizar</div>
+        <div class="help-card-body">
+          <strong>Learning Path</strong> — visión estratégica. Comando Central con score, sesión rápida de 7 preguntas adaptativas, módulos ordenados por impacto, temas transversales y proyección semanal.<br>
+          <strong>Entrenamiento Focalizado</strong> — mapa de calor de errores, top 10 de tus fallos con explicaciones, árbol de causas, práctica guiada con pistas, repaso espaciado automático y comparador de normas.<br>
+          <strong>Historial</strong> — evolución con filtros (7d / 30d / 90d / semana / mes / todo), gráficos de progreso y precisión, y detalle por módulo.<br>
+          <strong>Logros</strong> — 80 logros en 7 categorías que se desbloquean automáticamente.
+        </div>
+      </div>
+
+      <div class="help-card">
+        <div class="help-card-title">📚 Sección Referencia</div>
+        <div class="help-card-body">
+          <strong>Marcadas</strong> — preguntas que marcaste con 🚩 como difíciles. Podés anotarles notas y armar un mini-examen solo con ellas.<br>
+          <strong>Notas</strong> — todas tus anotaciones y explicaciones de IA guardadas, organizadas por módulo.<br>
+          <strong>Recomendaciones</strong> — diagnóstico de debilidades, plan de sesión diaria y el Plan 20 horas (método Pareto).<br>
+          <strong>Bibliografía</strong> — fuentes oficiales del examen CNV.
+        </div>
+      </div>
+      <div class="help-tip">💡 El badge debajo de tu nombre muestra tu progreso actual y el módulo más crítico — sin entrar al dashboard.</div>
     </div>`,
 
   modules: `
@@ -9359,61 +9375,70 @@ const HELP_CONTENT = {
       <div class="help-section-title">Los 6 módulos del examen CNV</div>
       <div class="help-card">
         <div class="help-card-title"><span class="help-mod-badge" style="background:var(--m1)18;color:var(--m1)">M1</span> Marco Normativo — 121 preguntas</div>
-        <div class="help-card-body">Ley 26.831 (Mercado de Capitales), funciones de la CNV, oferta pública, prospecto, OPA, sanciones, emisoras PyME. <strong>Peso en el examen: alto.</strong> Dominar la estructura normativa es la base de todo lo demás.</div>
+        <div class="help-card-body">Ley 26.831, funciones CNV, oferta pública, prospecto, OPA, sanciones, PyME CNV. <strong>Base de todo lo demás.</strong> Empezá por acá si recién arrancás.</div>
       </div>
       <div class="help-card">
         <div class="help-card-title"><span class="help-mod-badge" style="background:var(--m2)18;color:var(--m2)">M2</span> Prevención de Lavado — 96 preguntas</div>
-        <div class="help-card-body">Ley 25.246, etapas del lavado (colocación, estratificación, integración), sujetos obligados, PEPs, ROS, plazos UIF, Oficial de Cumplimiento. <strong>Conceptual y detallado:</strong> hay muchos plazos y definiciones exactas que memorizar.</div>
+        <div class="help-card-body">Ley 25.246, 3 etapas del lavado, sujetos obligados, PEPs, ROS y plazos UIF, Oficial de Cumplimiento. <strong>Muchos plazos exactos</strong> que memorizar — usá el Comparador de Normas en Entrenamiento.</div>
       </div>
       <div class="help-card">
         <div class="help-card-title"><span class="help-mod-badge" style="background:var(--m3)18;color:var(--m3)">M3</span> Transparencia e Integridad — 104 preguntas</div>
-        <div class="help-card-body">Hechos relevantes, insider trading, gobierno corporativo, idoneidad y registro de agentes, atención al inversor. <strong>Importante:</strong> muchas preguntas tienen redacción parecida — prestá atención a las diferencias.</div>
+        <div class="help-card-body">Hechos relevantes, insider trading, gobierno corporativo, idoneidad, atención al inversor. <strong>Atención:</strong> muchas preguntas tienen redacción parecida — prestá atención a las diferencias.</div>
       </div>
       <div class="help-card">
         <div class="help-card-title"><span class="help-mod-badge" style="background:var(--m4)18;color:var(--m4)">M4</span> Contabilidad y Finanzas — 133 preguntas</div>
-        <div class="help-card-body">El módulo más extenso. NIIF, estados financieros, ratios, auditoría externa, bonos, duration, futuros y opciones. <strong>El más técnico:</strong> requiere entender conceptos, no solo memorizar. Usá los flashcards para reforzar fórmulas.</div>
+        <div class="help-card-body">El módulo más extenso. NIIF, estados financieros, ratios, auditoría, bonos, duration, futuros y opciones. <strong>El más técnico</strong> — requiere entender, no solo memorizar. Usá las mnemotécnicas del panel de Entrenamiento.</div>
       </div>
       <div class="help-card">
         <div class="help-card-title"><span class="help-mod-badge" style="background:var(--m5)18;color:var(--m5)">M5</span> Agentes e Instrumentos — 109 preguntas</div>
-        <div class="help-card-body">Categorías de agentes CNV, caución, pase, CPD, FCE, futuros ROFEX, opciones, suscripción de acciones. <strong>Muy operativo:</strong> entender cómo funcionan los instrumentos en la práctica ayuda más que memorizar definiciones.</div>
+        <div class="help-card-body">Categorías de agentes CNV, caución, pase, CPD, FCE, futuros ROFEX, opciones, suscripción de acciones. <strong>Muy operativo</strong> — entender cómo funcionan los instrumentos en la práctica ayuda más que memorizar definiciones.</div>
       </div>
       <div class="help-card">
         <div class="help-card-title"><span class="help-mod-badge" style="background:var(--m6)18;color:var(--m6)">M6</span> Inversión Colectiva — 110 preguntas</div>
-        <div class="help-card-body">FCI abiertos, FCI cerrados, fideicomiso financiero, sociedad gerente, depositaria, cuotapartes. <strong>Muy preguntado:</strong> los fondos comunes de inversión y el fideicomiso tienen muchas variantes que hay que distinguir bien.</div>
+        <div class="help-card-body">FCI abiertos, FCI cerrados, fideicomiso financiero, sociedad gerente, depositaria, cuotapartes. <strong>Muy preguntado</strong> — hay muchas variantes entre FCI y Fideicomiso que hay que distinguir bien. Usá el Comparador FCI vs FF en Entrenamiento.</div>
       </div>
-      <div class="help-tip">💡 <strong>Estrategia recomendada:</strong> Empezá por M1 y M2 (más conceptuales), luego M3 y M6 (más aplicados), y dejá M4 y M5 para cuando ya tengas base. El repaso inteligente irá priorizando los módulos donde más errés.</div>
+      <div class="help-tip">💡 <strong>Estrategia:</strong> Empezá por M1 y M2 (más conceptuales), luego M3 y M6 (más aplicados), dejá M4 para cuando ya tenés base. El Learning Path te dice exactamente por dónde atacar según tu estado actual.</div>
     </div>`,
 
   tools: `
     <div class="help-section">
       <div class="help-section-title">Herramientas disponibles</div>
+
       <div class="help-card">
-        <div class="help-card-title">📖 Estudiar</div>
-        <div class="help-card-body">Preguntas organizadas por módulo y bloque. El sistema registra cada respuesta y actualiza tu nivel de dominio (0–4 estrellas). Podés ver la explicación de cada respuesta al instante. Marcá preguntas difíciles con 🚩 para revisarlas después.</div>
+        <div class="help-card-title">🗺 Learning Path</div>
+        <div class="help-card-body"><strong>Comando Central</strong> con score de preparación (progreso × 40% + precisión × 60%) y acción recomendada para hoy. <strong>Sesión rápida</strong> de 7 preguntas generadas por impacto. <strong>Módulos ordenados por impacto</strong> — no por número, sino por cuánto cambiaría tu score si los mejorás. <strong>Temas transversales</strong> clickeables. <strong>Proyección semanal</strong> con gráfico histórico + curva futura.</div>
       </div>
+
       <div class="help-card">
-        <div class="help-card-title">🔁 Repaso Inteligente</div>
-        <div class="help-card-body">Selecciona automáticamente las preguntas donde más erraste o hace más tiempo no repasaste. Podés filtrar por módulo y elegir entre 10 y 50 preguntas por sesión. <strong>Usalo después de estudiar bloques nuevos.</strong></div>
+        <div class="help-card-title">🎯 Entrenamiento Focalizado</div>
+        <div class="help-card-body">
+          <strong>Corrección Inteligente:</strong> mapa de calor de errores por módulo, árbol de causas (confusión normativa / memoria / conceptual / lectura), prioridades de estudio y top 10 errores con explicación.<br><br>
+          <strong>4 modos de entrenamiento:</strong><br>
+          🔍 <strong>Diagnóstico</strong> — elegís un módulo, ves tus errores con explicación resumida y regla mnemotécnica.<br>
+          ▶ <strong>Práctica Guiada</strong> — preguntas de tus errores reales con pistas, feedback inmediato y mnemotécnicas.<br>
+          🔄 <strong>Refuerzo Programado</strong> — repaso espaciado: clasifica en "repasar hoy", "olvidadas" y "refuerzo". Cola automática de hasta 20 preguntas.<br>
+          📋 <strong>Comparador de Normas</strong> — tablas comparativas: PLD (normas UIF), Transparencia (CNV+LGS), FCI vs Fideicomiso.
+        </div>
       </div>
+
       <div class="help-card">
-        <div class="help-card-title">📝 Simulacro de examen</div>
-        <div class="help-card-body">Modo examen con tiempo real. Elegís los módulos y la cantidad de preguntas. El examen oficial CNV es de 60 preguntas, 90 minutos, y requiere 70% para aprobar. Hacé simulacros semanales para medir tu avance.</div>
+        <div class="help-card-title">📈 Historial de Progreso</div>
+        <div class="help-card-body">Primera pestaña del Historial. 6 filtros: 7 días, 30 días, 90 días, esta semana, este mes, todo el historial. Muestra: progreso total, precisión del período, mejor día, racha actual, gráfico de línea acumulada y barras de actividad diaria con colores según precisión.</div>
       </div>
+
+      <div class="help-card">
+        <div class="help-card-title">📖 Repaso Inteligente</div>
+        <div class="help-card-body">Selecciona automáticamente las preguntas donde más erraste o hace más tiempo no repasaste. Podés filtrar por módulo y elegir entre 10 y 50 preguntas. <strong>Usalo después de estudiar bloques nuevos.</strong></div>
+      </div>
+
+      <div class="help-card">
+        <div class="help-card-title">💡 Recomendaciones + Plan 20 horas</div>
+        <div class="help-card-body">Diagnóstico de módulos críticos, débiles y oportunidades de mejora. <strong>Plan de estudio</strong> con fecha de examen, días disponibles y preguntas por día. <strong>Plan 20 horas (Método Pareto)</strong>: 10 sesiones de 2 horas cada una, cubriendo el 20% del contenido que genera el 80% de los resultados.</div>
+      </div>
+
       <div class="help-card">
         <div class="help-card-title">🃏 Flashcards</div>
-        <div class="help-card-body">Tarjetas de pregunta/respuesta para repasar rápido. Ideal para repasar antes de dormir o en viajes cortos. Podés filtrar por módulo y elegir el orden (aleatorio, falladas primero, sin ver primero).</div>
-      </div>
-      <div class="help-card">
-        <div class="help-card-title">💡 Recomendaciones inteligentes</div>
-        <div class="help-card-body">Analiza tu rendimiento y te da un diagnóstico con módulos críticos, debilidades, oportunidades de mejora y un plan de sesión diaria. También encontrás aquí el <strong>Plan de estudio</strong> con fecha de examen.</div>
-      </div>
-      <div class="help-card">
-        <div class="help-card-title">📊 Historial y Rendimiento</div>
-        <div class="help-card-body">Tus estadísticas de los últimos 30 días: preguntas respondidas, aciertos por módulo, historial de exámenes y flashcards. Usalo para identificar tendencias y ver si tu precisión mejora semana a semana.</div>
-      </div>
-      <div class="help-card">
-        <div class="help-card-title">🌳 Árbol Conceptual</div>
-        <div class="help-card-body">Mapa visual de los 30 temas principales del examen. Cada nodo lleva a las preguntas específicas de ese tema. Ideal para estudiar por concepto en lugar de por bloque numérico.</div>
+        <div class="help-card-body">Tarjetas de pregunta/respuesta para repasar rápido. Podés filtrar por módulo, elegir el orden (aleatorio, falladas primero, sin ver primero) y calificar si la sabías o no. Ideal para repasar antes del examen.</div>
       </div>
     </div>`,
 
@@ -9421,50 +9446,56 @@ const HELP_CONTENT = {
     <div class="help-section">
       <div class="help-section-title">Configurar la plataforma</div>
       <div class="help-step"><div class="help-step-num">1</div>
-        <div class="help-step-text"><strong>Fecha y hora del examen</strong> — Andá a <em>Recomendaciones → Plan de estudio</em>. Ingresá la fecha y hora del examen y clic en "Generar plan". Aparecerá un contador regresivo en el dashboard con días, horas, minutos y segundos.</div>
+        <div class="help-step-text"><strong>Fecha y hora del examen</strong> — <em>Recomendaciones → Plan de estudio</em>. Ingresá fecha y hora, clic en "Generar plan". Aparece la cuenta regresiva en el dashboard (días + HH:MM:SS en tiempo real).</div>
       </div>
       <div class="help-step"><div class="help-step-num">2</div>
-        <div class="help-step-text"><strong>Días de estudio disponibles</strong> — En el mismo panel del plan, activá los días de la semana que podés estudiar. El plan calculará cuántas preguntas hacer por día según el tiempo disponible.</div>
+        <div class="help-step-text"><strong>Personalizar el dashboard</strong> — Botón <strong>✏️ Editar panel</strong> en el encabezado del dashboard. Podés activar/desactivar cada sección (Cuenta regresiva, Plan del día, Métricas, etc.) y reordenarlas arrastrando.</div>
       </div>
       <div class="help-step"><div class="help-step-num">3</div>
-        <div class="help-step-text"><strong>Tipografía</strong> — Hacé clic en ⚙️ (arriba a la derecha). Podés elegir entre 4 fuentes: Space Grotesk (moderna), Inter (legible), Lora (serif académica) y Mono (técnica).</div>
+        <div class="help-step-text"><strong>Días de estudio disponibles</strong> — En el plan de estudio, activá los días de la semana que podés estudiar. El plan calcula cuántas preguntas hacer por día según el tiempo real disponible.</div>
       </div>
       <div class="help-step"><div class="help-step-num">4</div>
-        <div class="help-step-text"><strong>Tamaño de texto</strong> — También en ⚙️. Elegís Pequeño, Mediano o Grande. El cambio afecta toda la interfaz de forma proporcional.</div>
+        <div class="help-step-text"><strong>Tipografía y tamaño</strong> — Ícono ⚙️ arriba a la derecha. Elegís entre 4 fuentes (Space Grotesk, Inter, Lora, Mono) y 3 tamaños (Pequeño, Mediano, Grande). Afecta toda la interfaz.</div>
       </div>
       <div class="help-step"><div class="help-step-num">5</div>
-        <div class="help-step-text"><strong>Modo claro / oscuro</strong> — El switch en ⚙️ alterna entre modo oscuro (predeterminado) y modo claro. La preferencia se guarda automáticamente.</div>
+        <div class="help-step-text"><strong>Modo claro / oscuro</strong> — Switch en ⚙️. La preferencia se guarda automáticamente.</div>
       </div>
       <div class="help-step"><div class="help-step-num">6</div>
-        <div class="help-step-text"><strong>Clave IA</strong> — Para usar el panel de explicaciones con inteligencia artificial necesitás una clave de API de Anthropic (Claude). La podés ingresar en la sección de estudio cuando respondés una pregunta.</div>
+        <div class="help-step-text"><strong>Clave de IA</strong> — Para usar explicaciones con Claude necesitás una API key de Anthropic. Se ingresa en el panel de pregunta respondida, tab "✨ IA". Se guarda en el navegador.</div>
       </div>
-      <div class="help-tip">💡 <strong>Tip:</strong> Tu progreso se sincroniza automáticamente en la nube. Podés continuar desde cualquier dispositivo con la misma cuenta.</div>
+      <div class="help-tip">💡 Tu progreso se sincroniza automáticamente en la nube (Supabase). Podés continuar desde cualquier dispositivo con la misma cuenta. El indicador de sync está en el topbar — verde = sincronizado, naranja = sincronizando, rojo = error.</div>
     </div>`,
 
   progress: `
     <div class="help-section">
       <div class="help-section-title">Entender tu progreso</div>
       <div class="help-card">
-        <div class="help-card-title">📊 Cobertura vs Precisión</div>
-        <div class="help-card-body"><strong>Progreso:</strong> qué % de las 673 preguntas de la guía ya viste al menos una vez. Apuntá a llegar al 100% antes del examen.<br><strong>Precisión:</strong> de las que respondiste, qué % fue correcto. El mínimo para aprobar el examen real es 70%.</div>
+        <div class="help-card-title">📊 Progreso vs Precisión</div>
+        <div class="help-card-body"><strong>Progreso:</strong> % de las 673 preguntas que viste al menos una vez. Meta: 100% antes del examen.<br><strong>Precisión:</strong> % de respuestas correctas sobre el total intentado. Mínimo para aprobar el examen real: 70%.<br><strong>Score de preparación</strong> (Learning Path): Progreso×40% + Precisión×60% — mide tu preparación real combinada.</div>
       </div>
       <div class="help-card">
-        <div class="help-card-title">⭐ Niveles de dominio</div>
-        <div class="help-card-body">Cada pregunta tiene un nivel: <strong>Sin ver → Fallada → Aprendiendo → Consolidada → Avanzada → Dominada</strong>. El repaso inteligente prioriza las de nivel bajo. El objetivo es llevar la mayoría al nivel Consolidada o superior.</div>
+        <div class="help-card-title">⭐ Niveles de dominio por pregunta</div>
+        <div class="help-card-body"><strong>0 — Sin ver</strong> · <strong>1 — Aprendiendo</strong> (respondida bien 1 vez) · <strong>2 — Consolidada</strong> · <strong>3 — Avanzada</strong> · <strong>4 — Dominada</strong> (5 veces bien). El Repaso Inteligente prioriza los niveles bajos. El Entrenamiento Focalizado prioriza las que tienen errores acumulados.</div>
       </div>
       <div class="help-card">
-        <div class="help-card-title">🎯 Racha de estudio</div>
-        <div class="help-card-body">Días consecutivos con al menos una pregunta respondida. La racha se muestra en el dashboard y en el topbar. Es el indicador más importante de consistencia — más que la cantidad de preguntas por día.</div>
+        <div class="help-card-title">🎯 Clasificación de errores</div>
+        <div class="help-card-body">El panel de Entrenamiento clasifica tus errores en 4 tipos:<br>
+          📋 <strong>Confusión normativa</strong> — preguntas sobre leyes, artículos, plazos.<br>
+          🔢 <strong>Error de memoria</strong> — montos, porcentajes, fechas exactas.<br>
+          🧠 <strong>Error conceptual</strong> — no entendés el "por qué" detrás.<br>
+          👁 <strong>Error de lectura</strong> — leés mal el enunciado.<br>
+          Cada tipo tiene una estrategia de corrección distinta.
+        </div>
+      </div>
+      <div class="help-card">
+        <div class="help-card-title">🔥 Racha y consistencia</div>
+        <div class="help-card-body">Días consecutivos con al menos una pregunta respondida. Es el indicador más importante de consistencia — más que la cantidad de preguntas por sesión. Se muestra en el dashboard, topbar y badge del sidebar.</div>
       </div>
       <div class="help-card">
         <div class="help-card-title">🏆 Logros</div>
-        <div class="help-card-body">80 logros distribuidos en 7 categorías (Cobertura, Módulos, Precisión, Rachas, Exámenes, Herramientas, Especiales). Se desbloquean automáticamente al cumplir los requisitos. Encontrás el panel completo en <em>Logros</em> en el menú lateral.</div>
+        <div class="help-card-body">80 logros en 7 categorías: Progreso, Módulos, Precisión, Rachas, Exámenes, Herramientas y Especiales. Se desbloquean automáticamente. Encontrás el panel en <em>Analizar → Logros</em>.</div>
       </div>
-      <div class="help-card">
-        <div class="help-card-title">📅 Dashboard diario</div>
-        <div class="help-card-body">Cada mañana revisá: la tarjeta de Prioridad del día, el Plan de estudio del día (collapsible), los módulos ordenados por urgencia y las acciones rápidas. Es tu punto de partida para cada sesión.</div>
-      </div>
-      <div class="help-tip">💡 <strong>Meta sugerida:</strong> 70%+ de cobertura + 70%+ de precisión + al menos 3 simulacros con nota ≥70% = estás listo/a para el examen.</div>
+      <div class="help-tip">💡 <strong>Meta concreta:</strong> 70%+ progreso + 70%+ precisión + al menos 3 simulacros con nota ≥70% = estás lista para rendir.</div>
     </div>`
 };
 
@@ -10445,6 +10476,831 @@ function lpStudyCrossTopicByLabel(label) {
   const topicData = CT_DATA[label];
   if (!topicData) { toast('Tema no encontrado en el árbol conceptual'); return; }
   ctStudy(topicData.mi, topicData.qis, label);
+}
+
+
+// ═══════════════════════════════════════════════════════════
+// ENTRENAMIENTO FOCALIZADO
+// ═══════════════════════════════════════════════════════════
+
+// ── Concept explanations for top error questions ──────────
+const CONCEPT_BRIEF = {
+  // M1
+  'OPA': 'Oferta Pública de Adquisición: proceso obligatorio cuando se supera el 35% del capital de una cotizante. Precio mínimo = mayor precio pagado en últimos 12 meses.',
+  'Oferta Pública': 'Invitación al público general para suscribir VN. Requiere autorización CNV. Distinto de oferta privada (hasta 35 adquirentes).',
+  'Sanciones': 'CNV puede aplicar: apercibimiento, multa (hasta 5x beneficio), inhabilitación, revocación. Prescripción: 6 años.',
+  // M2
+  'ROS': 'Reporte de Operación Sospechosa a la UIF. Plazo: 30 días hábiles desde detección. Confidencial — no avisar al cliente.',
+  'PEP': 'Persona Expuesta Políticamente. Requiere Debida Diligencia Reforzada. Se extiende a familiares y colaboradores.',
+  'Etapas lavado': 'Colocación → Estratificación → Integración. FT puede usar fondos lícitos. Sujeto Obligado no debe revelar el ROS.',
+  // M3
+  'Insider': 'Uso de información privilegiada para operar. Prohibido por Ley 26.831 Art. 117. Se sanciona aunque no haya ganancia.',
+  'Hecho relevante': 'Todo hecho apto para afectar el precio del VN. Se informa de inmediato por AIF. No esperar certeza.',
+  'Gobierno Corporativo': 'Comité de auditoría: mayoría de directores independientes. CGS anual como anexo de Memoria.',
+  // M4
+  'Opinión auditoría': 'Limpia=OK | Con salvedades=errores no generalizados | Adversa=errores generalizados | Abstención=no pudo obtener evidencia.',
+  'Liquidez': 'Corriente = AC/PC. Prueba ácida = (AC-Inventarios)/PC. ROE = Utilidad/PN. ROA = Utilidad/AT.',
+  'Bono': 'Precio sube cuando tasa baja (relación inversa). Cupón cero: cotiza bajo la par. Duration = sensibilidad al tipo de interés.',
+  'Futuro opción': 'Futuro: obliga a ambas partes. Opción: solo obliga al lanzador. Comprador paga prima. Put = derecho a vender.',
+  // M5
+  'Caución': 'Préstamo garantizado con VN. Tomador recibe: valor aforado MENOS intereses. Al vencimiento devuelve: valor aforado MÁS intereses+gastos.',
+  'Agentes': 'ALyC: liquida y garantiza. AN: solo negocia. AP: difunde, no custodia. AAGI: asesora globalmente.',
+  // M6
+  'FCI': 'Gerente administra. Depositaria custodia. Son independientes. Abierto: rescate libre. Cerrado: cotiza en bolsa.',
+  'Fideicomiso': 'Fiduciante cede activos al Fiduciario en beneficio de Beneficiarios. TD: deuda senior. CP: equity residual.',
+};
+
+function getConceptBrief(question, mi) {
+  const qt = question.toLowerCase();
+  if (qt.includes('opa') || qt.includes('adquisición')) return CONCEPT_BRIEF['OPA'];
+  if (qt.includes('oferta pública') || qt.includes('prospecto')) return CONCEPT_BRIEF['Oferta Pública'];
+  if (qt.includes('sanción') || qt.includes('sumario') || qt.includes('multa')) return CONCEPT_BRIEF['Sanciones'];
+  if (qt.includes('ros') || qt.includes('reporte') || qt.includes('sospechosa')) return CONCEPT_BRIEF['ROS'];
+  if (qt.includes('pep') || qt.includes('políticamente')) return CONCEPT_BRIEF['PEP'];
+  if (qt.includes('etapa') || qt.includes('lavado') || qt.includes('colocación') || qt.includes('estratificación')) return CONCEPT_BRIEF['Etapas lavado'];
+  if (qt.includes('insider') || qt.includes('privilegiada') || qt.includes('información')) return CONCEPT_BRIEF['Insider'];
+  if (qt.includes('hecho relevante')) return CONCEPT_BRIEF['Hecho relevante'];
+  if (qt.includes('gobierno') || qt.includes('comité') || qt.includes('directore')) return CONCEPT_BRIEF['Gobierno Corporativo'];
+  if (qt.includes('auditor') || qt.includes('opinión') || qt.includes('abstención') || qt.includes('adversa')) return CONCEPT_BRIEF['Opinión auditoría'];
+  if (qt.includes('liquidez') || qt.includes('ratio') || qt.includes('roe') || qt.includes('roa') || qt.includes('solvencia')) return CONCEPT_BRIEF['Liquidez'];
+  if (qt.includes('bono') || qt.includes('cupón') || qt.includes('duration') || qt.includes('tir')) return CONCEPT_BRIEF['Bono'];
+  if (qt.includes('futuro') || qt.includes('opción') || qt.includes('prima') || qt.includes('call') || qt.includes('put')) return CONCEPT_BRIEF['Futuro opción'];
+  if (qt.includes('caución') || qt.includes('tomador') || qt.includes('colocador') || qt.includes('aforad')) return CONCEPT_BRIEF['Caución'];
+  if (qt.includes('agente') || qt.includes('alyc') || qt.includes('asesor')) return CONCEPT_BRIEF['Agentes'];
+  if (qt.includes('fondo') || qt.includes('fci') || qt.includes('gerente') || qt.includes('depositaria') || qt.includes('cuotapart')) return CONCEPT_BRIEF['FCI'];
+  if (qt.includes('fideicomiso') || qt.includes('fiduciante') || qt.includes('fiduciario') || qt.includes('certificado de participación')) return CONCEPT_BRIEF['Fideicomiso'];
+  // Default by module
+  const defaults = [
+    'Marco Normativo: estudiar Ley 26.831, OPA, sanciones y estructura de la CNV.',
+    'PLD: memorizar etapas, sujetos obligados, plazos UIF y definición de PEP.',
+    'Transparencia: hechos relevantes, insider trading, gobierno corporativo e idoneidad.',
+    'Contabilidad: tipos de opinión auditora, ratios, NIIF y operaciones con bonos/futuros.',
+    'Agentes e Instrumentos: categorías de agentes, caución, CPD y suscripción de acciones.',
+    'Inversión Colectiva: FCI abiertos/cerrados y fideicomiso financiero.',
+  ];
+  return defaults[mi] || '';
+}
+
+// ── Normas comparisons ────────────────────────────────────
+const NORM_TABLES = {
+
+  /* ── NORMAS ─────────────────────────────────────── */
+  'pld': {
+    title: 'PLD — Normas UIF y marco legal',
+    cols: ['Norma', 'Qué regula', 'Plazo clave', 'Aplica a'],
+    rows: [
+      ['Ley 25.246', 'Marco antilavado. Crea UIF. Tipifica el delito de lavado.', '—', 'Todos los SO'],
+      ['Ley 27.739', 'Actualiza Cód. Penal. Incorpora PSAV como SO.', '—', 'PSAV / cripto'],
+      ['Decreto 918/2012', 'Reglamenta Ley 25.246. Define obligaciones de los SO.', '—', 'Todos los SO'],
+      ['Res. UIF 3/2014', 'KYC — identificación y verificación del cliente.', 'Actualizar legajo: 1 año (alto) / 3 (medio) / 5 (bajo)', 'Todos los SO'],
+      ['Res. UIF 56/2024', 'Plazos de reporte de ROS.', '30 días hábiles desde detección', 'Todos los SO'],
+      ['Res. UIF 78/2023', 'PLAFT mercado de capitales. Regímenes informativos.', 'Autoevaluación de riesgos cada 2 años', 'AN, ALyC, AAGI, PFC, PSAV'],
+      ['Res. UIF 192/2024', 'Definición y trato de PEPs.', 'DD reforzada. Actualizar legajo anualmente.', 'Todos los SO'],
+      ['Res. UIF 29/2013', 'ROS sin demora para operaciones vinculadas a CSNU Res.1267.', 'Sin demora (inmediato)', 'Todos los SO'],
+    ]
+  },
+  'transparencia': {
+    title: 'Transparencia — Normas CNV y LGS',
+    cols: ['Norma', 'Qué regula', 'Plazo', 'Consecuencia de incumplimiento'],
+    rows: [
+      ['Ley 26.831 Art.117', 'Insider trading. Prohibición de uso de info privilegiada.', 'Inmediato', 'Multa + inhabilitación + penal'],
+      ['Normas CNV Título IV', 'Régimen informativo periódico y ocasional. Hechos relevantes.', 'HR: inmediato. EEFF anuales: 70 días.', 'Sumario + sanción'],
+      ['Normas CNV Título XII', 'Gobierno corporativo. Código CGS. Directores independientes.', 'CGS anual como anexo de Memoria.', 'Sumario'],
+      ['Normas CNV Título XIII', 'Atención al inversor. OAI. RRP.', 'RRP informa reclamo en 5 días hábiles.', 'Sumario'],
+      ['RG CNV 1002/2024', 'Conductas contrarias a la transparencia. Asesoramiento sin registro.', '—', 'Sumario + sanción'],
+      ['LGS Art. 59', 'Deber de lealtad y diligencia del administrador.', '—', 'Responsabilidad ilimitada y solidaria'],
+      ['LGS Art. 272', 'Conflicto de interés del director. Deber de informar y abstenerse.', 'Informar al tomar conocimiento.', 'Responsabilidad ilimitada y solidaria'],
+    ]
+  },
+
+  /* ── ORGANISMOS ──────────────────────────────────── */
+  'organismos': {
+    title: 'Organismos — Roles y diferencias',
+    cols: ['Organismo', 'Función principal', 'Qué regula en mercado de capitales', 'Sanción que aplica'],
+    rows: [
+      ['CNV', 'Regular y fiscalizar oferta pública de VN y agentes del mercado.', 'Emisoras, agentes, mercados, FCI, FF, idóneos, PSAV.', 'Apercibimiento, multa (hasta 5× beneficio), inhabilitación, revocación.'],
+      ['UIF', 'Prevención y control del lavado de activos y financiamiento del terrorismo.', 'Obliga a AN, ALyC, AAGI, PSAV como sujetos obligados.', 'Multa administrativa. Puede denunciar al Ministerio Público.'],
+      ['BCRA', 'Regular el sistema financiero y la política monetaria.', 'Entidades financieras que emiten ON o acciones.', 'Multas, inhabilitaciones, revocación de autorización bancaria.'],
+      ['AFIP / ARCA', 'Recaudación impositiva y control fiscal.', 'No regula el mercado directamente, pero recibe información de operaciones.', 'Multas fiscales, clausura.'],
+      ['IGJ', 'Registrar y controlar sociedades comerciales.', 'Controla societariamente a emisoras del régimen general (comparte con CNV).', 'Observaciones, multas, intervención.'],
+      ['SSN', 'Supervisar compañías de seguros.', 'Aseguradoras emisoras de VN pueden presentar EEFF bajo normas SSN.', 'Multas, suspensión, revocación de autorización.'],
+      ['GAFI / FATF', 'Estándar internacional antilavado (40 Recomendaciones).', 'Define estándares que Argentina incorpora vía UIF y CNV.', 'Listas grises/negras para países no cumplidores.'],
+    ]
+  },
+
+  /* ── ACTIVOS / VALORES NEGOCIABLES ───────────────── */
+  'activos': {
+    title: 'Activos — Tipos de valores negociables',
+    cols: ['Instrumento', 'Tipo', 'Emisor típico', 'Característica clave', 'Ley/Marco'],
+    rows: [
+      ['Acciones ordinarias', 'Renta variable', 'SA cotizante', 'Derecho a voto + dividendos. Riesgo de capital.', 'Ley 19.550 + Ley 26.831'],
+      ['Acciones preferidas', 'Renta variable/mixta', 'SA cotizante', 'Preferencia patrimonial. Sin voto salvo mora en dividendos.', 'Ley 19.550'],
+      ['Obligaciones Negociables (ON)', 'Renta fija', 'SA / cooperativas', 'Deuda corporativa con cupón. Puede ser bullet o amortizable.', 'Ley 23.576'],
+      ['Cheques de Pago Diferido (CPD)', 'Instrumento de crédito', 'PyMEs / empresas', 'Se descuenta en mercado. Plazo mín. 20 días corridos.', 'Ley 26.831 + Normas CNV'],
+      ['Factura de Crédito Electrónica (FCE)', 'Instrumento de crédito', 'PyMEs', 'Emitida por MIPYME. Cancelación en pesos.', 'Ley 27.440'],
+      ['Pagaré bursátil', 'Renta fija corto plazo', 'Empresas', 'Requiere montos y plazos mínimos CNV.', 'Normas CNV'],
+      ['Cuotapartes FCI', 'Inversión colectiva', 'Sociedad Gerente', 'Abierto: rescate libre. Cerrado: cotiza en bolsa.', 'Ley 24.083'],
+      ['Títulos de Deuda Fiduciaria (TD)', 'Renta fija', 'Fiduciario FF', 'Senior. Cobran primero. Menor riesgo y rendimiento.', 'Ley 24.441 + CCyCN'],
+      ['Certificados de Participación (CP)', 'Renta variable fiduciaria', 'Fiduciario FF', 'Residual. Cobran después de TD. Mayor riesgo y upside.', 'Ley 24.441 + CCyCN'],
+      ['CEDEAR', 'Renta variable', 'Mercados autorizados', 'Representan acciones extranjeras. Liquidación en pesos.', 'Normas CNV'],
+      ['Futuros', 'Derivado', 'ROFEX / MATBA', 'Obliga a ambas partes. Margen diario. Estandarizado.', 'Ley 26.831'],
+      ['Opciones', 'Derivado', 'Mercados autorizados', 'Solo obliga al lanzador. Comprador paga prima.', 'Ley 26.831'],
+    ]
+  },
+
+  /* ── AGENTES ─────────────────────────────────────── */
+  'agentes': {
+    title: 'Agentes CNV — Categorías y diferencias',
+    cols: ['Categoría', 'Sigla', 'Puede negociar', 'Puede custodiar', 'Puede asesorar', 'Puede liquidar'],
+    rows: [
+      ['Agente de Liquidación y Compensación', 'ALyC', '✓', '✓', '✓', '✓ (garantiza)'],
+      ['Agente de Negociación', 'AN', '✓', '✗', '✓ (limitado)', '✗'],
+      ['Agente Asesor Global de Inversión', 'AAGI', '✓ (vía intermediario)', '✗', '✓', '✗'],
+      ['Agente Productor', 'AP', '✗', '✗', '✓ (difusión)', '✗'],
+      ['Agente de Custodia, Registro y Pago', 'ACRP', '✗', '✓', '✗', '✗'],
+      ['Agente de Calificación de Riesgo', 'ACR', '✗', '✗', '✗ (califica)', '✗'],
+      ['Proveedor Servicios Activos Virtuales', 'PSAV', '✓ (cripto)', '✓ (cripto)', '✓ (cripto)', 'N/A'],
+    ]
+  },
+
+  /* ── FCI vs FIDEICOMISO ──────────────────────────── */
+  'fciff': {
+    title: 'FCI vs Fideicomiso Financiero',
+    cols: ['Aspecto', 'FCI Abierto', 'FCI Cerrado', 'Fideicomiso Financiero'],
+    rows: [
+      ['Ley', 'Ley 24.083', 'Ley 24.083', 'Ley 24.441 + CCyCN'],
+      ['Personalidad jurídica', 'No — patrimonio indiviso', 'No — patrimonio indiviso', 'No — patrimonio separado'],
+      ['Administra', 'Sociedad Gerente', 'Sociedad Gerente', 'Fiduciario (entidad financiera o inscripta CNV)'],
+      ['Custodia activos', 'Sociedad Depositaria (independiente)', 'Sociedad Depositaria (independiente)', 'Fiduciario (puede delegar en fiduciante si es EF)'],
+      ['Rescate / salida', 'Libre en cualquier momento', 'No hay rescate — cuotapartes cotizan en bolsa', 'No aplica — se cobran los valores fiduciarios'],
+      ['Instrumento que emite', 'Cuotapartes de copropiedad', 'Cuotapartes (cotizan)', 'TD (senior) + CP (residual)'],
+      ['Quien recibe beneficio', 'Cuotapartista', 'Cuotapartista', 'Beneficiario / Fideicomisario'],
+      ['Régimen informativo', 'Valor cuotaparte diario en AIF', 'Valor cuotaparte diario en AIF', 'Informe mensual control y revisión en CNV'],
+    ]
+  },
+};
+
+
+// ── Mnemonic rules ────────────────────────────────────────
+const MNEMONICS = {
+  'caución': '💡 Regla caución: El tomador toma el dinero → devuelve MÁS (capital + intereses + gastos). El colocador coloca el dinero → recibe MÁS al final.',
+  'opa': '💡 OPA: 35% → obligación. Precio = MAX(mercado 6 meses, VP proporcional). Duración: mínimo 20 días hábiles.',
+  'ros': '💡 ROS: 30 días hábiles desde DETECCIÓN (no desde la operación). NUNCA avisar al cliente. Solo a la UIF.',
+  'etapas': '💡 C-E-I: Colocar (entrar al sistema), Estratificar (mezclar/ocultar), Integrar (volver legítimo).',
+  'opinion': '💡 4 opiniones: Limpia ✓ | Salvedades ⚠️ | Adversa ✗ | Abstención ? (no pudo ver)',
+  'fci': '💡 Gerente = cerebro (decide inversiones). Depositaria = caja fuerte (custodia activos). ¡No pueden ser la misma!',
+  'liquidez': '💡 LC = AC/PC (todo lo corriente). Prueba ácida = (AC - Inventarios)/PC. Ácida SIEMPRE menor o igual que LC.',
+};
+
+function getMnemonic(question) {
+  const qt = question.toLowerCase();
+  if (qt.includes('caución') || qt.includes('tomador') || qt.includes('colocador')) return MNEMONICS['caución'];
+  if (qt.includes('opa') || qt.includes('adquisición')) return MNEMONICS['opa'];
+  if (qt.includes('ros') || qt.includes('sospechosa') || qt.includes('reporte')) return MNEMONICS['ros'];
+  if (qt.includes('etapa') || qt.includes('lavado') || qt.includes('colocación')) return MNEMONICS['etapas'];
+  if (qt.includes('opinión') || qt.includes('abstención') || qt.includes('adversa') || qt.includes('auditor')) return MNEMONICS['opinion'];
+  if (qt.includes('gerente') || qt.includes('depositaria') || qt.includes('fci') || qt.includes('fondo')) return MNEMONICS['fci'];
+  if (qt.includes('liquidez') || qt.includes('corriente') || qt.includes('ácida')) return MNEMONICS['liquidez'];
+  return null;
+}
+
+// ── Main builder ──────────────────────────────────────────
+function buildEntrenamiento() {
+  const el = document.getElementById('entrenamiento-content');
+  if (!el) return;
+
+  const MOD_NAMES  = ['Marco Normativo','PLD','Transparencia','Contabilidad','Agentes','Inv. Colectiva'];
+  const MOD_TOTALS = [121,96,104,133,109,110];
+  const MOD_CVARS  = ['--m1','--m2','--m3','--m4','--m5','--m6'];
+
+  // ── Per-module error stats ───────────────────────────────
+  const modStats = MODULES.map((mod, mi) => {
+    let errCount=0, totalErr=0, seen=0;
+    mod.questions.forEach((_,qi) => {
+      const m = getMastery(mi,qi);
+      if (m.attempts>0) { seen++; errCount += m.errors||0; totalErr += m.bad||Math.max(0,(m.attempts||0)-(m.correct||0)); }
+    });
+    return { mi, errCount, totalErr, seen };
+  });
+
+  // ── Top 10 errors ────────────────────────────────────────
+  const allErrs = [];
+  MODULES.forEach((mod,mi) => {
+    mod.questions.forEach((q,qi) => {
+      const m = getMastery(mi,qi);
+      if ((m.errors||0)>0) allErrs.push({ mi,qi, q:q[1], a:q[2], errors:m.errors, attempts:m.attempts, correct:m.correct });
+    });
+  });
+  allErrs.sort((a,b) => b.errors-a.errors);
+  const top10 = allErrs.slice(0,10);
+
+  // ── Error cause classification ────────────────────────────
+  const causes = { normativo:0, memoria:0, conceptual:0, lectura:0 };
+  allErrs.forEach(e => {
+    const qt = e.q.toLowerCase();
+    if (/qué norma|ley\s+\d|artículo|resolución|plazo|días hábiles/.test(qt)) causes.normativo++;
+    else if (/cuánto|monto|porcentaje|%|días|años|meses|tasa/.test(qt)) causes.memoria++;
+    else if (/por qué|cuál es el objetivo|finalidad|qué implica|se entiende/.test(qt)) causes.conceptual++;
+    else causes.lectura++;
+  });
+  const causeTotal = Object.values(causes).reduce((a,b)=>a+b,1);
+
+  // ── Heatmap colors ────────────────────────────────────────
+  const maxErr = Math.max(...modStats.map(m=>m.errCount),1);
+  function heatColor(n) {
+    if (!n) return {bg:'rgba(64,144,240,.08)',fg:'var(--blue)'};
+    const t = n/maxErr;
+    if (t>0.7) return {bg:'rgba(240,80,112,.85)',fg:'#fff'};
+    if (t>0.4) return {bg:'rgba(240,128,64,.75)',fg:'#fff'};
+    if (t>0.1) return {bg:'rgba(240,192,64,.65)',fg:'#1a1a2e'};
+    return {bg:'rgba(34,211,160,.35)',fg:'var(--text)'};
+  }
+
+  // ── Priority list ─────────────────────────────────────────
+  const prioritized = [...modStats].sort((a,b)=>b.errCount-a.errCount);
+
+  el.innerHTML = `
+  <!-- PANEL 1: CORRECCIÓN INTELIGENTE -->
+  <div class="card db-card-clean" style="margin-bottom:16px">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
+      <span style="font-size:20px">🧠</span>
+      <div>
+        <div class="db-card-title" style="margin:0">Corrección Inteligente</div>
+        <div style="font-size:11px;color:var(--text2)">Análisis de tus errores reales — actualizado en tiempo real</div>
+      </div>
+    </div>
+
+    <!-- Heatmap -->
+    <div class="ci-section">
+      <div class="ci-section-title">🌡 Mapa de calor — errores por módulo</div>
+      <div class="ci-heatmap">
+        ${modStats.map(m => {
+          const hc = heatColor(m.errCount);
+          return `<div class="ci-hm-cell" style="background:${hc.bg};color:${hc.fg}"
+            onclick="document.getElementById('ef-mod-${m.mi}')?.click()"
+            title="M${m.mi+1}: ${m.errCount} errores acumulados">
+            <div class="ci-hm-mod" style="opacity:.8">M${m.mi+1}</div>
+            <div class="ci-hm-val">${m.errCount}</div>
+            <div class="ci-hm-lbl">errores</div>
+          </div>`;
+        }).join('')}
+      </div>
+      <div style="display:flex;gap:12px;margin-top:6px;font-size:10px;color:var(--text2)">
+        <span style="color:var(--green)">■</span> Pocos
+        <span style="color:#f0c040">■</span> Moderados
+        <span style="color:#f08040">■</span> Altos
+        <span style="color:var(--red)">■</span> Críticos
+      </div>
+    </div>
+
+    <!-- Cause tree -->
+    <div class="ci-section">
+      <div class="ci-section-title">🌳 Árbol de causas probables</div>
+      <div class="ci-cause-grid">
+        ${[
+          { key:'normativo', icon:'📋', name:'Confusión normativa', desc:'Normas, leyes, artículos', color:'var(--blue)' },
+          { key:'memoria',   icon:'🔢', name:'Error de memoria',    desc:'Plazos, montos, porcentajes', color:'var(--orange)' },
+          { key:'conceptual',icon:'🧠', name:'Error conceptual',   desc:'No entiende el "por qué"', color:'var(--purple)' },
+          { key:'lectura',   icon:'👁', name:'Error de lectura',   desc:'Lee mal el enunciado', color:'var(--gold)' },
+        ].map(c => {
+          const v = causes[c.key];
+          const pct = Math.round(v/causeTotal*100);
+          return `<div class="ci-cause-card">
+            <div class="ci-cause-icon">${c.icon}</div>
+            <div class="ci-cause-name">${c.name}</div>
+            <div style="font-size:10px;color:var(--text2);margin-bottom:4px">${c.desc}</div>
+            <div class="ci-cause-val" style="color:${c.color}">${v}</div>
+            <div style="font-size:9px;color:var(--text2)">errores (${pct}%)</div>
+            <div class="ci-cause-bar"><div class="ci-cause-fill" style="width:${pct}%;background:${c.color}"></div></div>
+          </div>`;
+        }).join('')}
+      </div>
+    </div>
+
+    <!-- Priority list -->
+    <div class="ci-section">
+      <div class="ci-section-title">🎯 Prioridades de estudio — por impacto</div>
+      ${prioritized.map((m,rank) => {
+        const pct = m.seen>0 ? Math.round(m.errCount/(m.seen)*100) : 0;
+        const col = `var(${MOD_CVARS[m.mi]})`;
+        return `<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)">
+          <div style="font-size:13px;font-weight:800;color:var(--muted);width:20px">${rank+1}</div>
+          <div style="width:8px;height:8px;border-radius:50%;background:${col};flex-shrink:0"></div>
+          <div style="flex:1">
+            <div style="font-size:12px;font-weight:700;color:${col}">M${m.mi+1} · ${MOD_NAMES[m.mi]}</div>
+            <div style="font-size:10px;color:var(--text2)">${m.seen} respondidas · ${pct}% de error</div>
+          </div>
+          <div style="text-align:right;flex-shrink:0">
+            <div style="font-size:16px;font-weight:800;font-family:var(--mono);color:var(--red)">${m.errCount}</div>
+            <div style="font-size:9px;color:var(--text2)">errores</div>
+          </div>
+          <button class="btn btn-ghost btn-sm" style="font-size:10px;flex-shrink:0"
+            onclick="efSetMod(${m.mi});document.getElementById('view-entrenamiento').scrollTo({top:0,behavior:'smooth'})">
+            Entrenar →
+          </button>
+        </div>`;
+      }).join('')}
+    </div>
+
+    <!-- Top 10 errors -->
+    <div class="ci-section">
+      <div class="ci-section-title">⚠️ Top ${Math.min(10,top10.length)} errores más frecuentes</div>
+      ${top10.length===0
+        ? '<p style="font-size:13px;color:var(--text2)">Sin errores registrados — respondé preguntas para ver tu análisis.</p>'
+        : `<div class="ci-err-list">
+          ${top10.map((e,i) => {
+            const brief = getConceptBrief(e.q, e.mi);
+            const safeId = 'cierr'+i;
+            return `<div class="ci-err-item">
+              <div class="ci-err-header" onclick="ciToggle('${safeId}')">
+                <span class="ci-err-badge">✗ ${e.errors}×</span>
+                <span class="ci-err-q">${e.q.substring(0,80)}${e.q.length>80?'…':''}</span>
+                <span class="ci-err-chev" id="${safeId}-chev">▸</span>
+              </div>
+              <div class="ci-err-body" id="${safeId}-body">
+                <div class="ci-err-answer">✔ ${e.a}</div>
+                ${brief ? `<div class="ci-err-concept">💡 ${brief}</div>` : ''}
+                <div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap">
+                  <button class="btn btn-primary btn-sm" style="font-size:11px"
+                    onclick="efPracticarEsta(${e.mi},${e.qi})">▶ Practicar esta pregunta</button>
+                </div>
+              </div>
+            </div>`;
+          }).join('')}
+        </div>`}
+    </div>
+  </div>
+
+  <!-- PANEL 2: HERRAMIENTA ENTRENAMIENTO -->
+  <div class="card db-card-clean">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
+      <span style="font-size:20px">🎯</span>
+      <div>
+        <div class="db-card-title" style="margin:0">Herramienta de Entrenamiento</div>
+        <div style="font-size:11px;color:var(--text2)">4 modos para acelerar tu mejora</div>
+      </div>
+    </div>
+
+    <div class="ef-tabs">
+      <div class="ef-tab active" id="ef-tab-diagnostico" onclick="efTab('diagnostico')">🔍 Diagnóstico</div>
+      <div class="ef-tab" id="ef-tab-practica"    onclick="efTab('practica')">▶ Práctica Guiada</div>
+      <div class="ef-tab" id="ef-tab-refuerzo"    onclick="efTab('refuerzo')">🔄 Refuerzo Programado</div>
+    </div>
+
+    <!-- DIAGNÓSTICO -->
+    <div class="ef-pane active" id="ef-pane-diagnostico">
+      <div style="font-size:12px;color:var(--text2);margin-bottom:10px">
+        Seleccioná un módulo para ver tus errores frecuentes, el concepto explicado y la versión para memorizar.
+      </div>
+      <div class="ef-mod-selector" id="ef-mod-selector">
+        ${MODULES.map((_,mi) => `
+          <div class="ef-mod-btn" id="ef-mod-${mi}" onclick="efShowDiag(${mi})">
+            <div style="color:var(${MOD_CVARS[mi]});font-weight:700;font-size:12px">M${mi+1}</div>
+            <div style="font-size:10px;color:var(--text2);margin-top:2px">${MOD_NAMES[mi].split(' ').slice(0,2).join(' ')}</div>
+          </div>`).join('')}
+      </div>
+      <div id="ef-diag-content" style="margin-top:4px"></div>
+    </div>
+
+    <!-- PRÁCTICA GUIADA -->
+    <div class="ef-pane" id="ef-pane-practica">
+      <div id="ef-practica-content">
+        <div style="font-size:12px;color:var(--text2);margin-bottom:12px">
+          Práctica interactiva con tus errores reales. Incluye pistas y reglas mnemotécnicas.
+        </div>
+        <button class="btn btn-primary" onclick="efLaunchPractica(-1)">▶ Iniciar práctica de mis errores</button>
+      </div>
+    </div>
+
+    <!-- REFUERZO PROGRAMADO -->
+    <div class="ef-pane" id="ef-pane-refuerzo">
+      <div id="ef-refuerzo-content"></div>
+    </div>
+
+  </div>
+  `;
+
+  // ── Helper functions ──────────────────────────────────────
+  window.ciToggle = function(id) {
+    const body = document.getElementById(id+'-body');
+    const chev = document.getElementById(id+'-chev');
+    const isOpen = body.classList.contains('open');
+    document.querySelectorAll('.ci-err-body').forEach(b=>b.classList.remove('open'));
+    document.querySelectorAll('.ci-err-chev').forEach(c=>{c.textContent='▸';c.classList.remove('open');});
+    if (!isOpen) { body.classList.add('open'); chev.textContent='▾'; chev.classList.add('open'); }
+  };
+
+  window.efTab = function(tab) {
+    document.querySelectorAll('.ef-tab').forEach(t=>t.classList.remove('active'));
+    document.querySelectorAll('.ef-pane').forEach(p=>p.classList.remove('active'));
+    document.getElementById('ef-tab-'+tab)?.classList.add('active');
+    document.getElementById('ef-pane-'+tab)?.classList.add('active');
+    if (tab==='refuerzo') efBuildRefuerzo();
+  };
+
+  window.efSetMod = function(mi) {
+    efTab('diagnostico');
+    efShowDiag(mi);
+  };
+
+  window.efShowDiag = function(mi) {
+    document.querySelectorAll('.ef-mod-btn').forEach(b=>b.classList.remove('selected'));
+    document.getElementById('ef-mod-'+mi)?.classList.add('selected');
+    const mod = MODULES[mi];
+    const errQs = [];
+    mod.questions.forEach((q,qi) => {
+      const m = getMastery(mi,qi);
+      if ((m.errors||0)>0) errQs.push({qi,q:q[1],a:q[2],errors:m.errors,attempts:m.attempts,correct:m.correct});
+    });
+    errQs.sort((a,b)=>b.errors-a.errors);
+    const el = document.getElementById('ef-diag-content');
+    if (!errQs.length) {
+      el.innerHTML = `<div class="card" style="padding:20px;text-align:center;color:var(--text2)">
+        ✓ Sin errores en M${mi+1} — ${MOD_NAMES[mi]}. ¡Bien hecho!
+      </div>`;
+      return;
+    }
+    const brief = getConceptBrief(errQs[0].q, mi);
+    const mnemonic = getMnemonic(errQs[0].q);
+    el.innerHTML = `
+      <div style="background:var(--card2);border:1px solid var(--border);border-radius:var(--r);padding:14px;margin-bottom:10px">
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:6px">
+          M${mi+1} · ${MOD_NAMES[mi]} — ${errQs.length} preguntas con error
+        </div>
+        <div style="font-size:12px;color:var(--text2);margin-bottom:10px">
+          Tus ${Math.min(5,errQs.length)} errores más frecuentes:
+        </div>
+        ${errQs.slice(0,5).map(e=>`
+          <div style="padding:7px 0;border-bottom:1px solid var(--border);display:flex;gap:8px;align-items:flex-start">
+            <span style="color:var(--red);font-size:11px;font-weight:700;flex-shrink:0">×${e.errors}</span>
+            <span style="font-size:12px;color:var(--text)">${e.q.substring(0,75)}${e.q.length>75?'…':''}</span>
+          </div>`).join('')}
+        ${brief?`<div class="ci-err-concept" style="margin-top:12px">
+          <div style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px">📘 Versión resumida</div>
+          ${brief}
+        </div>`:''}
+        ${mnemonic?`<div class="ef-mnemonic" style="margin-top:8px">${mnemonic}</div>`:''}
+        <div style="margin-top:12px">
+          <button class="btn btn-primary btn-sm" onclick="efLaunchPractica(${mi})">▶ Practicar errores de M${mi+1}</button>
+        </div>
+      </div>`;
+  };
+
+  window.efShowNorm = function(key) {
+    const tbl = NORM_TABLES[key];
+    if (!tbl) return;
+    // Highlight active button
+    document.querySelectorAll('.ef-norm-btn').forEach(b => b.classList.remove('active'));
+    const activeBtn = document.getElementById('efnb-'+key);
+    if (activeBtn) activeBtn.classList.add('active');
+    // Render table
+    const el = document.getElementById('ef-norm-content');
+    if (!el) return;
+    el.innerHTML = `
+      <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:10px;
+        padding-bottom:8px;border-bottom:1px solid var(--border)">${tbl.title}</div>
+      <div style="overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:var(--r);
+        border:1px solid var(--border)">
+        <table class="ef-norm-table" style="min-width:${tbl.cols.length>4?'600':'400'}px">
+          <thead><tr>${tbl.cols.map(c=>`<th style="white-space:nowrap">${c}</th>`).join('')}</tr></thead>
+          <tbody>${tbl.rows.map((r,ri)=>`<tr style="${ri%2===1?'background:var(--card2)':''}">${r.map((cell,i)=>`<td${i===0?` class="ef-norm-highlight"`:''}>${cell}</td>`).join('')}</tr>`).join('')}</tbody>
+        </table>
+      </div>
+      <div style="font-size:10px;color:var(--muted);margin-top:6px;text-align:right">
+        Deslizá horizontalmente si la tabla no cabe en pantalla →
+      </div>`;
+    // Smooth scroll to table on mobile
+    el.scrollIntoView({behavior:'smooth', block:'nearest'});
+  };
+
+  // practica functions are global (efLaunchPractica, efLaunchPracticaSingle)
+
+  efBuildRefuerzo();
+  efShowNorm('pld');
+}
+
+// ── Refuerzo Programado ───────────────────────────────────
+function efBuildRefuerzo() {
+  const el = document.getElementById('ef-refuerzo-content');
+  if (!el) return;
+  const MOD_NAMES = ['Marco Normativo','PLD','Transparencia','Contabilidad','Agentes','Inv. Colectiva'];
+
+  // Spaced repetition: bucket by days since last seen + error rate
+  const now = new Date(); now.setHours(0,0,0,0);
+  function daysSince(dateStr) {
+    if (!dateStr) return 999;
+    return Math.floor((now - new Date(dateStr+'T12:00')) / 86400000);
+  }
+
+  const buckets = { hoy:[], semana:[], refuerzo:[] };
+  MODULES.forEach((mod,mi) => {
+    mod.questions.forEach((q,qi) => {
+      const m = getMastery(mi,qi);
+      if (!m.attempts) return;
+      const days = daysSince(m.lastSeen);
+      const errRate = m.attempts>0 ? (m.errors||0)/m.attempts : 0;
+      const obj = {mi,qi,q:q[1],a:q[2],days,errRate,errors:m.errors||0,level:m.level};
+      if ((m.errors||0)>0 && days<=2) buckets.hoy.push(obj);
+      else if (days>=7 && m.level<3) buckets.semana.push(obj);
+      else if ((m.errors||0)>0 && m.level<4) buckets.refuerzo.push(obj);
+    });
+  });
+  // Sort each bucket
+  buckets.hoy.sort((a,b)=>b.errors-a.errors);
+  buckets.semana.sort((a,b)=>b.days-a.days);
+  buckets.refuerzo.sort((a,b)=>b.errRate-a.errRate);
+
+  // Build queue for today
+  const queue = [
+    ...buckets.hoy.slice(0,10),
+    ...buckets.semana.slice(0,10),
+    ...buckets.refuerzo.slice(0,10),
+  ].slice(0,20);
+
+  el.innerHTML = `
+    <div style="font-size:12px;color:var(--text2);margin-bottom:14px">
+      El sistema selecciona automáticamente lo que más necesitás repasar hoy, basándose en errores, nivel de dominio y tiempo desde el último repaso.
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px">
+      ${[
+        {label:'Repasar hoy',  val:buckets.hoy.length,     color:'var(--red)',    icon:'🔴', desc:'Errores recientes'},
+        {label:'Olvidadas',    val:buckets.semana.length,   color:'var(--orange)', icon:'🟡', desc:'+7 días sin ver'},
+        {label:'Refuerzo',     val:buckets.refuerzo.length, color:'var(--blue)',   icon:'🔵', desc:'Necesitan consolidarse'},
+      ].map(s=>`<div style="text-align:center;padding:12px;background:var(--card2);border:1px solid var(--border);border-radius:var(--r)">
+        <div style="font-size:20px">${s.icon}</div>
+        <div style="font-size:22px;font-weight:800;font-family:var(--mono);color:${s.color}">${s.val}</div>
+        <div style="font-size:11px;font-weight:600;color:var(--text)">${s.label}</div>
+        <div style="font-size:10px;color:var(--text2)">${s.desc}</div>
+      </div>`).join('')}
+    </div>
+    ${queue.length>0?`
+    <div style="font-size:12px;color:var(--text2);margin-bottom:8px">
+      Cola de hoy: <strong style="color:var(--text)">${queue.length} preguntas</strong> seleccionadas automáticamente
+    </div>
+    <button class="btn btn-primary" style="margin-bottom:12px" onclick="efLaunchRefuerzo()">
+      🔄 Iniciar repaso programado (${queue.length} preguntas)
+    </button>
+    <div style="display:flex;flex-direction:column;gap:5px;max-height:220px;overflow-y:auto">
+      ${queue.slice(0,8).map(q=>`
+        <div style="display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--border)">
+          <span style="font-size:9px;font-weight:700;color:var(--red);width:24px;flex-shrink:0">×${q.errors}</span>
+          <span style="font-size:11px;color:var(--text2);flex-shrink:0">M${q.mi+1}</span>
+          <span style="font-size:11px;color:var(--text);flex:1">${q.q.substring(0,60)}${q.q.length>60?'…':''}</span>
+          <span style="font-size:10px;color:var(--muted);flex-shrink:0">${q.days}d</span>
+        </div>`).join('')}
+      ${queue.length>8?`<div style="font-size:11px;color:var(--text2);padding:6px 0;text-align:center">... y ${queue.length-8} más</div>`:''}
+    </div>`
+    :`<div style="padding:20px;text-align:center;color:var(--text2);font-size:13px">
+      ✓ Sin preguntas urgentes para hoy. Respondé más preguntas para activar el repaso espaciado.
+    </div>`}
+  `;
+
+  window._efRefuerzoQueue = queue;
+}
+
+// ── Práctica Guiada launcher ──────────────────────────────
+function efLaunchPractica(mi) {
+  const pool = [];
+  MODULES.forEach((mod, idx) => {
+    if (mi >= 0 && idx !== mi) return;
+    mod.questions.forEach((q,qi) => {
+      const m = getMastery(idx,qi);
+      if ((m.errors||0)>0) pool.push({mi:idx,qi,num:q[0],q:q[1],a:q[2],opts:q[3]||[],errors:m.errors});
+    });
+  });
+  pool.sort((a,b)=>b.errors-a.errors);
+  const sel = pool.slice(0,15);
+  if (!sel.length) { toast('Sin errores para practicar aún — respondé más preguntas'); return; }
+  efRunPractica(sel);
+}
+
+function efLaunchPracticaSingle(mi, qi) {
+  const q = MODULES[mi]?.questions[qi];
+  if (!q) return;
+  efRunPractica([{mi,qi,num:q[0],q:q[1],a:q[2],opts:q[3]||[],errors:1}]);
+}
+
+function efLaunchRefuerzo() {
+  const queue = window._efRefuerzoQueue || [];
+  if (!queue.length) { toast('Sin preguntas en cola'); return; }
+  const sel = queue.map(q => {
+    const qData = MODULES[q.mi].questions[q.qi];
+    return {mi:q.mi,qi:q.qi,num:qData[0],q:qData[1],a:qData[2],opts:qData[3]||[],errors:q.errors};
+  });
+  efRunPractica(sel);
+}
+
+// ── Hint: built from the correct answer itself, not generic keywords ──
+function buildHint(question, correctAnswer, opts) {
+  // Take first sentence / clause of correct answer as pista
+  const firstClause = correctAnswer.split(/[.·\n]/)[0].trim();
+  if (firstClause.length > 20) {
+    return '💡 Pista: la respuesta correcta comienza con "' + firstClause.substring(0,60) + (firstClause.length>60?'…':'') + '"';
+  }
+  // If answer is short, give a directional hint
+  return '💡 Pista: revisá la respuesta que menciona "' + correctAnswer.substring(0,50) + (correctAnswer.length>50?'…':'"');
+}
+
+// ── Mnemonic only shown when it matches the actual question topic ──
+function buildMnemonicForQuestion(question, correctAnswer) {
+  const qt = (question + ' ' + correctAnswer).toLowerCase();
+  if (/tomador.*devuelve|aforad|caución.*interés/.test(qt))
+    return '📌 Caución: tomador recibe valor aforado MENOS intereses al abrir, devuelve valor aforado MÁS intereses+gastos al cerrar.';
+  if (/35%|opa.*obligatorio|precio.*equitativo/.test(qt))
+    return '📌 OPA: superar 35% → obligación. Precio mínimo = mayor entre promedio 6 meses y VP proporcional. Plazo: mín. 20 días hábiles.';
+  if (/ros|reporte.*sospech|plazo.*uif|30 días/.test(qt))
+    return '📌 ROS: 30 días hábiles desde DETECCIÓN (no desde la operación). Confidencial — NUNCA avisar al cliente. Destino: UIF.';
+  if (/colocación.*estratificación|etapa.*lavado|integración.*lavado/.test(qt))
+    return '📌 C-E-I: Colocar (entrar al sistema financiero) → Estratificar (ocultar origen con capas) → Integrar (reintegrar como legítimo).';
+  if (/abstención.*evidencia|adversa.*estados|opinión.*auditor/.test(qt))
+    return '📌 Opiniones: Limpia=OK | Con salvedades=error no generalizado | Adversa=error generalizado | Abstención=no pudo obtener evidencia.';
+  if (/sociedad gerente.*depositaria|depositaria.*gerente|cuotapartista/.test(qt))
+    return '📌 FCI: Gerente administra inversiones. Depositaria custodia activos. Son INDEPENDIENTES obligatoriamente.';
+  if (/liquidez corriente|activo corriente.*pasivo|prueba ácida/.test(qt))
+    return '📌 Liquidez corriente = AC/PC. Prueba ácida = (AC−Inventarios)/PC. Ácida siempre ≤ Corriente.';
+  if (/hecho relevante.*inmediato|publicar.*hecho|apto para afectar/.test(qt))
+    return '📌 Hechos relevantes: informar INMEDIATAMENTE por AIF. No esperar que se concrete el hecho.';
+  if (/pep.*riesgo alto|persona expuesta|debida diligencia reforzada/.test(qt))
+    return '📌 PEP = riesgo ALTO automáticamente. Requiere DD reforzada + actualización anual del legajo.';
+  return null;
+}
+
+function efRunPractica(questions) {
+  let idx=0, ok=0, bad=0;
+  const el = document.getElementById('ef-practica-content');
+  if (!el) return;
+  const total = questions.length;
+
+  function render() {
+    if (idx>=total) {
+      const pct = Math.round(ok/total*100);
+      el.innerHTML = `<div style="text-align:center;padding:32px 20px">
+        <div style="font-size:48px;margin-bottom:12px">${pct>=70?'🎉':'📈'}</div>
+        <div style="font-size:28px;font-weight:800;font-family:var(--mono);color:${pct>=70?'var(--green)':'var(--orange)'}">${pct}%</div>
+        <div style="font-size:13px;color:var(--text2);margin:8px 0 20px">${ok} correctas de ${total}</div>
+        <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
+          <button class="btn btn-primary" onclick="efLaunchPractica(-1)">🔄 Repetir con errores</button>
+          <button class="btn btn-ghost" onclick="efBuildRefuerzo();efTab('refuerzo')">← Ver cola de repaso</button>
+        </div>
+      </div>`;
+      return;
+    }
+    const q = questions[idx];
+    const letters = ['A','B','C','D'];
+    const hint    = buildHint(q.q, q.a, q.opts);
+    const mnemonic = buildMnemonicForQuestion(q.q, q.a);
+
+    el.innerHTML = `
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+        <div style="font-size:11px;color:var(--text2)">${idx+1}/${total}</div>
+        <div style="flex:1;height:4px;background:var(--border2);border-radius:2px;overflow:hidden">
+          <div style="width:${idx/total*100}%;height:100%;background:var(--blue);border-radius:2px"></div>
+        </div>
+        <span style="font-size:11px;color:var(--green)">✓${ok}</span>
+        <span style="font-size:11px;color:var(--red)">✗${bad}</span>
+      </div>
+      <div class="ef-question-card">
+        <div style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px">
+          M${q.mi+1} · Pregunta #${q.num}${q.errors>1?' · fallada '+q.errors+'× anteriormente':''}
+        </div>
+        <div class="ef-question-text">${q.q}</div>
+        <div class="ef-opts" id="ef-opts-wrap">
+          ${q.opts.map((opt,i)=>`
+            <button class="ef-opt" id="ef-opt-${i}"
+              onclick="efChooseQ(${i},'${opt.replace(/'/g,"\\'").replace(/`/g,'\\`')}','${q.a.replace(/'/g,"\\'").replace(/`/g,'\\`')}',${q.mi},${q.qi})">
+              <span class="ef-opt-letter">${letters[i]}</span>
+              <span>${opt}</span>
+            </button>`).join('')}
+        </div>
+        <div id="ef-feedback" style="margin-top:10px;display:none"></div>
+        <div id="ef-hint-reveal" style="display:none">
+          <div class="ef-hint-box">${hint}</div>
+          ${mnemonic?`<div class="ef-mnemonic">${mnemonic}</div>`:''}
+        </div>
+        <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn btn-ghost btn-sm" style="font-size:11px" id="ef-hint-btn" onclick="efShowHintNow()">💡 Ver pista</button>
+          <button class="btn btn-ghost btn-sm" style="font-size:11px;display:none" id="ef-next-btn" onclick="efNextQ()">Siguiente →</button>
+        </div>
+      </div>`;
+
+    window.efShowHintNow = function() {
+      const h = document.getElementById('ef-hint-reveal');
+      if (h) h.style.display='block';
+      const hb = document.getElementById('ef-hint-btn');
+      if (hb) hb.style.display='none';
+    };
+    window.efNextQ = function() { idx++; render(); };
+    window.efChooseQ = function(optIdx, chosen, correct, mi, qi) {
+      const isOk = chosen===correct;
+      if (isOk) ok++; else bad++;
+      updateMastery(mi,qi,isOk); saveAll();
+      document.querySelectorAll('.ef-opt').forEach((b,i)=>{
+        b.disabled=true;
+        if(b.querySelector('span:last-child').textContent===correct) b.classList.add('correct');
+        else if(b.querySelector('span:last-child').textContent===chosen&&!isOk) b.classList.add('wrong');
+        else b.classList.add('reveal');
+      });
+      const fb=document.getElementById('ef-feedback');
+      fb.style.display='block';
+      fb.innerHTML=isOk
+        ?`<div class="ef-feedback-ok">✓ ¡Correcto!</div>`
+        :`<div class="ef-feedback-bad">✗ Respuesta correcta: <strong>${correct}</strong></div>`;
+      // Auto-show hint after wrong answer
+      if (!isOk) {
+        const h=document.getElementById('ef-hint-reveal');
+        if(h) h.style.display='block';
+        const hb=document.getElementById('ef-hint-btn');
+        if(hb) hb.style.display='none';
+      }
+      const nb=document.getElementById('ef-next-btn');
+      if(nb) nb.style.display='inline-flex';
+    };
+  }
+  render();
+}
+
+
+function buildLastWeekBanner() {
+  const el = $('db-last-week-banner');
+  if (!el) return;
+  const saved = localStorage.getItem(SK('examDate'));
+  if (!saved) { el.style.display='none'; return; }
+  const exam = new Date(saved+'T12:00:00');
+  const now  = new Date(); now.setHours(0,0,0,0);
+  const days = Math.ceil((exam-now)/86400000);
+  if (days>7||days<=0) { el.style.display='none'; return; }
+  const errCount = countErrors();
+  const unseen   = 673-getTotalSeen();
+  const MOD_NAMES= ['Marco Normativo','PLD','Transparencia','Contabilidad','Agentes','Inv. Colectiva'];
+  const modStats = MODULES.map((_,mi)=>{
+    let errs=0; MODULES[mi].questions.forEach((_,qi)=>{ errs+=getMastery(mi,qi).errors||0; });
+    return {mi,errs};
+  }).sort((a,b)=>b.errs-a.errs).slice(0,3).filter(m=>m.errs>0);
+
+  el.style.display='block';
+  el.innerHTML=`
+    <div style="background:linear-gradient(135deg,rgba(240,80,112,.10),rgba(240,128,64,.08));
+      border:1px solid rgba(240,80,112,.3);border-radius:var(--r);padding:14px 16px">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap">
+        <span style="font-size:20px">🚨</span>
+        <div>
+          <div style="font-size:13px;font-weight:800;color:var(--red)">Última semana — ${days} día${days>1?'s':''} para el examen</div>
+          <div style="font-size:11px;color:var(--text2);margin-top:1px">Modo enfocado. Priorizá errores y simulacros.</div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:7px">
+        ${errCount>0?`<div style="background:var(--card2);border:1px solid var(--border);border-radius:var(--r);padding:10px 12px;display:flex;align-items:center;gap:10px;cursor:pointer"
+          onclick="navigate('review');setTimeout(()=>{const b=document.querySelector('[data-mode=errors]');if(b)setReviewMode(b,'errors');},300)">
+          <span>⚠️</span><div style="flex:1">
+            <div style="font-size:12px;font-weight:700;color:var(--text)">Repasar ${errCount} errores activos</div>
+            <div style="font-size:11px;color:var(--text2)">${modStats.map(m=>'M'+(m.mi+1)+' '+MOD_NAMES[m.mi].split(' ')[0]).join(' · ')}</div>
+          </div><span style="color:var(--text2);font-size:12px">→</span>
+        </div>`:''}
+        <div style="background:var(--card2);border:1px solid var(--border);border-radius:var(--r);padding:10px 12px;display:flex;align-items:center;gap:10px;cursor:pointer"
+          onclick="navigate('exam')">
+          <span>🎓</span><div style="flex:1">
+            <div style="font-size:12px;font-weight:700;color:var(--text)">Simulacro de examen completo</div>
+            <div style="font-size:11px;color:var(--text2)">60 preguntas · 70% para aprobar</div>
+          </div><span style="color:var(--text2);font-size:12px">→</span>
+        </div>
+        ${unseen>50?`<div style="background:var(--card2);border:1px solid var(--border);border-radius:var(--r);padding:10px 12px;display:flex;align-items:center;gap:10px;cursor:pointer"
+          onclick="navigate('review');setTimeout(()=>{const b=document.querySelector('[data-mode=unseen]');if(b)setReviewMode(b,'unseen');},300)">
+          <span>👁</span><div style="flex:1">
+            <div style="font-size:12px;font-weight:700;color:var(--text)">${unseen} preguntas sin ver</div>
+            <div style="font-size:11px;color:var(--text2)">Cubrir más terreno antes del examen</div>
+          </div><span style="color:var(--text2);font-size:12px">→</span>
+        </div>`:''}
+      </div>
+    </div>`;
+}
+
+
+function ctFilterTopics(query) {
+  const q = (query||'').toLowerCase().trim();
+  const body = $('ct-section-body');
+  if (body) body.style.display = 'block';
+  const nodes    = document.querySelectorAll('.ct-node');
+  const sections = document.querySelectorAll('.ct-section-title');
+  if (!q) {
+    nodes.forEach(n=>n.style.display='');
+    sections.forEach(s=>s.style.display='');
+    return;
+  }
+  const visibleSections = new Set();
+  nodes.forEach(n => {
+    const show = n.textContent.toLowerCase().includes(q);
+    n.style.display = show ? '' : 'none';
+    if (show) {
+      let prev = n.previousElementSibling;
+      while (prev) {
+        if (prev.classList && prev.classList.contains('ct-section-title')) {
+          visibleSections.add(prev); break;
+        }
+        prev = prev.previousElementSibling;
+      }
+    }
+  });
+  sections.forEach(s => s.style.display = visibleSections.has(s) ? '' : 'none');
 }
 
 </script>
