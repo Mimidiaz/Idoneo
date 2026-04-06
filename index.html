@@ -75,12 +75,14 @@ input,textarea,select{font-family:inherit}
 #sidebar{
   width:52px;min-width:52px;background:var(--bg2);border-right:1px solid var(--border);
   display:flex;flex-direction:column;height:100vh;overflow-y:auto;overflow-x:hidden;
-  transition:width .25s ease, min-width .25s ease;z-index:100;flex-shrink:0;
+  transition:width .25s ease, min-width .25s ease;z-index:10;flex-shrink:0;
   scrollbar-width:none;
+  position:relative;
 }
 #sidebar::-webkit-scrollbar{display:none;}
 #sidebar:hover{
   width:220px;min-width:220px;
+  z-index:10;
 }
 /* Hide text labels when collapsed */
 #sidebar .logo-text,
@@ -722,6 +724,38 @@ canvas.chart{width:100%;display:block;border-radius:8px}
 /* ═══════════════════════════════════════════
    RESPONSIVE
 ═══════════════════════════════════════════ */
+
+
+/* ── Desktop improvements — fluid, fills the window ──── */
+@media(min-width:769px) {
+
+  /* Full-width fluid views with comfortable padding */
+  .view { padding: 28px 36px; max-width: 100%; box-sizing: border-box; }
+
+  /* Grids stay multi-column */
+  .grid2 { grid-template-columns: 1fr 1fr; }
+  .grid3 { grid-template-columns: repeat(3,1fr); }
+
+  /* Quiz/exam: comfortable reading width, centered */
+  .quiz-body, .exam-body { padding: 28px 40px; }
+
+  /* Page header more breathing room */
+  .page-header { margin-bottom: 28px; }
+
+  /* Conceptos: full width, better padding */
+  .ck-block { padding: 15px 18px; }
+  .ck-topic-header { padding: 15px 18px; }
+  .ck-check-btn { width: calc(100% - 36px); margin: 12px 18px; }
+  .ck-refs { padding: 10px 18px; }
+  .ck-block th, .ck-block td { padding: 9px 14px; }
+
+  /* Settings panel wider */
+  #settings-panel { width: 340px; }
+
+  /* Cards fill space naturally */
+  .db-card { border-radius: 12px; }
+}
+
 @media(max-width:768px){
   #sidebar{
     position:fixed;left:0;top:0;bottom:0;transform:translateX(-100%);
@@ -2531,6 +2565,332 @@ body { font-size: 1rem; }
 }
 .ef-norm-table tr:hover td { background: var(--card2); }
 .ef-norm-highlight { color: var(--blue); font-weight: 700; }
+
+/* ── Conceptos Clave ─────────────────────────────────── */
+.ck-progress-bar {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px 22px;
+  margin-bottom: 22px;
+  position: relative;
+  overflow: hidden;
+}
+.ck-progress-bar::before {
+  content: ''; position: absolute;
+  top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--blue), var(--green));
+}
+.ck-progress-top { display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
+.ck-progress-label { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.12em; color:var(--muted); }
+.ck-progress-pct { font-size:30px; font-weight:800; font-family:var(--mono); line-height:1; }
+.ck-progress-track { height:6px; background:var(--border2); border-radius:3px; overflow:hidden; margin-bottom:8px; }
+.ck-progress-fill { height:100%; border-radius:3px; background:linear-gradient(90deg,var(--blue),var(--green)); transition:width .8s cubic-bezier(.4,0,.2,1); }
+.ck-progress-sub { font-size:12px; color:var(--text2); }
+
+.ck-module { margin-bottom:22px; }
+.ck-module-title {
+  display:flex; align-items:center; gap:10px;
+  padding:10px 14px; margin-bottom:7px;
+  border-radius:8px; font-size:10px; font-weight:800;
+  text-transform:uppercase; letter-spacing:.12em; color:var(--text2);
+  background:var(--card2); border:1px solid var(--border); border-left:3px solid;
+}
+.ck-module-pct {
+  margin-left:auto; font-size:11px; font-weight:700; font-family:var(--mono);
+  background:var(--card); border:1px solid var(--border); border-radius:20px; padding:2px 10px;
+}
+.ck-topic {
+  background:var(--card); border:1px solid var(--border); border-radius:10px;
+  margin-bottom:6px; overflow:hidden; transition:border-color .2s, box-shadow .2s;
+}
+.ck-topic:hover { border-color:var(--border2); box-shadow:0 2px 10px rgba(0,0,0,.06); }
+.ck-topic.checked { border-color:rgba(34,211,160,.35); background:rgba(34,211,160,.03); }
+.ck-topic-header { display:flex; align-items:center; gap:13px; padding:13px 15px; cursor:pointer; user-select:none; }
+.ck-check {
+  width:24px; height:24px; border-radius:7px; flex-shrink:0;
+  border:2px solid var(--border2); background:var(--card2);
+  display:flex; align-items:center; justify-content:center;
+  font-size:13px; font-weight:700; transition:all .2s; cursor:pointer; color:transparent;
+}
+.ck-topic.checked .ck-check { background:var(--green); border-color:var(--green); color:#fff; }
+.ck-topic-info { flex:1; min-width:0; }
+.ck-topic-name { font-size:13px; font-weight:600; color:var(--text); line-height:1.3; }
+.ck-topic.checked .ck-topic-name { color:rgba(34,211,160,.9); }
+.ck-topic-meta { font-size:11px; color:var(--muted); margin-top:3px; }
+.ck-topic-body { display:none; border-top:1px solid var(--border); }
+.ck-topic-body.open { display:block; }
+
+/* ── 6 Content blocks ──────────────────────────── */
+.ck-block { padding:13px 15px; border-bottom:1px solid var(--border); }
+.ck-block:last-of-type { border-bottom:none; }
+.ck-block-header { display:flex; align-items:center; gap:9px; margin-bottom:9px; }
+.ck-block-icon {
+  width:28px; height:28px; border-radius:7px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:14px; flex-shrink:0;
+}
+.ck-block-title { font-size:10px; font-weight:800; text-transform:uppercase; letter-spacing:.12em; }
+
+/* Block color tokens */
+.ck-block-def  .ck-block-icon { background:rgba(64,144,240,.1); }
+.ck-block-comp .ck-block-icon { background:rgba(144,96,240,.1); }
+.ck-block-exam .ck-block-icon { background:rgba(240,192,64,.1); }
+.ck-block-ex   .ck-block-icon { background:rgba(34,211,160,.1); }
+.ck-block-err  .ck-block-icon { background:rgba(240,80,80,.1); }
+.ck-block-norm .ck-block-icon { background:rgba(80,180,80,.1); }
+.ck-block-def  .ck-block-title { color:var(--blue); }
+.ck-block-comp .ck-block-title { color:var(--purple); }
+.ck-block-exam .ck-block-title { color:var(--gold); }
+.ck-block-ex   .ck-block-title { color:var(--green); }
+.ck-block-err  .ck-block-title { color:var(--red,#e05050); }
+.ck-block-norm .ck-block-title { color:#4da04d; }
+
+/* Typography inside blocks */
+.ck-block p { font-size:13px; color:var(--text); line-height:1.7; margin:4px 0; }
+.ck-block strong { color:var(--text); font-weight:700; }
+.ck-block ul { margin:5px 0; padding:0; list-style:none; }
+.ck-block ul li {
+  font-size:13px; color:var(--text); line-height:1.6;
+  padding:3px 0 3px 15px; position:relative;
+}
+.ck-block ul li::before { content:'–'; position:absolute; left:0; color:var(--muted); }
+
+/* Tables */
+.ck-block table { width:100%; border-collapse:collapse; border-radius:8px; overflow:hidden; border:1px solid var(--border); margin:6px 0; }
+.ck-block th {
+  background:var(--card2); padding:7px 11px; text-align:left;
+  font-size:10px; font-weight:800; text-transform:uppercase; letter-spacing:.08em;
+  color:var(--text2); border-bottom:2px solid var(--border);
+}
+.ck-block td { padding:8px 11px; border-bottom:1px solid var(--border); vertical-align:top; line-height:1.5; font-size:12px; color:var(--text); }
+.ck-block tr:last-child td { border-bottom:none; }
+.ck-block tr:nth-child(even) td { background:rgba(0,0,0,.018); }
+[data-theme="dark"] .ck-block tr:nth-child(even) td { background:rgba(255,255,255,.025); }
+
+/* Norm pills */
+.ck-norm-pill {
+  display:inline-flex; align-items:center; gap:4px;
+  background:rgba(77,160,77,.08); border:1px solid rgba(77,160,77,.25);
+  border-radius:5px; padding:3px 9px; font-size:11px; font-weight:600;
+  color:#4da04d; margin:2px 3px 2px 0;
+}
+
+/* Footer */
+.ck-refs {
+  font-size:10px; color:var(--muted);
+  padding:9px 15px; border-top:1px dashed var(--border);
+  background:var(--card2);
+}
+.ck-check-btn {
+  display:flex; align-items:center; justify-content:center; gap:8px;
+  width:calc(100% - 30px); margin:12px 15px;
+  padding:10px; border-radius:8px;
+  border:1.5px dashed var(--border2); background:transparent;
+  cursor:pointer; font-size:12px; font-weight:600; color:var(--text2);
+  transition:all .2s;
+}
+.ck-check-btn:hover { border-color:var(--green); color:var(--green); background:rgba(34,211,160,.05); border-style:solid; }
+.ck-topic.checked .ck-check-btn { background:rgba(34,211,160,.06); border-color:rgba(34,211,160,.4); border-style:solid; color:rgba(34,211,160,.85); }
+
+/* ── Content blocks ── */
+.ck-block {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border);
+}
+.ck-block:last-child { border-bottom: none; }
+.ck-block-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+.ck-block-icon {
+  width: 28px; height: 28px;
+  border-radius: 7px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+.ck-block-title {
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  color: var(--text2);
+}
+/* Block color variants */
+.ck-block-def  .ck-block-icon { background: rgba(64,144,240,.12); }
+.ck-block-comp .ck-block-icon { background: rgba(144,96,240,.12); }
+.ck-block-exam .ck-block-icon { background: rgba(240,192,64,.12); }
+.ck-block-ex   .ck-block-icon { background: rgba(34,211,160,.10); }
+.ck-block-err  .ck-block-icon { background: rgba(240,80,112,.10); }
+.ck-block-norm .ck-block-icon { background: rgba(100,180,100,.10); }
+
+.ck-block-def  .ck-block-title { color: var(--blue); }
+.ck-block-comp .ck-block-title { color: var(--purple); }
+.ck-block-exam .ck-block-title { color: var(--gold); }
+.ck-block-ex   .ck-block-title { color: var(--green); }
+.ck-block-err  .ck-block-title { color: var(--red); }
+.ck-block-norm .ck-block-title { color: #5a9a5a; }
+
+/* Content typography */
+.ck-block p {
+  font-size: 13px;
+  color: var(--text);
+  line-height: 1.7;
+  margin: 4px 0;
+}
+.ck-block ul {
+  margin: 6px 0;
+  padding-left: 0;
+  list-style: none;
+}
+.ck-block ul li {
+  font-size: 13px;
+  color: var(--text);
+  line-height: 1.6;
+  padding: 3px 0 3px 16px;
+  position: relative;
+}
+.ck-block ul li::before {
+  content: '–';
+  position: absolute;
+  left: 0;
+  color: var(--muted);
+}
+.ck-block strong { color: var(--text); font-weight: 700; }
+
+/* Tables inside blocks */
+.ck-block table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+.ck-block th {
+  background: var(--card2);
+  padding: 7px 11px;
+  text-align: left;
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: var(--text2);
+  border-bottom: 2px solid var(--border);
+}
+.ck-block td {
+  padding: 8px 11px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+  line-height: 1.5;
+  color: var(--text);
+  font-size: 12px;
+}
+.ck-block tr:last-child td { border-bottom: none; }
+.ck-block tr:nth-child(even) td { background: rgba(0,0,0,.015); }
+
+/* Norm pill */
+.ck-norm-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(90,154,90,.08);
+  border: 1px solid rgba(90,154,90,.25);
+  border-radius: 5px;
+  padding: 3px 9px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #5a9a5a;
+  margin: 2px 3px 2px 0;
+}
+.ck-refs {
+  font-size: 10px;
+  color: var(--muted);
+  padding: 10px 16px;
+  border-top: 1px dashed var(--border);
+  background: var(--card2);
+}
+.ck-check-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: calc(100% - 32px);
+  margin: 12px 16px;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1.5px dashed var(--border2);
+  background: transparent;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text2);
+  transition: all .2s;
+}
+.ck-check-btn:hover {
+  border-color: var(--green);
+  color: var(--green);
+  background: rgba(34,211,160,.05);
+  border-style: solid;
+}
+.ck-topic.checked .ck-check-btn {
+  background: rgba(34,211,160,.06);
+  border-color: rgba(34,211,160,.4);
+  border-style: solid;
+  color: rgba(34,211,160,.8);
+}
+
+/* ── Analisis view panes ── */
+.analisis-pane { display: none; }
+.analisis-pane.active { display: block; }
+
+/* ── Block-level checks ─────────────────────────────── */
+.ck-topic-name-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.ck-topic-name-row .ck-check {
+  flex-shrink: 0;
+}
+.ck-block-read-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--muted);
+  cursor: pointer;
+  padding: 2px 8px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  background: var(--card2);
+  margin-bottom: 8px;
+  float: right;
+  transition: all .15s;
+  user-select: none;
+}
+.ck-block-read-btn:hover {
+  border-color: var(--green);
+  color: var(--green);
+  background: rgba(34,211,160,.06);
+}
+.ck-block.ck-block-read .ck-block-read-btn {
+  color: var(--green);
+  border-color: rgba(34,211,160,.35);
+  background: rgba(34,211,160,.06);
+}
+.ck-block.ck-block-read {
+  opacity: 0.85;
+}
+.ck-block.ck-block-read .ck-block-title {
+  text-decoration: line-through;
+  opacity: 0.6;
+}
+.ck-block::after { content: ''; display: table; clear: both; }
 </style>
 <!-- Auth modal styles -->
 <style>
@@ -2642,18 +3002,16 @@ body { font-size: 1rem; }
 
     <div class="sb-divider"></div>
     <div class="sb-section-label">Analizar</div>
-    <button class="sb-btn" id="nav-path" onclick="navigate('path')">
-      <span class="icon">🗺</span>Learning Path
-    </button>
-    <button class="sb-btn" id="nav-entrenamiento" onclick="navigate('entrenamiento')">
-      <span class="icon">🎯</span>Entrenamiento
-    </button>
-    <button class="sb-btn" id="nav-history" onclick="navigate('history')">
-      <span class="icon">📈</span>Historial
+    <button class="sb-btn" id="nav-analisis" onclick="navigate('analisis')">
+      <span class="icon">📊</span>Mi Progreso
     </button>
 
     <div class="sb-divider"></div>
     <div class="sb-section-label">Referencia</div>
+    <button class="sb-btn" id="nav-conceptos" onclick="navigate('conceptos')">
+      <span class="icon">📗</span>Conceptos Clave
+      <span class="badge" id="conceptos-badge" style="display:none">0</span>
+    </button>
     <button class="sb-btn" id="nav-flagged" onclick="navigate('flagged')">
       <span class="icon">🚩</span>Marcadas
       <span class="badge" id="flagged-badge" style="display:none">0</span>
@@ -2725,7 +3083,7 @@ body { font-size: 1rem; }
   <div id="topbar">
     <button id="menu-btn" onclick="toggleSidebar()">☰</button>
     <span class="tb-title" id="tb-title">Dashboard</span>
-    <div class="tb-stat"><span id="tb-mastered" class="val">0</span>&nbsp;<span>✓</span>&nbsp;<span id="tb-pct" style="color:var(--green)">0%</span></div>
+    <div class="tb-stat" title="Respuestas correctas acumuladas · Precisión global"><span id="tb-mastered" class="val">0</span><span style="font-size:10px;color:var(--text2);margin:0 2px"> correctas</span><span style="color:var(--border2)">·</span><span id="tb-pct" style="color:var(--green);margin-left:2px">0%</span></div>
     <div class="tb-stat" id="tb-streak-wrap"><span id="tb-streak" class="val">0</span>&nbsp;🔥</div>
     <div id="tb-sync-status" onclick="forceSyncNow()" title="Estado de sincronización — click para sincronizar ahora" style="cursor:pointer;display:flex;align-items:center;gap:5px;padding:4px 8px;border-radius:6px;font-size:11px;color:var(--text2);transition:all var(--tr)">
       <span id="tb-sync-dot" style="width:7px;height:7px;border-radius:50%;background:var(--muted);flex-shrink:0;transition:background .3s"></span>
@@ -2831,25 +3189,25 @@ body { font-size: 1rem; }
         <div class="db-metric">
           <div class="db-metric-val" id="ds-mastered">0</div>
           <div class="db-metric-label">Preguntas vistas</div>
-          <div class="db-metric-sub" id="ds-mastered-sub">de 673</div>
+          <div class="db-metric-sub" id="ds-mastered-sub">respondidas al menos 1 vez</div>
         </div>
         <div class="db-metric-sep"></div>
         <div class="db-metric">
           <div class="db-metric-val db-metric-val-today" id="ds-seen">0</div>
           <div class="db-metric-label">Respondidas hoy</div>
-          <div class="db-metric-sub" id="ds-seen-sub">sesión actual</div>
+          <div class="db-metric-sub" id="ds-seen-sub">en esta sesión</div>
         </div>
         <div class="db-metric-sep"></div>
         <div class="db-metric">
           <div class="db-metric-val db-metric-val-streak" id="ds-streak">0</div>
           <div class="db-metric-label">Días de racha</div>
-          <div class="db-metric-sub">consecutivos</div>
+          <div class="db-metric-sub">días seguidos estudiando</div>
         </div>
         <div class="db-metric-sep db-metric-sep-hide"></div>
         <div class="db-metric db-metric-hide">
           <div class="db-metric-val db-metric-val-acc" id="db-acc-val">—</div>
           <div class="db-metric-label">Precisión global</div>
-          <div class="db-metric-sub">aciertos / intentos</div>
+          <div class="db-metric-sub">% de respuestas correctas</div>
         </div>
       </div>
 
@@ -2859,7 +3217,7 @@ body { font-size: 1rem; }
         <!-- Left: Progress ring + modules urgency -->
         <div class="db-left-col" id="db-panel-left">
           <div class="card db-card-clean" style="margin-bottom:12px" id="db-panel-progress">
-            <div class="db-card-title">Progreso global</div>
+            <div class="db-card-title">Progreso global <span style="font-size:10px;font-weight:400;color:var(--text2)">— % de la guía visto</span></div>
             <div class="db-ring-row">
               <div class="ring-wrap">
                 <svg class="ring-svg" viewBox="0 0 80 80">
@@ -2872,7 +3230,7 @@ body { font-size: 1rem; }
             </div>
             <div style="margin-top:12px;padding-top:10px;border-top:1px solid var(--border)">
               <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:5px">
-                <span style="font-size:10px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.08em">Si rindieras hoy</span>
+                <span style="font-size:10px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.08em" title="Estimación basada en preguntas con nivel de dominio ≥ 2">Si rindieras hoy 📊</span>
                 <span id="db-conf-pct" style="font-size:18px;font-weight:800;font-family:var(--mono)">—</span>
               </div>
               <div style="height:5px;background:var(--border2);border-radius:3px;overflow:hidden">
@@ -3969,6 +4327,36 @@ body { font-size: 1rem; }
       </div>
     </div>
 
+    <!-- ANALISIS VIEW -->
+    <div class="view" id="view-analisis">
+      <div class="page-header">
+        <div class="page-title">📊 Mi Progreso</div>
+        <div class="page-sub">Tu análisis completo — estrategia, errores y evolución</div>
+      </div>
+      <!-- Analisis tabs -->
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px" id="analisis-tab-bar">
+        <button class="hist-tab active" id="atab-entrenamiento" onclick="analisisTab('entrenamiento',this)">🎯 Entrenamiento</button>
+        <button class="hist-tab" id="atab-path" onclick="analisisTab('path',this)">🗺 Estrategia</button>
+        <button class="hist-tab" id="atab-history" onclick="analisisTab('history',this)">📈 Historial</button>
+      </div>
+      <div id="analisis-pane-entrenamiento" class="analisis-pane active">
+        <div id="entrenamiento-content"></div>
+      </div>
+      <div id="analisis-pane-path" class="analisis-pane" style="display:none">
+        <div id="path-content"></div>
+      </div>
+      <div id="analisis-pane-history" class="analisis-pane" style="display:none">
+        <div class="hist-tabs" style="margin-bottom:14px">
+          <button class="hist-tab active" onclick="showHistTab('progreso',this)">📈 Progreso</button>
+          <button class="hist-tab" onclick="showHistTab('daily',this)">Diario</button>
+          <button class="hist-tab" onclick="showHistTab('modules',this)">Por módulo</button>
+          <button class="hist-tab" onclick="showHistTab('exams',this)">Exámenes</button>
+          <button class="hist-tab" onclick="showHistTab('flashcards',this)">🃏 Flashcards</button>
+        </div>
+        <div id="hist-content"></div>
+      </div>
+    </div>
+
     <!-- ENTRENAMIENTO FOCALIZADO -->
     <div class="view" id="view-entrenamiento">
       <div class="page-header">
@@ -3976,6 +4364,14 @@ body { font-size: 1rem; }
         <div class="page-sub">Tu centro de análisis — errores, práctica guiada, repaso espaciado y comparador de normas</div>
       </div>
       <div id="entrenamiento-content"></div>
+    </div>
+    <!-- CONCEPTOS CLAVE VIEW -->
+    <div class="view" id="view-conceptos">
+      <div class="page-header">
+        <div class="page-title">📗 Conceptos Clave</div>
+        <div class="page-sub">Marcá cada tema cuando estés seguro de haberlo entendido</div>
+      </div>
+      <div id="conceptos-content"></div>
     </div>
   </div><!-- /views -->
 </div><!-- /main -->
@@ -4217,6 +4613,7 @@ function saveAll() {
   localStorage.setItem(SK('flagged'),    JSON.stringify([...flagged]));
   localStorage.setItem(SK('favs'),       JSON.stringify([...favorites]));
   localStorage.setItem(SK('editedAnswers'), JSON.stringify(editedAnswers));
+  localStorage.setItem(SK('ckChecked'),     JSON.stringify(ckChecked));
   localStorage.setItem(SK('pomDone'),    pomDone);
   localStorage.setItem(SK('pomMinToday'),pomMinToday);
   if (currentUser) scheduleSave(); // sync to cloud
@@ -4312,6 +4709,7 @@ function navigate(view) {
   if (nb) nb.classList.add('active');
   curView = view;
   const titles = {dashboard:'Dashboard',study:'Estudiar',exam:'Examen',
+    analisis:'Mi Progreso',
     review:'Repaso inteligente',flagged:'Marcadas',notes:'Notas',
     history:'Historial',achievements:'Logros',recs:'Recomendaciones',biblio:'Bibliografía',
     flashcards:'Flashcards',path:'Learning Path'};
@@ -4324,12 +4722,26 @@ function navigate(view) {
   if (view==='review')        buildReviewSetup();
   if (view==='flagged')       buildFlagged();
   if (view==='notes')         { buildNotes(); switchNotesTab('manual'); }
-  if (view==='history')       buildHistory('progreso');
-  if (view==='path')          buildLearningPath();
+  if (view==='history') {
+    navigate('analisis');
+    setTimeout(()=>{ buildAnalisis('history'); }, 100);
+    return;
+  }
+  if (view==='path') {
+    navigate('analisis');
+    setTimeout(()=>{ buildAnalisis('path'); }, 100);
+    return;
+  }
   if (view==='achievements')  buildAchievements();
   if (view==='recs')          { buildRecs(); initStudyPlan(); buildPlan20(); }
   if (view==='biblio')        {} // static view
-  if (view==='entrenamiento') buildEntrenamiento();
+  if (view==='conceptos')     buildConceptos();
+  if (view==='entrenamiento') {
+    navigate('analisis');
+    setTimeout(()=>{ buildAnalisis('entrenamiento'); }, 100);
+    return;
+  }
+  if (view==='analisis')      buildAnalisis();
   if (view==='flashcards')    buildFlashcardSetup();
 }
 
@@ -4381,9 +4793,9 @@ function buildDashboard() {
 
   // ── Stat cards ────────────────────────────────────────────
   $('ds-mastered').textContent = seen;
-  $('ds-mastered-sub').textContent = `de ${TOTAL_Q}`;
+  $('ds-mastered-sub').textContent = `de ${TOTAL_Q} — respondidas al menos 1 vez`;
   $('ds-seen').textContent = todayAns;
-  $('ds-seen-sub').textContent = 'sesión actual';
+  $('ds-seen-sub').textContent = 'en esta sesión';
   $('ds-streak').textContent = streak;
   const accEl = $('db-acc-val');
   if (accEl) accEl.textContent = gAcc !== null ? gAcc+'%' : '—';
@@ -5200,6 +5612,16 @@ function showFeedback(chosen, correct, mi, qi, restore) {
   fb.innerHTML = fbHTML;
 
   $('quiz-nav').style.display='flex';
+  // Auto-refresh analisis if currently visible
+  if (typeof curView !== 'undefined' && curView === 'analisis') {
+    const activePane = document.querySelector('.analisis-pane[style*="block"]');
+    if (activePane && activePane.id === 'analisis-pane-entrenamiento') {
+      clearTimeout(window._analisisRefreshTimer);
+      window._analisisRefreshTimer = setTimeout(() => {
+        buildEntrenamiento();
+      }, 800);
+    }
+  }
   $('quiz-nav-fixed').style.display='flex';
   $('qn-prev').disabled = bqIndex===0;
   $('qn-prev-fixed').disabled = bqIndex===0;
@@ -7162,6 +7584,18 @@ async function loadFromCloud() {
 
     // Persist to localStorage as cache
     saveAll();
+    // Push conceptos checked state
+    await sbClient.from('user_settings').upsert(
+      [{ user_id: uid, key: 'ckChecked', value: JSON.stringify(ckChecked) }],
+      { onConflict: 'user_id,key' }
+    );
+    // Load conceptos checked state
+    const ckRow = await sbClient.from('user_settings')
+      .select('value').eq('user_id', uid).eq('key', 'ckChecked').single();
+    if (ckRow.data) {
+      try { ckChecked = JSON.parse(ckRow.data.value); } catch(e) {}
+      localStorage.setItem(SK('ckChecked'), JSON.stringify(ckChecked));
+    }
     setSyncStatus('ok');
   } catch(e) {
     console.error('loadFromCloud error:', e);
@@ -7223,6 +7657,11 @@ async function pushToCloud() {
       await sbClient.from('flagged').insert(flagRows);
     }
 
+    // Push conceptos checked state
+    await sbClient.from('user_settings').upsert(
+      [{ user_id: uid, key: 'ckChecked', value: JSON.stringify(ckChecked) }],
+      { onConflict: 'user_id,key' }
+    );
     setSyncStatus('ok');
   } catch(e) {
     console.error('pushToCloud error:', e);
@@ -7761,6 +8200,7 @@ async function saveFullEdit(mi, qi, numOpts) {
   MODULES[mi].questions[qi][2] = newCorrect;
   MODULES[mi].questions[qi][3] = newOpts;
   localStorage.setItem(SK('editedAnswers'), JSON.stringify(editedAnswers));
+  localStorage.setItem(SK('ckChecked'),     JSON.stringify(ckChecked));
 
   // Save to Supabase
   const saved = await saveEditToCloud(mi, qi, edit);
@@ -7781,6 +8221,7 @@ async function restoreOriginal(mi, qi) {
   const key = `${mi}_${qi}`;
   delete editedAnswers[key];
   localStorage.setItem(SK('editedAnswers'), JSON.stringify(editedAnswers));
+  localStorage.setItem(SK('ckChecked'),     JSON.stringify(ckChecked));
   await deleteEditFromCloud(mi, qi);
   // Reload edits and re-apply (will restore original from MODULES data)
   location.reload();
@@ -9335,40 +9776,40 @@ const HELP_CONTENT = {
 
       <div class="help-card">
         <div class="help-card-title">⚡ Dashboard — punto de entrada</div>
-        <div class="help-card-body">Siempre arriba del menú. Muestra tu estado actual, prioridad del día, módulos ordenados por urgencia, acciones rápidas y datos clave CNV. Es tu pantalla de inicio cada vez que abrís la app. Podés personalizar qué secciones ver con el botón <strong>✏️ Editar panel</strong>.</div>
+        <div class="help-card-body">Tu estado actual, prioridad del día, módulos por urgencia y acciones rápidas. Siempre arriba del menú.</div>
       </div>
 
       <div class="help-card">
-        <div class="help-card-title">📖 Sección Estudiar</div>
+        <div class="help-card-title">📚 Estudiar</div>
         <div class="help-card-body">
-          <strong>Módulos</strong> — 6 módulos con bloques numerados. Podés entrar por bloque o elegir "X preguntas sin ver" para avanzar aleatoriamente.<br>
-          <strong>Repaso inteligente</strong> — prioriza tus errores y preguntas con bajo dominio. Podés filtrar por módulo y elegir entre 10 y 50 preguntas.<br>
-          <strong>Flashcards</strong> — tarjetas de pregunta/respuesta. Ideal para repasar rápido antes del examen.<br>
-          <strong>Simulacro</strong> — examen con tiempo real, distribución por módulos a elección. Corrección detallada al terminar.
+          <strong>Módulos</strong> — acceso directo a las 673 preguntas por módulo.<br>
+          <strong>Repaso inteligente</strong> — preguntas priorizadas por nivel de dominio.<br>
+          <strong>Flashcards</strong> — modo tarjetas para repasar rápido.<br>
+          <strong>Simulacro</strong> — examen cronometrado estilo real.
         </div>
       </div>
 
       <div class="help-card">
-        <div class="help-card-title">📊 Sección Analizar</div>
+        <div class="help-card-title">📊 Mi Progreso</div>
         <div class="help-card-body">
-          <strong>Learning Path</strong> — visión estratégica. Comando Central con score, sesión rápida de 7 preguntas adaptativas, módulos ordenados por impacto, temas transversales y proyección semanal.<br>
-          <strong>Entrenamiento Focalizado</strong> — mapa de calor de errores, top 10 de tus fallos con explicaciones, árbol de causas, práctica guiada con pistas, repaso espaciado automático y comparador de normas.<br>
-          <strong>Historial</strong> — evolución con filtros (7d / 30d / 90d / semana / mes / todo), gráficos de progreso y precisión, y detalle por módulo.<br>
-          <strong>Logros</strong> — 80 logros en 7 categorías que se desbloquean automáticamente.
+          Vista unificada de análisis con tres pestañas:<br>
+          <strong>🎯 Entrenamiento</strong> — mapa de calor de errores, diagnóstico por módulo, práctica guiada y refuerzo espaciado. Se actualiza automáticamente al responder preguntas.<br>
+          <strong>🗺 Estrategia</strong> — módulos ordenados por impacto, sesión rápida adaptativa y proyección semanal.<br>
+          <strong>📈 Historial</strong> — evolución temporal, progreso diario, comparativa por módulo y exámenes anteriores.
         </div>
       </div>
 
       <div class="help-card">
-        <div class="help-card-title">📚 Sección Referencia</div>
+        <div class="help-card-title">📗 Referencia</div>
         <div class="help-card-body">
-          <strong>Marcadas</strong> — preguntas que marcaste con 🚩 como difíciles. Podés anotarles notas y armar un mini-examen solo con ellas.<br>
-          <strong>Notas</strong> — todas tus anotaciones y explicaciones de IA guardadas, organizadas por módulo.<br>
-          <strong>Recomendaciones</strong> — diagnóstico de debilidades, plan de sesión diaria y el Plan 20 horas (método Pareto).<br>
-          <strong>Bibliografía</strong> — fuentes oficiales del examen CNV.
+          <strong>Conceptos Clave</strong> — resúmenes estructurados de M1 y M2 en 6 bloques: definiciones, comparativos, puntos de examen, ejemplos, alertas y normas. Marcá cada tema cuando lo comprendas.<br>
+          <strong>Marcadas</strong> — preguntas guardadas para revisar.<br>
+          <strong>Notas</strong> — tus anotaciones por pregunta.<br>
+          <strong>Plan de Estudio</strong> — cronograma hasta el examen.
         </div>
       </div>
-      <div class="help-tip">💡 El badge debajo de tu nombre muestra tu progreso actual y el módulo más crítico — sin entrar al dashboard.</div>
-    </div>`,
+    </div>
+  `,
 
   modules: `
     <div class="help-section">
@@ -9405,42 +9846,45 @@ const HELP_CONTENT = {
       <div class="help-section-title">Herramientas disponibles</div>
 
       <div class="help-card">
-        <div class="help-card-title">🗺 Learning Path</div>
-        <div class="help-card-body"><strong>Comando Central</strong> con score de preparación (progreso × 40% + precisión × 60%) y acción recomendada para hoy. <strong>Sesión rápida</strong> de 7 preguntas generadas por impacto. <strong>Módulos ordenados por impacto</strong> — no por número, sino por cuánto cambiaría tu score si los mejorás. <strong>Temas transversales</strong> clickeables. <strong>Proyección semanal</strong> con gráfico histórico + curva futura.</div>
-      </div>
-
-      <div class="help-card">
-        <div class="help-card-title">🎯 Entrenamiento Focalizado</div>
+        <div class="help-card-title">📊 Mi Progreso — análisis unificado</div>
         <div class="help-card-body">
-          <strong>Corrección Inteligente:</strong> mapa de calor de errores por módulo, árbol de causas (confusión normativa / memoria / conceptual / lectura), prioridades de estudio y top 10 errores con explicación.<br><br>
-          <strong>4 modos de entrenamiento:</strong><br>
-          🔍 <strong>Diagnóstico</strong> — elegís un módulo, ves tus errores con explicación resumida y regla mnemotécnica.<br>
-          ▶ <strong>Práctica Guiada</strong> — preguntas de tus errores reales con pistas, feedback inmediato y mnemotécnicas.<br>
-          🔄 <strong>Refuerzo Programado</strong> — repaso espaciado: clasifica en "repasar hoy", "olvidadas" y "refuerzo". Cola automática de hasta 20 preguntas.<br>
-          📋 <strong>Comparador de Normas</strong> — tablas comparativas: PLD (normas UIF), Transparencia (CNV+LGS), FCI vs Fideicomiso.
+          Tres pestañas en una sola vista:<br>
+          <strong>Entrenamiento:</strong> mapa de calor de errores · diagnóstico por módulo · práctica guiada con pistas · refuerzo espaciado. Se refresca solo al responder.<br>
+          <strong>Estrategia (Learning Path):</strong> módulos ordenados por impacto · sesión rápida de 7 preguntas · proyección semanal · temas transversales.<br>
+          <strong>Historial:</strong> evolución diaria · progreso por módulo · exámenes · flashcards.
         </div>
       </div>
 
       <div class="help-card">
-        <div class="help-card-title">📈 Historial de Progreso</div>
-        <div class="help-card-body">Primera pestaña del Historial. 6 filtros: 7 días, 30 días, 90 días, esta semana, este mes, todo el historial. Muestra: progreso total, precisión del período, mejor día, racha actual, gráfico de línea acumulada y barras de actividad diaria con colores según precisión.</div>
+        <div class="help-card-title">📗 Conceptos Clave</div>
+        <div class="help-card-body">
+          Resúmenes de M1 y M2 organizados en 6 bloques por tema:<br>
+          📖 Definiciones · ⚖️ Comparativos · 🎯 Puntos de examen · 💡 Ejemplos · ⚠️ Alertas · 📋 Normas.<br>
+          Marcá cada tema con ✓ cuando lo comprendas. Tu progreso se sincroniza a la nube.
+        </div>
       </div>
 
       <div class="help-card">
-        <div class="help-card-title">📖 Repaso Inteligente</div>
-        <div class="help-card-body">Selecciona automáticamente las preguntas donde más erraste o hace más tiempo no repasaste. Podés filtrar por módulo y elegir entre 10 y 50 preguntas. <strong>Usalo después de estudiar bloques nuevos.</strong></div>
-      </div>
-
-      <div class="help-card">
-        <div class="help-card-title">💡 Recomendaciones + Plan 20 horas</div>
-        <div class="help-card-body">Diagnóstico de módulos críticos, débiles y oportunidades de mejora. <strong>Plan de estudio</strong> con fecha de examen, días disponibles y preguntas por día. <strong>Plan 20 horas (Método Pareto)</strong>: 10 sesiones de 2 horas cada una, cubriendo el 20% del contenido que genera el 80% de los resultados.</div>
+        <div class="help-card-title">🔁 Repaso inteligente</div>
+        <div class="help-card-body">Tres modos: <strong>Inteligente</strong> (por dominio) · <strong>Solo errores</strong> · <strong>Solo sin ver</strong>. Seleccioná cantidad y módulo.</div>
       </div>
 
       <div class="help-card">
         <div class="help-card-title">🃏 Flashcards</div>
-        <div class="help-card-body">Tarjetas de pregunta/respuesta para repasar rápido. Podés filtrar por módulo, elegir el orden (aleatorio, falladas primero, sin ver primero) y calificar si la sabías o no. Ideal para repasar antes del examen.</div>
+        <div class="help-card-body">Repaso en modo tarjetas. Podés filtrar por módulo y marcar si sabías o no la respuesta.</div>
       </div>
-    </div>`,
+
+      <div class="help-card">
+        <div class="help-card-title">🎓 Simulacro</div>
+        <div class="help-card-body">Examen cronometrado con preguntas aleatorias. Al finalizar muestra tu puntaje y las respuestas correctas.</div>
+      </div>
+
+      <div class="help-card">
+        <div class="help-card-title">🚩 Marcadas · 🗒 Notas</div>
+        <div class="help-card-body">Guardá preguntas difíciles y anotá lo que necesites por pregunta. Se sincronizan a la nube si estás logueada.</div>
+      </div>
+    </div>
+  `,
 
   config: `
     <div class="help-section">
@@ -11301,6 +11745,744 @@ function ctFilterTopics(query) {
     }
   });
   sections.forEach(s => s.style.display = visibleSections.has(s) ? '' : 'none');
+}
+
+
+// ═══════════════════════════════════════════════════════════
+// CONCEPTOS CLAVE
+// ═══════════════════════════════════════════════════════════
+
+const CONCEPTOS = [
+  {
+    mod: 'M2 — Prevención de Lavado de Activos y FT',
+    color: 'var(--m2)',
+    topics: [
+      {
+        id: 'ck_la_ft',
+        name: 'LA y FT — Lavado de Activos y Financiamiento del Terrorismo',
+        refs: 'P1 · P2 · P3 · P14 · P18 · P27 · P30 · P32 · P38 · P56 · P59',
+        content: `
+<div class="ck-block ck-block-def"><div class="ck-block-header"><div class="ck-block-icon">📖</div><span class="ck-block-title">Definiciones esenciales</span></div>
+<p><strong>Lavado de Activos:</strong> proceso por el cual una persona que obtuvo fondos mediante la comisión de un delito los incorpora a la economía formal para darles apariencia lícita. Objetivo: simular la licitud del <strong>origen</strong> de los fondos.</p>
+<p><strong>Financiamiento del Terrorismo:</strong> uso de fondos — lícitos o ilícitos — para financiar actos, organizaciones o actividades terroristas. El problema está en el <strong>destino</strong> del dinero.</p></div>
+
+<div class="ck-block ck-block-comp"><div class="ck-block-header"><div class="ck-block-icon">⚖️</div><span class="ck-block-title">Cuadro comparativo</span></div>
+<table><thead><tr><th>Aspecto</th><th>Lavado de Activos</th><th>Fin. Terrorismo</th></tr></thead><tbody>
+<tr><td>Origen de fondos</td><td>Siempre ilícito</td><td>Lícito o ilícito</td></tr>
+<tr><td>El problema está en</td><td><strong>El origen</strong></td><td><strong>El destino</strong></td></tr>
+<tr><td>Objetivo</td><td>Dar apariencia lícita al dinero sucio</td><td>Financiar terrorismo</td></tr>
+<tr><td>Reportan a</td><td>UIF (ROS)</td><td>UIF (ROS)</td></tr>
+</tbody></table>
+<p style="margin-top:8px"><strong>Las 3 etapas del Lavado:</strong></p>
+<table><thead><tr><th>#</th><th>Etapa</th><th>Qué ocurre</th></tr></thead><tbody>
+<tr><td>1</td><td><strong>Colocación</strong></td><td>Los fondos ilícitos ingresan al sistema financiero</td></tr>
+<tr><td>2</td><td><strong>Estratificación</strong></td><td>Se mueven para ocultar el origen</td></tr>
+<tr><td>3</td><td><strong>Integración</strong></td><td>Regresan a la economía con apariencia lícita</td></tr>
+</tbody></table></div>
+
+<div class="ck-block ck-block-exam"><div class="ck-block-header"><div class="ck-block-icon">🎯</div><span class="ck-block-title">Puntos críticos de examen</span></div>
+<ul><li>La diferencia clave: en LA importa <strong>de dónde viene</strong> el dinero. En FT importa <strong>adónde va</strong>.</li>
+<li>FT puede usar fondos perfectamente legales — eso es lo que más se pregunta.</li>
+<li>Ambos se reportan a la <strong>UIF</strong> mediante ROS.</li>
+<li>Enfoque regulatorio: basado en <strong>riesgo</strong> (Recomendación 1 GAFI).</li></ul></div>
+
+<div class="ck-block ck-block-ex"><div class="ck-block-header"><div class="ck-block-icon">💡</div><span class="ck-block-title">Ejemplo sencillo</span></div>
+<p><strong>LA:</strong> vendiste drogas y tenés $1M. Lo depositás en una empresa, comprás inmuebles, los vendés. Ahora el dinero "parece" legítimo. El problema es el origen.</p>
+<p><strong>FT:</strong> recibís una donación legal de $100k y la transferís a una organización terrorista. El dinero era limpio — el delito está en para qué se usa.</p></div>
+
+<div class="ck-block ck-block-err"><div class="ck-block-header"><div class="ck-block-icon">⚠️</div><span class="ck-block-title">Alertas de error frecuente</span></div>
+<ul><li><strong>"Fiscalización"</strong> NO es una etapa del lavado. Si aparece como opción, es la incorrecta.</li>
+<li>No confundir: FT <strong>no requiere</strong> que los fondos sean ilícitos.</li></ul></div>
+
+<div class="ck-block ck-block-norm"><div class="ck-block-header"><div class="ck-block-icon">📋</div><span class="ck-block-title">Normas aplicables</span></div>
+<span class="ck-norm-pill">📋 Ley 25.246</span><span class="ck-norm-pill">📋 Normas CNV Título XI</span><span class="ck-norm-pill">📋 40 Recomendaciones GAFI</span><span class="ck-norm-pill">📋 Res. UIF 29/2013</span></div>`
+      },
+      {
+        id: 'ck_ley25246',
+        name: 'Ley 25.246 — Marco general antilavado',
+        refs: 'P4 · P8 · P11 · P13 · P19 · P22 · P26 · P30 · P55 · P58 · P60 · P63 · P67 · P68 · P70 · P91',
+        content: `
+<div class="ck-block ck-block-def"><div class="ck-block-header"><div class="ck-block-icon">📖</div><span class="ck-block-title">Definiciones esenciales</span></div>
+<p><strong>¿Qué es?</strong> La ley que incorpora el lavado de activos y el encubrimiento como <strong>delitos penales</strong> en Argentina. Es la norma base de todo el sistema de prevención de LA/FT.</p>
+<p><strong>Autoridad de aplicación:</strong> UIF — puede actuar en <strong>cualquier jurisdicción</strong> del país.</p>
+<p><strong>Decreto reglamentario:</strong> Decreto 918/2012.</p>
+<p><strong>Supervisión en mercado de capitales:</strong> la aplica la UIF pero quien supervisa el cumplimiento es la <strong>CNV</strong> (Res. UIF 72/2023).</p>
+<p><strong>Cliente:</strong> toda persona humana, jurídica o estructura jurídica — nacional o extranjera — con quien se establece una relación contractual de carácter financiero, económico o comercial.</p></div>
+
+<div class="ck-block ck-block-comp"><div class="ck-block-header"><div class="ck-block-icon">⚖️</div><span class="ck-block-title">Cuadro comparativo — Conservación de documentación</span></div>
+<table><thead><tr><th>Tipo de documentación</th><th>Plazo mínimo</th></tr></thead><tbody>
+<tr><td>Documentación respaldatoria general</td><td><strong>5 años</strong></td></tr>
+<tr><td>Identificación, conocimiento y operaciones del cliente</td><td><strong>10 años</strong> desde fin de la relación</td></tr>
+</tbody></table></div>
+
+<div class="ck-block ck-block-exam"><div class="ck-block-header"><div class="ck-block-icon">🎯</div><span class="ck-block-title">Puntos críticos de examen</span></div>
+<ul><li>Obligación central del Art. 21: recabar documentación que pruebe identidad, personería jurídica, domicilio y residencia.</li>
+<li>UIF aplica la ley, CNV supervisa en el mercado de capitales.</li>
+<li>PEPs posibles: Poder Legislativo · sector público empresarial · funcionarios con poder de decisión en adjudicaciones.</li></ul></div>
+
+<div class="ck-block ck-block-err"><div class="ck-block-header"><div class="ck-block-icon">⚠️</div><span class="ck-block-title">Alertas de error frecuente</span></div>
+<ul><li>No confundir los plazos: <strong>5 años</strong> (respaldatoria general) vs <strong>10 años</strong> (identificación y operaciones del cliente).</li>
+<li>La UIF puede actuar en cualquier jurisdicción — no tiene límite geográfico.</li></ul></div>
+
+<div class="ck-block ck-block-norm"><div class="ck-block-header"><div class="ck-block-icon">📋</div><span class="ck-block-title">Normas aplicables</span></div>
+<span class="ck-norm-pill">📋 Ley 25.246</span><span class="ck-norm-pill">📋 Decreto 918/2012</span><span class="ck-norm-pill">📋 Res. UIF 72/2023</span><span class="ck-norm-pill">📋 Res. UIF 192/2024 (PEPs)</span></div>`
+      },
+      {
+        id: 'ck_so',
+        name: 'Sujetos Obligados',
+        refs: 'P7 · P8 · P11 · P17 · P19 · P43 · P53 · P60 · P73 · P74 · P75 · P77 · P78 · P86',
+        content: `
+<div class="ck-block ck-block-def"><div class="ck-block-header"><div class="ck-block-icon">📖</div><span class="ck-block-title">Definición esencial</span></div>
+<p>Personas o entidades que, por su actividad, tienen <strong>obligaciones legales en materia de prevención de LA/FT</strong>: conocer a sus clientes, monitorear operaciones y reportar lo sospechoso.</p></div>
+
+<div class="ck-block ck-block-comp"><div class="ck-block-header"><div class="ck-block-icon">⚖️</div><span class="ck-block-title">Quiénes son y no son SO</span></div>
+<table><thead><tr><th>SÍ son SO</th><th>NO son SO</th></tr></thead><tbody>
+<tr><td>AN, ALyC, AAGI</td><td rowspan="4">ALyC Participantes Directos<br>Agentes Productores</td></tr>
+<tr><td>Agentes de colocación de FCI</td></tr>
+<tr><td>Fiduciarios FF con OP autorizada</td></tr>
+<tr><td>Plataformas de Fin. Colectivo · PSAV</td></tr>
+</tbody></table></div>
+
+<div class="ck-block ck-block-exam"><div class="ck-block-header"><div class="ck-block-icon">🎯</div><span class="ck-block-title">Puntos críticos de examen</span></div>
+<ul><li>Sanciones por incumplimiento: las aplica la <strong>UIF</strong> (no la CNV).</li>
+<li>Fondos en efectivo: solo hasta el límite del Art. 1° de la Ley 25.345.</li>
+<li>Fondos de clientes: solo desde cuentas CBU/CVU de titularidad del cliente.</li>
+<li>Requisito de <strong>Integridad</strong> para inscripción CNV: certificado de antecedentes + DJ de PLAFT.</li>
+<li>Requisito de <strong>Solvencia</strong>: informe de antecedentes comerciales actualizado.</li></ul></div>
+
+<div class="ck-block ck-block-err"><div class="ck-block-header"><div class="ck-block-icon">⚠️</div><span class="ck-block-title">Alertas de error frecuente</span></div>
+<ul><li>Los <strong>Agentes Productores</strong> no son SO — aunque difunden el mercado.</li>
+<li>Las sanciones las aplica la <strong>UIF</strong>, no la CNV ni otra autoridad.</li></ul></div>
+
+<div class="ck-block ck-block-norm"><div class="ck-block-header"><div class="ck-block-icon">📋</div><span class="ck-block-title">Normas aplicables</span></div>
+<span class="ck-norm-pill">📋 Ley 25.246 Art. 20</span><span class="ck-norm-pill">📋 Ley 25.345</span><span class="ck-norm-pill">📋 Res. UIF 78/2023</span><span class="ck-norm-pill">📋 Normas CNV Título XI</span></div>`
+      },
+      {
+        id: 'ck_pep',
+        name: 'PEP y Debida Diligencia',
+        refs: 'P9 · P16 · P28 · P41 · P44 · P52 · P64 · P65 · P72 · P76 · P81 · P88 · P89',
+        content: `
+<div class="ck-block ck-block-def"><div class="ck-block-header"><div class="ck-block-icon">📖</div><span class="ck-block-title">Definiciones esenciales</span></div>
+<p><strong>PEP:</strong> Persona Expuesta Políticamente. Personas que ocupan o ocuparon cargos públicos relevantes.</p>
+<p><strong>Beneficiario Final:</strong> persona humana que posee al menos el <strong>10% del capital o derechos de voto</strong> de una persona jurídica, fideicomiso, fondo u otra estructura, o quien ejerce el control final por otros medios.</p>
+<p><strong>Debida Diligencia:</strong> procedimientos de conocimiento aplicables a todos los clientes según su nivel de riesgo.</p></div>
+
+<div class="ck-block ck-block-comp"><div class="ck-block-header"><div class="ck-block-icon">⚖️</div><span class="ck-block-title">Niveles de riesgo y diligencia</span></div>
+<table><thead><tr><th>Riesgo</th><th>Tipo de diligencia</th><th>Actualizar legajo</th></tr></thead><tbody>
+<tr><td><strong>Alto</strong></td><td>Reforzada</td><td>Cada <strong>1 año</strong></td></tr>
+<tr><td><strong>Medio</strong></td><td>Media</td><td>Cada <strong>3 años</strong></td></tr>
+<tr><td><strong>Bajo</strong></td><td>Simplificada</td><td>Cada <strong>5 años</strong></td></tr>
+</tbody></table></div>
+
+<div class="ck-block ck-block-exam"><div class="ck-block-header"><div class="ck-block-icon">🎯</div><span class="ck-block-title">Puntos críticos de examen</span></div>
+<ul><li>Todo PEP — incluso extranjero — es automáticamente <strong>riesgo ALTO</strong>.</li>
+<li>Los legajos se confeccionan para <strong>todos</strong> los clientes sin excepción.</li>
+<li>Si el cliente es otro SO: exigir <strong>Declaración Jurada</strong> de cumplimiento PLD/FT.</li>
+<li>Beneficiario Final: umbral de <strong>10%</strong> del capital.</li></ul></div>
+
+<div class="ck-block ck-block-ex"><div class="ck-block-header"><div class="ck-block-icon">💡</div><span class="ck-block-title">Ejemplo — Beneficiario Final</span></div>
+<p>Capital total: $5.000.000 — Socio A: $250k (5%) · Socio B: $500k (10%) · Socio C: $2.5M (50%) · Socio D: $1.75M (35%)</p>
+<p>Son BF: <strong>B, C y D</strong> (poseen ≥ 10%). El Socio A no es BF.</p></div>
+
+<div class="ck-block ck-block-err"><div class="ck-block-header"><div class="ck-block-icon">⚠️</div><span class="ck-block-title">Alertas de error frecuente</span></div>
+<ul><li>No confundir plazos: <strong>1 / 3 / 5 años</strong> para Alto / Medio / Bajo.</li>
+<li>Un PEP extranjero también es <strong>riesgo ALTO</strong> automáticamente.</li></ul></div>
+
+<div class="ck-block ck-block-norm"><div class="ck-block-header"><div class="ck-block-icon">📋</div><span class="ck-block-title">Normas aplicables</span></div>
+<span class="ck-norm-pill">📋 Res. UIF 192/2024 (def. PEP)</span><span class="ck-norm-pill">📋 Decreto 918/2012</span><span class="ck-norm-pill">📋 Res. UIF 3/2014 (KYC)</span><span class="ck-norm-pill">📋 Res. UIF 78/2023 (legajos)</span><span class="ck-norm-pill">📋 Res. 112/2021 (BF)</span></div>`
+      },
+      {
+        id: 'ck_ros',
+        name: 'ROS y Plazos',
+        refs: 'P5 · P6 · P12 · P20 · P23 · P24 · P33 · P35 · P36 · P37 · P39 · P45 · P46 · P50 · P51 · P61 · P97 · P98 · P99',
+        content: `
+<div class="ck-block ck-block-def"><div class="ck-block-header"><div class="ck-block-icon">📖</div><span class="ck-block-title">Definiciones esenciales</span></div>
+<p><strong>ROS:</strong> Reporte de Operación Sospechosa. Herramienta para comunicar a la UIF operaciones que generan sospecha razonable de vinculación con LA o FT.</p>
+<p><strong>Operación inusual:</strong> operación que carece de justificación económica y/o jurídica, no guarda relación con el perfil del cliente, o se desvía de los usos y costumbres del mercado — independientemente del monto.</p></div>
+
+<div class="ck-block ck-block-comp"><div class="ck-block-header"><div class="ck-block-icon">⚖️</div><span class="ck-block-title">Plazos de reporte</span></div>
+<table><thead><tr><th>Situación</th><th>Plazo</th><th>Norma</th></tr></thead><tbody>
+<tr><td>LA o FT — caso general</td><td><strong>7 días hábiles</strong></td><td>Res. UIF 56/2024</td></tr>
+<tr><td>FT — lista ONU Res. 1267</td><td><strong>Sin demora alguna</strong></td><td>Res. UIF 29/2013</td></tr>
+</tbody></table></div>
+
+<div class="ck-block ck-block-exam"><div class="ck-block-header"><div class="ck-block-icon">🎯</div><span class="ck-block-title">Puntos críticos de examen</span></div>
+<ul><li>Ante operación inusual: primero <strong>profundizar el análisis</strong>, luego reportar. No es automático.</li>
+<li>Una vez reportado: <strong>prohibido avisarle al cliente</strong>. Es una infracción grave.</li>
+<li>El ROS debe estar <strong>fundado</strong> y describir concretamente las razones de la sospecha.</li>
+<li>Cupo excedido: el ALyC debe solicitar <strong>documentación de respaldo</strong>.</li></ul></div>
+
+<div class="ck-block ck-block-ex"><div class="ck-block-header"><div class="ck-block-icon">💡</div><span class="ck-block-title">Ejemplo sencillo</span></div>
+<p>Caso general: detectás que un cliente monotributista depositó $24M y lo movió a terceros sin justificación. Analizás, no podés justificarlo → reportás en <strong>7 días hábiles</strong>.</p>
+<p>Caso lista ONU: el beneficiario de la transferencia aparece en la lista de la Resolución 1267 → reportás <strong>sin demora alguna</strong>.</p></div>
+
+<div class="ck-block ck-block-err"><div class="ck-block-header"><div class="ck-block-icon">⚠️</div><span class="ck-block-title">Alertas de error frecuente</span></div>
+<ul><li><strong>No</strong> reportar automáticamente al detectar algo inusual — primero se analiza.</li>
+<li>Avisar al cliente del ROS es una <strong>infracción grave</strong>.</li>
+<li>Los dos plazos son completamente distintos: 7 días vs sin demora.</li></ul></div>
+
+<div class="ck-block ck-block-norm"><div class="ck-block-header"><div class="ck-block-icon">📋</div><span class="ck-block-title">Normas aplicables</span></div>
+<span class="ck-norm-pill">📋 Res. UIF 56/2024</span><span class="ck-norm-pill">📋 Res. UIF 29/2013</span><span class="ck-norm-pill">📋 Ley 27.739</span></div>`
+      },
+      {
+        id: 'ck_oficial',
+        name: 'Oficial de Cumplimiento',
+        refs: 'P40 · P42 · P54 · P55 · P57 · P79 · P80 · P82 · P83 · P84 · P85 · P91 · P94 · P96',
+        content: `
+<div class="ck-block ck-block-def"><div class="ck-block-header"><div class="ck-block-icon">📖</div><span class="ck-block-title">Definición esencial</span></div>
+<p>Responsable interno del sistema de prevención LA/FT dentro del SO. Designación obligatoria. Solo puede serlo un miembro del <strong>órgano de administración</strong>.</p>
+<p>En grupos societarios: pueden designar <strong>un único Oficial</strong> y compartir legajos.</p></div>
+
+<div class="ck-block ck-block-comp"><div class="ck-block-header"><div class="ck-block-icon">⚖️</div><span class="ck-block-title">Periodicidades clave</span></div>
+<table><thead><tr><th>Elemento</th><th>Quién lo hace</th><th>Periodicidad</th></tr></thead><tbody>
+<tr><td>Revisión del manual PLAFT</td><td>SO — internamente</td><td><strong>Anual</strong></td></tr>
+<tr><td>Revisión externa independiente</td><td>Auditor externo</td><td><strong>Anual</strong></td></tr>
+<tr><td>Autoevaluación de riesgo</td><td>El propio SO</td><td><strong>Cada 2 años</strong></td></tr>
+</tbody></table></div>
+
+<div class="ck-block ck-block-exam"><div class="ck-block-header"><div class="ck-block-icon">🎯</div><span class="ck-block-title">Puntos críticos de examen</span></div>
+<ul><li>Solo un miembro del <strong>órgano de administración</strong> puede ser designado.</li>
+<li>Tres revisiones distintas: manual (anual, interna) · externa (anual, auditor) · autoevaluación (cada 2 años, interna).</li>
+<li>El Comité PLAFT lo integran el OC + funcionarios del <strong>primer nivel gerencial</strong>.</li></ul></div>
+
+<div class="ck-block ck-block-ex"><div class="ck-block-header"><div class="ck-block-icon">💡</div><span class="ck-block-title">Ejemplo sencillo</span></div>
+<p>Una ALyC tiene su manual antilavado. Cada año su OC lo revisa (revisión interna). También contrata un auditor externo que verifica que el sistema funciona (revisión externa). Y cada dos años hace un análisis profundo de su exposición al riesgo (autoevaluación).</p></div>
+
+<div class="ck-block ck-block-err"><div class="ck-block-header"><div class="ck-block-icon">⚠️</div><span class="ck-block-title">Alertas de error frecuente</span></div>
+<ul><li>No confundir los tres plazos — son actividades distintas, no la misma.</li>
+<li>La autoevaluación es <strong>cada 2 años</strong>, no anual.</li></ul></div>
+
+<div class="ck-block ck-block-norm"><div class="ck-block-header"><div class="ck-block-icon">📋</div><span class="ck-block-title">Normas aplicables</span></div>
+<span class="ck-norm-pill">📋 Ley 25.246 Art. 20</span><span class="ck-norm-pill">📋 Res. UIF 78/2023</span></div>`
+      },
+      {
+        id: 'ck_psav',
+        name: 'Activos Virtuales y PSAV',
+        refs: 'P87 · P90 · P93 · P95',
+        content: `
+<div class="ck-block ck-block-def"><div class="ck-block-header"><div class="ck-block-icon">📖</div><span class="ck-block-title">Definiciones esenciales</span></div>
+<p><strong>Activo Virtual:</strong> representación digital de valor que puede comercializarse, transferirse digitalmente y usarse para pagos o inversiones.</p>
+<p><strong>PSAV:</strong> Proveedor de Servicios de Activos Virtuales. Persona humana o jurídica que realiza para terceros: intercambio entre activos y moneda fiat · intercambio entre activos virtuales · transferencia · custodia y administración · servicios financieros vinculados a su oferta o venta.</p></div>
+
+<div class="ck-block ck-block-exam"><div class="ck-block-header"><div class="ck-block-icon">🎯</div><span class="ck-block-title">Puntos críticos de examen</span></div>
+<ul><li>Los PSAV son <strong>Sujetos Obligados</strong> desde la Ley 27.739.</li>
+<li>Tienen las mismas obligaciones que cualquier agente del mercado.</li>
+<li>Reporte obligatorio: <strong>RSA</strong> entre el <strong>2 de enero y el 15 de marzo</strong> de cada año.</li></ul></div>
+
+<div class="ck-block ck-block-err"><div class="ck-block-header"><div class="ck-block-icon">⚠️</div><span class="ck-block-title">Alertas de error frecuente</span></div>
+<ul><li>El RSA no es mensual — es <strong>anual</strong> con fecha fija.</li></ul></div>
+
+<div class="ck-block ck-block-norm"><div class="ck-block-header"><div class="ck-block-icon">📋</div><span class="ck-block-title">Normas aplicables</span></div>
+<span class="ck-norm-pill">📋 Ley 27.739</span><span class="ck-norm-pill">📋 Res. UIF 49/2024</span></div>`
+      },
+      {
+        id: 'ck_gafi',
+        name: '40 Recomendaciones del GAFI',
+        refs: 'P10 · P15 · P32 · P56',
+        content: `
+<div class="ck-block ck-block-def"><div class="ck-block-header"><div class="ck-block-icon">📖</div><span class="ck-block-title">Definiciones esenciales</span></div>
+<p><strong>GAFI / FATF:</strong> Grupo de Acción Financiera Internacional. Organismo que establece los estándares globales contra el LA y el FT.</p>
+<p><strong>40 Recomendaciones:</strong> estándares internacionales que los países deben adoptar. Argentina los incorpora a través de la UIF y la CNV.</p></div>
+
+<div class="ck-block ck-block-exam"><div class="ck-block-header"><div class="ck-block-icon">🎯</div><span class="ck-block-title">Puntos críticos de examen</span></div>
+<ul><li><strong>Recomendación 1:</strong> enfoque basado en <strong>riesgo</strong> — a mayor riesgo, mayor nivel de control.</li>
+<li>El GAFI define las 3 etapas del lavado: Colocación → Estratificación → Integración.</li></ul></div>
+
+<div class="ck-block ck-block-norm"><div class="ck-block-header"><div class="ck-block-icon">📋</div><span class="ck-block-title">Normas aplicables</span></div>
+<span class="ck-norm-pill">📋 40 Recomendaciones GAFI</span><span class="ck-norm-pill">📋 Res. UIF 78/2023 (implementación)</span></div>`
+      },
+    ]
+  },
+  {
+    mod: 'M1 — Marco Normativo del Mercado de Capitales',
+    color: 'var(--m1)',
+    topics: [
+      {
+        id: 'ck_ley26831',
+        name: 'Ley 26.831 — CNV y Marco General',
+        refs: 'P1 · P2 · P3 · P9 · P12 · P13 · P109 · P112',
+        content: `
+<div class="ck-block ck-block-def"><div class="ck-block-header"><div class="ck-block-icon">📖</div><span class="ck-block-title">Definiciones esenciales</span></div>
+<p><strong>¿Qué es?</strong> La ley que regula, supervisa y fiscaliza el mercado de capitales en Argentina.</p>
+<p><strong>Autoridad de aplicación:</strong> CNV — Comisión Nacional de Valores.</p>
+<p><strong>Objetivos:</strong> fortalecer la protección de los inversores · propender a la inclusión financiera · propender a la integridad y transparencia de los mercados.</p></div>
+
+<div class="ck-block ck-block-comp"><div class="ck-block-header"><div class="ck-block-icon">⚖️</div><span class="ck-block-title">Qué puede y qué no puede la CNV</span></div>
+<table><thead><tr><th>SÍ puede</th><th>NO puede</th></tr></thead><tbody>
+<tr><td>Establecer normas mínimas de capacitación y registro para asesores</td><td><strong>Garantizar la rentabilidad de los inversores</strong></td></tr>
+<tr><td>Iniciar investigaciones de oficio o por denuncia</td><td></td></tr>
+<tr><td>Continuar sumario aunque el denunciante desista</td><td></td></tr>
+</tbody></table></div>
+
+<div class="ck-block ck-block-exam"><div class="ck-block-header"><div class="ck-block-icon">🎯</div><span class="ck-block-title">Puntos críticos de examen</span></div>
+<ul><li>La CNV <strong>NO garantiza rentabilidad</strong> — es la opción incorrecta más frecuente.</li>
+<li>Puede iniciar investigaciones por denuncias, de oficio o por informaciones periodísticas.</li>
+<li>Si el denunciante desiste, la CNV <strong>continúa de oficio</strong>.</li>
+<li>Secreto profesional: Ley 26.831, Título I, Cap. V.</li></ul></div>
+
+<div class="ck-block ck-block-err"><div class="ck-block-header"><div class="ck-block-icon">⚠️</div><span class="ck-block-title">Alertas de error frecuente</span></div>
+<ul><li>"La CNV garantiza la rentabilidad" → <strong>FALSO</strong>. Siempre es la opción incorrecta.</li></ul></div>
+
+<div class="ck-block ck-block-norm"><div class="ck-block-header"><div class="ck-block-icon">📋</div><span class="ck-block-title">Normas aplicables</span></div>
+<span class="ck-norm-pill">📋 Ley 26.831</span><span class="ck-norm-pill">📋 Título I Cap. V (secreto)</span></div>`
+      },
+      {
+        id: 'ck_op',
+        name: 'Oferta Pública y Prospecto',
+        refs: 'P5 · P7 · P11 · P14 · P20 · P33 · P36 · P37 · P38 · P39 · P44 · P47 · P48 · P55 · P57 · P60 · P68 · P86',
+        content: `
+<div class="ck-block ck-block-def"><div class="ck-block-header"><div class="ck-block-icon">📖</div><span class="ck-block-title">Definiciones esenciales</span></div>
+<p><strong>Oferta Pública:</strong> invitación al público en general o sectores indeterminados para suscribir valores negociables, efectuada a través de cualquier medio de difusión masiva.</p>
+<p><strong>Oferta Irregular:</strong> toda oferta pública realizada sin autorización de la CNV.</p>
+<p><strong>Valores Negociables:</strong> incluyen letras de cambio, Obligaciones Negociables, entre otros.</p>
+<p><strong>Prospecto:</strong> documento obligatorio para solicitar la autorización de OP. Debe incluir información financiera, riesgos, características de los valores y datos del emisor.</p></div>
+
+<div class="ck-block ck-block-comp"><div class="ck-block-header"><div class="ck-block-icon">⚖️</div><span class="ck-block-title">Tipos de oferta</span></div>
+<table><thead><tr><th>Tipo</th><th>Característica</th></tr></thead><tbody>
+<tr><td><strong>Pública regular</strong></td><td>Con autorización CNV previa</td></tr>
+<tr><td><strong>Irregular</strong></td><td>Sin autorización CNV</td></tr>
+<tr><td><strong>Secundaria</strong></td><td>Sociedad extranjera sin emitir acciones nuevas</td></tr>
+<tr><td><strong>Colocación primaria</strong></td><td>Mediante libro, subasta o licitación pública</td></tr>
+</tbody></table></div>
+
+<div class="ck-block ck-block-exam"><div class="ck-block-header"><div class="ck-block-icon">🎯</div><span class="ck-block-title">Puntos críticos de examen</span></div>
+<ul><li>Sin autorización CNV → <strong>oferta irregular</strong>.</li>
+<li>Responsables del Prospecto: emisores, oferentes, <strong>firmantes</strong> y expertos que opinen.</li>
+<li>Adenda al Prospecto: modificación de términos · prórroga del Programa · aumento del monto.</li>
+<li>Actualización anual del Prospecto: <strong>optativa</strong>, con informe de CP independiente.</li>
+<li>CNV puede autorizar OP con patrimonio neto negativo si los riesgos están explicados.</li></ul></div>
+
+<div class="ck-block ck-block-err"><div class="ck-block-header"><div class="ck-block-icon">⚠️</div><span class="ck-block-title">Alertas de error frecuente</span></div>
+<ul><li>Patrimonio neto negativo <strong>no impide</strong> la autorización de OP.</li>
+<li>La actualización anual del Prospecto es optativa, no obligatoria.</li></ul></div>
+
+<div class="ck-block ck-block-norm"><div class="ck-block-header"><div class="ck-block-icon">📋</div><span class="ck-block-title">Normas aplicables</span></div>
+<span class="ck-norm-pill">📋 Ley 26.831</span><span class="ck-norm-pill">📋 Ley 23.576 (ON)</span></div>`
+      },
+      {
+        id: 'ck_opa',
+        name: 'OPA y DUVA',
+        refs: 'P6 · P8 · P17 · P18 · P19 · P25 · P26 · P28 · P29 · P30 · P40 · P45 · P65 · P118 · P124',
+        content: `
+<div class="ck-block ck-block-def"><div class="ck-block-header"><div class="ck-block-icon">📖</div><span class="ck-block-title">Definiciones esenciales</span></div>
+<p><strong>OPA:</strong> Oferta Pública de Adquisición. Mecanismo para adquirir acciones de una sociedad cotizante. Principio rector: <strong>igualdad de trato y transparencia</strong>.</p>
+<p><strong>DUVA:</strong> Declaración Unilateral de Voluntad de Adquisición. Se lanza cuando se alcanza el <strong>95% de las acciones</strong> y el minoritario lo intima.</p>
+<p><strong>Actuación concertada:</strong> dos o más personas que actúan coordinadas — formal o informalmente — para cooperar en la adquisición de acciones de una entidad con OP.</p></div>
+
+<div class="ck-block ck-block-comp"><div class="ck-block-header"><div class="ck-block-icon">⚖️</div><span class="ck-block-title">Plazos clave</span></div>
+<table><thead><tr><th>Situación</th><th>Plazo</th></tr></thead><tbody>
+<tr><td>Plazo mínimo de aceptación de la OPA</td><td><strong>10 días hábiles</strong></td></tr>
+<tr><td>Publicación del prospecto de OPA</td><td><strong>5 días hábiles</strong></td></tr>
+<tr><td>CNV para resolver autorización</td><td><strong>20 días hábiles</strong></td></tr>
+<tr><td>CNV para objetar precio equitativo</td><td><strong>20 días hábiles</strong></td></tr>
+</tbody></table></div>
+
+<div class="ck-block ck-block-exam"><div class="ck-block-header"><div class="ck-block-icon">🎯</div><span class="ck-block-title">Puntos críticos de examen</span></div>
+<ul><li>OPA obligatoria: cuando una emisora decide <strong>retirarse del régimen de OP</strong>.</li>
+<li>Incumplimiento del oferente: la CNV dispone la <strong>subasta de las participaciones</strong>.</li>
+<li>DUVA: al alcanzar el <strong>95%</strong> e intimación del minoritario.</li>
+<li>Garantía de la OPA: entidades financieras o compañías de seguros — con <strong>autorización previa CNV</strong>.</li></ul></div>
+
+<div class="ck-block ck-block-err"><div class="ck-block-header"><div class="ck-block-icon">⚠️</div><span class="ck-block-title">Alertas de error frecuente</span></div>
+<ul><li>Los plazos de la CNV (resolver/objetar) son ambos <strong>20 días hábiles</strong>.</li>
+<li>El plazo de aceptación mínima es <strong>10 días hábiles</strong> — no 20.</li></ul></div>
+
+<div class="ck-block ck-block-norm"><div class="ck-block-header"><div class="ck-block-icon">📋</div><span class="ck-block-title">Normas aplicables</span></div>
+<span class="ck-norm-pill">📋 Ley 26.831</span><span class="ck-norm-pill">📋 RG 1097/2025 (def. DUVA)</span></div>`
+      },
+      {
+        id: 'ck_privada',
+        name: 'Oferta Privada y Extraterritorial',
+        refs: 'P72 · P73 · P74 · P75 · P76 · P120 · P126',
+        content: `
+<div class="ck-block ck-block-def"><div class="ck-block-header"><div class="ck-block-icon">📖</div><span class="ck-block-title">Definiciones esenciales</span></div>
+<p><strong>Oferta Privada:</strong> colocación sin autorización CNV, dirigida a un grupo limitado. Elemento clave: la <strong>categoría del destinatario</strong>.</p>
+<p><strong>Oferta Extraterritorial:</strong> sin limitación en cantidad de inversores, precio ni monto, sin necesidad de cumplir requisito alguno.</p></div>
+
+<div class="ck-block ck-block-comp"><div class="ck-block-header"><div class="ck-block-icon">⚖️</div><span class="ck-block-title">Límites de la Oferta Privada</span></div>
+<table><thead><tr><th>Límite</th><th>Cantidad máxima</th></tr></thead><tbody>
+<tr><td>Invitaciones a inversores <strong>no calificados</strong></td><td><strong>15</strong></td></tr>
+<tr><td>Adquirentes totales</td><td><strong>35</strong></td></tr>
+</tbody></table></div>
+
+<div class="ck-block ck-block-exam"><div class="ck-block-header"><div class="ck-block-icon">🎯</div><span class="ck-block-title">Puntos críticos de examen</span></div>
+<ul><li>Máximo <strong>35 adquirentes</strong> totales, de los cuales máximo <strong>15</strong> no calificados.</li>
+<li>Confidencialidad: puede renunciarse expresamente por los inversores.</li>
+<li>Reventa fuera del país: sin limitación.</li></ul></div>
+
+<div class="ck-block ck-block-ex"><div class="ck-block-header"><div class="ck-block-icon">💡</div><span class="ck-block-title">Ejemplo</span></div>
+<p>28 adquirentes totales (20 calificados + 8 no calificados) → cumple: no supera 35 ni los 15 no calificados.</p></div>
+
+<div class="ck-block ck-block-norm"><div class="ck-block-header"><div class="ck-block-icon">📋</div><span class="ck-block-title">Normas aplicables</span></div>
+<span class="ck-norm-pill">📋 Ley 26.831</span><span class="ck-norm-pill">📋 Normas CNV</span></div>`
+      },
+      {
+        id: 'ck_inversor',
+        name: 'Inversor Calificado',
+        refs: 'P111 · P120',
+        content: `
+<div class="ck-block ck-block-def"><div class="ck-block-header"><div class="ck-block-icon">📖</div><span class="ck-block-title">¿Quiénes son inversores calificados?</span></div>
+<ul><li>Estado Nacional, Provincias y Municipalidades, Entidades Autárquicas, Sociedades y Empresas del Estado.</li>
+<li>Cajas Previsionales.</li>
+<li>Compañías de Seguros, Reaseguros y ART.</li></ul></div>
+
+<div class="ck-block ck-block-exam"><div class="ck-block-header"><div class="ck-block-icon">🎯</div><span class="ck-block-title">Punto crítico de examen</span></div>
+<p>En la Oferta Privada, la <strong>categoría del destinatario</strong> (calificado vs no calificado) es lo que delimita quiénes pueden participar.</p></div>
+
+<div class="ck-block ck-block-norm"><div class="ck-block-header"><div class="ck-block-icon">📋</div><span class="ck-block-title">Normas aplicables</span></div>
+<span class="ck-norm-pill">📋 Ley 26.831</span><span class="ck-norm-pill">📋 RG 1097/2025</span></div>`
+      },
+      {
+        id: 'ck_control',
+        name: 'Control Societario',
+        refs: 'P4 · P21 · P22 · P23 · P24 · P39 · P41 · P42 · P43 · P58 · P59 · P64 · P113 · P114',
+        content: `
+<div class="ck-block ck-block-def"><div class="ck-block-header"><div class="ck-block-icon">📖</div><span class="ck-block-title">Puntos esenciales</span></div>
+<ul><li>Registro de accionistas: a cargo de la propia emisora, bancos o Caja de Valores.</li>
+<li>Acciones propias: rige el principio de <strong>trato igualitario</strong>.</li>
+<li>Acciones preferidas: voto solo si la sociedad está en mora en sus beneficios.</li>
+<li>En OP por acciones: no pueden emitirse acciones ordinarias con voto privilegiado (salvo ajuste de capital).</li></ul></div>
+
+<div class="ck-block ck-block-comp"><div class="ck-block-header"><div class="ck-block-icon">⚖️</div><span class="ck-block-title">Consultas societarias</span></div>
+<table><thead><tr><th>Necesito saber</th><th>Dónde consulto</th></tr></thead><tbody>
+<tr><td>Capital social</td><td>Estatuto social + estados contables</td></tr>
+<tr><td>Actividades permitidas</td><td>Estatuto social</td></tr>
+</tbody></table></div>
+
+<div class="ck-block ck-block-exam"><div class="ck-block-header"><div class="ck-block-icon">🎯</div><span class="ck-block-title">Puntos críticos de examen</span></div>
+<ul><li>Aportes irrevocables: contrapartida en rubro de alta liquidez · asamblea en <strong>6 meses</strong>.</li>
+<li>Responsabilidad de administradores: <strong>LGS Art. 274</strong>.</li>
+<li>Personalidad jurídica: <strong>CCyCN Art. 146</strong>.</li>
+<li>Asambleas a distancia: requiere previsión en estatuto + instructivo ante CNV.</li>
+<li>Asamblea ordinaria: dentro de los <strong>4 meses</strong> del cierre del ejercicio.</li></ul></div>
+
+<div class="ck-block ck-block-norm"><div class="ck-block-header"><div class="ck-block-icon">📋</div><span class="ck-block-title">Normas aplicables</span></div>
+<span class="ck-norm-pill">📋 LGS Art. 274</span><span class="ck-norm-pill">📋 CCyCN Art. 146</span><span class="ck-norm-pill">📋 Ley 26.831</span></div>`
+      },
+      {
+        id: 'ck_pyme',
+        name: 'PyME CNV',
+        refs: 'P10 · P32 · P53 · P56 · P62 · P71',
+        content: `
+<div class="ck-block ck-block-def"><div class="ck-block-header"><div class="ck-block-icon">📖</div><span class="ck-block-title">Definición esencial</span></div>
+<p>Empresas con <strong>Certificado MiPyME</strong> inscriptas en el Registro de Empresas MiPyME (Ley 24.467). Condición de ingreso: cumplir parámetros de la <strong>SEPyME</strong>.</p>
+<p>Sus valores solo pueden ser adquiridos por <strong>inversores calificados</strong>.</p></div>
+
+<div class="ck-block ck-block-comp"><div class="ck-block-header"><div class="ck-block-icon">⚖️</div><span class="ck-block-title">PyME CNV vs PyME CNV Garantizada</span></div>
+<table><thead><tr><th>Aspecto</th><th>PyME CNV</th><th>PyME Garantizada</th></tr></thead><tbody>
+<tr><td>Estados contables</td><td>Requeridos</td><td>No requeridos una vez admitida</td></tr>
+<tr><td>Control societario</td><td>CNV</td><td>Registro Público de su jurisdicción</td></tr>
+<tr><td>Régimen informativo</td><td>Normal</td><td><strong>Menor</strong></td></tr>
+</tbody></table></div>
+
+<div class="ck-block ck-block-exam"><div class="ck-block-header"><div class="ck-block-icon">🎯</div><span class="ck-block-title">Puntos críticos de examen</span></div>
+<ul><li>Solo inversores <strong>calificados</strong> pueden adquirir valores PyME CNV.</li>
+<li>PyME Garantizada: sin estados contables y control del Registro Público.</li></ul></div>
+
+<div class="ck-block ck-block-norm"><div class="ck-block-header"><div class="ck-block-icon">📋</div><span class="ck-block-title">Normas aplicables</span></div>
+<span class="ck-norm-pill">📋 Ley 24.467</span><span class="ck-norm-pill">📋 Normas CNV (NT 2013)</span></div>`
+      },
+      {
+        id: 'ck_sanciones',
+        name: 'Sanciones y Sumarios CNV',
+        refs: 'P9 · P87 · P88 · P89 · P90 · P91 · P92 · P93 · P94 · P95 · P96 · P97 · P98 · P99 · P100 · P101 · P102 · P104 · P105 · P108',
+        content: `
+<div class="ck-block ck-block-def"><div class="ck-block-header"><div class="ck-block-icon">📖</div><span class="ck-block-title">Definiciones esenciales</span></div>
+<p>Las sanciones deben aplicarse mediante <strong>resolución fundada y previo sumario</strong>.</p>
+<p>Sanción máxima: <strong>multa hasta el quíntuplo del beneficio obtenido</strong>.</p>
+<p>Prescripción: <strong>6 años</strong> desde la comisión del hecho.</p></div>
+
+<div class="ck-block ck-block-comp"><div class="ck-block-header"><div class="ck-block-icon">⚖️</div><span class="ck-block-title">Recurso directo vs Sumario abreviado</span></div>
+<table><thead><tr><th>Recurso Directo</th><th>Sumario Abreviado</th></tr></thead><tbody>
+<tr><td>Ante la CNV · 10 días hábiles</td><td>Solo si se admiten los hechos</td></tr>
+<tr><td>Efecto devolutivo (multa: suspensivo)</td><td>No aplica si hubo beneficio o perjuicio a inversores</td></tr>
+<tr><td></td><td>Sanciones: multa y/o apercibimiento · tope $10M</td></tr>
+</tbody></table></div>
+
+<div class="ck-block ck-block-exam"><div class="ck-block-header"><div class="ck-block-icon">🎯</div><span class="ck-block-title">Puntos críticos de examen</span></div>
+<ul><li>Recurso directo: efecto <strong>devolutivo</strong> — excepto contra multa: <strong>suspensivo</strong>.</li>
+<li>Prescripción: <strong>6 años</strong>.</li>
+<li>Causa penal no impide que la CNV continúe su sumario.</li>
+<li>Si el denunciante desiste, la CNV <strong>continúa de oficio</strong>.</li>
+<li>Sumariado puede <strong>recusar</strong> al conductor del sumario y al Directorio CNV.</li></ul></div>
+
+<div class="ck-block ck-block-err"><div class="ck-block-header"><div class="ck-block-icon">⚠️</div><span class="ck-block-title">Alertas de error frecuente</span></div>
+<ul><li>El recurso contra <strong>multa</strong> tiene efecto suspensivo — el resto es devolutivo.</li>
+<li>Sumario abreviado: solo multa y/o apercibimiento, tope <strong>$10M</strong>.</li></ul></div>
+
+<div class="ck-block ck-block-norm"><div class="ck-block-header"><div class="ck-block-icon">📋</div><span class="ck-block-title">Normas aplicables</span></div>
+<span class="ck-norm-pill">📋 Ley 26.831 Art. 132–140</span><span class="ck-norm-pill">📋 Ley 24.083</span></div>`
+      },
+      {
+        id: 'ck_2025',
+        name: 'Actualizaciones Normativas 2025',
+        refs: 'P115 · P116 · P117 · P118 · P119 · P121 · P122 · P123 · P124 · P125 · P127',
+        content: `
+<div class="ck-block ck-block-def"><div class="ck-block-header"><div class="ck-block-icon">📖</div><span class="ck-block-title">Principales cambios</span></div>
+<ul><li><strong>RG 1097/2025:</strong> unificó definiciones — Inversor Calificado, DUVA, PyME CNV, Ratio CEDEAR, Precio Equitativo.</li>
+<li><strong>RG 1084/2025:</strong> simplificó autorización e inscripción de Fideicomisos Financieros.</li>
+<li><strong>Tokenización:</strong> moderniza la operatoria con instrumentos digitales regulados.</li></ul></div>
+
+<div class="ck-block ck-block-exam"><div class="ck-block-header"><div class="ck-block-icon">🎯</div><span class="ck-block-title">Puntos críticos de examen</span></div>
+<ul><li>Agente de Custodia y Pago — plataformas PyME: acceso <strong>libre, gratuito y actualizado</strong>. Solo para usuarios registrados: <strong>no cumple</strong>.</li>
+<li>Auth. automática acciones: emisor debe estar admitido al Régimen General.</li>
+<li>Auth. automática FCI: sustancialmente equivalente a uno ya aprobado, sin cambios en objetivo.</li>
+<li>Mercados: mecanismo gratuito y permanente de difusión de VN en circulación.</li></ul></div>
+
+<div class="ck-block ck-block-err"><div class="ck-block-header"><div class="ck-block-icon">⚠️</div><span class="ck-block-title">Alertas de error frecuente</span></div>
+<ul><li>Plataformas PyME restringidas a usuarios registrados → <strong>NO cumplen</strong> la normativa.</li></ul></div>
+
+<div class="ck-block ck-block-norm"><div class="ck-block-header"><div class="ck-block-icon">📋</div><span class="ck-block-title">Normas aplicables</span></div>
+<span class="ck-norm-pill">📋 RG CNV 1097/2025</span><span class="ck-norm-pill">📋 RG CNV 1084/2025</span><span class="ck-norm-pill">📋 RG CNV 1054/2025</span></div>`
+      },
+    ]
+  }
+];
+
+// ── State ──────────────────────────────────────────────────
+let ckChecked = {};
+
+function ckLoadState() {
+  const saved = localStorage.getItem(SK('ckChecked'));
+  ckChecked = saved ? JSON.parse(saved) : {};
+}
+
+function ckSaveState() {
+  localStorage.setItem(SK('ckChecked'), JSON.stringify(ckChecked));
+  if (currentUser) scheduleSave();
+}
+
+// ── Sync to cloud ──────────────────────────────────────────
+// Add to saveAll — handled via scheduleSave above
+// Add to pushToCloud and loadFromCloud via extension below
+
+function ckTotalTopics() {
+  return CONCEPTOS.reduce((sum, m) => sum + m.topics.length, 0);
+}
+function ckCheckedCount() {
+  return Object.values(ckChecked).filter(Boolean).length;
+}
+
+// ── Build view ─────────────────────────────────────────────
+function buildConceptos() {
+  ckLoadState();
+  const el = $('conceptos-content');
+  if (!el) return;
+
+  const total   = ckTotalTopics();
+  const checked = ckCheckedCount();
+  const pct     = total > 0 ? Math.round(checked / total * 100) : 0;
+  const col     = pct >= 80 ? 'var(--green)' : pct >= 40 ? 'var(--blue)' : 'var(--text2)';
+
+  el.innerHTML = `
+    <div class="ck-progress-bar">
+      <div class="ck-progress-top">
+        <span class="ck-progress-label">Progreso de comprensión</span>
+        <span class="ck-progress-pct" style="color:${col}">${pct}%</span>
+      </div>
+      <div class="ck-progress-track">
+        <div class="ck-progress-fill" style="width:${pct}%"></div>
+      </div>
+      <div class="ck-progress-sub">${checked} de ${total} temas marcados como comprendidos${pct===100?' · 🎉 ¡Módulos completados!':''}</div>
+    </div>
+        ${CONCEPTOS.map(mod => `
+      <div class="ck-module">
+        <div class="ck-module-title">
+          <span style="color:${mod.color}">●</span>
+          ${mod.mod}
+          <span class="ck-module-pct">
+            ${mod.topics.filter(t => ckChecked[t.id]).length}/${mod.topics.length}
+          </span>
+        </div>
+        ${mod.topics.map(t => ckRenderTopic(t)).join('')}
+      </div>
+    `).join('')}
+  `;
+
+  // Update sidebar badge
+  updateCkBadge();
+}
+
+function ckRenderTopic(t) {
+  const checked = ckChecked[t.id] || false;
+  const qCount  = t.refs.split('·').length;
+  // Count sub-blocks in topic
+  const blockIds = ckGetBlockIds(t.id);
+  const blocksChecked = blockIds.filter(bid => ckChecked[bid]).length;
+  const allBlocksDone = blockIds.length > 0 && blocksChecked === blockIds.length;
+
+  return `
+    <div class="ck-topic ${checked ? 'checked' : ''}" id="ck-topic-${t.id}">
+      <div class="ck-topic-header" onclick="ckToggle('${t.id}')">
+        <div class="ck-topic-info">
+          <div class="ck-topic-name-row">
+            <div class="ck-check" onclick="event.stopPropagation();ckMark('${t.id}')" title="${checked ? 'Desmarcar' : 'Marcar como comprendido'}">
+              ${checked ? '✓' : ''}
+            </div>
+            <div class="ck-topic-name">${t.name}</div>
+          </div>
+          <div class="ck-topic-meta">
+            ${qCount} preguntas &nbsp;·&nbsp;
+            ${blockIds.length > 0
+              ? `<span style="color:var(--text2)">${blocksChecked}/${blockIds.length} secciones leídas</span>`
+              : ''}
+            &nbsp;·&nbsp;
+            ${checked
+              ? '<span style="color:var(--green);font-weight:700">Comprendido ✓</span>'
+              : '<span style="color:var(--muted)">Pendiente</span>'}
+          </div>
+        </div>
+        <span style="color:var(--muted);font-size:11px;flex-shrink:0;transition:transform .2s" id="ck-chev-${t.id}">▸</span>
+      </div>
+      <div class="ck-topic-body" id="ck-body-${t.id}">
+        ${ckInjectBlockChecks(t)}
+        <div class="ck-refs">📌 Preguntas de este tema: ${t.refs}</div>
+        <button class="ck-check-btn" onclick="ckMark('${t.id}')">
+          ${checked
+            ? '<span>✓</span> Comprendido — hacer clic para desmarcar'
+            : '<span style=\'font-size:16px\'>○</span> Marcar como comprendido'}
+        </button>
+      </div>
+    </div>`;
+}
+
+function ckToggle(id) {
+  const body = $('ck-body-' + id);
+  const chev = $('ck-chev-' + id);
+  if (!body) return;
+  const open = body.classList.contains('open');
+  // Close all first
+  document.querySelectorAll('.ck-topic-body').forEach(b => b.classList.remove('open'));
+  document.querySelectorAll('[id^="ck-chev-"]').forEach(c => c.textContent = '▸');
+  if (!open) {
+    body.classList.add('open');
+    if (chev) chev.textContent = '▾';
+  }
+}
+
+function ckMark(id) {
+  ckChecked[id] = !ckChecked[id];
+  ckSaveState();
+  buildConceptos(); // re-render
+  // Re-open the topic
+  const body = $('ck-body-' + id);
+  const chev = $('ck-chev-' + id);
+  if (body) { body.classList.add('open'); }
+  if (chev) { chev.textContent = '▾'; }
+}
+
+function updateCkBadge() {
+  const badge = $('conceptos-badge');
+  if (!badge) return;
+  const total   = ckTotalTopics();
+  const checked = ckCheckedCount();
+  if (checked < total) {
+    badge.textContent = checked + '/' + total;
+    badge.style.display = 'inline';
+  } else {
+    badge.style.display = 'none';
+  }
+}
+
+
+// ═══════════════════════════════════════════════════════════
+// ANALISIS VIEW
+// ═══════════════════════════════════════════════════════════
+
+function buildAnalisis(tab) {
+  tab = tab || 'entrenamiento';
+  // Set active tab
+  document.querySelectorAll('#analisis-tab-bar .hist-tab').forEach(b => b.classList.remove('active'));
+  const tabBtn = $('atab-' + tab);
+  if (tabBtn) tabBtn.classList.add('active');
+  // Show/hide panes
+  document.querySelectorAll('.analisis-pane').forEach(p => p.style.display = 'none');
+  const pane = $('analisis-pane-' + tab);
+  if (pane) pane.style.display = 'block';
+  // Build content
+  if (tab === 'entrenamiento') buildEntrenamiento();
+  if (tab === 'path')          buildLearningPath();
+  if (tab === 'history')       { buildHistory('progreso'); }
+}
+
+function analisisTab(tab, btn) {
+  buildAnalisis(tab);
+}
+
+// Auto-refresh Entrenamiento after answering a question
+// Hook into updateMastery to trigger refresh if analisis is active
+const _origUpdateMastery = typeof updateMastery === 'function' ? updateMastery : null;
+
+
+// ── Block-level checks ────────────────────────────────────
+function ckGetBlockIds(topicId) {
+  // Return pre-defined block IDs for each topic
+  const blockMap = {};
+  CONCEPTOS.forEach(mod => {
+    mod.topics.forEach(t => {
+      // Parse block types from content
+      const matches = t.content.match(/ck-block-(\w+)/g) || [];
+      const types = [...new Set(matches.map(m => m.replace('ck-block-', '')))];
+      blockMap[t.id] = types.map(type => t.id + '_' + type);
+    });
+  });
+  return blockMap[topicId] || [];
+}
+
+function ckInjectBlockChecks(t) {
+  // Wrap each ck-block div with a checkable container
+  let content = t.content;
+  const blockTypes = ['def','comp','exam','ex','err','norm'];
+  blockTypes.forEach(type => {
+    const blockId = t.id + '_' + type;
+    const isChecked = ckChecked[blockId] || false;
+    const regex = new RegExp(`<div class="ck-block ck-block-${type}">`, 'g');
+    content = content.replace(regex,
+      `<div class="ck-block ck-block-${type} ${isChecked ? 'ck-block-read' : ''}" id="ckb-${blockId}">
+       <div class="ck-block-read-btn" onclick="event.stopPropagation();ckMarkBlock('${blockId}','${t.id}')" title="${isChecked ? 'Desmarcar sección' : 'Marcar sección como leída'}">
+         ${isChecked ? '✓ Leído' : '○ Marcar como leído'}
+       </div>`
+    );
+  });
+  return content;
+}
+
+function ckMarkBlock(blockId, topicId) {
+  ckChecked[blockId] = !ckChecked[blockId];
+  // Auto-check topic if all blocks done
+  const blockIds = ckGetBlockIds(topicId);
+  const allDone  = blockIds.length > 0 && blockIds.every(bid => ckChecked[bid]);
+  if (allDone && !ckChecked[topicId]) {
+    ckChecked[topicId] = true;
+  } else if (!allDone && ckChecked[blockId] === false) {
+    // Don't auto-uncheck topic — user can do it manually
+  }
+  ckSaveState();
+  // Re-render just this topic
+  const el = document.getElementById('ck-topic-' + topicId);
+  if (el) {
+    const wasOpen = document.getElementById('ck-body-' + topicId)?.classList.contains('open');
+    el.outerHTML = ckRenderTopic(CONCEPTOS.flatMap(m => m.topics).find(t => t.id === topicId));
+    if (wasOpen) {
+      const newBody = document.getElementById('ck-body-' + topicId);
+      const newChev = document.getElementById('ck-chev-' + topicId);
+      if (newBody) newBody.classList.add('open');
+      if (newChev) newChev.textContent = '▾';
+    }
+  }
+  // Update progress bar
+  const pctEl = document.querySelector('.ck-progress-pct');
+  const fillEl = document.querySelector('.ck-progress-fill');
+  const subEl  = document.querySelector('.ck-progress-sub');
+  if (pctEl) {
+    const total   = ckTotalTopics();
+    const checked = ckCheckedCount();
+    const pct     = total > 0 ? Math.round(checked / total * 100) : 0;
+    pctEl.textContent = pct + '%';
+    if (fillEl) fillEl.style.width = pct + '%';
+    if (subEl)  subEl.textContent  = checked + ' de ' + total + ' temas marcados como comprendidos';
+  }
+  updateCkBadge();
 }
 
 </script>
