@@ -3820,7 +3820,7 @@ body { font-size: 1rem; }
         <button class="hist-tab" onclick="showHistTab('exams',this)">Exámenes</button>
         <button class="hist-tab" onclick="showHistTab('flashcards',this)">🃏 Flashcards</button>
       </div>
-      <div id="hist-content"></div>
+      <div id="hist-content-legacy"></div>
     </div>
 
     <!-- ACHIEVEMENTS -->
@@ -4322,7 +4322,7 @@ body { font-size: 1rem; }
         <div class="page-title">🗺 Learning Path</div>
         <div class="page-sub">Módulos por prioridad de impacto · sesión rápida · proyección semanal</div>
       </div>
-      <div id="path-content">
+      <div id="path-content-legacy">
         <div style="color:var(--text2);text-align:center;padding:40px 20px;font-size:13px">Cargando...</div>
       </div>
     </div>
@@ -4363,7 +4363,7 @@ body { font-size: 1rem; }
         <div class="page-title">🎯 Entrenamiento Focalizado</div>
         <div class="page-sub">Tu centro de análisis — errores, práctica guiada, repaso espaciado y comparador de normas</div>
       </div>
-      <div id="entrenamiento-content"></div>
+      <div id="entrenamiento-content-legacy"></div>
     </div>
     <!-- CONCEPTOS CLAVE VIEW -->
     <div class="view" id="view-conceptos">
@@ -4723,13 +4723,30 @@ function navigate(view) {
   if (view==='flagged')       buildFlagged();
   if (view==='notes')         { buildNotes(); switchNotesTab('manual'); }
   if (view==='history') {
-    navigate('analisis');
-    setTimeout(()=>{ buildAnalisis('history'); }, 100);
+    // Show analisis view directly without recursive navigate
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+    const analisisEl = $('view-analisis');
+    if (analisisEl) analisisEl.classList.add('active');
+    document.querySelectorAll('.sb-btn').forEach(b => b.classList.remove('active'));
+    const nb2 = $('nav-analisis');
+    if (nb2) nb2.classList.add('active');
+    curView = 'analisis';
+    $('tb-title').textContent = 'Mi Progreso';
+    closeSidebar();
+    buildAnalisis('history');
     return;
   }
   if (view==='path') {
-    navigate('analisis');
-    setTimeout(()=>{ buildAnalisis('path'); }, 100);
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+    const analisisEl = $('view-analisis');
+    if (analisisEl) analisisEl.classList.add('active');
+    document.querySelectorAll('.sb-btn').forEach(b => b.classList.remove('active'));
+    const nb2 = $('nav-analisis');
+    if (nb2) nb2.classList.add('active');
+    curView = 'analisis';
+    $('tb-title').textContent = 'Mi Progreso';
+    closeSidebar();
+    buildAnalisis('path');
     return;
   }
   if (view==='achievements')  buildAchievements();
@@ -4737,8 +4754,16 @@ function navigate(view) {
   if (view==='biblio')        {} // static view
   if (view==='conceptos')     buildConceptos();
   if (view==='entrenamiento') {
-    navigate('analisis');
-    setTimeout(()=>{ buildAnalisis('entrenamiento'); }, 100);
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+    const analisisEl = $('view-analisis');
+    if (analisisEl) analisisEl.classList.add('active');
+    document.querySelectorAll('.sb-btn').forEach(b => b.classList.remove('active'));
+    const nb2 = $('nav-analisis');
+    if (nb2) nb2.classList.add('active');
+    curView = 'analisis';
+    $('tb-title').textContent = 'Mi Progreso';
+    closeSidebar();
+    buildAnalisis('entrenamiento');
     return;
   }
   if (view==='analisis')      buildAnalisis();
@@ -6493,8 +6518,11 @@ function deleteNote(fk) { delete notesSaved[fk]; saveAll(); buildNotes(); }
 // HISTORY
 // ═══════════════════════════════════════════════════════════
 function buildHistory(tab) {
-  document.querySelectorAll('.hist-tab').forEach(t=>t.classList.remove('active'));
-  document.querySelector(`.hist-tab[onclick*="${tab}"]`)?.classList.add('active');
+  const histPane = $('analisis-pane-history') || $('view-history');
+  if (histPane) {
+    histPane.querySelectorAll('.hist-tab').forEach(t=>t.classList.remove('active'));
+    histPane.querySelector(`.hist-tab[onclick*="${tab}"]`)?.classList.add('active');
+  }
   const el=$('hist-content');
   if (tab==='rendimiento') { _buildRendimientoTab(); return; }
   if (tab==='progreso')    { _buildProgresoTab(); return; }
@@ -6681,11 +6709,17 @@ function buildHistory(tab) {
 function showHistTab(tab,btn) {
   // Errores y Rendimiento fueron movidos a Entrenamiento Focalizado
   if (tab==='errors' || tab==='rendimiento') {
-    navigate('entrenamiento');
+    buildAnalisis('entrenamiento');
     toast('💡 Análisis de errores está en Entrenamiento Focalizado');
     return;
   }
-  document.querySelectorAll('.hist-tab').forEach(t=>t.classList.remove('active'));
+  // Scope selector to avoid conflicts with analisis tab bar
+  const container = btn ? btn.closest('.analisis-pane, #view-history') : null;
+  if (container) {
+    container.querySelectorAll('.hist-tab').forEach(t=>t.classList.remove('active'));
+  } else {
+    document.querySelectorAll('.hist-tab').forEach(t=>t.classList.remove('active'));
+  }
   if(btn) btn.classList.add('active');
   buildHistory(tab);
 }
@@ -12391,18 +12425,24 @@ function updateCkBadge() {
 
 function buildAnalisis(tab) {
   tab = tab || 'entrenamiento';
-  // Set active tab
+  // Set active tab button
   document.querySelectorAll('#analisis-tab-bar .hist-tab').forEach(b => b.classList.remove('active'));
   const tabBtn = $('atab-' + tab);
   if (tabBtn) tabBtn.classList.add('active');
   // Show/hide panes
-  document.querySelectorAll('.analisis-pane').forEach(p => p.style.display = 'none');
+  document.querySelectorAll('.analisis-pane').forEach(p => {
+    p.style.display = 'none';
+    p.classList.remove('active');
+  });
   const pane = $('analisis-pane-' + tab);
-  if (pane) pane.style.display = 'block';
-  // Build content
+  if (pane) {
+    pane.style.display = 'block';
+    pane.classList.add('active');
+  }
+  // Build content into the correct containers
   if (tab === 'entrenamiento') buildEntrenamiento();
   if (tab === 'path')          buildLearningPath();
-  if (tab === 'history')       { buildHistory('progreso'); }
+  if (tab === 'history')       buildHistory('progreso');
 }
 
 function analisisTab(tab, btn) {
