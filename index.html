@@ -2889,6 +2889,140 @@ body { font-size: 1rem; }
   opacity: 0.6;
 }
 .ck-block::after { content: ''; display: table; clear: both; }
+
+/* ── Mapa Normativo ──────────────────────────────────── */
+.nm-filters {
+  display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 18px;
+}
+.nm-filter-btn {
+  padding: 5px 12px; border-radius: 20px; border: 1px solid var(--border);
+  background: var(--card); font-size: 11px; font-weight: 600; color: var(--text2);
+  cursor: pointer; transition: all .15s; white-space: nowrap;
+}
+.nm-filter-btn.active, .nm-filter-btn:hover {
+  background: var(--blue); border-color: var(--blue); color: #fff;
+}
+.nm-search {
+  width: 100%; padding: 9px 14px; border-radius: 8px;
+  border: 1px solid var(--border); background: var(--card);
+  color: var(--text); font-size: 13px; margin-bottom: 16px;
+  box-sizing: border-box;
+}
+.nm-search:focus { outline: none; border-color: var(--blue); }
+.nm-group { margin-bottom: 24px; }
+.nm-group-title {
+  font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: .12em;
+  color: var(--text2); padding: 8px 14px; background: var(--card2);
+  border: 1px solid var(--border); border-left: 3px solid var(--blue);
+  border-radius: 8px; margin-bottom: 8px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.nm-group-count {
+  font-size: 11px; background: var(--card); border: 1px solid var(--border);
+  border-radius: 20px; padding: 2px 10px; font-family: var(--mono);
+}
+.nm-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 10px; margin-bottom: 6px; overflow: hidden;
+  transition: border-color .2s;
+}
+.nm-card:hover { border-color: var(--border2); }
+.nm-card-header {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 15px; cursor: pointer; user-select: none;
+}
+.nm-badge {
+  min-width: 36px; height: 36px; border-radius: 8px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  background: var(--card2); border: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.nm-badge-num {
+  font-size: 14px; font-weight: 800; font-family: var(--mono);
+  line-height: 1;
+}
+.nm-badge-lbl { font-size: 8px; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
+.nm-badge.hot  { background: rgba(240,80,80,.1);  border-color: rgba(240,80,80,.3); }
+.nm-badge.hot .nm-badge-num  { color: var(--red, #e05050); }
+.nm-badge.warm { background: rgba(240,160,64,.1); border-color: rgba(240,160,64,.3); }
+.nm-badge.warm .nm-badge-num { color: var(--gold); }
+.nm-badge.cool { background: rgba(64,144,240,.1); border-color: rgba(64,144,240,.3); }
+.nm-badge.cool .nm-badge-num { color: var(--blue); }
+.nm-badge.cold { background: var(--card2); }
+.nm-badge.cold .nm-badge-num { color: var(--text2); }
+.nm-info { flex: 1; min-width: 0; }
+.nm-name { font-size: 13px; font-weight: 700; color: var(--text); }
+.nm-desc { font-size: 11px; color: var(--text2); margin-top: 2px; line-height: 1.4; }
+.nm-tags { display: flex; gap: 5px; margin-top: 4px; flex-wrap: wrap; }
+.nm-tag {
+  font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 4px;
+  background: rgba(64,144,240,.08); border: 1px solid rgba(64,144,240,.2); color: var(--blue);
+}
+.nm-body {
+  display: none; border-top: 1px solid var(--border); padding: 14px 15px;
+}
+.nm-body.open { display: block; }
+.nm-q-list { margin: 0; padding: 0; list-style: none; }
+.nm-q-item {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 8px 10px; border-radius: 7px; cursor: pointer;
+  transition: background .15s; margin-bottom: 3px;
+}
+.nm-q-item:hover { background: var(--card2); }
+.nm-q-num {
+  font-size: 10px; font-weight: 700; font-family: var(--mono);
+  color: var(--blue); background: rgba(64,144,240,.08);
+  border: 1px solid rgba(64,144,240,.2); border-radius: 4px;
+  padding: 2px 6px; flex-shrink: 0; white-space: nowrap;
+}
+.nm-q-text { font-size: 12px; color: var(--text); line-height: 1.5; }
+.nm-empty { font-size: 12px; color: var(--muted); padding: 8px 0; font-style: italic; }
+/* Flashcard mode */
+.nm-fc-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,.6);
+  z-index: 500; display: flex; align-items: center; justify-content: center;
+  padding: 20px; backdrop-filter: blur(4px);
+}
+.nm-fc-card {
+  background: var(--card); border: 1px solid var(--border); border-radius: 16px;
+  width: 100%; max-width: 480px; padding: 28px 24px;
+  text-align: center; position: relative;
+}
+.nm-fc-progress {
+  font-size: 11px; color: var(--muted); margin-bottom: 16px; font-family: var(--mono);
+}
+.nm-fc-name {
+  font-size: 20px; font-weight: 800; color: var(--text); margin-bottom: 12px;
+}
+.nm-fc-modules {
+  font-size: 11px; color: var(--blue); font-weight: 600;
+  background: rgba(64,144,240,.08); border: 1px solid rgba(64,144,240,.2);
+  border-radius: 5px; padding: 3px 10px; display: inline-block; margin-bottom: 16px;
+}
+.nm-fc-desc {
+  font-size: 14px; color: var(--text2); line-height: 1.7;
+  display: none; margin-bottom: 20px;
+}
+.nm-fc-desc.show { display: block; }
+.nm-fc-hint {
+  font-size: 12px; color: var(--muted); margin-bottom: 20px;
+}
+.nm-fc-hint.hidden { display: none; }
+.nm-fc-btns { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+.nm-fc-btn {
+  padding: 9px 20px; border-radius: 8px; border: 1px solid var(--border);
+  font-size: 13px; font-weight: 600; cursor: pointer; transition: all .15s;
+  background: var(--card2); color: var(--text);
+}
+.nm-fc-btn.primary { background: var(--blue); border-color: var(--blue); color: #fff; }
+.nm-fc-btn.success { background: var(--green); border-color: var(--green); color: #fff; }
+.nm-fc-btn.danger  { background: rgba(240,80,80,.1); border-color: rgba(240,80,80,.4); color: var(--red,#e05050); }
+.nm-fc-close {
+  position: absolute; top: 12px; right: 14px;
+  background: none; border: none; font-size: 18px; color: var(--muted); cursor: pointer;
+}
+.nm-fc-count-bar { display: flex; gap: 8px; justify-content: center; margin-bottom: 16px; }
+.nm-fc-count-item { font-size: 11px; font-weight: 700; }
 </style>
 <!-- Auth modal styles -->
 <style>
@@ -3008,7 +3142,13 @@ body { font-size: 1rem; }
     <div class="sb-section-label">Referencia</div>
     <button class="sb-btn" id="nav-conceptos" onclick="navigate('conceptos')">
       <span class="icon">📗</span>Conceptos Clave
+    </button>
+    <button class="sb-btn" id="nav-normas" onclick="navigate('normas')">
+      <span class="icon">⚖️</span>Mapa Normativo
       <span class="badge" id="conceptos-badge" style="display:none">0</span>
+    </button>
+    <button class="sb-btn" id="nav-buscador" onclick="navigate('buscador')">
+      <span class="icon">🔍</span>Buscador
     </button>
     <button class="sb-btn" id="nav-flagged" onclick="navigate('flagged')">
       <span class="icon">🚩</span>Marcadas
@@ -4363,6 +4503,24 @@ body { font-size: 1rem; }
       </div>
       <div id="entrenamiento-content-legacy"></div>
     </div>
+    <!-- BUSCADOR VIEW -->
+    <div class="view" id="view-buscador">
+      <div class="page-header">
+        <div class="page-title">🔍 Buscador de preguntas</div>
+        <div class="page-sub">Escribí cualquier palabra y encontrá todas las preguntas relacionadas con su respuesta correcta</div>
+      </div>
+      <div id="buscador-content"></div>
+    </div>
+
+    <!-- MAPA NORMATIVO VIEW -->
+    <div class="view" id="view-normas">
+      <div class="page-header">
+        <div class="page-title">⚖️ Mapa Normativo</div>
+        <div class="page-sub">Todas las normas del examen — descripción, módulo y preguntas relacionadas</div>
+      </div>
+      <div id="normas-content"></div>
+    </div>
+
     <!-- CONCEPTOS CLAVE VIEW -->
     <div class="view" id="view-conceptos">
       <div class="page-header">
@@ -4751,6 +4909,8 @@ function navigate(view) {
   if (view==='recs')          { buildRecs(); initStudyPlan(); buildPlan20(); }
   if (view==='biblio')        {} // static view
   if (view==='conceptos')     buildConceptos();
+  if (view==='normas')        buildNormas();
+  if (view==='buscador')      buildBuscador();
   if (view==='entrenamiento') {
     document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
     const analisisEl = $('view-analisis');
@@ -9793,7 +9953,7 @@ const HELP_CONTENT = {
         <div class="help-step-text"><strong>Usá el Repaso Inteligente seguido</strong> — Cada vez que errás, la pregunta queda priorizada. El Repaso Inteligente te la vuelve a mostrar en el momento justo. Hacé sesiones cortas pero frecuentes.</div>
       </div>
       <div class="help-step"><div class="help-step-num">4</div>
-        <div class="help-step-text"><strong>Revisá tu Learning Path y Entrenamiento</strong> — En la sección <em>Analizar</em> encontrás el Learning Path (estrategia global) y Entrenamiento Focalizado (corrección inteligente de tus errores reales con práctica guiada).</div>
+        <div class="help-step-text"><strong>Revisá Mi Progreso</strong> — En la sección <em>Mi Progreso</em> encontrás tres pestañas: Entrenamiento (errores y práctica guiada), Estrategia (plan global por módulo) e Historial (tu evolución).</div>
       </div>
       <div class="help-step"><div class="help-step-num">5</div>
         <div class="help-step-text"><strong>Tomá simulacros periódicos</strong> — En <em>Simulacro</em> podés armar exámenes de 20 a 60 preguntas con o sin tiempo. El examen oficial CNV es 60 preguntas, 70% para aprobar.</div>
@@ -9969,7 +10129,7 @@ const HELP_CONTENT = {
       </div>
       <div class="help-card">
         <div class="help-card-title">🏆 Logros</div>
-        <div class="help-card-body">80 logros en 7 categorías: Progreso, Módulos, Precisión, Rachas, Exámenes, Herramientas y Especiales. Se desbloquean automáticamente. Encontrás el panel en <em>Analizar → Logros</em>.</div>
+        <div class="help-card-body">80 logros en 7 categorías: Progreso, Módulos, Precisión, Rachas, Exámenes, Herramientas y Especiales. Se desbloquean automáticamente. Encontrás el panel en <em>🏆 Logros</em> (en la barra lateral, sección Referencia).</div>
       </div>
       <div class="help-tip">💡 <strong>Meta concreta:</strong> 70%+ progreso + 70%+ precisión + al menos 3 simulacros con nota ≥70% = estás lista para rendir.</div>
     </div>`
@@ -12521,6 +12681,532 @@ function ckMarkBlock(blockId, topicId) {
     if (subEl)  subEl.textContent  = checked + ' de ' + total + ' temas marcados como comprendidos';
   }
   updateCkBadge();
+}
+
+
+// ═══════════════════════════════════════════════════════════
+// MAPA NORMATIVO
+// ═══════════════════════════════════════════════════════════
+
+const NORM_GROUPS = [{"group": "Leyes Nacionales", "norms": [{"id": "ley_26_831", "name": "Ley 26.831", "desc": "Ley de Mercado de Capitales — regula CNV, oferta pública, agentes, sanciones y FCI", "modules": "M1/M5/M6", "count": 23, "questions": [{"m": 1, "n": 1, "q": "¿Cuál es el objetivo principal de la Ley 26.831?", "a": "Regular, supervisar y fiscalizar el mercado de capitales"}, {"m": 1, "n": 2, "q": "¿Qué organismo es la autoridad de aplicación de la Ley 26.831?", "a": "Comisión Nacional de Valores"}, {"m": 1, "n": 8, "q": "¿Qué es la DUVA según la Ley 26.831?", "a": "Declaración Unificada de Valores y Acciones, usada para la oferta pública y regulada por la CNV."}, {"m": 1, "n": 9, "q": "¿Cuál es la sanción máxima prevista por la Ley 26.831 para incumplimientos grave", "a": "Multa hasta el quíntuplo del beneficio obtenido"}, {"m": 1, "n": 11, "q": "¿Qué significa “oferta pública” según la Ley 26.831?", "a": "Una oferta dirigida al público en general o a sectores indeterminados"}, {"m": 1, "n": 12, "q": "¿Qué norma regula el secreto profesional en el mercado de capitales?", "a": "Ley 26.831, Título I, Capítulo V."}, {"m": 1, "n": 13, "q": "¿Cuál es la función del Tribunal Arbitral según la Ley 26.831?", "a": "Resolver controversias entre participantes del mercado."}, {"m": 1, "n": 99, "q": "Cuando de la investigación previa surja la posible comisión de las infracciones ", "a": "• El infractor hubiera obtenido presuntamente algún beneficio económico en base a la conducta irregular. • Existan eleme"}, {"m": 1, "n": 109, "q": "Dentro de los objetivos establecidos por la Ley 26.831 se incluyen:", "a": "• Fortalecer los mecanismos de protección y prevención de abusos contra los inversores, en el marco de la función tuitiv"}, {"m": 1, "n": 112, "q": "¿Cuál de las siguientes facultades está expresamente prevista en la Ley N° 26.83", "a": "Establecer normas mínimas de capacitación, acreditación y registro para quienes brinden asesoramiento al público inverso"}, {"m": 1, "n": 114, "q": "La asamblea ordinaria que trate los asuntos incluidos en el artículo 234, inciso", "a": "Dentro de los cuatro meses de la fecha de cierre del ejercicio."}, {"m": 3, "n": 67, "q": "Idoneidad en el Mercado de Capitales:", "a": "• Para ser idóneo en el mercado de capitales, es necesario ser dado de alta en el Registro Público de Idóneos de Comisió"}, {"m": 4, "n": 17, "q": "¿Qué norma regula la operatoria de derivados en mercados autorizados por Comisió", "a": "Ley 26.831"}, {"m": 4, "n": 53, "q": "Es causal de exclusión del Registro de Auditores Externos que lleva la Comisión ", "a": "Ser sancionado con inhabilitación por la Comisión Nacional de Valores por aplicación del régimen de sanciones previsto e"}, {"m": 4, "n": 75, "q": "La función de supervisión del control de calidad de las auditorías externas que ", "a": "De la Ley 26.831 (y su modificatoria Ley 27.440)."}, {"m": 5, "n": 6, "q": "¿Qué norma regula la inscripción de agentes en Argentina?", "a": "Ley 26.831"}, {"m": 5, "n": 18, "q": "¿Qué norma regula la operatoria de derivados en Argentina?", "a": "Ley 26.831"}, {"m": 5, "n": 25, "q": "¿Qué ley regula el mercado de capitales en Argentina?", "a": "Ley 26.831"}, {"m": 5, "n": 27, "q": "¿Qué norma establece la obligación de inscripción de agentes?", "a": "Ley 26.831"}, {"m": 5, "n": 28, "q": "¿Qué artículo de la Ley 26.831 regula la función de la Comisión Nacional de Valo", "a": "Art. 2"}, {"m": 5, "n": 100, "q": "De acuerdo con lo establecido por la Ley N° 27.739, la Comisión Nacional de Valo", "a": "Regular a los Proveedores de Servicios de Activos Virtuales y a los activos virtuales que califiquen como valores negoci"}, {"m": 5, "n": 102, "q": "¿Una persona jurídica que se encuentra inscripta en la Comisión Nacional de Valo", "a": "No, ya que ello es una causal de exclusión para operar como Proveedores de Servicios de Activos Virtuales."}, {"m": 6, "n": 108, "q": "¿Cuál de las siguientes enunciaciones relativas a las Ofertas Públicas con Autor", "a": "Los valores fiduciarios serán considerados colocados por oferta pública, siempre que los mismos sean efectivamente coloc"}]}, {"id": "ley_24_083", "name": "Ley 24.083", "desc": "Ley de Fondos Comunes de Inversión — estructura, gestión y fiscalización de FCI", "modules": "M6", "count": 3, "questions": [{"m": 6, "n": 6, "q": "¿Qué norma regula los FCI en Argentina?", "a": "Ley 24.083"}, {"m": 6, "n": 13, "q": "¿Qué establece la Ley 24.083 sobre el patrimonio del FCI?", "a": "Es un patrimonio separado del de la sociedad gerente"}, {"m": 6, "n": 18, "q": "¿Qué ley regula la responsabilidad de la sociedad gerente?", "a": "Ley 24.083"}]}, {"id": "ley_25_246", "name": "Ley 25.246", "desc": "Ley antilavado — encubrimiento y lavado como delitos penales, crea la UIF", "modules": "M2", "count": 8, "questions": [{"m": 2, "n": 4, "q": "¿Quién es la autoridad de aplicación de la Ley 25.246?", "a": "UIF"}, {"m": 2, "n": 7, "q": "¿Cuál de los siguientes es un sujeto obligado según la Ley 25.246?", "a": "Agentes de liquidación y compensación"}, {"m": 2, "n": 13, "q": "¿Cuál es la finalidad del Decreto 918/2012?", "a": "Reglamentar la Ley 25.246"}, {"m": 2, "n": 30, "q": "¿Qué norma incorpora la figura del encubrimiento y lavado como delito penal?", "a": "Ley 25.246"}, {"m": 2, "n": 42, "q": "Cuando una persona jurídica es Sujeto Obligado en los términos del artículo 20 d", "a": "Un miembro del órgano de administración."}, {"m": 2, "n": 70, "q": "Una de las obligaciones del Sujeto Obligado conforme los incs. a y b, art. 21, L", "a": "Recabar de sus clientes, requirentes o aportantes documentos que prueben fehacientemente su identidad, personería jurídi"}, {"m": 2, "n": 87, "q": "De acuerdo con las definiciones receptadas en el artículo 4° bis de la Ley 25.24", "a": "Custodia y/o administración de activos virtuales o instrumentos que permitan el control sobre los mismos;"}, {"m": 5, "n": 96, "q": "¿Quiénes están legalmente obligados a inscribirse en el Registro de Proveedores ", "a": "Todas las personas humanas residentes en la República Argentina y personas jurídicas que realicen en el país, una o más "}]}, {"id": "ley_23_576", "name": "Ley 23.576", "desc": "Ley de Obligaciones Negociables — emisión, condiciones y régimen de las ON", "modules": "M1/M5", "count": 3, "questions": [{"m": 1, "n": 27, "q": "¿Qué norma regula las Obligaciones Negociables en Argentina?", "a": "Ley 23.576"}, {"m": 4, "n": 5, "q": "¿Qué norma establece las condiciones de emisión de obligaciones negociables?", "a": "Ley 23.576"}, {"m": 5, "n": 30, "q": "¿Qué ley regula las obligaciones negociables?", "a": "Ley 23.576"}]}, {"id": "ley_19_550___lgs", "name": "Ley 19.550 / LGS", "desc": "Ley General de Sociedades — responsabilidad de administradores, asambleas, acciones", "modules": "M1", "count": 8, "questions": [{"m": 1, "n": 23, "q": "¿Qué norma establece la responsabilidad de los administradores hacia la Sociedad", "a": "Ley General de Sociedades, art. 274"}, {"m": 1, "n": 114, "q": "La asamblea ordinaria que trate los asuntos incluidos en el artículo 234, inciso", "a": "Dentro de los cuatro meses de la fecha de cierre del ejercicio."}, {"m": 3, "n": 10, "q": "¿Qué norma establece el deber de informar conflictos de interés?", "a": "Ley General de Sociedades, art. 272"}, {"m": 3, "n": 24, "q": "¿Qué norma establece el deber de informar conflictos de interés?", "a": "Ley General de Sociedades, art. 272"}, {"m": 3, "n": 97, "q": "Los administradores y los representantes de la sociedad deben obrar con lealtad ", "a": "Ilimitada y solidaria por acción u omisión."}, {"m": 3, "n": 98, "q": "Según el Art. 272 de la Ley 19.550, si un director tuviese un interés contrario ", "a": "• Deberá hacerlo saber al directorio. • Deberá hacerlo saber a los síndicos. • Deberá abstenerse de intervenir en la del"}, {"m": 4, "n": 27, "q": "¿Qué norma regula el depósito de acciones para asistir a asambleas?", "a": "Ley 19.550"}, {"m": 5, "n": 101, "q": "¿Cuál de los siguientes requisitos aplica a las sociedades extranjeras para pode", "a": "Deben estar inscriptas en los términos del artículo 118 de la Ley N° 19.550, bajo cualquiera de las formas previstas -su"}]}, {"id": "ley_27_440", "name": "Ley 27.440", "desc": "Ley de Financiamiento Productivo — modifica Ley 26.831, incorpora nuevos instrumentos", "modules": "M1/M5", "count": 3, "questions": [{"m": 4, "n": 75, "q": "La función de supervisión del control de calidad de las auditorías externas que ", "a": "De la Ley 26.831 (y su modificatoria Ley 27.440)."}, {"m": 5, "n": 12, "q": "¿Qué norma regula las plataformas de financiamiento colectivo?", "a": "Ley 27.440"}, {"m": 5, "n": 26, "q": "¿Qué ley introdujo las plataformas de financiamiento colectivo?", "a": "Ley 27.440"}]}, {"id": "ley_27_739", "name": "Ley 27.739", "desc": "Ley de Prevención del Lavado — actualiza sistema PLD/FT, incorpora PSAV como SO", "modules": "M2", "count": 5, "questions": [{"m": 2, "n": 35, "q": "¿Existe plazo máximo para reportar hechos u operaciones sospechosas de financiac", "a": "El establecido en la Ley N° 27.739 y en las resoluciones emitidas por la UIF pertinentes a cada tipo de Sujeto Obligado,"}, {"m": 2, "n": 36, "q": "¿Existe plazo máximo para reportar hechos u operaciones sospechosas de lavado de", "a": "El establecido en la Ley N° 27.739 y en las resoluciones emitidas por la UIF pertinentes a cada tipo de Sujeto Obligado,"}, {"m": 2, "n": 45, "q": "Desde que un hecho u operación es calificada como sospechosa, ¿existe plazo para", "a": "El plazo establecido en la Ley N° 27.739 y en las Resoluciones UIF pertinentes, en el marco de lo dispuesto por la Resol"}, {"m": 2, "n": 53, "q": "La aplicación de sanciones administrativas a los sujetos obligados que forman pa", "a": "Las efectúa la Unidad de Información Financiera."}, {"m": 5, "n": 100, "q": "De acuerdo con lo establecido por la Ley N° 27.739, la Comisión Nacional de Valo", "a": "Regular a los Proveedores de Servicios de Activos Virtuales y a los activos virtuales que califiquen como valores negoci"}]}, {"id": "ley_24_441", "name": "Ley 24.441", "desc": "Ley de Fideicomisos — régimen del fideicomiso financiero en Argentina", "modules": "M6", "count": 1, "questions": [{"m": 6, "n": 20, "q": "¿Qué norma regula los fideicomisos financieros en Argentina?", "a": "Ley 24.441"}]}, {"id": "ley_24_467", "name": "Ley 24.467", "desc": "Ley PyME — define MiPyMEs, base para el Certificado MiPyME y régimen PyME CNV", "modules": "M1", "count": 1, "questions": [{"m": 1, "n": 32, "q": "¿Qué se entiende por Pequeñas y Medianas Empresas Comisión Nacional de Valores (", "a": "Se entiende por PYMES Comisión Nacional de Valores a aquellas que cuentan con “Certificado MiPyME” y se encuentran, por "}]}, {"id": "ley_25_345", "name": "Ley 25.345", "desc": "Ley antievasión — establece límites a operaciones en efectivo (tope SO)", "modules": "M2", "count": 1, "questions": [{"m": 2, "n": 43, "q": "De acuerdo a las Normas CNV - Título XI NT 2013 y mod., los Sujetos Obligados so", "a": "El monto establecido en el artículo 1º de la Ley Nº 25.345"}]}, {"id": "ley_26_994___ccycn", "name": "Ley 26.994 / CCyCN", "desc": "Código Civil y Comercial — personalidad jurídica (Art. 146), contratos", "modules": "M1/M6", "count": 2, "questions": [{"m": 1, "n": 24, "q": "¿Qué artículo del Código Civil y Comercial define la personalidad jurídica?", "a": "Art. 146"}, {"m": 6, "n": 30, "q": "¿Qué ley regula aspectos del fideicomiso en el Código Civil y Comercial?", "a": "Ley 26.994"}]}, {"id": "ley_22_169", "name": "Ley 22.169", "desc": "Ley que encuadra entidades bajo control societario de la CNV", "modules": "M1", "count": 2, "questions": [{"m": 1, "n": 51, "q": "Las siguientes personas jurídicas se encuentran bajo control societario de la Co", "a": "Todas las entidades encuadradas en la Ley Nº 22.169, excluidas las PyME CNV Garantizadas."}, {"m": 4, "n": 89, "q": "Las siguientes personas jurídicas se encuentran bajo control societario de la Co", "a": "Todas las entidades encuadradas en la Ley Nº 22.169, excluidas las PyME CNV Garantizadas."}]}, {"id": "ley_20_091", "name": "Ley 20.091", "desc": "Ley de Seguros — compañías de seguros fiscalizadas por SSN (relevante en OPA)", "modules": "M1", "count": 0, "questions": []}]}, {"group": "Normas CNV", "norms": [{"id": "normas_cnv_nt_2013", "name": "Normas CNV NT 2013", "desc": "Normas CNV texto ordenado 2013 — reglamentación integral del mercado de capitales", "modules": "M1-M6", "count": 3, "questions": [{"m": 1, "n": 32, "q": "¿Qué se entiende por Pequeñas y Medianas Empresas Comisión Nacional de Valores (", "a": "Se entiende por PYMES Comisión Nacional de Valores a aquellas que cuentan con “Certificado MiPyME” y se encuentran, por "}, {"m": 4, "n": 86, "q": "Según el orden de absorción de pérdidas del Art. 11 del Capítulo III del Título ", "a": "Se utilizan primero las Ganancias Reservadas (voluntarias, estatutarias, especiales y legal, en ese orden)."}, {"m": 6, "n": 109, "q": "Conforme lo dispuesto las Normas (N.T.2013 y mod.) el Prospecto de emisión de un", "a": "Deberá ser publicado al inicio del periodo del plazo de difusión a través de la Autopista de la Información Financiera y"}]}, {"id": "normas_cnv_t_tulo_ii", "name": "Normas CNV Título II", "desc": "Agentes — requisitos de inscripción, idoneidad, categorías", "modules": "M3/M5", "count": 1, "questions": [{"m": 4, "n": 29, "q": "¿Qué norma regula la inscripción y control de auditores externos?", "a": "Normas CNV Título II, Cap. III"}]}, {"id": "normas_cnv_t_tulo_iii", "name": "Normas CNV Título III", "desc": "Mercados — autorización, funcionamiento y obligaciones de mercados", "modules": "M5", "count": 0, "questions": []}, {"id": "normas_cnv_t_tulo_iv", "name": "Normas CNV Título IV", "desc": "Transparencia — régimen informativo, hechos relevantes, información privilegiada", "modules": "M3", "count": 5, "questions": [{"m": 3, "n": 3, "q": "¿Qué documento regula el régimen informativo periódico y ocasional?", "a": "Normas CNV Título IV"}, {"m": 3, "n": 11, "q": "¿Qué norma establece el régimen informativo periódico para emisoras?", "a": "Normas CNV Título IV"}, {"m": 3, "n": 22, "q": "¿Qué norma regula la obligación de publicar hechos relevantes?", "a": "Normas CNV Título IV"}, {"m": 4, "n": 11, "q": "¿Qué norma establece la obligación de presentar información contable periódica p", "a": "Normas CNV Título IV"}, {"m": 4, "n": 23, "q": "¿Qué norma establece la obligación de presentar información contable periódica p", "a": "Normas CNV Título IV"}]}, {"id": "normas_cnv_t_tulo_v", "name": "Normas CNV Título V", "desc": "FCI y Fideicomisos — reglamentación operativa de fondos y fideicomisos", "modules": "M6", "count": 4, "questions": [{"m": 6, "n": 12, "q": "¿Qué norma regula la publicidad y prospectos de FCI?", "a": "Normas CNV Título V"}, {"m": 6, "n": 14, "q": "¿Qué norma regula la custodia de activos del FCI?", "a": "Normas CNV Título V"}, {"m": 6, "n": 17, "q": "¿Qué norma regula las comisiones de administración de FCI?", "a": "Normas CNV Título V"}, {"m": 6, "n": 24, "q": "¿Qué norma establece la obligación de inscripción de fideicomisos financieros?", "a": "Normas CNV Título V"}]}, {"id": "normas_cnv_t_tulo_vi", "name": "Normas CNV Título VI", "desc": "Emisoras — régimen de oferta pública, prospecto, emisor frecuente", "modules": "M1", "count": 1, "questions": [{"m": 5, "n": 24, "q": "¿Qué norma regula los mecanismos de liquidación y compensación?", "a": "Normas CNV Título VI"}]}, {"id": "normas_cnv_t_tulo_vii", "name": "Normas CNV Título VII", "desc": "Auditoría externa — inscripción de auditores, informes, independencia", "modules": "M4", "count": 0, "questions": []}, {"id": "normas_cnv_t_tulo_viii", "name": "Normas CNV Título VIII", "desc": "Contabilidad — estados financieros, NIIF, régimen informativo periódico", "modules": "M4", "count": 0, "questions": []}, {"id": "normas_cnv_t_tulo_ix", "name": "Normas CNV Título IX", "desc": "Valores negociables — clasificación, negociación, operaciones garantizadas", "modules": "M5", "count": 0, "questions": []}, {"id": "normas_cnv_t_tulo_x", "name": "Normas CNV Título X", "desc": "Caución y pase — operatoria, plazos y garantías", "modules": "M5", "count": 0, "questions": []}, {"id": "normas_cnv_t_tulo_xi", "name": "Normas CNV Título XI", "desc": "PLD/FT en mercado de capitales — obligaciones de SO, PLAFT, ROS", "modules": "M2", "count": 1, "questions": [{"m": 2, "n": 27, "q": "¿Qué norma regula la prevención de Lavado de Activos y la Financiación del Terro", "a": "Normas CNV Título XI"}]}, {"id": "normas_cnv_t_tulo_xii", "name": "Normas CNV Título XII", "desc": "Gobierno corporativo — Comité de Auditoría, CGS, directores independientes", "modules": "M3", "count": 4, "questions": [{"m": 3, "n": 18, "q": "¿Qué norma regula el gobierno corporativo en emisoras?", "a": "Normas CNV Título XII"}, {"m": 3, "n": 20, "q": "¿Qué norma establece la obligación de designar un Responsable de Relaciones con ", "a": "Normas CNV Título XII"}, {"m": 3, "n": 25, "q": "¿Qué norma regula las conductas contrarias a la transparencia?", "a": "Normas CNV Título XII"}, {"m": 3, "n": 29, "q": "¿Qué norma establece obligaciones con los clientes y empleadores?", "a": "Normas CNV Título XII"}]}, {"id": "normas_cnv_t_tulo_xiii", "name": "Normas CNV Título XIII", "desc": "Atención al inversor — OAI, RRP, reclamos, denuncias", "modules": "M3", "count": 4, "questions": [{"m": 3, "n": 8, "q": "¿Qué norma regula el procedimiento de reclamos y consultas de inversores?", "a": "Normas CNV Título XIII"}, {"m": 3, "n": 16, "q": "¿Qué norma regula el procedimiento de reclamos y consultas?", "a": "Normas CNV Título XIII"}, {"m": 3, "n": 28, "q": "¿Qué norma regula la recepción y tratamiento de denuncias?", "a": "Normas CNV Título XIII"}, {"m": 3, "n": 30, "q": "¿Qué norma regula la Oficina de Atención al Inversor?", "a": "Normas CNV Título XIII"}]}, {"id": "normas_cnv_t_tulo_xiv", "name": "Normas CNV Título XIV", "desc": "Plataformas de financiamiento colectivo — crowdfunding regulado", "modules": "M5", "count": 1, "questions": [{"m": 5, "n": 29, "q": "¿Qué norma regula las operaciones garantizadas?", "a": "Normas CNV Título XIV"}]}, {"id": "normas_cnv_t_tulo_xvi", "name": "Normas CNV Título XVI", "desc": "Registro de idóneos — requisitos, inscripción, inhabilitaciones", "modules": "M3", "count": 1, "questions": [{"m": 3, "n": 26, "q": "¿Qué norma establece el procedimiento aplicable ante incumplimiento?", "a": "Normas CNV Título XVI"}]}]}, {"group": "Resoluciones Generales CNV", "norms": [{"id": "rg_cnv_622_2013", "name": "RG CNV 622/2013", "desc": "RG CNV — reglamentación específica del mercado de capitales", "modules": "M5", "count": 0, "questions": []}, {"id": "rg_cnv_777_2018", "name": "RG CNV 777/2018", "desc": "RG CNV — normas sobre agentes y operaciones", "modules": "M5", "count": 0, "questions": []}, {"id": "rg_cnv_788_2019", "name": "RG CNV 788/2019", "desc": "RG CNV — modificaciones al régimen de negociación", "modules": "M5", "count": 0, "questions": []}, {"id": "rg_cnv_797_2019", "name": "RG CNV 797/2019", "desc": "RG CNV — operatoria de instrumentos financieros", "modules": "M5", "count": 0, "questions": []}, {"id": "rg_cnv_936_2022", "name": "RG CNV 936/2022", "desc": "RG CNV 2022 — actualización normativa", "modules": "M1/M5", "count": 2, "questions": [{"m": 4, "n": 128, "q": "Las entidades financieras registradas como emisoras ante Comisión Nacional de Va", "a": "RG 936/2022."}, {"m": 4, "n": 129, "q": "Las compañías de seguros emisoras pueden compatibilizar normas y plazos con la S", "a": "RG 936/2022."}]}, {"id": "rg_cnv_1002_2024", "name": "RG CNV 1002/2024", "desc": "RG CNV 2024 — nuevas disposiciones del mercado de capitales", "modules": "M1", "count": 2, "questions": [{"m": 3, "n": 99, "q": "RG 1002/2024. ¿Cuál de las siguientes sí es una conducta contraria a la transpar", "a": "Ofrecer servicios de asesoramiento en valores sin la categoría de Agente habilitada por Comisión Nacional de Valores."}, {"m": 3, "n": 100, "q": "RG 1002/2024. Además del asesoramiento no autorizado, ¿qué otra conducta debe ab", "a": "Realizar actividades de difusión y/o captación de clientes para Agentes registrados sin autorización."}]}, {"id": "rg_cnv_1023_2024", "name": "RG CNV 1023/2024", "desc": "RG CNV 2024 — actualizaciones normativas recientes", "modules": "M1", "count": 1, "questions": [{"m": 3, "n": 103, "q": "RG 1023/2024: los menores de entre 13 y 17 años con subcuenta comitente pueden:", "a": "Operar de contado (renta fija/variable) y caución colocadora."}]}, {"id": "rg_cnv_1030_2024", "name": "RG CNV 1030/2024", "desc": "RG CNV 2024 — modificaciones al régimen de oferta pública", "modules": "M1", "count": 2, "questions": [{"m": 6, "n": 121, "q": "RG 1030/2024. ¿Cuál de los siguientes FCI requiere suscripción exclusivamente po", "a": "Fondo Abierto de Renta Variable en dólares bajo régimen especial"}, {"m": 6, "n": 125, "q": "RG 1030/2024. Los FCI abiertos para Inversores Calificados en moneda extranjera ", "a": "Ser suscriptos con fondos depositados en el exterior."}]}, {"id": "rg_cnv_1051_2025", "name": "RG CNV 1051/2025", "desc": "RG CNV 2025 — nuevas disposiciones del mercado", "modules": "M1", "count": 1, "questions": [{"m": 4, "n": 131, "q": "RG 1051/2025: en fideicomisos financieros, 2025 incorporó:", "a": "Régimen de oferta pública automática en supuestos definidos."}]}, {"id": "rg_cnv_1054_2025", "name": "RG CNV 1054/2025", "desc": "Plataformas de acceso libre para información PyME — acceso público gratuito obligatorio", "modules": "M1", "count": 1, "questions": [{"m": 1, "n": 127, "q": "Un Agente de Custodia, Registro y Pago publica información de pagos de instrumen", "a": "No, la plataforma debe ser de acceso libre y gratuito para el público inversor."}]}, {"id": "rg_cnv_1084_2025", "name": "RG CNV 1084/2025", "desc": "Simplifica autorización e inscripción de Fideicomisos Financieros", "modules": "M1/M6", "count": 1, "questions": [{"m": 1, "n": 119, "q": "Fideicomisos Financieros: ¿a qué responde la simplificación de la RG 1084/2025?", "a": "Simplificar y agilizar procesos de autorización/inscripción reduciendo requisitos."}]}, {"id": "rg_cnv_1097_2025", "name": "RG CNV 1097/2025", "desc": "Unifica definiciones: Inversor Calificado, DUVA, PyME CNV, Precio Equitativo", "modules": "M1", "count": 1, "questions": [{"m": 1, "n": 118, "q": "Nuevo Título I – definiciones: ¿cuál fue un cambio central de la RG 1097/2025?", "a": "Unificación/actualización de definiciones transversales (Inversor Calificado, DUVA, PyME CNV, Ratio CEDEAR, Precio Equit"}]}, {"id": "res__cnv_945_2023", "name": "Res. CNV 945/2023", "desc": "Resolución CNV 2023 — modificaciones al régimen normativo del mercado", "modules": "M1", "count": 0, "questions": []}]}, {"group": "Resoluciones UIF", "norms": [{"id": "res__uif_78_2023", "name": "Res. UIF 78/2023", "desc": "Sujetos obligados del mercado de capitales — KYC, legajos, autoevaluación de riesgo", "modules": "M2", "count": 5, "questions": [{"m": 2, "n": 29, "q": "¿Qué norma establece la obligación de reportar operaciones sospechosas en el mer", "a": "Resolución UIF 78/2023"}, {"m": 2, "n": 54, "q": "La Autoevaluación de Riesgo para un Sujeto Obligado inscripto en la categoría de", "a": "Cada dos años."}, {"m": 2, "n": 57, "q": "La Revisión Externa Independiente en materia de Prevención de Lavado de Activos ", "a": "Una vez al año."}, {"m": 2, "n": 68, "q": "Conforme surge de la Resolución UIF 78/2023, los Regímenes Informativos a report", "a": "De manera mensual: listado de cuentas comitentes diferenciando entre activos e inactivos, identificando asimismo las sub"}, {"m": 2, "n": 71, "q": "La Autoevaluación de Riesgo para un Sujeto Obligado inscripto en la categoría de", "a": "Cada dos años;"}]}, {"id": "res__uif_56_2024", "name": "Res. UIF 56/2024", "desc": "Plazos para ROS — 7 días hábiles para LA/FT, marco general de reporte", "modules": "M2", "count": 5, "questions": [{"m": 2, "n": 5, "q": "¿Cuál es el plazo para reportar una operación sospechosa según Resolución UIF 56", "a": "7 días hábiles"}, {"m": 2, "n": 24, "q": "¿Qué norma establece los plazos para Reportes de Operaciones Sospechosas?", "a": "Resolución UIF 56/2024"}, {"m": 2, "n": 35, "q": "¿Existe plazo máximo para reportar hechos u operaciones sospechosas de financiac", "a": "El establecido en la Ley N° 27.739 y en las resoluciones emitidas por la UIF pertinentes a cada tipo de Sujeto Obligado,"}, {"m": 2, "n": 36, "q": "¿Existe plazo máximo para reportar hechos u operaciones sospechosas de lavado de", "a": "El establecido en la Ley N° 27.739 y en las resoluciones emitidas por la UIF pertinentes a cada tipo de Sujeto Obligado,"}, {"m": 2, "n": 45, "q": "Desde que un hecho u operación es calificada como sospechosa, ¿existe plazo para", "a": "El plazo establecido en la Ley N° 27.739 y en las Resoluciones UIF pertinentes, en el marco de lo dispuesto por la Resol"}]}, {"id": "res__uif_192_2024", "name": "Res. UIF 192/2024", "desc": "Define las Personas Expuestas Políticamente (PEP) y sus categorías", "modules": "M2", "count": 2, "questions": [{"m": 2, "n": 16, "q": "¿Qué norma define a las Personas Expuestas Políticamente (PEP)?", "a": "Resolución UIF 192/2024"}, {"m": 2, "n": 67, "q": "Pueden ser Personas Expuestas Políticamente (PEPs), de conformidad con lo dispue", "a": "• Personal del Poder Legislativo de la Nación. • Funcionarios o empleados de entidades autárquicas, bancos oficiales, ob"}]}, {"id": "res__uif_29_2013", "name": "Res. UIF 29/2013", "desc": "Obligación de reportar ROS — sin demora para FT vinculado a lista ONU 1267", "modules": "M2", "count": 2, "questions": [{"m": 2, "n": 6, "q": "¿Qué norma establece la obligación de reportar operaciones sospechosas?", "a": "Resolución UIF 29/2013"}, {"m": 2, "n": 37, "q": "¿Existe plazo para comunicar a la UIF una operación sospechosa de Financiación d", "a": "(Resolución UIF 29/2013) Si, sin demora alguna."}]}, {"id": "res__uif_3_2014", "name": "Res. UIF 3/2014", "desc": "Debida diligencia del cliente — identificación, verificación y KYC", "modules": "M2", "count": 1, "questions": [{"m": 2, "n": 21, "q": "¿Qué norma establece la obligación de identificar al cliente?", "a": "Resolución UIF 3/2014"}]}, {"id": "res__uif_72_2023", "name": "Res. UIF 72/2023", "desc": "Supervisión CNV del cumplimiento UIF en el mercado de capitales", "modules": "M2", "count": 1, "questions": [{"m": 2, "n": 26, "q": "¿Qué norma regula la supervisión del cumplimiento de la normativa UIF?", "a": "Resolución UIF 72/2023"}]}, {"id": "res__uif_49_2024", "name": "Res. UIF 49/2024", "desc": "Activos virtuales y PSAV — definiciones, obligaciones, RSA anual", "modules": "M2", "count": 1, "questions": [{"m": 2, "n": 87, "q": "De acuerdo con las definiciones receptadas en el artículo 4° bis de la Ley 25.24", "a": "Custodia y/o administración de activos virtuales o instrumentos que permitan el control sobre los mismos;"}]}, {"id": "res__uif_22_2011", "name": "Res. UIF 22/2011", "desc": "Resolución UIF anterior — régimen informativo y obligaciones de SO", "modules": "M2", "count": 0, "questions": []}, {"id": "res__uif_112_2021", "name": "Res. UIF 112/2021", "desc": "Define Beneficiario Final — umbral del 10% del capital o derechos de voto", "modules": "M2", "count": 1, "questions": [{"m": 2, "n": 44, "q": "Definición de “Beneficiario Final” (Resolución N° 112/2021):", "a": "Será considerado Beneficiario/a Final a la/s persona/s humana/s que posea/n como mínimo el diez por ciento (10 %) del ca"}]}]}, {"group": "Decretos", "norms": [{"id": "decreto_918_2012", "name": "Decreto 918/2012", "desc": "Reglamenta la Ley 25.246 — define PEPs, obligaciones UIF, procedimientos", "modules": "M2", "count": 2, "questions": [{"m": 2, "n": 13, "q": "¿Cuál es la finalidad del Decreto 918/2012?", "a": "Reglamentar la Ley 25.246"}, {"m": 2, "n": 28, "q": "¿Qué norma regula la obligación de informar PEP?", "a": "Decreto 918/2012"}]}, {"id": "decreto_749_2000", "name": "Decreto 749/2000", "desc": "Relacionado con operaciones financieras y mercado de capitales", "modules": "M5", "count": 0, "questions": []}, {"id": "decreto_618_2024", "name": "Decreto 618/2024", "desc": "Decreto reciente — modificaciones al régimen de oferta pública", "modules": "M1", "count": 0, "questions": []}, {"id": "decreto_1087_1993", "name": "Decreto 1087/1993", "desc": "Relacionado con el régimen de valores negociables", "modules": "M5", "count": 0, "questions": []}]}, {"group": "Normas Internacionales", "norms": [{"id": "40_recomendaciones_gafi", "name": "40 Recomendaciones GAFI", "desc": "Estándares internacionales PLD/FT — Rec. 1: enfoque basado en riesgo", "modules": "M2", "count": 4, "questions": [{"m": 2, "n": 10, "q": "¿Cuál es la finalidad de las 40 Recomendaciones del FATF-GAFI?", "a": "Establecer estándares internacionales contra lavado de activos y financiamiento del terrorismo"}, {"m": 2, "n": 15, "q": "¿Cuál es el objetivo de las 40 Recomendaciones del GAFI?", "a": "Establecer estándares internacionales contra Lavado de Activos y Financiación del Terrorismo"}, {"m": 2, "n": 32, "q": "¿Cuál de las siguientes opciones contempla las tres etapas del Lavado de Activos", "a": "Colocación, diversificación o estratificación e integración"}, {"m": 2, "n": 56, "q": "La Recomendación 1 del GAFI hace referencia al enfoque que deben tomar los paíse", "a": "Riesgo."}]}, {"id": "res__onu_1267", "name": "Res. ONU 1267", "desc": "Consejo de Seguridad ONU — listas de sanciones financieras para FT", "modules": "M2", "count": 2, "questions": [{"m": 2, "n": 34, "q": "¿Quién establece formalmente los listados de sanciones financieras dirigidas apl", "a": "Consejo de Seguridad de las Naciones Unidas."}, {"m": 2, "n": 37, "q": "¿Existe plazo para comunicar a la UIF una operación sospechosa de Financiación d", "a": "(Resolución UIF 29/2013) Si, sin demora alguna."}]}]}];
+
+let nmActiveFilter = 'all';
+let nmSearchQuery  = '';
+let nmFcSession    = null;
+let nmFcIndex      = 0;
+let nmFcRevealed   = false;
+let nmFcKnown      = 0;
+let nmFcUnknown    = 0;
+
+function buildNormas() {
+  const el = $('normas-content');
+  if (!el) return;
+  const all = NORM_GROUPS.flatMap(g => g.norms);
+  const total = all.length;
+  const withQ = all.filter(n => n.count > 0).length;
+
+  el.innerHTML = `
+    <div class="nm-stats-row">
+      <div class="nm-stat-pill">
+        <span class="nm-stat-num">${total}</span>
+        <span class="nm-stat-lbl">normas en el examen</span>
+      </div>
+      <div class="nm-stat-pill nm-stat-correct">
+        <span class="nm-stat-num">${withQ}</span>
+        <span class="nm-stat-lbl">normas con preguntas directas</span>
+      </div>
+      <div class="nm-stat-pill">
+        <span class="nm-stat-num">${all.reduce((s,n)=>s+n.count,0)}</span>
+        <span class="nm-stat-lbl">apariciones como respuesta correcta</span>
+      </div>
+    </div>
+    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:12px">
+      <input class="nm-search" placeholder="🔍 Buscar norma..." oninput="nmSearch(this.value)" id="nm-search-input" style="flex:1;min-width:180px">
+      <button onclick="nmStartFlashcards()" style="padding:9px 16px;border-radius:8px;background:var(--blue);border:none;color:#fff;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap">🃏 Flashcards</button>
+    </div>
+    <div class="nm-filters" id="nm-filters">
+      <button class="nm-filter-btn active" onclick="nmFilter('all',this)">Todas (${total})</button>
+      ${NORM_GROUPS.map(g=>`<button class="nm-filter-btn" onclick="nmFilter('${g.group}',this)">${g.group.replace('Resoluciones Generales CNV','RG CNV').replace('Normas Internacionales','Internacional')}</button>`).join('')}
+    </div>
+    <div id="nm-groups-container"></div>
+    <div id="nm-fc-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:500;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(4px)"></div>
+  `;
+  nmRender();
+}
+
+function buildNormas() {
+  const el = $('normas-content');
+  if (!el) return;
+
+  // Get all norms flat
+  const allNorms = NORM_GROUPS.flatMap(g => g.norms);
+  const total = allNorms.length;
+  const withQ = allNorms.filter(n => n.count > 0).length;
+
+  el.innerHTML = `
+    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:16px">
+      <div style="flex:1;min-width:200px">
+        <input class="nm-search" placeholder="🔍 Buscar norma..." 
+          oninput="nmSearch(this.value)" id="nm-search-input">
+      </div>
+      <button class="nm-fc-btn primary" onclick="nmStartFlashcards()" style="white-space:nowrap">
+        🃏 Practicar con flashcards
+      </button>
+    </div>
+    <div class="nm-filters" id="nm-filters">
+      <button class="nm-filter-btn active" onclick="nmFilter('all',this)">Todas (${total})</button>
+      <button class="nm-filter-btn" onclick="nmFilter('withq',this)">Con preguntas (${withQ})</button>
+      <button class="nm-filter-btn" onclick="nmFilter('Leyes Nacionales',this)">Leyes</button>
+      <button class="nm-filter-btn" onclick="nmFilter('Normas CNV',this)">Normas CNV</button>
+      <button class="nm-filter-btn" onclick="nmFilter('Resoluciones UIF',this)">UIF</button>
+      <button class="nm-filter-btn" onclick="nmFilter('Resoluciones Generales CNV',this)">RG CNV</button>
+      <button class="nm-filter-btn" onclick="nmFilter('Decretos',this)">Decretos</button>
+      <button class="nm-filter-btn" onclick="nmFilter('Normas Internacionales',this)">Internacional</button>
+    </div>
+    <div id="nm-groups-container"></div>
+    <div id="nm-fc-overlay" style="display:none"></div>
+  `;
+  nmRender();
+}
+
+function nmSearch(q) {
+  nmSearchQuery = q.toLowerCase().trim();
+  nmRender();
+}
+
+function nmFilter(filter, btn) {
+  nmActiveFilter = filter;
+  document.querySelectorAll('.nm-filter-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  nmRender();
+}
+
+function nmRender() {
+  const container = $('nm-groups-container');
+  if (!container) return;
+  let html = '';
+  let totalShown = 0;
+
+  NORM_GROUPS.forEach(group => {
+    let norms = group.norms.filter(n => {
+      if (nmActiveFilter !== 'all' && group.group !== nmActiveFilter) return false;
+      if (nmSearchQuery) {
+        const hay = (n.name + ' ' + n.desc + ' ' + n.modules).toLowerCase();
+        if (!hay.includes(nmSearchQuery)) return false;
+      }
+      return true;
+    });
+    if (!norms.length) return;
+    totalShown += norms.length;
+
+    html += `<div class="nm-group">
+      <div class="nm-group-title">
+        ${group.group}
+        <span class="nm-group-count">${norms.length}</span>
+      </div>`;
+
+    norms.forEach(n => {
+      const heat = n.count >= 10 ? 'hot' : n.count >= 5 ? 'warm' : n.count >= 1 ? 'cool' : 'cold';
+      const modTags = n.modules.split('·').map(m =>
+        `<span class="nm-tag">${m.trim()}</span>`).join('');
+
+      html += `
+        <div class="nm-card" id="nm-card-${n.id}">
+          <div class="nm-card-header" onclick="nmToggle('${n.id}')">
+            <div class="nm-badge ${heat}">
+              <span class="nm-badge-num">${n.count}</span>
+              <span class="nm-badge-lbl">${n.count === 1 ? 'preg' : 'pregs'}</span>
+            </div>
+            <div class="nm-info">
+              <div class="nm-name">${n.name}</div>
+              <div class="nm-desc">${n.desc}</div>
+              <div class="nm-tags">${modTags}</div>
+            </div>
+            <span style="color:var(--muted);font-size:11px;flex-shrink:0" id="nm-chev-${n.id}">▸</span>
+          </div>
+          <div class="nm-body" id="nm-body-${n.id}">
+            ${n.count > 0
+              ? `<div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:8px">
+                   Preguntas donde es la respuesta correcta (${n.count})
+                 </div>
+                 <ul class="nm-q-list">
+                   ${n.questions.map(q => `
+                     <li class="nm-q-item" style="flex-direction:column;align-items:flex-start;gap:4px" onclick="nmGoToQuestion(${q.m},${q.n})">
+                       <div style="display:flex;align-items:center;gap:8px">
+                         <span class="nm-q-num">M${q.m} · P${q.n}</span>
+                         <span class="nm-q-text" style="font-size:12px">${q.q.replace(/"/g,'&quot;')}</span>
+                       </div>
+                       ${q.a ? `<div style="font-size:12px;color:var(--green);font-weight:600;padding:4px 9px;background:rgba(34,211,160,.06);border-radius:5px;border-left:3px solid var(--green);margin-left:0;line-height:1.5">→ ${q.a.replace(/"/g,'&quot;')}</div>` : ''}
+                     </li>`).join('')}
+                 </ul>`
+              : `<div class="nm-empty">Esta norma forma parte del marco normativo pero no es respuesta correcta directa en la guía.</div>`
+            }
+          </div>
+        </div>`;
+    });
+    html += '</div>';
+  });
+
+  if (!totalShown) {
+    html = '<div style="text-align:center;padding:40px;color:var(--muted);font-size:13px">No se encontraron normas.</div>';
+  }
+  container.innerHTML = html;
+}
+
+function nmToggle(id) {
+  const body = $('nm-body-' + id);
+  const chev = $('nm-chev-' + id);
+  if (!body) return;
+  const open = body.classList.contains('open');
+  document.querySelectorAll('.nm-body').forEach(b => b.classList.remove('open'));
+  document.querySelectorAll('[id^="nm-chev-"]').forEach(c => c.textContent = '▸');
+  if (!open) {
+    body.classList.add('open');
+    if (chev) chev.textContent = '▾';
+    body.scrollIntoView({behavior:'smooth', block:'nearest'});
+  }
+}
+
+function nmGoToQuestion(mi, num) {
+  // Navigate to the question in study mode
+  navigate('study');
+  setTimeout(() => {
+    // Select the module
+    const modBtns = document.querySelectorAll('.mod-btn');
+    if (modBtns[mi-1]) modBtns[mi-1].click();
+    setTimeout(() => {
+      // Jump to question number
+      const qItems = document.querySelectorAll('.q-item');
+      qItems.forEach(item => {
+        if (item.dataset.num == num) {
+          item.scrollIntoView({behavior:'smooth', block:'center'});
+          item.click();
+        }
+      });
+    }, 300);
+  }, 200);
+}
+
+// ── Flashcard mode ────────────────────────────────────────
+function nmStartFlashcards() {
+  // Build deck from filtered norms
+  const allNorms = NORM_GROUPS.flatMap(g => g.norms);
+  let deck = allNorms.filter(n => {
+    if (nmActiveFilter === 'withq') return n.count > 0;
+    if (nmActiveFilter !== 'all') {
+      const group = NORM_GROUPS.find(g => g.norms.includes(n));
+      return group && group.group === nmActiveFilter;
+    }
+    return true;
+  });
+
+  if (deck.length === 0) {
+    toast('No hay normas para practicar con este filtro');
+    return;
+  }
+
+  // Shuffle
+  deck = deck.sort(() => Math.random() - .5);
+  nmFcSession = deck;
+  nmFcIndex   = 0;
+  nmFcKnown   = 0;
+  nmFcUnknown = 0;
+  nmFcRevealed = false;
+  nmShowFc();
+}
+
+function nmShowFc() {
+  const overlay = $('nm-fc-overlay');
+  if (!overlay || !nmFcSession) return;
+  overlay.style.display = 'flex';
+  const n   = nmFcSession[nmFcIndex];
+  const tot = nmFcSession.length;
+  const pct = Math.round(nmFcIndex / tot * 100);
+
+  overlay.innerHTML = `
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;
+      width:100%;max-width:460px;padding:20px;position:relative;
+      max-height:90vh;overflow-y:auto;box-sizing:border-box">
+      <button onclick="nmCloseFc()" style="position:absolute;top:12px;right:14px;background:none;border:none;font-size:18px;color:var(--muted);cursor:pointer;z-index:1">✕</button>
+      <div style="font-size:11px;color:var(--muted);margin-bottom:6px;font-family:var(--mono);text-align:center">${nmFcIndex+1} / ${tot}</div>
+      <div style="display:flex;gap:8px;justify-content:center;margin-bottom:10px;font-size:11px;font-weight:700">
+        <span style="color:var(--green)">✓ ${nmFcKnown} sabía</span>
+        <span style="color:var(--border2)">·</span>
+        <span style="color:var(--red,#e05050)">✗ ${nmFcUnknown} no sabía</span>
+      </div>
+      <div style="height:4px;background:var(--border2);border-radius:2px;margin-bottom:16px">
+        <div style="height:100%;width:${pct}%;background:var(--blue);border-radius:2px;transition:width .3s"></div>
+      </div>
+      <div style="text-align:center">
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:6px">${n.modules}</div>
+        <div style="font-size:20px;font-weight:800;color:var(--text);margin-bottom:16px;line-height:1.3">${n.name}</div>
+      </div>
+      <div id="nm-fc-hint" style="font-size:12px;color:var(--muted);text-align:center;margin-bottom:16px">¿Qué regula esta norma?</div>
+      <div id="nm-fc-desc" style="display:none;font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:14px;padding:12px;background:var(--card2);border-radius:8px;border:1px solid var(--border)">
+        ${n.desc}
+        ${n.count > 0 ? `<div style="margin-top:8px;font-size:11px;color:var(--muted)">${n.count} pregunta${n.count>1?'s':''} en la guía</div>` : ''}
+      </div>
+      <div id="nm-fc-btns" style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
+        <button onclick="nmFcReveal()" style="padding:10px 24px;border-radius:8px;background:var(--blue);border:none;color:#fff;font-size:13px;font-weight:700;cursor:pointer;width:100%">Ver descripción</button>
+      </div>
+    </div>`;
+}
+
+
+function nmFcReveal() {
+  const desc = $('nm-fc-desc');
+  const hint = $('nm-fc-hint');
+  const btns = $('nm-fc-btns');
+  if (desc) desc.classList.add('show');
+  if (hint) hint.classList.add('hidden');
+  if (btns) btns.innerHTML = `
+    <button onclick="nmFcNext(true)" style="flex:1;padding:10px;border-radius:8px;background:var(--green);border:none;color:#fff;font-size:13px;font-weight:700;cursor:pointer">✓ La sabía</button>
+    <button onclick="nmFcNext(false)" style="flex:1;padding:10px;border-radius:8px;background:var(--card2);border:1.5px solid var(--border2);color:var(--text);font-size:13px;font-weight:700;cursor:pointer">✗ No la sabía</button>
+  `;
+}
+
+function nmFcNext(knew) {
+  if (knew) nmFcKnown++; else nmFcUnknown++;
+  nmFcIndex++;
+  if (nmFcIndex >= nmFcSession.length) {
+    nmFcFinish();
+  } else {
+    nmFcRevealed = false;
+    nmShowFc();
+  }
+}
+
+function nmFcFinish() {
+  const overlay = $('nm-fc-overlay');
+  if (!overlay) return;
+  const total = nmFcSession.length;
+  const pct = Math.round(nmFcKnown / total * 100);
+  overlay.innerHTML = `
+    <div class="nm-fc-card">
+      <div class="nm-fc-progress">Sesión completada</div>
+      <div style="font-size:48px;margin:10px 0">${pct>=80?'🎉':pct>=50?'💪':'📚'}</div>
+      <div class="nm-fc-name" style="font-size:28px">${pct}%</div>
+      <div style="font-size:14px;color:var(--text2);margin:8px 0 20px">
+        ${nmFcKnown} de ${total} normas sabidas
+      </div>
+      <div class="nm-fc-btns">
+        <button class="nm-fc-btn primary" onclick="nmStartFlashcards()">Otra vez</button>
+        <button class="nm-fc-btn" onclick="nmCloseFc()">Cerrar</button>
+      </div>
+    </div>`;
+}
+
+function nmCloseFc() {
+  const overlay = $('nm-fc-overlay');
+  if (overlay) overlay.style.display = 'none';
+  nmFcSession = null;
+}
+
+
+// ═══════════════════════════════════════════════════════════
+// BUSCADOR DE PREGUNTAS
+// ═══════════════════════════════════════════════════════════
+
+function buildBuscador() {
+  const el = $('buscador-content');
+  if (!el) return;
+  el.innerHTML = `
+    <div style="margin-bottom:16px">
+      <input id="buscador-input" class="nm-search"
+        placeholder="Ej: prescripción, UIF, DUVA, ROS, fideicomiso..."
+        oninput="buscadorSearch(this.value)"
+        style="font-size:15px;padding:12px 16px;border-radius:10px;margin-bottom:10px">
+
+      <!-- Fila 1: modo + scope -->
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px">
+        <!-- Modo -->
+        <div style="display:flex;border:1px solid var(--border);border-radius:8px;overflow:hidden;flex:1;min-width:160px">
+          <button id="bmode-contains" onclick="buscadorSetMode('contains',this)"
+            style="flex:1;padding:7px 10px;font-size:11px;font-weight:700;border:none;cursor:pointer;background:var(--blue);color:#fff">
+            Contiene
+          </button>
+          <button id="bmode-exact" onclick="buscadorSetMode('exact',this)"
+            style="flex:1;padding:7px 10px;font-size:11px;font-weight:700;border:none;cursor:pointer;background:var(--card2);color:var(--text2)">
+            Palabra exacta
+          </button>
+        </div>
+        <!-- Scope -->
+        <div style="display:flex;border:1px solid var(--border);border-radius:8px;overflow:hidden;flex:2;min-width:200px">
+          <button id="bscope-both" onclick="buscadorSetScope('both',this)"
+            style="flex:1;padding:7px 8px;font-size:11px;font-weight:700;border:none;cursor:pointer;background:var(--blue);color:#fff">
+            Todo
+          </button>
+          <button id="bscope-answer" onclick="buscadorSetScope('answer',this)"
+            style="flex:1;padding:7px 8px;font-size:11px;font-weight:700;border:none;cursor:pointer;background:var(--card2);color:var(--text2)">
+            Respuesta
+          </button>
+          <button id="bscope-question" onclick="buscadorSetScope('question',this)"
+            style="flex:1;padding:7px 8px;font-size:11px;font-weight:700;border:none;cursor:pointer;background:var(--card2);color:var(--text2)">
+            Enunciado
+          </button>
+        </div>
+      </div>
+      <!-- Fila 2: módulo -->
+      <div style="margin-bottom:4px">
+        <select id="buscador-mod-filter" onchange="buscadorSearch($('buscador-input').value)"
+          style="width:100%;padding:8px 10px;border-radius:8px;border:1px solid var(--border);background:var(--card);color:var(--text);font-size:12px;font-weight:600;cursor:pointer;box-sizing:border-box">
+          <option value="all">📚 Todos los módulos</option>
+          ${MODULES.map((m,i) => `<option value="${i+1}">M${i+1} — ${m.title}</option>`).join('')}
+        </select>
+      </div>
+    </div>
+    <div id="buscador-results">
+      <div style="text-align:center;padding:40px;color:var(--muted);font-size:13px">
+        Escribí una palabra para buscar en las 673 preguntas.
+      </div>
+    </div>
+  `;
+  setTimeout(() => { const i = $('buscador-input'); if(i) i.focus(); }, 100);
+}
+
+let buscadorMode  = 'contains'; // 'contains' | 'exact'
+let buscadorScope = 'both';     // 'both' | 'answer' | 'question'
+
+function buscadorSetMode(mode, btn) {
+  buscadorMode = mode;
+  ['contains','exact'].forEach(m => {
+    const b = $('bmode-' + m);
+    if (b) { b.style.background = m === mode ? 'var(--blue)' : 'var(--card2)'; b.style.color = m === mode ? '#fff' : 'var(--text2)'; }
+  });
+  const inp = $('buscador-input');
+  if (inp && inp.value.trim()) buscadorSearch(inp.value);
+}
+
+function buscadorSetScope(scope, btn) {
+  buscadorScope = scope;
+  ['both','answer','question'].forEach(s => {
+    const b = $('bscope-' + s);
+    if (b) { b.style.background = s === scope ? 'var(--blue)' : 'var(--card2)'; b.style.color = s === scope ? '#fff' : 'var(--text2)'; }
+  });
+  const inp = $('buscador-input');
+  if (inp && inp.value.trim()) buscadorSearch(inp.value);
+}
+
+function buscadorSearch(query) {
+  const el = $('buscador-results');
+  if (!el) return;
+  const raw = query.trim();
+  const q   = raw.toLowerCase();
+
+  if (q.length < 2) {
+    el.innerHTML = `<div style="text-align:center;padding:40px;color:var(--muted);font-size:13px">
+      Escribí al menos 2 caracteres.
+    </div>`;
+    return;
+  }
+
+  // Build matcher based on mode
+  const matches = (text) => {
+    const t = text.toLowerCase();
+    if (buscadorMode === 'exact') {
+      // Word boundary match — word must appear isolated
+      const re = new RegExp(`(?:^|[\\s,.(;:!?\\-\\/])${q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')}(?:[\\s,.(;:!?\\-\\/]|$)`, 'i');
+      return re.test(t);
+    }
+    return t.includes(q);
+  };
+
+  // Get module filter
+  const modFilter = $('buscador-mod-filter')?.value || 'all';
+
+  const results = [];
+  MODULES.forEach((mod, mi) => {
+    if (modFilter !== 'all' && String(mi+1) !== modFilter) return;
+    mod.questions.forEach((qdata) => {
+      const qtext = qdata[1] || '';
+      const aans  = qdata[2] || '';
+
+      const inQ = buscadorScope !== 'answer'   && matches(qtext);
+      const inA = buscadorScope !== 'question' && matches(aans);
+
+      if (inQ || inA) {
+        results.push({ mi: mi+1, num: qdata[0], question: qtext, answer: aans, inA, inQ });
+      }
+    });
+  });
+
+  if (!results.length) {
+    el.innerHTML = `<div style="text-align:center;padding:40px;color:var(--muted);font-size:13px">
+      No se encontraron preguntas para <strong>"${raw}"</strong>
+      ${buscadorMode==='exact' ? ' en modo <em>palabra exacta</em>' : ''}.
+      ${buscadorMode==='exact' ? '<br><span style="font-size:12px">Probá con el modo <em>Contiene</em>.</span>' : ''}
+    </div>`;
+    return;
+  }
+
+  // Sort: answer match first, then module/num
+  results.sort((a,b) => (b.inA - a.inA) || a.mi - b.mi || a.num - b.num);
+
+  // Group by module
+  const byMod = {};
+  results.forEach(r => { if (!byMod[r.mi]) byMod[r.mi]=[]; byMod[r.mi].push(r); });
+
+  const hl = (text, term) => {
+    if (!term) return text;
+    if (buscadorMode === 'exact') {
+      const re = new RegExp(`(?<=[\\s,.(;:!?\\-\\/]|^)(${term.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')})(?=[\\s,.(;:!?\\-\\/]|$)`, 'gi');
+      return text.replace(re, '<mark style="background:rgba(255,200,0,.3);border-radius:3px;padding:0 2px">$1</mark>');
+    }
+    const re = new RegExp(`(${term.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')})`, 'gi');
+    return text.replace(re, '<mark style="background:rgba(255,200,0,.3);border-radius:3px;padding:0 2px">$1</mark>');
+  };
+
+  let out = `<div style="font-size:12px;color:var(--muted);margin-bottom:14px;display:flex;align-items:center;gap:8px">
+    <strong style="color:var(--text)">${results.length}</strong> pregunta${results.length>1?'s':''} — 
+    <em>"${raw}"</em>
+    <span style="font-size:10px;background:var(--card2);border:1px solid var(--border);border-radius:4px;padding:2px 7px">
+      ${buscadorMode==='exact'?'palabra exacta':'contiene'} · ${buscadorScope==='both'?'todo':buscadorScope==='answer'?'solo respuesta':'solo enunciado'}
+    </span>
+  </div>`;
+
+  Object.entries(byMod).forEach(([mi, qs]) => {
+    const modName = MODULES[mi-1]?.title || `Módulo ${mi}`;
+    out += `<div class="nm-group">
+      <div class="nm-group-title">M${mi} — ${modName}<span class="nm-group-count">${qs.length}</span></div>`;
+
+    qs.forEach(r => {
+      out += `
+        <div class="nm-card" style="cursor:pointer" onclick="buscadorGoTo(${r.mi},${r.num})">
+          <div style="padding:11px 14px">
+            <div style="display:flex;align-items:flex-start;gap:10px">
+              <span class="nm-q-num" style="flex-shrink:0">P${r.num}</span>
+              <div style="min-width:0;flex:1">
+                <div style="font-size:12px;color:var(--text2);line-height:1.5;margin-bottom:5px">
+                  ${hl(r.question, q)}
+                </div>
+                <div style="font-size:12px;color:var(--green);font-weight:600;line-height:1.5;padding:5px 9px;background:rgba(34,211,160,.06);border-radius:6px;border-left:3px solid var(--green)">
+                  → ${hl(r.answer, q)}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>`;
+    });
+    out += '</div>';
+  });
+
+  el.innerHTML = out;
+}
+
+function buscadorGoTo(mi, num) {
+  navigate('study');
+  setTimeout(() => {
+    const modBtns = document.querySelectorAll('.mod-btn');
+    if (modBtns[mi-1]) modBtns[mi-1].click();
+    setTimeout(() => {
+      document.querySelectorAll('.q-item').forEach(item => {
+        if (item.dataset.num == num) {
+          item.scrollIntoView({behavior:'smooth', block:'center'});
+          item.click();
+        }
+      });
+    }, 300);
+  }, 200);
 }
 
 </script>
