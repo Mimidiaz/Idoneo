@@ -3023,6 +3023,38 @@ body { font-size: 1rem; }
 }
 .nm-fc-count-bar { display: flex; gap: 8px; justify-content: center; margin-bottom: 16px; }
 .nm-fc-count-item { font-size: 11px; font-weight: 700; }
+
+/* ── Info tooltips ──────────────────────────────────────── */
+.info-tip {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 16px; height: 16px; border-radius: 50%;
+  background: var(--card2); border: 1px solid var(--border2);
+  color: var(--muted); font-size: 10px; font-weight: 700;
+  cursor: help; flex-shrink: 0; vertical-align: middle;
+  margin-left: 5px; line-height: 1; transition: all .15s;
+  position: relative;
+}
+.info-tip:hover { background: var(--blue); border-color: var(--blue); color: #fff; }
+.info-tip::after {
+  content: attr(data-tip);
+  position: absolute; bottom: calc(100% + 8px); left: 50%;
+  transform: translateX(-50%);
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 8px; padding: 8px 12px;
+  font-size: 11px; font-weight: 400; color: var(--text);
+  line-height: 1.5; white-space: normal; width: 220px;
+  box-shadow: 0 4px 16px rgba(0,0,0,.15);
+  opacity: 0; pointer-events: none; transition: opacity .15s;
+  z-index: 200; text-align: left;
+}
+.info-tip:hover::after { opacity: 1; }
+/* Mobile: tooltip opens below on small screens */
+@media(max-width:480px) {
+  .info-tip::after {
+    bottom: auto; top: calc(100% + 8px);
+    left: auto; right: 0; transform: none;
+  }
+}
 </style>
 <!-- Auth modal styles -->
 <style>
@@ -3221,7 +3253,7 @@ body { font-size: 1rem; }
   <div id="topbar">
     <button id="menu-btn" onclick="toggleSidebar()">☰</button>
     <span class="tb-title" id="tb-title">Dashboard</span>
-    <div class="tb-stat" title="Respuestas correctas acumuladas · Precisión global"><span id="tb-mastered" class="val">0</span><span style="font-size:10px;color:var(--text2);margin:0 2px"> correctas</span><span style="color:var(--border2)">·</span><span id="tb-pct" style="color:var(--green);margin-left:2px">0%</span></div>
+    <div class="tb-stat" title="Respondidas: total de intentos realizados (puede superar 673 si repetís preguntas). Correcto %: de todos esos intentos, cuántos fueron correctos."><span id="tb-mastered" class="val">0</span><span style="font-size:10px;color:var(--text2);margin:0 3px">respondidas</span><span style="color:var(--border2)">·</span><span id="tb-pct" style="color:var(--green);margin-left:3px;font-weight:700">0% correcto</span></div>
     <div class="tb-stat" id="tb-streak-wrap"><span id="tb-streak" class="val">0</span>&nbsp;🔥</div>
     <div id="tb-sync-status" onclick="forceSyncNow()" title="Estado de sincronización — click para sincronizar ahora" style="cursor:pointer;display:flex;align-items:center;gap:5px;padding:4px 8px;border-radius:6px;font-size:11px;color:var(--text2);transition:all var(--tr)">
       <span id="tb-sync-dot" style="width:7px;height:7px;border-radius:50%;background:var(--muted);flex-shrink:0;transition:background .3s"></span>
@@ -3355,7 +3387,7 @@ body { font-size: 1rem; }
         <!-- Left: Progress ring + modules urgency -->
         <div class="db-left-col" id="db-panel-left">
           <div class="card db-card-clean" style="margin-bottom:12px" id="db-panel-progress">
-            <div class="db-card-title">Progreso global <span style="font-size:10px;font-weight:400;color:var(--text2)">— % de la guía visto</span></div>
+            <div class="db-card-title">Progreso global <span style="font-size:10px;font-weight:400;color:var(--text2)">— % de la guía visto</span><span class="info-tip" data-tip="Porcentaje de las 673 preguntas que respondiste al menos una vez. Llegar al 100% significa que viste toda la guía.">?</span></div>
             <div class="db-ring-row">
               <div class="ring-wrap">
                 <svg class="ring-svg" viewBox="0 0 80 80">
@@ -3378,7 +3410,7 @@ body { font-size: 1rem; }
             </div>
           </div>
           <div class="card db-card-clean" id="db-panel-modules">
-            <div class="db-card-title">Módulos — estado y prioridad</div>
+            <div class="db-card-title">Módulos — estado y prioridad<span class="info-tip" data-tip="Cada barra muestra tu cobertura (% de preguntas vistas) y tu precisión (% de respuestas correctas) por módulo. Los módulos más críticos aparecen primero.">?</span></div>
             <div id="db-modules-urgency"></div>
           </div>
         </div>
@@ -3386,7 +3418,7 @@ body { font-size: 1rem; }
         <!-- Right: Datos clave -->
         <div class="db-right-col" id="db-panel-right">
           <div class="card db-card-clean" id="db-panel-datos">
-            <div class="db-card-title">Datos clave — CNV</div>
+            <div class="db-card-title">Datos clave — CNV<span class="info-tip" data-tip="Información normativa de referencia rápida para el examen: fecha límite de inscripción, datos de contacto CNV y links útiles.">?</span></div>
             <div id="postit-container"></div>
           </div>
         </div>
@@ -3395,7 +3427,7 @@ body { font-size: 1rem; }
 
       <!-- ── QUICK WINS ──────────────────────────────────────── -->
       <div class="card db-card-clean" id="db-quick-wins-card" style="margin-bottom:16px">
-        <div class="db-card-title">Acciones rápidas — avanzá hoy</div>
+        <div class="db-card-title">Acciones rápidas — avanzá hoy<span class="info-tip" data-tip="Atajos directos a las actividades más útiles para esta sesión de estudio.">?</span></div>
         <div id="db-quick-wins"></div>
       </div>
 
@@ -3403,7 +3435,7 @@ body { font-size: 1rem; }
       <div id="db-last-week-banner" style="display:none;margin-bottom:12px"></div>
       <div class="db-bottom-grid" id="db-recs-card">
         <div class="card db-card-clean">
-          <div class="db-card-title">📋 Sesión de hoy</div>
+          <div class="db-card-title">📋 Sesión de hoy<span class="info-tip" data-tip="Plan de estudio personalizado para hoy basado en tus errores recientes y los módulos con más impacto pendiente.">?</span></div>
           <div id="dash-guided-session"></div>
         </div>
       </div>
@@ -3789,6 +3821,74 @@ body { font-size: 1rem; }
         <div class="page-title">📝 Simulación de Examen</div>
         <div class="page-sub">Configurá y comenzá tu simulación</div>
       </div>
+      <!-- Info card: examen real -->
+      <div style="max-width:620px;margin-bottom:16px;background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden">
+
+        <!-- Header -->
+        <div style="padding:14px 18px 12px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px">
+          <div style="width:32px;height:32px;border-radius:8px;background:rgba(240,192,64,.12);border:1px solid rgba(240,192,64,.3);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0">📋</div>
+          <div>
+            <div style="font-size:13px;font-weight:700;color:var(--text)">Así es el examen real de Idoneidad CNV</div>
+            <div style="font-size:11px;color:var(--text2);margin-top:1px">Información oficial para que sepas qué esperarte</div>
+          </div>
+        </div>
+
+        <!-- Stats row -->
+        <div style="display:flex;border-bottom:1px solid var(--border);flex-wrap:wrap">
+          <div style="flex:1;min-width:100px;padding:12px 16px;border-right:1px solid var(--border);text-align:center">
+            <div style="font-size:22px;font-weight:800;font-family:var(--mono);color:var(--text)">60</div>
+            <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-top:2px">preguntas</div>
+          </div>
+          <div style="flex:1;min-width:100px;padding:12px 16px;border-right:1px solid var(--border);text-align:center">
+            <div style="font-size:22px;font-weight:800;font-family:var(--mono);color:var(--text)">45'</div>
+            <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-top:2px">minutos</div>
+          </div>
+          <div style="flex:1;min-width:100px;padding:12px 16px;border-right:1px solid var(--border);text-align:center">
+            <div style="font-size:22px;font-weight:800;font-family:var(--mono);color:var(--green)">70%</div>
+            <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-top:2px">para aprobar</div>
+          </div>
+          <div style="flex:1;min-width:100px;padding:12px 16px;text-align:center">
+            <div style="font-size:22px;font-weight:800;font-family:var(--mono);color:var(--blue)">42</div>
+            <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-top:2px">resp. correctas</div>
+          </div>
+        </div>
+
+        <!-- Module list -->
+        <div style="padding:14px 18px">
+          <div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:10px">10 preguntas por módulo</div>
+          <div style="display:flex;flex-direction:column;gap:6px">
+                        <div style="display:flex;align-items:flex-start;gap:10px;padding:8px 10px;background:var(--card2);border-radius:8px;border-left:3px solid var(--m1)">
+              <span style="font-size:11px;font-weight:800;font-family:var(--mono);color:var(--m1);flex-shrink:0;min-width:24px">M1</span>
+              <span style="font-size:12px;color:var(--text2);line-height:1.4">Marco normativo · Emisoras · OPA · Oferta Pública · Régimen sancionatorio</span>
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:10px;padding:8px 10px;background:var(--card2);border-radius:8px;border-left:3px solid var(--m2)">
+              <span style="font-size:11px;font-weight:800;font-family:var(--mono);color:var(--m2);flex-shrink:0;min-width:24px">M2</span>
+              <span style="font-size:12px;color:var(--text2);line-height:1.4">Prevención del lavado de activos y del financiamiento del terrorismo</span>
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:10px;padding:8px 10px;background:var(--card2);border-radius:8px;border-left:3px solid var(--m3)">
+              <span style="font-size:11px;font-weight:800;font-family:var(--mono);color:var(--m3);flex-shrink:0;min-width:24px">M3</span>
+              <span style="font-size:12px;color:var(--text2);line-height:1.4">Transparencia · Denuncias y reclamos · Régimen informativo · Inversores</span>
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:10px;padding:8px 10px;background:var(--card2);border-radius:8px;border-left:3px solid var(--m4)">
+              <span style="font-size:11px;font-weight:800;font-family:var(--mono);color:var(--m4);flex-shrink:0;min-width:24px">M4</span>
+              <span style="font-size:12px;color:var(--text2);line-height:1.4">Análisis de inversiones · Contabilidad · NIIF · Normas locales e internacionales</span>
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:10px;padding:8px 10px;background:var(--card2);border-radius:8px;border-left:3px solid var(--m5)">
+              <span style="font-size:11px;font-weight:800;font-family:var(--mono);color:var(--m5);flex-shrink:0;min-width:24px">M5</span>
+              <span style="font-size:12px;color:var(--text2);line-height:1.4">Agentes · Instrumentos · Operaciones · Liquidación · Compensación · Garantías</span>
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:10px;padding:8px 10px;background:var(--card2);border-radius:8px;border-left:3px solid var(--m6)">
+              <span style="font-size:11px;font-weight:800;font-family:var(--mono);color:var(--m6);flex-shrink:0;min-width:24px">M6</span>
+              <span style="font-size:12px;color:var(--text2);line-height:1.4">FCI · Categorías · Funciones · Fideicomisos Financieros · Inversión Colectiva</span>
+            </div>
+          </div>
+          <div style="margin-top:10px;font-size:11px;color:var(--muted);display:flex;align-items:center;gap:6px">
+            <span style="color:var(--gold)">💡</span>
+            Para simular el examen real: seleccioná los 6 módulos, 60 preguntas y 45 minutos.
+          </div>
+        </div>
+      </div>
+
       <!-- Module selector -->
       <div id="exam-setup" class="card" style="max-width:620px">
         <div class="section-title">Seleccioná módulos a incluir</div>
@@ -3949,7 +4049,7 @@ body { font-size: 1rem; }
     <div class="view" id="view-history">
       <div class="page-header">
         <div class="page-title">📊 Historial</div>
-        <div class="page-sub">Tu evolución — progreso, sesiones y exámenes anteriores</div>
+        <div class="page-sub">Tu evolución — progreso, sesiones y exámenes anteriores<span class="info-tip" data-tip="Progreso: cobertura acumulada. Diario: preguntas por día. Por módulo: detalle de cada área. Exámenes: historial de simulacros.">?</span></div>
       </div>
       <div class="hist-tabs">
         <button class="hist-tab active" onclick="showHistTab('progreso',this)">📈 Progreso</button>
@@ -4458,7 +4558,7 @@ body { font-size: 1rem; }
     <div class="view" id="view-path">
       <div class="page-header">
         <div class="page-title">🗺 Learning Path</div>
-        <div class="page-sub">Módulos por prioridad de impacto · sesión rápida · proyección semanal</div>
+        <div class="page-sub">Módulos por prioridad de impacto · sesión rápida · proyección semana<span class="info-tip" data-tip="Muestra qué módulo estudiar primero según tu estado actual. La proyección estima tu cobertura al final de la semana si mantenés el ritmo.">?</span>l</div>
       </div>
       <div id="path-content-legacy">
         <div style="color:var(--text2);text-align:center;padding:40px 20px;font-size:13px">Cargando...</div>
@@ -4470,6 +4570,18 @@ body { font-size: 1rem; }
       <div class="page-header">
         <div class="page-title">📊 Mi Progreso</div>
         <div class="page-sub">Tu análisis completo — estrategia, errores y evolución</div>
+      </div>
+      <!-- PDF button -->
+      <div style="display:flex;justify-content:flex-end;margin-top:-8px;margin-bottom:8px">
+        <button onclick="analisisToPDF()" id="btn-pdf-analisis"
+          style="display:flex;align-items:center;gap:5px;padding:5px 11px;border-radius:6px;
+          border:1px solid var(--border);background:var(--card2);color:var(--text2);
+          font-size:11px;font-weight:600;cursor:pointer;transition:all .15s"
+          onmouseover="this.style.borderColor='var(--blue)';this.style.color='var(--blue)'"
+          onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text2)'"
+          title="Descargar análisis completo en PDF">
+          ⬇ PDF
+        </button>
       </div>
       <!-- Analisis tabs -->
       <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px" id="analisis-tab-bar">
@@ -4507,7 +4619,7 @@ body { font-size: 1rem; }
     <div class="view" id="view-buscador">
       <div class="page-header">
         <div class="page-title">🔍 Buscador de preguntas</div>
-        <div class="page-sub">Escribí cualquier palabra y encontrá todas las preguntas relacionadas con su respuesta correcta</div>
+        <div class="page-sub">Escribí cualquier palabra y encontrá todas las preguntas relacionadas con su respuesta correcta<span class="info-tip" data-tip="Modo Contiene: busca la secuencia exacta de letras. Palabra exacta: solo matchea la palabra completa (evita falsos positivos como 'ros' en 'otros').">?</span></div>
       </div>
       <div id="buscador-content"></div>
     </div>
@@ -4516,7 +4628,7 @@ body { font-size: 1rem; }
     <div class="view" id="view-normas">
       <div class="page-header">
         <div class="page-title">⚖️ Mapa Normativo</div>
-        <div class="page-sub">Todas las normas del examen — descripción, módulo y preguntas relacionadas</div>
+        <div class="page-sub">Todas las normas del examen — descripción, módulo y preguntas relacionadas<span class="info-tip" data-tip="54 normas organizadas por categoría. El número en cada tarjeta indica cuántas preguntas de la guía la mencionan como respuesta correcta.">?</span></div>
       </div>
       <div id="normas-content"></div>
     </div>
@@ -4984,8 +5096,12 @@ function buildDashboard() {
   if (accEl) accEl.textContent = gAcc !== null ? gAcc+'%' : '—';
 
   // ── Topbar ────────────────────────────────────────────────
-  $('tb-mastered').textContent = totalCorrect;
-  $('tb-pct').textContent = pct+'%';
+  // Show total attempts + accuracy%
+  let _tbOk=0, _tbTot=0;
+  Object.values(masteryData).forEach(m=>{ _tbOk+=m.correct||0; _tbTot+=m.attempts||0; });
+  const _tbAcc = _tbTot>0 ? Math.round(_tbOk/_tbTot*100) : 0;
+  $('tb-mastered').textContent = _tbTot;
+  $('tb-pct').textContent = _tbAcc+'% correcto';
   $('tb-streak').textContent = streak;
 
   // ── Priority card ─────────────────────────────────────────
@@ -7432,8 +7548,12 @@ async function confirmReset() {
 function updateTopbarStats() {
   const seen=getTotalSeen();
   const pct=TOTAL_Q>0?Math.round(seen/TOTAL_Q*100):0;
-  $('tb-mastered').textContent=seen;
-  $('tb-pct').textContent=pct+'%';
+  // Total attempts + accuracy in topbar
+  let _ok2=0,_tot2=0;
+  Object.values(masteryData).forEach(m=>{_ok2+=m.correct||0;_tot2+=m.attempts||0;});
+  const _acc2=_tot2>0?Math.round(_ok2/_tot2*100):0;
+  $('tb-mastered').textContent=_tot2;
+  $('tb-pct').textContent=_acc2+'% correcto';
   $('tb-streak').textContent=getStreak();
   // Sidebar score badge
   const sbBadge = $('sb-score-badge');
@@ -11368,7 +11488,7 @@ function buildEntrenamiento() {
 
     <!-- Heatmap -->
     <div class="ci-section">
-      <div class="ci-section-title">🌡 Mapa de calor — errores por módulo</div>
+      <div class="ci-section-title">🌡 Mapa de calor — errores por módulo<span class="info-tip" data-tip="Cada tarjeta muestra la cantidad de errores acumulados en ese módulo. El color va de verde (pocos errores) a rojo (muchos errores).">?</span></div>
       <div class="ci-heatmap">
         ${modStats.map(m => {
           const hc = heatColor(m.errCount);
@@ -11391,7 +11511,7 @@ function buildEntrenamiento() {
 
     <!-- Cause tree -->
     <div class="ci-section">
-      <div class="ci-section-title">🌳 Árbol de causas probables</div>
+      <div class="ci-section-title">🌳 Árbol de causas probables<span class="info-tip" data-tip="Clasifica tus errores por tipo: normativa confundida, dato de memoria, concepto mal entendido o enunciado mal leído. Te ayuda a saber qué tipo de estudio necesitás.">?</span></div>
       <div class="ci-cause-grid">
         ${[
           { key:'normativo', icon:'📋', name:'Confusión normativa', desc:'Normas, leyes, artículos', color:'var(--blue)' },
@@ -11415,7 +11535,7 @@ function buildEntrenamiento() {
 
     <!-- Priority list -->
     <div class="ci-section">
-      <div class="ci-section-title">🎯 Prioridades de estudio — por impacto</div>
+      <div class="ci-section-title">🎯 Prioridades de estudio — por impacto<span class="info-tip" data-tip="Módulos ordenados por impacto: combina la cantidad de errores con la tasa de error. El módulo que más te conviene repasar primero aparece al tope.">?</span></div>
       ${prioritized.map((m,rank) => {
         const pct = m.seen>0 ? Math.round(m.errCount/(m.seen)*100) : 0;
         const col = `var(${MOD_CVARS[m.mi]})`;
@@ -12469,7 +12589,7 @@ function buildConceptos() {
   el.innerHTML = `
     <div class="ck-progress-bar">
       <div class="ck-progress-top">
-        <span class="ck-progress-label">Progreso de comprensión</span>
+        <span class="ck-progress-label">Progreso de comprensión<span class="info-tip" data-tip="Marcá cada tema como comprendido cuando puedas explicarlo con tus propias palabras. Este % no afecta tu progreso de preguntas.">?</span></span>
         <span class="ck-progress-pct" style="color:${col}">${pct}%</span>
       </div>
       <div class="ck-progress-track">
@@ -13207,6 +13327,137 @@ function buscadorGoTo(mi, num) {
       });
     }, 300);
   }, 200);
+}
+
+
+// ═══════════════════════════════════════════════════════════
+// PDF EXPORT — ANALISIS
+// ═══════════════════════════════════════════════════════════
+
+function analisisToPDF() {
+  // Determine active tab
+  const activeTab = document.querySelector('#analisis-tab-bar .hist-tab.active');
+  const tabName = activeTab ? activeTab.textContent.trim() : 'Mi Progreso';
+
+  // Collect data for PDF
+  const today = new Date().toLocaleDateString('es-AR', {weekday:'long', year:'numeric', month:'long', day:'numeric'});
+  const allNorms = typeof NORM_GROUPS !== 'undefined' ? NORM_GROUPS : [];
+
+  // Build HTML for PDF
+  let body = '';
+
+  // ── Header ──────────────────────────────────────────────
+  body += `<div style="margin-bottom:24px;padding-bottom:16px;border-bottom:2px solid #e5e7eb">
+    <h1 style="font-size:22px;font-weight:800;color:#111;margin:0 0 4px">📊 Mi Progreso — ${tabName}</h1>
+    <p style="font-size:12px;color:#666;margin:0">${today} · App de estudio CNV Idoneidad</p>
+  </div>`;
+
+  // ── Global stats ─────────────────────────────────────────
+  let gOk=0, gTot=0;
+  Object.values(masteryData).forEach(m=>{ gOk+=m.correct||0; gTot+=m.attempts||0; });
+  const gAcc  = gTot>0 ? Math.round(gOk/gTot*100) : 0;
+  const seen  = getTotalSeen();
+  const covPct= Math.round(seen/673*100);
+
+  body += `<div style="display:flex;gap:16px;margin-bottom:24px;flex-wrap:wrap">
+    ${[
+      ['Preguntas vistas', `${seen} / 673`, `${covPct}% cobertura`],
+      ['Respuestas totales', gTot, ''],
+      ['Precisión global', `${gAcc}%`, gTot>0?`${gOk} correctas de ${gTot}`:''],
+      ['Días de racha', getStreak(), 'días consecutivos'],
+    ].map(([label,val,sub]) => `
+      <div style="flex:1;min-width:120px;padding:12px 14px;background:#f9fafb;border-radius:8px;border:1px solid #e5e7eb">
+        <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#666;margin-bottom:4px">${label}</div>
+        <div style="font-size:22px;font-weight:800;color:#111">${val}</div>
+        ${sub ? `<div style="font-size:10px;color:#888">${sub}</div>` : ''}
+      </div>`).join('')}
+  </div>`;
+
+  // ── Per-module stats ─────────────────────────────────────
+  body += `<h2 style="font-size:14px;font-weight:700;color:#111;margin:0 0 10px;padding-bottom:6px;border-bottom:1px solid #e5e7eb">Progreso por módulo</h2>`;
+  body += `<table style="width:100%;border-collapse:collapse;font-size:12px;margin-bottom:24px">
+    <thead><tr style="background:#f3f4f6">
+      <th style="padding:7px 10px;text-align:left;font-size:10px;text-transform:uppercase;letter-spacing:.07em;color:#666;border-bottom:2px solid #e5e7eb">Módulo</th>
+      <th style="padding:7px 10px;text-align:right;font-size:10px;text-transform:uppercase;letter-spacing:.07em;color:#666;border-bottom:2px solid #e5e7eb">Vistas</th>
+      <th style="padding:7px 10px;text-align:right;font-size:10px;text-transform:uppercase;letter-spacing:.07em;color:#666;border-bottom:2px solid #e5e7eb">Cobertura</th>
+      <th style="padding:7px 10px;text-align:right;font-size:10px;text-transform:uppercase;letter-spacing:.07em;color:#666;border-bottom:2px solid #e5e7eb">Precisión</th>
+      <th style="padding:7px 10px;text-align:right;font-size:10px;text-transform:uppercase;letter-spacing:.07em;color:#666;border-bottom:2px solid #e5e7eb">Errores</th>
+    </tr></thead><tbody>`;
+
+  MODULES.forEach((mod, mi) => {
+    const modSeen  = getModSeen(mi);
+    const modAcc   = getModAccuracy(mi);
+    const modTotal = mod.questions.length;
+    const modCov   = Math.round(modSeen/modTotal*100);
+    let modErr = 0;
+    mod.questions.forEach((_,qi) => { modErr += getMastery(mi,qi).errors||0; });
+    const accStr = modAcc !== null ? modAcc+'%' : '—';
+    const accColor = modAcc===null?'#666':modAcc>=70?'#16a34a':modAcc>=50?'#d97706':'#dc2626';
+    body += `<tr style="border-bottom:1px solid #f3f4f6">
+      <td style="padding:7px 10px;font-weight:600;color:#111">M${mi+1} · ${mod.title}</td>
+      <td style="padding:7px 10px;text-align:right;color:#374151">${modSeen}/${modTotal}</td>
+      <td style="padding:7px 10px;text-align:right;color:#374151">${modCov}%</td>
+      <td style="padding:7px 10px;text-align:right;font-weight:700;color:${accColor}">${accStr}</td>
+      <td style="padding:7px 10px;text-align:right;color:#dc2626">${modErr}</td>
+    </tr>`;
+  });
+  body += '</tbody></table>';
+
+  // ── Top errors ───────────────────────────────────────────
+  const errList = [];
+  MODULES.forEach((mod,mi) => {
+    mod.questions.forEach((q,qi) => {
+      const m = getMastery(mi,qi);
+      if ((m.errors||0) > 0) errList.push({mi,qi,q:q[1],a:q[2],errors:m.errors});
+    });
+  });
+  errList.sort((a,b)=>b.errors-a.errors);
+  const top10 = errList.slice(0,10);
+
+  if (top10.length) {
+    body += `<h2 style="font-size:14px;font-weight:700;color:#111;margin:0 0 10px;padding-bottom:6px;border-bottom:1px solid #e5e7eb">Top 10 preguntas con más errores</h2>`;
+    body += `<table style="width:100%;border-collapse:collapse;font-size:11px;margin-bottom:24px">
+      <thead><tr style="background:#f3f4f6">
+        <th style="padding:6px 10px;text-align:left;color:#666;border-bottom:2px solid #e5e7eb">Pregunta</th>
+        <th style="padding:6px 10px;text-align:left;color:#666;border-bottom:2px solid #e5e7eb">Respuesta correcta</th>
+        <th style="padding:6px 10px;text-align:center;color:#666;border-bottom:2px solid #e5e7eb">Errores</th>
+      </tr></thead><tbody>`;
+    top10.forEach(e => {
+      body += `<tr style="border-bottom:1px solid #f3f4f6">
+        <td style="padding:6px 10px;color:#374151">M${e.mi+1}·${e.qi+1} — ${e.q.substring(0,80)}${e.q.length>80?'...':''}</td>
+        <td style="padding:6px 10px;color:#16a34a;font-weight:600">${e.a.substring(0,80)}${e.a.length>80?'...':''}</td>
+        <td style="padding:6px 10px;text-align:center;color:#dc2626;font-weight:700">${e.errors}×</td>
+      </tr>`;
+    });
+    body += '</tbody></table>';
+  }
+
+  // ── Footer ───────────────────────────────────────────────
+  body += `<div style="margin-top:24px;padding-top:12px;border-top:1px solid #e5e7eb;font-size:10px;color:#999;text-align:center">
+    Generado por App de estudio CNV Idoneidad · ${today}
+  </div>`;
+
+  // ── Open print window ────────────────────────────────────
+  const win = window.open('', '_blank', 'width=800,height=600');
+  if (!win) { toast('⚠️ Habilitá las ventanas emergentes para descargar el PDF'); return; }
+
+  const scriptOpen  = '<scr' + 'ipt>';
+  const scriptClose = '</scr' + 'ipt>';
+  win.document.write(`<!DOCTYPE html><html lang="es"><head>
+    <meta charset="UTF-8">
+    <title>Mi Progreso — CNV Idoneidad</title>
+    <style>
+      body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; margin: 0; padding: 32px; color: #111; background: #fff; }
+      @media print { body { padding: 16px; } @page { margin: 1.5cm; } }
+    </style>
+  </head><body>${body}
+    ${scriptOpen}
+      window.onload = function() {
+        setTimeout(function() { window.print(); }, 400);
+      };
+    ${scriptClose}
+  </body></html>`);
+  win.document.close();
 }
 
 </script>
