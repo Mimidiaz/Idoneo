@@ -3345,296 +3345,6 @@ body { font-size: 1rem; }
         <div class="page-sub">Seleccioná un bloque para estudiar y practicar</div>
       </div>
       <div class="mod-list" id="mod-list"></div>
-    <!-- Árbol Conceptual -->
-    <div style="margin-top:20px;margin-bottom:8px">
-      <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
-        <span style="font-size:16px">🌳</span>
-        <div style="font-size:13px;font-weight:700;color:var(--text)">Estudiar por tema</div>
-        <span style="font-size:11px;color:var(--text2)">— encontrá cualquier concepto</span>
-        <span id="ct-section-chevron" style="font-size:13px;color:var(--text2);margin-left:auto;cursor:pointer" onclick="ctToggleSection()">▾</span>
-      </div>
-      <input type="text" id="ct-search-input"
-        placeholder="Buscar concepto... ej: ROS, OPA, caución, FCI..."
-        style="width:100%;padding:9px 13px;border-radius:var(--r);border:1px solid var(--border);
-        background:var(--card2);color:var(--text);font-size:13px;box-sizing:border-box"
-        oninput="ctFilterTopics(this.value)">
-    </div>
-    <div id="ct-section-body" style="display:block">
-<div class="ct-wrap" id="ct-wrap">
-
-<div class="ct-section-title">📜 Marco Normativo CNV</div>
-<div class="ct-node" id="ct-Marco_Normativo_CNV">
-  <div class="ct-node-header" onclick="ctToggle('ct-Marco_Normativo_CNV')">
-    <span class="ct-toggle" id="ct-Marco_Normativo_CNV-icon">＋</span>
-    <span class="ct-label">Marco Normativo CNV</span>
-    <span class="ct-count">74 preguntas</span>
-  </div>
-  <div class="ct-body">
-
-    <div class="ct-sub-item" onclick="ctStudy(0,[4, 6, 10, 13, 32, 35, 51, 56, 62, 66, 67, 68],'Oferta Pública / Prospecto')">
-      <div class="ct-sub-dot" style="background:var(--m1)"></div>
-      <span class="ct-sub-label">Oferta Pública / Prospecto</span>
-      <span class="ct-sub-count">12</span>
-    </div>
-
-    <div class="ct-sub-item" onclick="ctStudy(0,[5, 16, 18, 24, 25, 27, 28, 29, 44, 60],'OPA')">
-      <div class="ct-sub-dot" style="background:var(--m1)"></div>
-      <span class="ct-sub-label">OPA</span>
-      <span class="ct-sub-count">10</span>
-    </div>
-
-    <div class="ct-sub-item" onclick="ctStudy(0,[9, 30, 31, 50, 52, 57, 64, 70, 71, 72, 74, 75, 76, 77, 78, 118, 119],'Emisor Frecuente / PyME CNV')">
-      <div class="ct-sub-dot" style="background:var(--m1)"></div>
-      <span class="ct-sub-label">Emisor Frecuente / PyME CNV</span>
-      <span class="ct-sub-count">17</span>
-    </div>
-
-    <div class="ct-sub-item" onclick="ctStudy(0,[3, 22, 40, 41, 42, 48, 49, 58, 59, 103, 106, 107],'Control Societario CNV')">
-      <div class="ct-sub-dot" style="background:var(--m1)"></div>
-      <span class="ct-sub-label">Control Societario CNV</span>
-      <span class="ct-sub-count">12</span>
-    </div>
-
-    <div class="ct-sub-item" onclick="ctStudy(0,[8, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101],'Sanciones y Sumarios CNV')">
-      <div class="ct-sub-dot" style="background:var(--m1)"></div>
-      <span class="ct-sub-label">Sanciones y Sumarios CNV</span>
-      <span class="ct-sub-count">23</span>
-    </div>
-
-    <button class="ct-study-btn" onclick="ctStudyAll('ct-Marco_Normativo_CNV')">
-      📖 Estudiar todos los temas de Marco Normativo CNV
-    </button>
-  </div>
-</div>
-
-<div class="ct-section-title">🔍 PLD y Financiamiento del Terrorismo</div>
-<div class="ct-node" id="ct-PLD_y_Financiamiento_del_Terrorismo">
-  <div class="ct-node-header" onclick="ctToggle('ct-PLD_y_Financiamiento_del_Terrorismo')">
-    <span class="ct-toggle" id="ct-PLD_y_Financiamiento_del_Terrorismo-icon">＋</span>
-    <span class="ct-label">PLD y Financiamiento del Terrorismo</span>
-    <span class="ct-count">45 preguntas</span>
-  </div>
-  <div class="ct-body">
-
-    <div class="ct-sub-item" onclick="ctStudy(1,[0, 1, 17, 31, 37, 56],'Etapas del Lavado')">
-      <div class="ct-sub-dot" style="background:var(--m2)"></div>
-      <span class="ct-sub-label">Etapas del Lavado</span>
-      <span class="ct-sub-count">6</span>
-    </div>
-
-    <div class="ct-sub-item" onclick="ctStudy(1,[6, 41, 42, 50, 69, 70],'Sujetos Obligados')">
-      <div class="ct-sub-dot" style="background:var(--m2)"></div>
-      <span class="ct-sub-label">Sujetos Obligados</span>
-      <span class="ct-sub-count">6</span>
-    </div>
-
-    <div class="ct-sub-item" onclick="ctStudy(1,[8, 15, 27, 40, 43, 49, 60, 61, 84, 85],'PEP y Debida Diligencia')">
-      <div class="ct-sub-dot" style="background:var(--m2)"></div>
-      <span class="ct-sub-label">PEP y Debida Diligencia</span>
-      <span class="ct-sub-count">10</span>
-    </div>
-
-    <div class="ct-sub-item" onclick="ctStudy(1,[4, 5, 19, 23, 34, 35, 36, 44, 47, 48, 93],'ROS y Plazos')">
-      <div class="ct-sub-dot" style="background:var(--m2)"></div>
-      <span class="ct-sub-label">ROS y Plazos</span>
-      <span class="ct-sub-count">11</span>
-    </div>
-
-    <div class="ct-sub-item" onclick="ctStudy(1,[39, 41, 75, 76, 78, 79, 80, 81],'Oficial de Cumplimiento')">
-      <div class="ct-sub-dot" style="background:var(--m2)"></div>
-      <span class="ct-sub-label">Oficial de Cumplimiento</span>
-      <span class="ct-sub-count">8</span>
-    </div>
-
-    <div class="ct-sub-item" onclick="ctStudy(1,[83, 86, 89, 91],'Activos Virtuales / PSAV')">
-      <div class="ct-sub-dot" style="background:var(--m2)"></div>
-      <span class="ct-sub-label">Activos Virtuales / PSAV</span>
-      <span class="ct-sub-count">4</span>
-    </div>
-
-    <button class="ct-study-btn" onclick="ctStudyAll('ct-PLD_y_Financiamiento_del_Terrorismo')">
-      📖 Estudiar todos los temas de PLD y Financiamiento del Terrorismo
-    </button>
-  </div>
-</div>
-
-<div class="ct-section-title">🏛️ Transparencia y Gobierno Corporativo</div>
-<div class="ct-node" id="ct-Transparencia_y_Gobierno_Corporativo">
-  <div class="ct-node-header" onclick="ctToggle('ct-Transparencia_y_Gobierno_Corporativo')">
-    <span class="ct-toggle" id="ct-Transparencia_y_Gobierno_Corporativo-icon">＋</span>
-    <span class="ct-label">Transparencia y Gobierno Corporativo</span>
-    <span class="ct-count">51 preguntas</span>
-  </div>
-  <div class="ct-body">
-
-    <div class="ct-sub-item" onclick="ctStudy(2,[3, 11, 21, 22, 54, 77, 80, 81, 98],'Hechos Relevantes')">
-      <div class="ct-sub-dot" style="background:var(--m3)"></div>
-      <span class="ct-sub-label">Hechos Relevantes</span>
-      <span class="ct-sub-count">9</span>
-    </div>
-
-    <div class="ct-sub-item" onclick="ctStudy(2,[1, 13, 30, 39, 46, 47, 50, 57],'Insider Trading')">
-      <div class="ct-sub-dot" style="background:var(--m3)"></div>
-      <span class="ct-sub-label">Insider Trading</span>
-      <span class="ct-sub-count">8</span>
-    </div>
-
-    <div class="ct-sub-item" onclick="ctStudy(2,[8, 17, 82, 83, 84, 85, 86, 87, 88, 93, 101, 102],'Gobierno Corporativo')">
-      <div class="ct-sub-dot" style="background:var(--m3)"></div>
-      <span class="ct-sub-label">Gobierno Corporativo</span>
-      <span class="ct-sub-count">12</span>
-    </div>
-
-    <div class="ct-sub-item" onclick="ctStudy(2,[59, 60, 61, 62, 65, 66, 70, 71, 73],'Idoneidad y Registro')">
-      <div class="ct-sub-dot" style="background:var(--m3)"></div>
-      <span class="ct-sub-label">Idoneidad y Registro</span>
-      <span class="ct-sub-count">9</span>
-    </div>
-
-    <div class="ct-sub-item" onclick="ctStudy(2,[5, 7, 14, 20, 27, 29, 40, 42, 58, 67, 68, 92, 99],'Atención al Inversor')">
-      <div class="ct-sub-dot" style="background:var(--m3)"></div>
-      <span class="ct-sub-label">Atención al Inversor</span>
-      <span class="ct-sub-count">13</span>
-    </div>
-
-    <button class="ct-study-btn" onclick="ctStudyAll('ct-Transparencia_y_Gobierno_Corporativo')">
-      📖 Estudiar todos los temas de Transparencia y Gobierno Corporativo
-    </button>
-  </div>
-</div>
-
-<div class="ct-section-title">📊 Contabilidad, Auditoría y Finanzas</div>
-<div class="ct-node" id="ct-Contabilidad_Auditoria_y_Finanzas">
-  <div class="ct-node-header" onclick="ctToggle('ct-Contabilidad_Auditoria_y_Finanzas')">
-    <span class="ct-toggle" id="ct-Contabilidad_Auditoria_y_Finanzas-icon">＋</span>
-    <span class="ct-label">Contabilidad, Auditoría y Finanzas</span>
-    <span class="ct-count">77 preguntas</span>
-  </div>
-  <div class="ct-body">
-
-    <div class="ct-sub-item" onclick="ctStudy(3,[18, 23, 57, 59, 60, 61, 63, 64, 66, 67, 68, 71, 122, 123, 132],'Estados Financieros NIIF')">
-      <div class="ct-sub-dot" style="background:var(--m4)"></div>
-      <span class="ct-sub-label">Estados Financieros NIIF</span>
-      <span class="ct-sub-count">15</span>
-    </div>
-
-    <div class="ct-sub-item" onclick="ctStudy(3,[37, 38, 39, 40, 41, 42, 48, 49, 55, 103, 104],'Ratios Financieros')">
-      <div class="ct-sub-dot" style="background:var(--m4)"></div>
-      <span class="ct-sub-label">Ratios Financieros</span>
-      <span class="ct-sub-count">11</span>
-    </div>
-
-    <div class="ct-sub-item" onclick="ctStudy(3,[20, 21, 28, 33, 34, 35, 36, 43, 44, 47, 50, 51, 52, 53, 54, 65, 69, 70, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 130, 131],'Auditoría Externa')">
-      <div class="ct-sub-dot" style="background:var(--m4)"></div>
-      <span class="ct-sub-label">Auditoría Externa</span>
-      <span class="ct-sub-count">30</span>
-    </div>
-
-    <div class="ct-sub-item" onclick="ctStudy(3,[2, 3, 101, 113, 115, 116, 117],'Bonos y Renta Fija')">
-      <div class="ct-sub-dot" style="background:var(--m4)"></div>
-      <span class="ct-sub-label">Bonos y Renta Fija</span>
-      <span class="ct-sub-count">7</span>
-    </div>
-
-    <div class="ct-sub-item" onclick="ctStudy(3,[12, 13, 14, 15, 16, 17, 105, 106, 108, 109, 110, 111, 112, 118],'Futuros y Opciones')">
-      <div class="ct-sub-dot" style="background:var(--m4)"></div>
-      <span class="ct-sub-label">Futuros y Opciones</span>
-      <span class="ct-sub-count">14</span>
-    </div>
-
-    <button class="ct-study-btn" onclick="ctStudyAll('ct-Contabilidad_Auditoria_y_Finanzas')">
-      📖 Estudiar todos los temas de Contabilidad, Auditoría y Finanzas
-    </button>
-  </div>
-</div>
-
-<div class="ct-section-title">⚡ Agentes, Instrumentos y Operaciones</div>
-<div class="ct-node" id="ct-Agentes_Instrumentos_y_Operaciones">
-  <div class="ct-node-header" onclick="ctToggle('ct-Agentes_Instrumentos_y_Operaciones')">
-    <span class="ct-toggle" id="ct-Agentes_Instrumentos_y_Operaciones-icon">＋</span>
-    <span class="ct-label">Agentes, Instrumentos y Operaciones</span>
-    <span class="ct-count">51 preguntas</span>
-  </div>
-  <div class="ct-body">
-
-    <div class="ct-sub-item" onclick="ctStudy(4,[0, 1, 2, 3, 4, 5, 26, 38, 48, 60, 61, 62, 63, 64, 65, 66],'Agentes y Categorías')">
-      <div class="ct-sub-dot" style="background:var(--m5)"></div>
-      <span class="ct-sub-label">Agentes y Categorías</span>
-      <span class="ct-sub-count">16</span>
-    </div>
-
-    <div class="ct-sub-item" onclick="ctStudy(4,[42, 43, 44, 74, 75, 76, 77, 91, 92, 93, 94, 95, 100],'Caución y Pase')">
-      <div class="ct-sub-dot" style="background:var(--m5)"></div>
-      <span class="ct-sub-label">Caución y Pase</span>
-      <span class="ct-sub-count">13</span>
-    </div>
-
-    <div class="ct-sub-item" onclick="ctStudy(4,[12, 45, 46, 101],'Futuros ROFEX')">
-      <div class="ct-sub-dot" style="background:var(--m5)"></div>
-      <span class="ct-sub-label">Futuros ROFEX</span>
-      <span class="ct-sub-count">4</span>
-    </div>
-
-    <div class="ct-sub-item" onclick="ctStudy(4,[13, 15, 16, 102, 103],'Opciones')">
-      <div class="ct-sub-dot" style="background:var(--m5)"></div>
-      <span class="ct-sub-label">Opciones</span>
-      <span class="ct-sub-count">5</span>
-    </div>
-
-    <div class="ct-sub-item" onclick="ctStudy(4,[49, 50, 51, 52, 53, 54, 67],'CPD y FCE')">
-      <div class="ct-sub-dot" style="background:var(--m5)"></div>
-      <span class="ct-sub-label">CPD y FCE</span>
-      <span class="ct-sub-count">7</span>
-    </div>
-
-    <div class="ct-sub-item" onclick="ctStudy(4,[85, 86, 87, 88, 89, 90],'Suscripción de Acciones')">
-      <div class="ct-sub-dot" style="background:var(--m5)"></div>
-      <span class="ct-sub-label">Suscripción de Acciones</span>
-      <span class="ct-sub-count">6</span>
-    </div>
-
-    <button class="ct-study-btn" onclick="ctStudyAll('ct-Agentes_Instrumentos_y_Operaciones')">
-      📖 Estudiar todos los temas de Agentes, Instrumentos y Operaciones
-    </button>
-  </div>
-</div>
-
-<div class="ct-section-title">🏦 Inversión Colectiva</div>
-<div class="ct-node" id="ct-Inversion_Colectiva">
-  <div class="ct-node-header" onclick="ctToggle('ct-Inversion_Colectiva')">
-    <span class="ct-toggle" id="ct-Inversion_Colectiva-icon">＋</span>
-    <span class="ct-label">Inversión Colectiva</span>
-    <span class="ct-count">95 preguntas</span>
-  </div>
-  <div class="ct-body">
-
-    <div class="ct-sub-item" onclick="ctStudy(5,[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 14, 15, 16, 17, 31, 32, 34, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 52, 53, 55],'FCI Abiertos')">
-      <div class="ct-sub-dot" style="background:var(--m6)"></div>
-      <span class="ct-sub-label">FCI Abiertos</span>
-      <span class="ct-sub-count">36</span>
-    </div>
-
-    <div class="ct-sub-item" onclick="ctStudy(5,[33, 35, 54, 56, 57, 58, 59, 60, 61, 62],'FCI Cerrados')">
-      <div class="ct-sub-dot" style="background:var(--m6)"></div>
-      <span class="ct-sub-label">FCI Cerrados</span>
-      <span class="ct-sub-count">10</span>
-    </div>
-
-    <div class="ct-sub-item" onclick="ctStudy(5,[18, 19, 20, 21, 22, 23, 24, 25, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105],'Fideicomiso Financiero')">
-      <div class="ct-sub-dot" style="background:var(--m6)"></div>
-      <span class="ct-sub-label">Fideicomiso Financiero</span>
-      <span class="ct-sub-count">49</span>
-    </div>
-
-    <button class="ct-study-btn" onclick="ctStudyAll('ct-Inversion_Colectiva')">
-      📖 Estudiar todos los temas de Inversión Colectiva
-    </button>
-  </div>
-</div>
-
-<button class="ct-export-btn" onclick="ctExportPDF()">📄 Exportar mapa a PDF</button>
-</div>
-    </div>
     </div>
 
     <!-- QUIZ (block study) -->
@@ -5912,6 +5622,7 @@ function buildStudyView() {
       </div>`;
     }).join('');
     const unseenCount = mod.questions.filter((_,qi) => getMastery(mi,qi).attempts === 0).length;
+    const modTotal = mod.questions.length;
     return `<div class="mod-item" id="mod-item-${mi}">
       <div class="mod-header" onclick="toggleMod(${mi})">
         <div class="mod-num" style="background:${col}">${mi+1}</div>
@@ -5931,6 +5642,13 @@ function buildStudyView() {
       </div>` : `<div style="padding:6px 14px;background:rgba(34,211,160,.06);border-bottom:1px solid var(--border)">
         <span style="font-size:12px;color:var(--green)">✓ Viste todas las preguntas de este módulo</span>
       </div>`}
+      <div style="padding:8px 14px;background:var(--card);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;flex-wrap:wrap" onclick="event.stopPropagation()">
+        <span style="font-size:12px;color:var(--text2);flex:1">🎲 Preguntas aleatorias del módulo (sobre ${modTotal})</span>
+        <input type="number" id="rand-count-${mi}" value="20" min="1" max="${modTotal}"
+          style="width:70px;padding:5px 8px;border:1px solid var(--border);border-radius:6px;background:var(--card2);color:var(--text);font-size:12px;font-family:var(--mono);text-align:center"
+          onclick="event.stopPropagation()">
+        <button class="btn btn-primary btn-sm" onclick="event.stopPropagation();loadRandomFromModule(${mi})">🎲 Iniciar</button>
+      </div>
       <div class="mod-blocks">${blocks}</div>
     </div>`;
   }).join('');
@@ -5975,6 +5693,40 @@ function loadUnseen(mi, maxCount) {
 
   navigate('quiz');
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  $('quiz-view').classList.add('active');
+  renderQuestion();
+}
+
+function loadRandomFromModule(mi) {
+  const mod = MODULES[mi];
+  if (!mod) return;
+  const input = document.getElementById('rand-count-' + mi);
+  let count = input ? parseInt(input.value, 10) : 20;
+  const modTotal = mod.questions.length;
+  if (!count || count < 1) count = 1;
+  if (count > modTotal) count = modTotal;
+
+  // Armar pool con TODAS las preguntas del módulo
+  let pool = mod.questions.map(([num, q, a, opts], qi) => ({
+    qi, num, q, a, opts: opts || [], mi
+  }));
+
+  // Shuffle aleatorio
+  pool = pool.sort(() => Math.random() - 0.5).slice(0, count);
+
+  curBlockMi = mi; curBlockBi = -1;
+  bqQs = pool;
+  bqIndex = 0; bqAnswered = new Array(bqQs.length).fill(null); bqOk = 0; bqBad = 0;
+
+  $('qh-tag').textContent = `Módulo ${mi+1} · ${mod.title.split(' ').slice(0,3).join(' ')}`;
+  $('qh-title').textContent = `🎲 Aleatorias — ${pool.length} preguntas del módulo`;
+  $('qh-ok').textContent = '✓ 0';
+  $('qh-bad').textContent = '✗ 0';
+  $('quiz-result').style.display = 'none';
+  $('quiz-nav-fixed').style.display = 'none';
+
+  navigate('quiz');
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
   $('quiz-view').classList.add('active');
   renderQuestion();
 }
