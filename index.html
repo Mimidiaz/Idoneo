@@ -2883,6 +2883,93 @@ body { font-size: 1rem; }
 .adm-role-btn.danger:hover{background:var(--red);border-color:var(--red)}
 .adm-role-btn:disabled{opacity:.4;cursor:not-allowed}
 
+/* ADMIN QUESTIONS */
+.adm-qs-chip{padding:5px 10px;border-radius:6px;border:1px solid var(--border);background:var(--card2);color:var(--text2);font-size:11px;font-weight:700;cursor:pointer;transition:all var(--tr)}
+.adm-qs-chip.active{background:var(--blue);color:#fff;border-color:var(--blue)}
+.adm-qs-item{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:11px 14px;margin-bottom:8px;cursor:pointer;transition:all .15s;border-left:3px solid transparent}
+.adm-qs-item:hover{background:var(--card2);border-left-color:var(--blue)}
+.adm-qs-item.edited{border-left-color:var(--gold)}
+.adm-qs-item.open{border-color:var(--blue);background:var(--card2)}
+.adm-qs-item-head{display:flex;align-items:center;gap:8px;margin-bottom:5px;flex-wrap:wrap}
+.adm-qs-badge{font-size:10px;font-weight:800;font-family:var(--mono);padding:2px 7px;border-radius:4px;background:var(--card2);color:var(--text2);border:1px solid var(--border);white-space:nowrap}
+.adm-qs-badge.edited{background:rgba(240,192,64,.14);color:var(--gold);border-color:rgba(240,192,64,.35)}
+.adm-qs-item-q{font-size:13px;line-height:1.5;color:var(--text);margin-bottom:6px}
+.adm-qs-item-opts{display:grid;grid-template-columns:1fr 1fr;gap:4px 12px;font-size:11px;color:var(--text2);margin-top:4px}
+.adm-qs-item-opt{padding:2px 0;word-break:break-word}
+.adm-qs-item-opt.correct{color:var(--green);font-weight:700}
+.adm-qs-item-opt.correct::before{content:'✓ ';font-weight:900}
+
+/* Editor */
+.adm-qs-editor-card{background:var(--card);border:2px solid var(--gold);border-radius:10px;padding:16px 18px;box-shadow:0 4px 16px rgba(240,192,64,.15)}
+.adm-qs-editor-head{display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+.adm-qs-editor-title{font-size:14px;font-weight:700;flex:1;min-width:0}
+.adm-qs-label{display:block;font-size:10px;font-weight:800;color:var(--text2);text-transform:uppercase;letter-spacing:.06em;margin:10px 0 4px}
+.adm-qs-textarea{width:100%;padding:9px 11px;border:1px solid var(--border);border-radius:6px;background:var(--card2);color:var(--text);font-size:13px;line-height:1.5;font-family:inherit;resize:vertical;min-height:70px;box-sizing:border-box}
+.adm-qs-textarea:focus{outline:none;border-color:var(--blue)}
+.adm-qs-opt-row{display:flex;align-items:flex-start;gap:8px;margin-bottom:6px}
+.adm-qs-opt-row input[type="radio"]{margin-top:9px;cursor:pointer;width:16px;height:16px;flex-shrink:0;accent-color:var(--green)}
+.adm-qs-opt-row .adm-qs-textarea{min-height:40px}
+.adm-qs-editor-actions{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap;align-items:center}
+.adm-qs-dirty{font-size:11px;color:var(--gold);font-weight:700;margin-left:auto}
+
+/* ADMIN STATS */
+.adm-stats-global-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px 16px}
+.adm-stats-global-card .v{font-size:24px;font-weight:800;font-family:var(--mono);color:var(--text);line-height:1.1}
+.adm-stats-global-card .l{font-size:10px;color:var(--text2);text-transform:uppercase;letter-spacing:.06em;font-weight:700;margin-top:4px}
+.adm-stats-global-card .sub{font-size:10px;color:var(--muted);margin-top:2px}
+
+.adm-stats-row{background:var(--card);border:1px solid var(--border);border-radius:8px;margin-bottom:6px;overflow:hidden;transition:all .15s}
+.adm-stats-row:hover{border-color:var(--blue)}
+.adm-stats-row.open{border-color:var(--blue);background:var(--card2)}
+.adm-stats-row.self{border-color:var(--gold)}
+.adm-stats-row-main{display:grid;grid-template-columns:1fr auto auto auto auto;gap:12px;align-items:center;padding:10px 14px;cursor:pointer}
+.adm-stats-user{min-width:0}
+.adm-stats-name{font-size:13px;font-weight:600;color:var(--text);word-break:break-word}
+.adm-stats-meta{font-size:10px;color:var(--text2);margin-top:2px}
+.adm-stats-num{font-family:var(--mono);font-size:14px;font-weight:700;text-align:right;min-width:60px}
+.adm-stats-num .sub{font-size:9px;color:var(--text2);font-weight:500;display:block}
+.adm-stats-num.good{color:var(--green)}
+.adm-stats-num.med{color:var(--gold)}
+.adm-stats-num.bad{color:var(--red)}
+.adm-stats-num.muted{color:var(--muted);font-weight:500}
+.adm-stats-chev{font-size:12px;color:var(--text2);transition:transform .2s}
+.adm-stats-row.open .adm-stats-chev{transform:rotate(90deg);color:var(--blue)}
+
+.adm-stats-detail{padding:0 14px 14px;border-top:1px solid var(--border);background:var(--bg)}
+.adm-stats-detail-title{font-size:10px;font-weight:800;color:var(--text2);text-transform:uppercase;letter-spacing:.06em;padding:10px 0 8px}
+.adm-stats-mod-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px}
+.adm-stats-mod{background:var(--card);border:1px solid var(--border);border-radius:6px;padding:8px 10px}
+.adm-stats-mod-label{font-size:10px;color:var(--text2);font-weight:700;margin-bottom:4px;display:flex;justify-content:space-between;align-items:center}
+.adm-stats-mod-num{font-size:13px;font-weight:700;font-family:var(--mono);color:var(--text);margin-bottom:4px}
+.adm-stats-mod-bar{height:5px;background:var(--border2);border-radius:3px;overflow:hidden}
+.adm-stats-mod-bar-fill{height:100%;transition:width .3s}
+.adm-stats-mod-bar-fill.good{background:var(--green)}
+.adm-stats-mod-bar-fill.med{background:var(--gold)}
+.adm-stats-mod-bar-fill.bad{background:var(--red)}
+
+@media (max-width:600px){
+  .adm-stats-row-main{grid-template-columns:1fr auto auto;gap:8px}
+  .adm-stats-row-main .adm-stats-hide-mobile{display:none}
+}
+
+/* ADMIN CONFIG */
+.adm-cfg-row{display:flex;align-items:center;gap:14px;padding:16px 18px;border-bottom:1px solid var(--border)}
+.adm-cfg-row:last-child{border-bottom:none}
+.adm-cfg-icon{font-size:28px;flex-shrink:0}
+.adm-cfg-info{flex:1;min-width:0}
+.adm-cfg-title{font-size:14px;font-weight:700;color:var(--text);margin-bottom:3px}
+.adm-cfg-desc{font-size:11px;color:var(--text2);line-height:1.5}
+
+/* Switch toggle */
+.adm-cfg-switch{position:relative;display:inline-block;width:46px;height:26px;flex-shrink:0;cursor:pointer}
+.adm-cfg-switch input{opacity:0;width:0;height:0}
+.adm-cfg-slider{position:absolute;inset:0;background:var(--border);border-radius:26px;transition:background .2s}
+.adm-cfg-slider::before{content:'';position:absolute;top:3px;left:3px;width:20px;height:20px;background:var(--card);border-radius:50%;transition:transform .2s, background .2s;box-shadow:0 1px 3px rgba(0,0,0,.3)}
+.adm-cfg-switch input:checked + .adm-cfg-slider{background:var(--green)}
+.adm-cfg-switch input:checked + .adm-cfg-slider::before{transform:translateX(20px);background:#fff}
+.adm-cfg-switch input:disabled + .adm-cfg-slider{opacity:.5;cursor:not-allowed}
+.adm-cfg-switch.loading .adm-cfg-slider{opacity:.5}
+
 </style>
 </head>
 <body>
@@ -2986,11 +3073,14 @@ body { font-size: 1rem; }
       <button class="sb-btn" id="nav-admin-users" onclick="navigate('admin-users')" style="padding:7px 8px;font-size:12px">
         <span class="icon">👥</span>Usuarios
       </button>
-      <button class="sb-btn" id="nav-admin-questions" onclick="navigate('admin-questions')" style="padding:7px 8px;font-size:12px;opacity:.6" title="Disponible en próxima actualización">
-        <span class="icon">📝</span>Preguntas <span style="margin-left:auto;font-size:9px;opacity:.7">pronto</span>
+      <button class="sb-btn" id="nav-admin-questions" onclick="navigate('admin-questions')" style="padding:7px 8px;font-size:12px">
+        <span class="icon">📝</span>Preguntas
       </button>
-      <button class="sb-btn" id="nav-admin-stats" onclick="navigate('admin-stats')" style="padding:7px 8px;font-size:12px;opacity:.6" title="Disponible en próxima actualización">
-        <span class="icon">📊</span>Progreso <span style="margin-left:auto;font-size:9px;opacity:.7">pronto</span>
+      <button class="sb-btn" id="nav-admin-stats" onclick="navigate('admin-stats')" style="padding:7px 8px;font-size:12px">
+        <span class="icon">📊</span>Progreso
+      </button>
+      <button class="sb-btn" id="nav-admin-config" onclick="navigate('admin-config')" style="padding:7px 8px;font-size:12px">
+        <span class="icon">⚙️</span>Configuración
       </button>
     </div>
 
@@ -3962,7 +4052,7 @@ body { font-size: 1rem; }
       </div>
       <div class="bib-wrap">
 <div class="bib-mod-card" id="bib-mod-0">
-  <div class="bib-mod-header" onclick="bibToggle('bib-mod-0')">
+  <div class="bib-mod-header" onclick="bibToggle('bib-mod-0', event)">
     <div class="bib-mod-dot" style="background:var(--m1)"></div>
     <span class="bib-mod-title">Módulo I — Marco Normativo del Mercado de Capitales</span>
     <span class="bib-mod-chevron" id="bib-chev-0">▸</span>
@@ -4026,7 +4116,7 @@ body { font-size: 1rem; }
         </div></div>
 </div>
 <div class="bib-mod-card" id="bib-mod-1">
-  <div class="bib-mod-header" onclick="bibToggle('bib-mod-1')">
+  <div class="bib-mod-header" onclick="bibToggle('bib-mod-1', event)">
     <div class="bib-mod-dot" style="background:var(--m2)"></div>
     <span class="bib-mod-title">Módulo II — Prevención de Lavado de Activos y FT</span>
     <span class="bib-mod-chevron" id="bib-chev-1">▸</span>
@@ -4138,7 +4228,7 @@ body { font-size: 1rem; }
         </div></div>
 </div>
 <div class="bib-mod-card" id="bib-mod-2">
-  <div class="bib-mod-header" onclick="bibToggle('bib-mod-2')">
+  <div class="bib-mod-header" onclick="bibToggle('bib-mod-2', event)">
     <div class="bib-mod-dot" style="background:var(--m3)"></div>
     <span class="bib-mod-title">Módulo III — Transparencia y Gobierno Corporativo</span>
     <span class="bib-mod-chevron" id="bib-chev-2">▸</span>
@@ -4170,7 +4260,7 @@ body { font-size: 1rem; }
         </div></div>
 </div>
 <div class="bib-mod-card" id="bib-mod-3">
-  <div class="bib-mod-header" onclick="bibToggle('bib-mod-3')">
+  <div class="bib-mod-header" onclick="bibToggle('bib-mod-3', event)">
     <div class="bib-mod-dot" style="background:var(--m4)"></div>
     <span class="bib-mod-title">Módulo IV — Contabilidad, Auditoría y Finanzas</span>
     <span class="bib-mod-chevron" id="bib-chev-3">▸</span>
@@ -4266,7 +4356,7 @@ body { font-size: 1rem; }
         </div></div>
 </div>
 <div class="bib-mod-card" id="bib-mod-4">
-  <div class="bib-mod-header" onclick="bibToggle('bib-mod-4')">
+  <div class="bib-mod-header" onclick="bibToggle('bib-mod-4', event)">
     <div class="bib-mod-dot" style="background:var(--m5)"></div>
     <span class="bib-mod-title">Módulo V — Agentes, Instrumentos y Operaciones</span>
     <span class="bib-mod-chevron" id="bib-chev-4">▸</span>
@@ -4330,7 +4420,7 @@ body { font-size: 1rem; }
         </div></div>
 </div>
 <div class="bib-mod-card" id="bib-mod-5">
-  <div class="bib-mod-header" onclick="bibToggle('bib-mod-5')">
+  <div class="bib-mod-header" onclick="bibToggle('bib-mod-5', event)">
     <div class="bib-mod-dot" style="background:var(--m6)"></div>
     <span class="bib-mod-title">Módulo VI — Productos de Inversión Colectiva</span>
     <span class="bib-mod-chevron" id="bib-chev-5">▸</span>
@@ -4495,17 +4585,23 @@ body { font-size: 1rem; }
         <div style="font-size:12px;color:var(--text2);line-height:1.5">Ver usuarios registrados y cambiar roles entre admin y usuario.</div>
         <div style="margin-top:12px;font-size:11px;color:var(--blue);font-weight:700">Ir →</div>
       </div>
-      <div class="card adm-home-card" style="cursor:not-allowed;opacity:.6;border:1px solid var(--border)">
+      <div class="card adm-home-card" onclick="navigate('admin-questions')" style="cursor:pointer;transition:all var(--tr);border:1px solid var(--border)">
         <div style="font-size:28px;margin-bottom:8px">📝</div>
         <div style="font-size:15px;font-weight:700;margin-bottom:4px">Gestión de preguntas</div>
-        <div style="font-size:12px;color:var(--text2);line-height:1.5">Editar enunciados, opciones, respuestas y crear preguntas nuevas.</div>
-        <div style="margin-top:12px;font-size:11px;color:var(--muted);font-weight:700">Próximamente</div>
+        <div style="font-size:12px;color:var(--text2);line-height:1.5">Editar enunciados, opciones y respuestas. Las ediciones se aplican a todos los usuarios.</div>
+        <div style="margin-top:12px;font-size:11px;color:var(--blue);font-weight:700">Ir →</div>
       </div>
-      <div class="card adm-home-card" style="cursor:not-allowed;opacity:.6;border:1px solid var(--border)">
+      <div class="card adm-home-card" onclick="navigate('admin-stats')" style="cursor:pointer;transition:all var(--tr);border:1px solid var(--border)">
         <div style="font-size:28px;margin-bottom:8px">📊</div>
         <div style="font-size:15px;font-weight:700;margin-bottom:4px">Dashboard de progreso</div>
         <div style="font-size:12px;color:var(--text2);line-height:1.5">Métricas agregadas y progreso por usuario de todo el equipo.</div>
-        <div style="margin-top:12px;font-size:11px;color:var(--muted);font-weight:700">Próximamente</div>
+        <div style="margin-top:12px;font-size:11px;color:var(--blue);font-weight:700">Ir →</div>
+      </div>
+      <div class="card adm-home-card" onclick="navigate('admin-config')" style="cursor:pointer;transition:all var(--tr);border:1px solid var(--border)">
+        <div style="font-size:28px;margin-bottom:8px">⚙️</div>
+        <div style="font-size:15px;font-weight:700;margin-bottom:4px">Configuración</div>
+        <div style="font-size:12px;color:var(--text2);line-height:1.5">Prender y apagar funcionalidades visibles para los usuarios.</div>
+        <div style="margin-top:12px;font-size:11px;color:var(--blue);font-weight:700">Ir →</div>
       </div>
     </div>
     <div style="max-width:900px;margin-top:20px;padding:14px 18px;background:var(--card2);border:1px solid var(--border);border-radius:10px;font-size:12px;color:var(--text2);line-height:1.6">
@@ -4535,27 +4631,77 @@ body { font-size: 1rem; }
     <div id="adm-users-table" style="max-width:900px"></div>
   </div>
 
-  <!-- ADMIN QUESTIONS / STATS (placeholders para Tanda 5b) -->
+  <!-- ADMIN QUESTIONS / STATS -->
   <div class="view" id="view-admin-questions">
     <div class="page-header">
       <div class="page-title">📝 Gestión de preguntas</div>
-      <div class="page-sub">Editor completo de las 673 preguntas</div>
+      <div class="page-sub">Editar cualquier pregunta · los cambios se aplican para todos los usuarios 🌍</div>
     </div>
-    <div class="card" style="max-width:600px;text-align:center;padding:40px 20px">
-      <div style="font-size:42px;margin-bottom:12px">🚧</div>
-      <div style="font-size:15px;font-weight:700;margin-bottom:8px">En construcción</div>
-      <div style="font-size:12px;color:var(--text2);line-height:1.6">Esta sección se habilita en la próxima actualización. Vas a poder listar, editar y crear preguntas con cambios globales para todos los usuarios.</div>
+    <div id="adm-qs-toolbar" style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:12px;max-width:900px">
+      <input id="adm-qs-search" type="search" placeholder="Buscar en enunciados y respuestas…" oninput="admQsFilter()"
+        style="flex:1;min-width:220px;padding:8px 11px;border:1px solid var(--border);border-radius:8px;background:var(--card2);color:var(--text);font-size:13px">
+      <button class="btn btn-ghost btn-sm" onclick="admQsBuild()" title="Recargar">🔄</button>
     </div>
+    <div id="adm-qs-mod-chips" style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;max-width:900px"></div>
+    <div id="adm-qs-stats" style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;max-width:900px"></div>
+    <div id="adm-qs-editor" style="display:none;max-width:900px;margin-bottom:16px"></div>
+    <div id="adm-qs-loading" style="display:none;padding:30px;text-align:center;color:var(--text2);font-size:13px">Cargando preguntas…</div>
+    <div id="adm-qs-error" style="display:none;background:rgba(229,92,100,.1);border:1px solid rgba(229,92,100,.3);border-radius:10px;padding:14px 18px;margin-bottom:16px;font-size:13px;color:var(--red);max-width:900px"></div>
+    <div id="adm-qs-list" style="max-width:900px"></div>
+    <div id="adm-qs-pager" style="display:flex;gap:8px;justify-content:center;align-items:center;margin:14px 0;max-width:900px"></div>
   </div>
   <div class="view" id="view-admin-stats">
     <div class="page-header">
       <div class="page-title">📊 Dashboard de progreso</div>
-      <div class="page-sub">Métricas agregadas del equipo</div>
+      <div class="page-sub">Métricas agregadas del equipo · click en cada usuario para ver detalle por módulo</div>
     </div>
-    <div class="card" style="max-width:600px;text-align:center;padding:40px 20px">
-      <div style="font-size:42px;margin-bottom:12px">🚧</div>
-      <div style="font-size:15px;font-weight:700;margin-bottom:8px">En construcción</div>
-      <div style="font-size:12px;color:var(--text2);line-height:1.6">Esta sección se habilita en la próxima actualización. Vas a ver el progreso de cada usuario, aciertos, actividad y métricas por módulo.</div>
+    <div id="adm-stats-global" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-bottom:16px;max-width:1000px"></div>
+    <div id="adm-stats-toolbar" style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:12px;max-width:1000px">
+      <input id="adm-stats-search" type="search" placeholder="Buscar usuario…" oninput="admStatsRender()"
+        style="flex:1;min-width:200px;padding:8px 11px;border:1px solid var(--border);border-radius:8px;background:var(--card2);color:var(--text);font-size:13px">
+      <select id="adm-stats-sort" onchange="admStatsRender()"
+        style="padding:8px 11px;border:1px solid var(--border);border-radius:8px;background:var(--card2);color:var(--text);font-size:13px">
+        <option value="recent">Orden: última actividad</option>
+        <option value="answered">Orden: más respondidas</option>
+        <option value="best">Orden: mejor %</option>
+        <option value="worst">Orden: peor %</option>
+        <option value="name">Orden: nombre</option>
+      </select>
+      <button class="btn btn-ghost btn-sm" onclick="admStatsBuild(true)" title="Recargar datos">🔄</button>
+    </div>
+    <div id="adm-stats-loading" style="display:none;padding:30px;text-align:center;color:var(--text2);font-size:13px">Cargando progreso de todos los usuarios…</div>
+    <div id="adm-stats-error" style="display:none;background:rgba(229,92,100,.1);border:1px solid rgba(229,92,100,.3);border-radius:10px;padding:14px 18px;margin-bottom:16px;font-size:13px;color:var(--red);max-width:1000px"></div>
+    <div id="adm-stats-table" style="max-width:1000px"></div>
+  </div>
+
+  <!-- ADMIN CONFIG VIEW -->
+  <div class="view" id="view-admin-config">
+    <div class="page-header">
+      <div class="page-title">⚙️ Configuración</div>
+      <div class="page-sub">Controlá qué funcionalidades están visibles para los usuarios</div>
+    </div>
+    <div id="adm-cfg-error" style="display:none;background:rgba(229,92,100,.1);border:1px solid rgba(229,92,100,.3);border-radius:10px;padding:14px 18px;margin-bottom:16px;font-size:13px;color:var(--red);max-width:720px"></div>
+
+    <div class="card" style="max-width:720px;padding:0;overflow:hidden">
+      <div style="padding:14px 18px;border-bottom:1px solid var(--border);font-size:13px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.06em">
+        Visibilidad de funcionalidades
+      </div>
+
+      <div class="adm-cfg-row" id="adm-cfg-row-podcasts">
+        <div class="adm-cfg-icon">🎙️</div>
+        <div class="adm-cfg-info">
+          <div class="adm-cfg-title">Podcasts</div>
+          <div class="adm-cfg-desc">Sección de audios explicativos por módulo. Si la apagás, el botón desaparece del menú de los usuarios (vos como admin la seguís viendo siempre).</div>
+        </div>
+        <label class="adm-cfg-switch">
+          <input type="checkbox" id="adm-cfg-podcasts" onchange="admCfgToggle('podcasts_enabled', this.checked)">
+          <span class="adm-cfg-slider"></span>
+        </label>
+      </div>
+    </div>
+
+    <div style="max-width:720px;margin-top:16px;padding:12px 16px;background:var(--card2);border:1px solid var(--border);border-radius:10px;font-size:12px;color:var(--text2);line-height:1.6">
+      <strong style="color:var(--gold)">💡</strong> Los cambios se aplican inmediatamente. Los usuarios los ven la próxima vez que naveguen o recarguen. Vos como admin seguís viendo todo para poder administrarlo.
     </div>
   </div>
 
@@ -5016,7 +5162,8 @@ function navigate(view) {
     history:'Historial',achievements:'Logros',recs:'Plan de Estudio',biblio:'Bibliografía',
     flashcards:'Flashcards',entrenamiento:'Mi Progreso',
     'admin-home':'Panel Admin','admin-users':'Gestión de usuarios',
-    'admin-questions':'Gestión de preguntas','admin-stats':'Dashboard de progreso'};
+    'admin-questions':'Gestión de preguntas','admin-stats':'Dashboard de progreso',
+    'admin-config':'Configuración'};
   $('tb-title').textContent = titles[view] || '';
   closeSidebar();
   buildMimiPanel();
@@ -5028,6 +5175,12 @@ function navigate(view) {
       return;
     }
   }
+  // Guard para podcast: si la feature está deshabilitada y el usuario no está en modo admin, rebotar
+  if (view === 'podcast' && typeof featureEnabled === 'function' && !featureEnabled('podcasts_enabled') && !isAdminMode()) {
+    if (typeof toast === 'function') toast('⚠️ Esta sección no está disponible');
+    navigate('dashboard');
+    return;
+  }
   if (view==='dashboard')     buildDashboard();
   if (view==='study')         buildStudyView();
   if (view==='exam')          buildExamSetup();
@@ -5036,6 +5189,9 @@ function navigate(view) {
   if (view==='notes')         { buildNotes(); switchNotesTab('manual'); }
   if (view==='podcast')       { podInit(); }
   if (view==='admin-users')   { admUsersBuild(); }
+  if (view==='admin-questions') { admQsBuild(); }
+  if (view==='admin-stats')   { admStatsBuild(); }
+  if (view==='admin-config')  { admCfgBuild(); }
   if (view==='history') {
     // Show analisis view directly without recursive navigate
     document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
@@ -8055,7 +8211,10 @@ async function onLogin() {
   initSettings();
   // Cargar rol del usuario ANTES de renderizar UI para que podamos ocultar/mostrar admin features
   await loadUserRole();
+  // Cargar feature flags globales (podcasts enabled, etc.)
+  await loadAppSettings();
   admApplyModeUI();
+  applyFeatureFlagsUI();
   loadAll(); // load localStorage as instant fallback
   applyEditedAnswers();
   buildDashboard();
@@ -8849,17 +9008,24 @@ function applyEditedAnswers() {
 }
 
 // Load edits from Supabase (called on login)
+// Con RLS: devuelve ediciones propias + globales.
+// Prioridad: globales sobre propias (si hay conflicto, gana la global).
 async function loadEditsFromCloud() {
   if (!sbClient) return;
   try {
     const { data, error } = await sbClient.from('question_edits').select('*');
     if (error || !data) return;
-    data.forEach(row => {
+    // Ordenar: primero propias, después globales → al aplicar por clave, las globales sobrescriben
+    const sorted = data.slice().sort(function(a, b){
+      return (a.is_global ? 1 : 0) - (b.is_global ? 1 : 0);
+    });
+    sorted.forEach(row => {
       const key = `${row.module_id}_${row.question_idx}`;
       editedAnswers[key] = {
         question: row.question,
         correct:  row.correct,
-        options:  [row.option_0, row.option_1, row.option_2, row.option_3].filter(Boolean)
+        options:  [row.option_0, row.option_1, row.option_2, row.option_3].filter(Boolean),
+        _global:  !!row.is_global
       };
     });
     applyEditedAnswers();
@@ -8867,8 +9033,10 @@ async function loadEditsFromCloud() {
 }
 
 // Save edit to Supabase
-async function saveEditToCloud(mi, qi, edit) {
+// opts: { isGlobal: bool } — si true, marca la edición como global (visible para todos)
+async function saveEditToCloud(mi, qi, edit, opts) {
   if (!sbClient || !currentUser) return;
+  opts = opts || {};
   try {
     const row = {
       module_id:    mi,
@@ -8880,6 +9048,7 @@ async function saveEditToCloud(mi, qi, edit) {
       option_2:     edit.options?.[2] || null,
       option_3:     edit.options?.[3] || null,
       edited_by:    currentUser.email,
+      is_global:    !!opts.isGlobal,
       updated_at:   new Date().toISOString(),
     };
     const { error } = await sbClient.from('question_edits')
@@ -9310,12 +9479,26 @@ function ctToggleSection() {
 
 
 
-function bibToggle(id) {
-  const card = document.getElementById(id);
+function bibToggle(id, evt) {
+  // Fix: el HTML de bibliografía se clona al tab "Bibliografía" de Referencia.
+  // Al clonarse, los ids quedan duplicados en DOM. getElementById devolvía el primero
+  // (el oculto en view-biblio). Ahora usamos el elemento clickeado para ubicar la card
+  // dentro de su propio subárbol.
+  var card = null;
+  // Si el handler viene con un event, buscamos el card más cercano al target clickeado
+  try {
+    var ev = evt || window.event;
+    if (ev && ev.target && typeof ev.target.closest === 'function') {
+      card = ev.target.closest('.bib-mod-card');
+    }
+  } catch(e){}
+  // Fallback: si no se pudo resolver por evento, buscamos por id (puede haber duplicado)
+  if (!card) card = document.getElementById(id);
   if (!card) return;
+  var wasOpen = card.classList.contains('bib-open');
   card.classList.toggle('bib-open');
-  const idx = id.split('-').pop();
-  const chev = document.getElementById('bib-chev-'+idx);
+  // Actualizar el chevron del card activo (dentro del mismo subárbol, no por id global)
+  var chev = card.querySelector('.bib-mod-chevron');
   if (chev) chev.textContent = card.classList.contains('bib-open') ? '▾' : '▸';
 }
 
@@ -11292,7 +11475,16 @@ function refTab(tab, btn) {
     var dest3 = $('biblio-content-ref');
     if (dest3) {
       var bibWrap = document.querySelector('#view-biblio .bib-wrap');
-      if (bibWrap) dest3.innerHTML = bibWrap.outerHTML;
+      if (bibWrap) {
+        // Clonar sin ids duplicados: los removemos del clon para evitar conflictos
+        // con getElementById. bibToggle ahora usa el event.target.closest, así que
+        // no depende de ids.
+        var clone = bibWrap.cloneNode(true);
+        // Limpiar ids en la copia
+        clone.querySelectorAll('[id]').forEach(function(el){ el.removeAttribute('id'); });
+        dest3.innerHTML = '';
+        dest3.appendChild(clone);
+      }
     }
   }
 }
@@ -12466,6 +12658,36 @@ function ctToggle(id) {
 
 const ROLE_MODE_KEY = 'cnv_role_mode'; // sessionStorage: modo elegido por admin
 
+// Cache de feature flags globales (tabla app_settings).
+// Default seguro: todas visibles. Si la query falla, nadie queda sin acceso.
+var _appSettings = { podcasts_enabled: true };
+
+// Carga los flags globales desde Supabase. Si falla, mantiene defaults seguros.
+async function loadAppSettings() {
+  if (typeof sbClient === 'undefined' || !sbClient) return;
+  try {
+    const { data, error } = await sbClient.from('app_settings').select('key, value');
+    if (error) { console.warn('loadAppSettings:', error); return; }
+    if (Array.isArray(data)) {
+      data.forEach(function(row){
+        // value puede venir como boolean, string, number... lo guardamos tal cual
+        _appSettings[row.key] = row.value;
+      });
+    }
+  } catch(e) { console.warn('loadAppSettings exception:', e); }
+}
+
+// Chequea si una feature está habilitada (default: true si no hay info)
+function featureEnabled(key) {
+  var v = _appSettings[key];
+  if (v === undefined || v === null) return true; // default seguro
+  if (typeof v === 'boolean') return v;
+  // JSONB puede venir como string 'true'/'false' o como boolean ya parseado
+  if (v === 'true' || v === true) return true;
+  if (v === 'false' || v === false) return false;
+  return !!v;
+}
+
 // Carga el rol real del usuario desde public.profiles.
 // Se llama después del login, antes de renderizar el dashboard.
 async function loadUserRole() {
@@ -12585,6 +12807,8 @@ function admApplyModeUI() {
   if (block) {
     block.style.display = isAdminMode() ? 'block' : 'none';
   }
+  // Re-aplicar feature flags (el admin ve podcast siempre, user comun solo si está enabled)
+  if (typeof applyFeatureFlagsUI === 'function') applyFeatureFlagsUI();
   // Si el usuario salió del modo admin mientras estaba en una vista admin, mandarlo al dashboard
   if (!isAdminMode() && typeof curView !== 'undefined' && typeof curView === 'string' && curView.indexOf('admin-') === 0) {
     if (typeof navigate === 'function') navigate('dashboard');
@@ -12605,6 +12829,88 @@ function admUserName() {
 function admEsc(s) {
   if (s == null) return '';
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ═══════════════════════════════════════════════════════════
+// FEATURE FLAGS UI
+// Aplica los flags de _appSettings a la UI (sidebar, vistas).
+// El admin siempre ve todo. Solo usuarios comunes son afectados.
+// ═══════════════════════════════════════════════════════════
+
+function applyFeatureFlagsUI() {
+  // Podcasts: el botón se muestra si la feature está ON (para todos), o si el admin
+  // está en MODO ADMIN (así puede administrar contenido aunque esté oculto para users).
+  // Cuando el admin pasa a modo user, ve lo mismo que un usuario normal → respeta el flag.
+  var podBtn = document.getElementById('nav-podcast');
+  if (podBtn) {
+    var showPod = featureEnabled('podcasts_enabled') || isAdminMode();
+    podBtn.style.display = showPod ? '' : 'none';
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+// ADMIN CONFIG (admCfg*)
+// Panel de feature flags. Solo accesible en modo admin.
+// Los cambios se persisten en public.app_settings con RLS.
+// ═══════════════════════════════════════════════════════════
+
+async function admCfgBuild() {
+  if (!isAdminMode()) { navigate('dashboard'); return; }
+  var err = document.getElementById('adm-cfg-error');
+  if (err) { err.style.display = 'none'; err.textContent = ''; }
+
+  // Refrescar desde DB para asegurar valor real
+  await loadAppSettings();
+
+  var cbPod = document.getElementById('adm-cfg-podcasts');
+  if (cbPod) cbPod.checked = featureEnabled('podcasts_enabled');
+}
+
+// Toggle de una feature: actualiza Supabase + cache + UI.
+async function admCfgToggle(key, value) {
+  if (!isAdminMode()) return;
+  var sw = document.querySelector('#adm-cfg-row-' + (key === 'podcasts_enabled' ? 'podcasts' : key) + ' .adm-cfg-switch');
+  var cb = document.getElementById('adm-cfg-' + (key === 'podcasts_enabled' ? 'podcasts' : key));
+  // Estado visual loading
+  if (sw) sw.classList.add('loading');
+  if (cb) cb.disabled = true;
+
+  try {
+    var row = {
+      key: key,
+      value: value,
+      updated_by: (currentUser && currentUser.email) || null,
+      updated_at: new Date().toISOString()
+    };
+    var { error } = await sbClient.from('app_settings')
+      .upsert(row, { onConflict: 'key' });
+    if (error) throw error;
+
+    // Actualizar cache local
+    _appSettings[key] = value;
+
+    // Re-aplicar flags en toda la UI (por si el admin pasa a modo user después)
+    applyFeatureFlagsUI();
+
+    if (typeof toast === 'function') {
+      toast(value
+        ? '✓ Funcionalidad activada para todos los usuarios'
+        : '✓ Funcionalidad oculta para los usuarios');
+    }
+  } catch(e) {
+    console.error('admCfgToggle', e);
+    // Revertir checkbox al estado anterior
+    if (cb) cb.checked = !value;
+    var err = document.getElementById('adm-cfg-error');
+    if (err) {
+      err.style.display = 'block';
+      err.textContent = '❌ No se pudo guardar: ' + (e.message || e);
+    }
+    if (typeof toast === 'function') toast('❌ Error al guardar', 5000);
+  } finally {
+    if (sw) sw.classList.remove('loading');
+    if (cb) cb.disabled = false;
+  }
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -12779,6 +13085,584 @@ function admFormatDate(iso) {
     var mm = String(d.getMonth()+1).padStart(2,'0');
     var yy = d.getFullYear();
     return dd + '/' + mm + '/' + yy;
+  } catch(e) { return ''; }
+}
+
+// ═══════════════════════════════════════════════════════════
+// ADMIN QUESTIONS (admQs*)
+// Editor global de preguntas para admin.
+// Los cambios se guardan en question_edits con is_global=true.
+// La RLS valida que solo admin pueda escribir globales.
+// ═══════════════════════════════════════════════════════════
+
+var _admQsMi = -1;               // filtro de módulo: -1 = todos
+var _admQsPage = 0;              // página actual
+var _admQsPerPage = 50;
+var _admQsQuery = '';
+var _admQsOpen = null;           // key 'mi_qi' de la pregunta abierta en editor
+var _admQsDirty = false;         // cambios sin guardar
+
+function admQsBuild() {
+  if (!isAdminMode()) { navigate('dashboard'); return; }
+  _admQsPage = 0;
+  _admQsOpen = null;
+  _admQsDirty = false;
+  var editor = document.getElementById('adm-qs-editor');
+  if (editor) { editor.style.display = 'none'; editor.innerHTML = ''; }
+  admQsRenderChips();
+  admQsFilter();
+}
+
+function admQsRenderChips() {
+  var el = document.getElementById('adm-qs-mod-chips');
+  if (!el) return;
+  var html = '<button class="adm-qs-chip' + (_admQsMi === -1 ? ' active' : '') + '" onclick="admQsSetMod(-1)">Todos</button>';
+  for (var i = 0; i < 6; i++) {
+    html += '<button class="adm-qs-chip' + (_admQsMi === i ? ' active' : '') + '" onclick="admQsSetMod(' + i + ')">M' + (i+1) + '</button>';
+  }
+  el.innerHTML = html;
+}
+
+function admQsSetMod(mi) {
+  if (_admQsDirty && !confirm('Hay cambios sin guardar. ¿Descartarlos?')) return;
+  _admQsMi = mi;
+  _admQsPage = 0;
+  _admQsOpen = null;
+  _admQsDirty = false;
+  var editor = document.getElementById('adm-qs-editor');
+  if (editor) { editor.style.display = 'none'; editor.innerHTML = ''; }
+  admQsRenderChips();
+  admQsFilter();
+}
+
+function admQsFilter() {
+  var s = document.getElementById('adm-qs-search');
+  _admQsQuery = s ? (s.value || '').trim().toLowerCase() : '';
+  _admQsPage = 0;
+  admQsRender();
+}
+
+// Devuelve array [{ mi, qi, num, text, answer, options, edited }] que matchea filtros
+function admQsMatches() {
+  var out = [];
+  if (typeof MODULES === 'undefined') return out;
+  var q = _admQsQuery;
+  for (var mi = 0; mi < MODULES.length; mi++) {
+    if (_admQsMi !== -1 && mi !== _admQsMi) continue;
+    var mod = MODULES[mi];
+    if (!mod || !mod.questions) continue;
+    for (var qi = 0; qi < mod.questions.length; qi++) {
+      var tup = mod.questions[qi];
+      var num = tup[0], text = tup[1] || '', answer = tup[2] || '', opts = tup[3] || [];
+      if (q) {
+        var hay = (text + ' ' + answer + ' ' + opts.join(' ')).toLowerCase();
+        if (hay.indexOf(q) < 0) continue;
+      }
+      var editKey = mi + '_' + qi;
+      var edited = !!(editedAnswers && editedAnswers[editKey]);
+      out.push({ mi: mi, qi: qi, num: num, text: text, answer: answer, options: opts, edited: edited });
+    }
+  }
+  return out;
+}
+
+function admQsRender() {
+  var list = document.getElementById('adm-qs-list');
+  var stats = document.getElementById('adm-qs-stats');
+  var pager = document.getElementById('adm-qs-pager');
+  if (!list) return;
+
+  var matches = admQsMatches();
+  var total = matches.length;
+  var editedCount = matches.filter(function(m){ return m.edited; }).length;
+
+  // Stats
+  if (stats) {
+    stats.innerHTML =
+      '<div class="adm-stat-chip"><div class="v">' + total + '</div><div class="l">Preguntas</div></div>' +
+      '<div class="adm-stat-chip"><div class="v" style="color:var(--gold)">' + editedCount + '</div><div class="l">Editadas</div></div>';
+  }
+
+  // Paginación
+  var totalPages = Math.max(1, Math.ceil(total / _admQsPerPage));
+  if (_admQsPage >= totalPages) _admQsPage = totalPages - 1;
+  if (_admQsPage < 0) _admQsPage = 0;
+  var start = _admQsPage * _admQsPerPage;
+  var end = Math.min(start + _admQsPerPage, total);
+  var slice = matches.slice(start, end);
+
+  if (total === 0) {
+    list.innerHTML = '<div style="padding:40px 20px;text-align:center;color:var(--muted);font-size:13px;background:var(--card);border:1px solid var(--border);border-radius:10px">Sin preguntas que coincidan</div>';
+    if (pager) pager.innerHTML = '';
+    return;
+  }
+
+  var html = '';
+  slice.forEach(function(m){
+    var key = m.mi + '_' + m.qi;
+    var isOpen = _admQsOpen === key;
+    var cls = 'adm-qs-item' + (m.edited ? ' edited' : '') + (isOpen ? ' open' : '');
+    var optsHtml = '';
+    m.options.forEach(function(opt, oi){
+      var isCorrect = String(opt).trim() === String(m.answer).trim();
+      optsHtml += '<div class="adm-qs-item-opt' + (isCorrect ? ' correct' : '') + '">' + admEsc(opt) + '</div>';
+    });
+    html += '<div class="' + cls + '" onclick="admQsOpenEditor(' + m.mi + ',' + m.qi + ')">' +
+      '<div class="adm-qs-item-head">' +
+        '<span class="adm-qs-badge' + (m.edited ? ' edited' : '') + '">M' + (m.mi+1) + ' · P' + m.num + '</span>' +
+        (m.edited ? '<span class="adm-qs-badge edited">🌍 Editada</span>' : '') +
+      '</div>' +
+      '<div class="adm-qs-item-q">' + admEsc(m.text) + '</div>' +
+      (optsHtml ? '<div class="adm-qs-item-opts">' + optsHtml + '</div>' : '') +
+      '</div>';
+  });
+  list.innerHTML = html;
+
+  // Pager
+  if (pager) {
+    if (totalPages <= 1) {
+      pager.innerHTML = '<span style="font-size:11px;color:var(--text2)">Mostrando ' + (start+1) + '–' + end + ' de ' + total + '</span>';
+    } else {
+      pager.innerHTML =
+        '<button class="btn btn-ghost btn-sm" ' + (_admQsPage === 0 ? 'disabled' : '') + ' onclick="admQsSetPage(' + (_admQsPage-1) + ')">← Anterior</button>' +
+        '<span style="font-size:11px;color:var(--text2);min-width:140px;text-align:center">Página ' + (_admQsPage+1) + ' de ' + totalPages + ' · ' + total + ' prgts</span>' +
+        '<button class="btn btn-ghost btn-sm" ' + (_admQsPage >= totalPages-1 ? 'disabled' : '') + ' onclick="admQsSetPage(' + (_admQsPage+1) + ')">Siguiente →</button>';
+    }
+  }
+}
+
+function admQsSetPage(p) {
+  if (_admQsDirty && !confirm('Hay cambios sin guardar. ¿Descartarlos?')) return;
+  _admQsPage = p;
+  _admQsOpen = null;
+  _admQsDirty = false;
+  var editor = document.getElementById('adm-qs-editor');
+  if (editor) { editor.style.display = 'none'; editor.innerHTML = ''; }
+  admQsRender();
+}
+
+// Abre el editor inline para (mi, qi)
+function admQsOpenEditor(mi, qi) {
+  if (!isAdminMode()) return;
+  var key = mi + '_' + qi;
+  if (_admQsOpen === key) return;
+  if (_admQsDirty && !confirm('Hay cambios sin guardar. ¿Descartarlos y abrir otra?')) return;
+
+  _admQsOpen = key;
+  _admQsDirty = false;
+  var mod = MODULES[mi];
+  var tup = mod && mod.questions && mod.questions[qi];
+  if (!tup) return;
+  var num = tup[0], text = tup[1] || '', answer = tup[2] || '', opts = (tup[3] || []).slice();
+  while (opts.length < 4) opts.push('');
+
+  // índice de correcta: buscar en options cuál matchea answer
+  var correctIdx = opts.findIndex(function(o){ return String(o).trim() === String(answer).trim(); });
+  if (correctIdx < 0) correctIdx = 0;
+
+  var editKey = mi + '_' + qi;
+  var isEdited = !!(editedAnswers && editedAnswers[editKey]);
+
+  var editor = document.getElementById('adm-qs-editor');
+  if (!editor) return;
+  var html = '<div class="adm-qs-editor-card">' +
+    '<div class="adm-qs-editor-head">' +
+      '<span class="adm-qs-badge">M' + (mi+1) + ' · P' + num + '</span>' +
+      '<span class="adm-qs-editor-title">' + (isEdited ? '🌍 Edición global actual' : 'Editor de pregunta') + '</span>' +
+      '<span id="adm-qs-dirty" class="adm-qs-dirty" style="display:none">● sin guardar</span>' +
+      '<button class="btn btn-ghost btn-sm" onclick="admQsCloseEditor()">✕ Cerrar</button>' +
+    '</div>' +
+
+    '<label class="adm-qs-label">Enunciado</label>' +
+    '<textarea class="adm-qs-textarea" id="adm-qs-e-text" rows="4" oninput="admQsMarkDirty()">' + admEsc(text) + '</textarea>' +
+
+    '<label class="adm-qs-label">Opciones (marcá cuál es la correcta)</label>';
+
+  for (var i = 0; i < 4; i++) {
+    html += '<div class="adm-qs-opt-row">' +
+      '<input type="radio" name="adm-qs-correct" id="adm-qs-r' + i + '" value="' + i + '" ' + (correctIdx === i ? 'checked' : '') + ' onchange="admQsMarkDirty()">' +
+      '<textarea class="adm-qs-textarea" id="adm-qs-e-opt' + i + '" rows="2" placeholder="Opción ' + (i+1) + '" oninput="admQsMarkDirty()">' + admEsc(opts[i] || '') + '</textarea>' +
+    '</div>';
+  }
+
+  html += '<div class="adm-qs-editor-actions">' +
+    '<button class="btn btn-gold btn-sm" onclick="admQsSave(' + mi + ',' + qi + ')">💾 Guardar edición global</button>' +
+    (isEdited ? '<button class="btn btn-ghost btn-sm" onclick="admQsRevert(' + mi + ',' + qi + ')" style="color:var(--red);border-color:rgba(229,92,100,.3)">↻ Volver a original</button>' : '') +
+    '<span style="font-size:10px;color:var(--muted);margin-left:auto">🌍 Los cambios se aplican a todos los usuarios</span>' +
+  '</div>' +
+  '</div>';
+
+  editor.innerHTML = html;
+  editor.style.display = 'block';
+  // Scroll suave al editor
+  setTimeout(function(){
+    editor.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 50);
+  admQsRender(); // re-render para aplicar clase .open
+}
+
+function admQsCloseEditor() {
+  if (_admQsDirty && !confirm('Hay cambios sin guardar. ¿Descartarlos?')) return;
+  _admQsOpen = null;
+  _admQsDirty = false;
+  var editor = document.getElementById('adm-qs-editor');
+  if (editor) { editor.style.display = 'none'; editor.innerHTML = ''; }
+  admQsRender();
+}
+
+function admQsMarkDirty() {
+  _admQsDirty = true;
+  var d = document.getElementById('adm-qs-dirty');
+  if (d) d.style.display = 'inline';
+}
+
+async function admQsSave(mi, qi) {
+  if (!isAdminMode()) return;
+  var text = document.getElementById('adm-qs-e-text');
+  var opts = [];
+  for (var i = 0; i < 4; i++) {
+    var t = document.getElementById('adm-qs-e-opt' + i);
+    opts.push(t ? t.value.trim() : '');
+  }
+  var correctRadio = document.querySelector('input[name="adm-qs-correct"]:checked');
+  var correctIdx = correctRadio ? parseInt(correctRadio.value, 10) : 0;
+
+  // Validaciones
+  var qtext = text ? text.value.trim() : '';
+  if (!qtext) { toast('⚠️ El enunciado no puede estar vacío', 4000); return; }
+  if (!opts[correctIdx]) { toast('⚠️ La opción correcta no puede estar vacía', 4000); return; }
+  var nonEmpty = opts.filter(function(o){ return o; }).length;
+  if (nonEmpty < 2) { toast('⚠️ Tenés que tener al menos 2 opciones', 4000); return; }
+
+  // Armar edit
+  var edit = {
+    question: qtext,
+    correct:  opts[correctIdx],
+    options:  opts.filter(function(o){ return o; })
+  };
+
+  // Guardar local + cloud (global)
+  var key = mi + '_' + qi;
+  editedAnswers[key] = { question: edit.question, correct: edit.correct, options: edit.options, _global: true };
+  try { localStorage.setItem(SK('editedAnswers'), JSON.stringify(editedAnswers)); } catch(e){}
+
+  // Aplicar en memoria a MODULES para que los usuarios (y el admin) lo vean ya
+  try {
+    var mod = MODULES[mi];
+    if (mod && mod.questions && mod.questions[qi]) {
+      mod.questions[qi][1] = edit.question;
+      mod.questions[qi][2] = edit.correct;
+      mod.questions[qi][3] = edit.options;
+    }
+  } catch(e){}
+
+  toast('⏳ Guardando en Supabase...', 2000);
+  var ok = await saveEditToCloud(mi, qi, edit, { isGlobal: true });
+  if (ok) {
+    _admQsDirty = false;
+    toast('✓ Pregunta actualizada para todos los usuarios');
+    // Cerrar editor y re-render lista (muestra badge "Editada")
+    _admQsOpen = null;
+    var editor = document.getElementById('adm-qs-editor');
+    if (editor) { editor.style.display = 'none'; editor.innerHTML = ''; }
+    admQsRender();
+  }
+}
+
+async function admQsRevert(mi, qi) {
+  if (!isAdminMode()) return;
+  if (!confirm('¿Volver a la versión original de esta pregunta?\n\nSe elimina la edición global y todos los usuarios vuelven a ver el texto original.')) return;
+
+  var key = mi + '_' + qi;
+  // Borrar local
+  delete editedAnswers[key];
+  try { localStorage.setItem(SK('editedAnswers'), JSON.stringify(editedAnswers)); } catch(e){}
+
+  // Borrar de cloud
+  try {
+    await sbClient.from('question_edits')
+      .delete()
+      .eq('module_id', mi)
+      .eq('question_idx', qi);
+    toast('✓ Edición eliminada. Recargá la página para ver el texto original.');
+  } catch(e) {
+    console.error('admQsRevert', e);
+    toast('⚠️ Error al eliminar: ' + (e.message || e), 5000);
+    return;
+  }
+
+  // Cerrar editor y re-render
+  _admQsOpen = null;
+  _admQsDirty = false;
+  var editor = document.getElementById('adm-qs-editor');
+  if (editor) { editor.style.display = 'none'; editor.innerHTML = ''; }
+  admQsRender();
+}
+
+// ═══════════════════════════════════════════════════════════
+// ADMIN STATS (admStats*)
+// Dashboard de progreso de todos los usuarios.
+// Consulta profiles + user_progress + daily_stats con RLS admin.
+// ═══════════════════════════════════════════════════════════
+
+var _admStatsCache = null;          // { ts, users, global, detailByUser }
+var _admStatsCacheMs = 60000;       // 60s de cache
+var _admStatsOpen = null;           // user_id del detalle abierto
+
+async function admStatsBuild(force) {
+  if (!isAdminMode()) { navigate('dashboard'); return; }
+  var loading = document.getElementById('adm-stats-loading');
+  var err = document.getElementById('adm-stats-error');
+  var globalEl = document.getElementById('adm-stats-global');
+  var table = document.getElementById('adm-stats-table');
+
+  if (err) { err.style.display = 'none'; err.textContent = ''; }
+
+  // Cache válido
+  if (!force && _admStatsCache && (Date.now() - _admStatsCache.ts) < _admStatsCacheMs) {
+    admStatsRender();
+    return;
+  }
+
+  if (loading) loading.style.display = 'block';
+  if (globalEl) globalEl.innerHTML = '';
+  if (table) table.innerHTML = '';
+
+  try {
+    if (typeof sbClient === 'undefined' || !sbClient) throw new Error('Supabase no inicializado');
+
+    // 1) Profiles (todos los usuarios)
+    var pQ = await sbClient.from('profiles')
+      .select('id, role, full_name, created_at')
+      .order('created_at', { ascending: false });
+    if (pQ.error) throw pQ.error;
+    var profiles = pQ.data || [];
+
+    // 2) user_progress — agregados por usuario y módulo
+    var upQ = await sbClient.from('user_progress')
+      .select('user_id, module_id, attempts, correct, errors, last_seen');
+    if (upQ.error) throw upQ.error;
+    var progress = upQ.data || [];
+
+    // 3) daily_stats — para última actividad y activos 7d
+    var dsQ = await sbClient.from('daily_stats')
+      .select('user_id, date, answered');
+    if (dsQ.error) throw dsQ.error;
+    var daily = dsQ.data || [];
+
+    // Procesar: agregar por user_id y por (user_id, module_id)
+    var byUser = {};    // uid -> { answered, correct, errors, byMod:{0..5}:{attempts,correct}, lastSeen }
+    progress.forEach(function(r){
+      var uid = r.user_id;
+      if (!byUser[uid]) byUser[uid] = { answered:0, correct:0, errors:0, byMod:{}, lastSeen:null };
+      byUser[uid].answered += (r.attempts || 0);
+      byUser[uid].correct  += (r.correct  || 0);
+      byUser[uid].errors   += (r.errors   || 0);
+      if (!byUser[uid].byMod[r.module_id]) byUser[uid].byMod[r.module_id] = { attempts:0, correct:0 };
+      byUser[uid].byMod[r.module_id].attempts += (r.attempts || 0);
+      byUser[uid].byMod[r.module_id].correct  += (r.correct  || 0);
+      if (r.last_seen && (!byUser[uid].lastSeen || r.last_seen > byUser[uid].lastSeen)) {
+        byUser[uid].lastSeen = r.last_seen;
+      }
+    });
+
+    // Última actividad por daily_stats (más reciente que last_seen de progress a veces)
+    var dailyByUser = {}; // uid -> { lastDate, total7d }
+    var now = new Date();
+    var d7 = new Date(now.getTime() - 7*86400000);
+    var d7iso = d7.toISOString().slice(0,10);
+    daily.forEach(function(r){
+      var uid = r.user_id;
+      if (!dailyByUser[uid]) dailyByUser[uid] = { lastDate: null, total7d: 0 };
+      if (!dailyByUser[uid].lastDate || r.date > dailyByUser[uid].lastDate) {
+        dailyByUser[uid].lastDate = r.date;
+      }
+      if (r.date >= d7iso) {
+        dailyByUser[uid].total7d += (r.answered || 0);
+      }
+    });
+
+    // Armar filas finales
+    var users = profiles.map(function(p){
+      var agg = byUser[p.id] || { answered:0, correct:0, errors:0, byMod:{}, lastSeen:null };
+      var d   = dailyByUser[p.id] || { lastDate:null, total7d:0 };
+      var pct = agg.answered > 0 ? Math.round((agg.correct / agg.answered) * 100) : null;
+      // Última actividad: la más reciente entre daily y last_seen
+      var lastAct = null;
+      if (agg.lastSeen) lastAct = agg.lastSeen;
+      if (d.lastDate) {
+        var dAsISO = d.lastDate + 'T23:59:59';
+        if (!lastAct || dAsISO > lastAct) lastAct = dAsISO;
+      }
+      return {
+        id: p.id,
+        name: p.full_name || '(sin nombre)',
+        role: p.role || 'user',
+        answered: agg.answered,
+        correct: agg.correct,
+        errors: agg.errors,
+        pct: pct,
+        lastAct: lastAct,
+        active7d: d.total7d > 0,
+        byMod: agg.byMod
+      };
+    });
+
+    // Métricas globales
+    var totalAnswered = users.reduce(function(a,u){ return a + u.answered; }, 0);
+    var totalCorrect  = users.reduce(function(a,u){ return a + u.correct; }, 0);
+    var active7d      = users.filter(function(u){ return u.active7d; }).length;
+    var globalPct     = totalAnswered > 0 ? Math.round((totalCorrect / totalAnswered) * 100) : null;
+
+    _admStatsCache = {
+      ts: Date.now(),
+      users: users,
+      global: {
+        totalUsers: users.length,
+        active7d: active7d,
+        totalAnswered: totalAnswered,
+        globalPct: globalPct
+      }
+    };
+
+    if (loading) loading.style.display = 'none';
+    admStatsRender();
+  } catch(e) {
+    console.error('admStatsBuild', e);
+    if (loading) loading.style.display = 'none';
+    if (err) {
+      err.style.display = 'block';
+      err.textContent = '❌ No se pudo cargar el dashboard: ' + (e.message || e);
+    }
+  }
+}
+
+function admStatsRender() {
+  if (!_admStatsCache) return;
+  var globalEl = document.getElementById('adm-stats-global');
+  var table = document.getElementById('adm-stats-table');
+  if (!globalEl || !table) return;
+
+  var g = _admStatsCache.global;
+  globalEl.innerHTML =
+    '<div class="adm-stats-global-card"><div class="v">' + g.totalUsers + '</div><div class="l">Usuarios</div></div>' +
+    '<div class="adm-stats-global-card"><div class="v" style="color:var(--green)">' + g.active7d + '</div><div class="l">Activos</div><div class="sub">últimos 7 días</div></div>' +
+    '<div class="adm-stats-global-card"><div class="v" style="color:var(--blue)">' + g.totalAnswered.toLocaleString('es-AR') + '</div><div class="l">Respondidas</div><div class="sub">total del equipo</div></div>' +
+    '<div class="adm-stats-global-card"><div class="v" style="color:' + (g.globalPct === null ? 'var(--muted)' : admStatsPctColor(g.globalPct)) + '">' + (g.globalPct === null ? '—' : g.globalPct + '%') + '</div><div class="l">% promedio</div><div class="sub">aciertos del equipo</div></div>';
+
+  // Filtros y orden
+  var searchEl = document.getElementById('adm-stats-search');
+  var sortEl = document.getElementById('adm-stats-sort');
+  var q = (searchEl && searchEl.value || '').trim().toLowerCase();
+  var sort = sortEl ? sortEl.value : 'recent';
+
+  var list = _admStatsCache.users.slice();
+  if (q) {
+    list = list.filter(function(u){
+      var hay = ((u.name || '') + ' ' + u.id).toLowerCase();
+      return hay.indexOf(q) >= 0;
+    });
+  }
+  list.sort(function(a,b){
+    if (sort === 'name')     return (a.name || '').localeCompare(b.name || '');
+    if (sort === 'answered') return b.answered - a.answered;
+    if (sort === 'best')     return (b.pct || -1) - (a.pct || -1);
+    if (sort === 'worst')    return (a.pct === null ? 999 : a.pct) - (b.pct === null ? 999 : b.pct);
+    // recent: por lastAct desc, null al final
+    var aL = a.lastAct || '';
+    var bL = b.lastAct || '';
+    if (!aL && !bL) return 0;
+    if (!aL) return 1;
+    if (!bL) return -1;
+    return bL.localeCompare(aL);
+  });
+
+  if (list.length === 0) {
+    table.innerHTML = '<div style="padding:40px 20px;text-align:center;color:var(--muted);font-size:13px;background:var(--card);border:1px solid var(--border);border-radius:10px">Sin usuarios que coincidan</div>';
+    return;
+  }
+
+  var selfId = currentUser && currentUser.id;
+  var html = '';
+  list.forEach(function(u){
+    var isSelf = u.id === selfId;
+    var isOpen = _admStatsOpen === u.id;
+    var pctStr = u.pct === null ? '—' : u.pct + '%';
+    var pctClass = u.pct === null ? 'muted' : admStatsPctClass(u.pct);
+    var lastStr = u.lastAct ? admStatsFormatRel(u.lastAct) : 'Sin actividad';
+    var lastClass = u.lastAct ? '' : ' muted';
+    var roleBadge = u.role === 'admin'
+      ? '<span class="adm-role-badge admin">🛠️ Admin</span>'
+      : '<span class="adm-role-badge user">Usuario</span>';
+
+    html += '<div class="adm-stats-row' + (isOpen ? ' open' : '') + (isSelf ? ' self' : '') + '" id="adm-stats-row-' + u.id + '">' +
+      '<div class="adm-stats-row-main" onclick="admStatsToggle(\'' + u.id + '\')">' +
+        '<div class="adm-stats-user">' +
+          '<div class="adm-stats-name">' + admEsc(u.name) + (isSelf ? ' <span style="color:var(--gold);font-size:10px;font-weight:700">(vos)</span>' : '') + '</div>' +
+          '<div class="adm-stats-meta">' + roleBadge + ' <span style="margin-left:6px">' + lastStr + '</span></div>' +
+        '</div>' +
+        '<div class="adm-stats-num adm-stats-hide-mobile">' + u.answered.toLocaleString('es-AR') + '<span class="sub">respondidas</span></div>' +
+        '<div class="adm-stats-num ' + pctClass + '">' + pctStr + '<span class="sub">aciertos</span></div>' +
+        '<div class="adm-stats-num' + lastClass + ' adm-stats-hide-mobile" style="min-width:70px;font-size:11px;font-weight:500">' + lastStr + '<span class="sub">última act.</span></div>' +
+        '<div class="adm-stats-chev">▸</div>' +
+      '</div>' +
+      (isOpen ? admStatsRenderDetail(u) : '') +
+      '</div>';
+  });
+  table.innerHTML = html;
+}
+
+function admStatsRenderDetail(u) {
+  if (u.answered === 0) {
+    return '<div class="adm-stats-detail"><div class="adm-stats-detail-title">Detalle por módulo</div>' +
+      '<div style="padding:12px 0;color:var(--muted);font-size:12px">Este usuario todavía no respondió ninguna pregunta.</div></div>';
+  }
+  var html = '<div class="adm-stats-detail">' +
+    '<div class="adm-stats-detail-title">Detalle por módulo</div>' +
+    '<div class="adm-stats-mod-grid">';
+  for (var mi = 0; mi < 6; mi++) {
+    var m = u.byMod[mi] || { attempts: 0, correct: 0 };
+    var pct = m.attempts > 0 ? Math.round((m.correct / m.attempts) * 100) : 0;
+    var cls = m.attempts > 0 ? admStatsPctClass(pct) : 'muted';
+    html += '<div class="adm-stats-mod">' +
+      '<div class="adm-stats-mod-label"><span>M' + (mi+1) + '</span><span class="' + cls + '" style="font-family:var(--mono);font-size:10px;font-weight:700">' + (m.attempts > 0 ? pct + '%' : '—') + '</span></div>' +
+      '<div class="adm-stats-mod-num">' + m.correct + '<span style="color:var(--text2);font-weight:400">/' + m.attempts + '</span></div>' +
+      '<div class="adm-stats-mod-bar"><div class="adm-stats-mod-bar-fill ' + cls + '" style="width:' + pct + '%"></div></div>' +
+    '</div>';
+  }
+  html += '</div></div>';
+  return html;
+}
+
+function admStatsToggle(uid) {
+  _admStatsOpen = (_admStatsOpen === uid) ? null : uid;
+  admStatsRender();
+}
+
+function admStatsPctClass(p) {
+  if (p === null || p === undefined) return 'muted';
+  if (p >= 75) return 'good';
+  if (p >= 50) return 'med';
+  return 'bad';
+}
+function admStatsPctColor(p) {
+  var c = admStatsPctClass(p);
+  return c === 'good' ? 'var(--green)' : c === 'med' ? 'var(--gold)' : c === 'bad' ? 'var(--red)' : 'var(--muted)';
+}
+
+// Formato relativo: hoy, ayer, hace N días, fecha absoluta
+function admStatsFormatRel(iso) {
+  try {
+    var d = new Date(iso);
+    var now = new Date();
+    var diffMs = now - d;
+    var diffDays = Math.floor(diffMs / 86400000);
+    if (diffDays < 0) return admFormatDate(iso);
+    if (diffDays === 0) return 'hoy';
+    if (diffDays === 1) return 'ayer';
+    if (diffDays < 7) return 'hace ' + diffDays + ' días';
+    if (diffDays < 30) return 'hace ' + Math.floor(diffDays/7) + ' sem';
+    return admFormatDate(iso);
   } catch(e) { return ''; }
 }
 
