@@ -7902,7 +7902,7 @@ async function doResetPassword() {
 
   try {
     const { error } = await sbClient.auth.resetPasswordForEmail(email, {
-      redirectTo: window.location.href.split('?')[0]
+      redirectTo: 'https://mimidiaz.github.io/Idoneo/'
     });
     if (error) throw error;
 
