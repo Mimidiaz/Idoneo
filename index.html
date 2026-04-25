@@ -3000,7 +3000,10 @@ body { font-size: 1rem; }
       <input type="text" id="auth-name" placeholder="Ej: María González" onkeydown="authKeydown(event)">
     </div>
     <button class="auth-submit" id="auth-btn" onclick="doAuth()">Ingresar</button>
-    <p style="font-size:11px;color:var(--muted);text-align:center;margin-top:14px">
+    <div id="auth-reset-link" style="text-align:center;margin-top:10px">
+      <button onclick="switchAuthTab('reset')" style="background:none;border:none;color:var(--text2);font-size:11px;cursor:pointer;text-decoration:underline;padding:0">¿Olvidaste tu contraseña?</button>
+    </div>
+    <p style="font-size:11px;color:var(--muted);text-align:center;margin-top:10px">
       Tu progreso se sincroniza automáticamente 🔄
     </p>
   </div>
@@ -7869,13 +7872,69 @@ function hideAuthOverlay() {
 }
 function switchAuthTab(tab) {
   const isLogin = tab === 'login';
+  const isReset = tab === 'reset';
   $('tab-login').classList.toggle('active', isLogin);
-  $('tab-register').classList.toggle('active', !isLogin);
-  $('auth-name-field').style.display = isLogin ? 'none' : 'block';
-  $('auth-btn').textContent = isLogin ? 'Ingresar' : 'Crear cuenta';
+  $('tab-register').classList.toggle('active', !isLogin && !isReset);
+  $('auth-name-field').style.display = (isLogin || isReset) ? 'none' : 'block';
+  $('auth-pass').closest('.auth-field').style.display = isReset ? 'none' : 'block';
+  $('auth-btn').textContent = isLogin ? 'Ingresar' : isReset ? 'Enviar link' : 'Crear cuenta';
+  $('auth-btn').onclick = isReset ? doResetPassword : doAuth;
   $('auth-error').textContent = '';
+  // Mostrar u ocultar link de olvidé contraseña y título
+  var resetLink = $('auth-reset-link');
+  if (resetLink) resetLink.style.display = (isLogin) ? 'block' : 'none';
+  // Cambiar label si es reset
+  var passField = $('auth-pass').closest('.auth-field');
+  if (isReset) {
+    $('auth-email').closest('.auth-field').querySelector('label').textContent = 'Email';
+  }
 }
-function authKeydown(e) { if (e.key === 'Enter') doAuth(); }
+function authKeydown(e) { if (e.key === 'Enter') { const isReset = $('auth-btn').textContent === 'Enviar link'; if (isReset) doResetPassword(); else doAuth(); } }
+
+async function doResetPassword() {
+  const email = $('auth-email').value.trim();
+  $('auth-error').textContent = '';
+  if (!email) { $('auth-error').textContent = 'Ingresá tu email.'; return; }
+
+  const btn = $('auth-btn');
+  btn.disabled = true;
+  btn.textContent = 'Enviando...';
+
+  try {
+    const { error } = await sbClient.auth.resetPasswordForEmail(email, {
+      redirectTo: window.location.href.split('?')[0]
+    });
+    if (error) throw error;
+
+    var authCard = btn.closest('.auth-card');
+    if (authCard) {
+      authCard.innerHTML =
+        '<div style="text-align:center;padding:24px 16px">' +
+          '<div style="font-size:48px;margin-bottom:16px">📩</div>' +
+          '<div style="font-size:20px;font-weight:700;color:var(--text);margin-bottom:12px">¡Listo!</div>' +
+          '<div style="font-size:14px;color:var(--text2);line-height:1.6;margin-bottom:20px">' +
+            'Te enviamos un link para restablecer tu contraseña a:<br>' +
+            '<strong style="color:var(--blue)">' + email + '</strong>' +
+          '</div>' +
+          '<div style="background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-align:left;margin-bottom:20px">' +
+            '<div style="font-size:12px;font-weight:700;color:var(--text);margin-bottom:8px">Pasos a seguir</div>' +
+            '<div style="font-size:13px;color:var(--text2);line-height:1.7">' +
+              '1. Abrí tu casilla de email<br>' +
+              '2. Hacé click en el link de restablecimiento<br>' +
+              '3. Ingresá tu nueva contraseña<br>' +
+              '4. Volvé acá e ingresá normalmente' +
+            '</div>' +
+            '<div style="font-size:11px;color:var(--muted);margin-top:10px;font-style:italic">Si no lo encontrás, revisá spam.</div>' +
+          '</div>' +
+          '<button onclick="location.reload()" class="btn btn-primary" style="width:100%">Volver al inicio de sesión</button>' +
+        '</div>';
+    }
+  } catch(e) {
+    $('auth-error').textContent = e.message || 'No se pudo enviar el email.';
+    btn.disabled = false;
+    btn.textContent = 'Enviar link';
+  }
+}
 
 async function doAuth() {
   const email = $('auth-email').value.trim();
@@ -13203,16 +13262,22 @@ async function admStatsBuild(force) {
     var daily = dsQ.data || [];
 
     // Procesar: agregar por user_id y por (user_id, module_id)
-    var byUser = {};    // uid -> { answered, correct, errors, byMod:{0..5}:{attempts,correct}, lastSeen }
+    // answered      = preguntas ÚNICAS respondidas al menos 1 vez (igual a lo que ve el usuario)
+    // correct       = respuestas correctas acumuladas (sobre todos los intentos)
+    // errors        = respuestas incorrectas acumuladas
+    // totalAttempts = total de intentos (puede superar answered si repite preguntas)
+    var byUser = {};
     progress.forEach(function(r){
       var uid = r.user_id;
-      if (!byUser[uid]) byUser[uid] = { answered:0, correct:0, errors:0, byMod:{}, lastSeen:null };
-      byUser[uid].answered += (r.attempts || 0);
-      byUser[uid].correct  += (r.correct  || 0);
-      byUser[uid].errors   += (r.errors   || 0);
-      if (!byUser[uid].byMod[r.module_id]) byUser[uid].byMod[r.module_id] = { attempts:0, correct:0 };
-      byUser[uid].byMod[r.module_id].attempts += (r.attempts || 0);
-      byUser[uid].byMod[r.module_id].correct  += (r.correct  || 0);
+      if (!byUser[uid]) byUser[uid] = { answered:0, correct:0, errors:0, totalAttempts:0, byMod:{}, lastSeen:null };
+      if ((r.attempts || 0) > 0) byUser[uid].answered += 1;
+      byUser[uid].correct       += (r.correct  || 0);
+      byUser[uid].errors        += (r.errors   || 0);
+      byUser[uid].totalAttempts += (r.attempts || 0);
+      if (!byUser[uid].byMod[r.module_id]) byUser[uid].byMod[r.module_id] = { seen:0, correct:0, totalAttempts:0 };
+      if ((r.attempts || 0) > 0) byUser[uid].byMod[r.module_id].seen += 1;
+      byUser[uid].byMod[r.module_id].correct       += (r.correct  || 0);
+      byUser[uid].byMod[r.module_id].totalAttempts += (r.attempts || 0);
       if (r.last_seen && (!byUser[uid].lastSeen || r.last_seen > byUser[uid].lastSeen)) {
         byUser[uid].lastSeen = r.last_seen;
       }
@@ -13236,9 +13301,10 @@ async function admStatsBuild(force) {
 
     // Armar filas finales
     var users = profiles.map(function(p){
-      var agg = byUser[p.id] || { answered:0, correct:0, errors:0, byMod:{}, lastSeen:null };
+      var agg = byUser[p.id] || { answered:0, correct:0, errors:0, totalAttempts:0, byMod:{}, lastSeen:null };
       var d   = dailyByUser[p.id] || { lastDate:null, total7d:0 };
-      var pct = agg.answered > 0 ? Math.round((agg.correct / agg.answered) * 100) : null;
+      // pct = correctas / total intentos (no sobre únicas — evita valores > 100%)
+      var pct = agg.totalAttempts > 0 ? Math.round((agg.correct / agg.totalAttempts) * 100) : null;
       // Última actividad: la más reciente entre daily y last_seen
       var lastAct = null;
       if (agg.lastSeen) lastAct = agg.lastSeen;
@@ -13250,9 +13316,10 @@ async function admStatsBuild(force) {
         id: p.id,
         name: p.full_name || '(sin nombre)',
         role: p.role || 'user',
-        answered: agg.answered,
-        correct: agg.correct,
-        errors: agg.errors,
+        answered: agg.answered,          // preguntas únicas respondidas
+        correct: agg.correct,            // respuestas correctas acumuladas
+        errors: agg.errors,              // respuestas incorrectas acumuladas
+        totalAttempts: agg.totalAttempts,// total de intentos (incluye repeticiones)
         pct: pct,
         lastAct: lastAct,
         active7d: d.total7d > 0,
@@ -13261,10 +13328,12 @@ async function admStatsBuild(force) {
     });
 
     // Métricas globales
-    var totalAnswered = users.reduce(function(a,u){ return a + u.answered; }, 0);
+    var totalUniqueAnswered = users.reduce(function(a,u){ return a + u.answered; }, 0);
     var totalCorrect  = users.reduce(function(a,u){ return a + u.correct; }, 0);
+    var totalAttempts = users.reduce(function(a,u){ return a + u.totalAttempts; }, 0);
+    var totalIncorrect = totalAttempts - totalCorrect;
     var active7d      = users.filter(function(u){ return u.active7d; }).length;
-    var globalPct     = totalAnswered > 0 ? Math.round((totalCorrect / totalAnswered) * 100) : null;
+    var globalPct     = totalAttempts > 0 ? Math.round((totalCorrect / totalAttempts) * 100) : null;
 
     _admStatsCache = {
       ts: Date.now(),
@@ -13272,7 +13341,10 @@ async function admStatsBuild(force) {
       global: {
         totalUsers: users.length,
         active7d: active7d,
-        totalAnswered: totalAnswered,
+        totalUniqueAnswered: totalUniqueAnswered,
+        totalAttempts: totalAttempts,
+        totalCorrect: totalCorrect,
+        totalIncorrect: totalIncorrect,
         globalPct: globalPct
       }
     };
@@ -13299,8 +13371,10 @@ function admStatsRender() {
   globalEl.innerHTML =
     '<div class="adm-stats-global-card"><div class="v">' + g.totalUsers + '</div><div class="l">Usuarios</div></div>' +
     '<div class="adm-stats-global-card"><div class="v" style="color:var(--green)">' + g.active7d + '</div><div class="l">Activos</div><div class="sub">últimos 7 días</div></div>' +
-    '<div class="adm-stats-global-card"><div class="v" style="color:var(--blue)">' + g.totalAnswered.toLocaleString('es-AR') + '</div><div class="l">Respondidas</div><div class="sub">total del equipo</div></div>' +
-    '<div class="adm-stats-global-card"><div class="v" style="color:' + (g.globalPct === null ? 'var(--muted)' : admStatsPctColor(g.globalPct)) + '">' + (g.globalPct === null ? '—' : g.globalPct + '%') + '</div><div class="l">% promedio</div><div class="sub">aciertos del equipo</div></div>';
+    '<div class="adm-stats-global-card"><div class="v" style="color:var(--blue)">' + g.totalAttempts.toLocaleString('es-AR') + '</div><div class="l">Respondidas</div><div class="sub">' + g.totalUniqueAnswered.toLocaleString('es-AR') + ' únicas (equipo)</div></div>' +
+    '<div class="adm-stats-global-card"><div class="v" style="color:var(--green)">' + g.totalCorrect.toLocaleString('es-AR') + '</div><div class="l">Correctas</div><div class="sub">total del equipo</div></div>' +
+    '<div class="adm-stats-global-card"><div class="v" style="color:var(--red)">' + g.totalIncorrect.toLocaleString('es-AR') + '</div><div class="l">Incorrectas</div><div class="sub">total del equipo</div></div>' +
+    '<div class="adm-stats-global-card"><div class="v" style="color:' + (g.globalPct === null ? 'var(--muted)' : admStatsPctColor(g.globalPct)) + '">' + (g.globalPct === null ? '—' : g.globalPct + '%') + '</div><div class="l">% aciertos</div><div class="sub">promedio equipo</div></div>';
 
   // Filtros y orden
   var searchEl = document.getElementById('adm-stats-search');
@@ -13353,7 +13427,18 @@ function admStatsRender() {
           '<div class="adm-stats-name">' + admEsc(u.name) + (isSelf ? ' <span style="color:var(--gold);font-size:10px;font-weight:700">(vos)</span>' : '') + '</div>' +
           '<div class="adm-stats-meta">' + roleBadge + ' <span style="margin-left:6px">' + lastStr + '</span></div>' +
         '</div>' +
-        '<div class="adm-stats-num adm-stats-hide-mobile">' + u.answered.toLocaleString('es-AR') + '<span class="sub">respondidas</span></div>' +
+        '<div class="adm-stats-num adm-stats-hide-mobile" style="flex-direction:column;gap:2px">' +
+          '<span style="font-size:15px;font-weight:700;color:var(--text)">' + u.totalAttempts.toLocaleString('es-AR') + '</span>' +
+          '<span style="font-size:10px;color:var(--text2)">' + u.answered + ' únicas</span>' +
+        '</div>' +
+        '<div class="adm-stats-num adm-stats-hide-mobile" style="flex-direction:column;gap:2px">' +
+          '<span style="font-size:15px;font-weight:700;color:var(--green)">' + u.correct.toLocaleString('es-AR') + '</span>' +
+          '<span style="font-size:10px;color:var(--text2)">correctas</span>' +
+        '</div>' +
+        '<div class="adm-stats-num adm-stats-hide-mobile" style="flex-direction:column;gap:2px">' +
+          '<span style="font-size:15px;font-weight:700;color:var(--red)">' + (u.totalAttempts - u.correct).toLocaleString('es-AR') + '</span>' +
+          '<span style="font-size:10px;color:var(--text2)">incorrectas</span>' +
+        '</div>' +
         '<div class="adm-stats-num ' + pctClass + '">' + pctStr + '<span class="sub">aciertos</span></div>' +
         '<div class="adm-stats-num' + lastClass + ' adm-stats-hide-mobile" style="min-width:70px;font-size:11px;font-weight:500">' + lastStr + '<span class="sub">última act.</span></div>' +
         '<div class="adm-stats-chev">▸</div>' +
@@ -13369,16 +13454,43 @@ function admStatsRenderDetail(u) {
     return '<div class="adm-stats-detail"><div class="adm-stats-detail-title">Detalle por módulo</div>' +
       '<div style="padding:12px 0;color:var(--muted);font-size:12px">Este usuario todavía no respondió ninguna pregunta.</div></div>';
   }
+  // Resumen global en el detalle
+  var incorrect = u.totalAttempts - u.correct;
+  var pctGlobal = u.totalAttempts > 0 ? Math.round((u.correct / u.totalAttempts) * 100) : 0;
   var html = '<div class="adm-stats-detail">' +
-    '<div class="adm-stats-detail-title">Detalle por módulo</div>' +
+    '<div class="adm-stats-detail-title">Resumen</div>' +
+    '<div style="display:flex;gap:16px;flex-wrap:wrap;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid var(--border)">' +
+      '<div style="display:flex;flex-direction:column;gap:2px">' +
+        '<span style="font-size:20px;font-weight:800;color:var(--text);font-family:var(--mono)">' + u.answered.toLocaleString('es-AR') + '</span>' +
+        '<span style="font-size:10px;color:var(--text2);text-transform:uppercase;letter-spacing:.08em">preguntas únicas</span>' +
+      '</div>' +
+      '<div style="display:flex;flex-direction:column;gap:2px">' +
+        '<span style="font-size:20px;font-weight:800;color:var(--green);font-family:var(--mono)">' + u.correct.toLocaleString('es-AR') + '</span>' +
+        '<span style="font-size:10px;color:var(--text2);text-transform:uppercase;letter-spacing:.08em">correctas</span>' +
+      '</div>' +
+      '<div style="display:flex;flex-direction:column;gap:2px">' +
+        '<span style="font-size:20px;font-weight:800;color:var(--red);font-family:var(--mono)">' + incorrect.toLocaleString('es-AR') + '</span>' +
+        '<span style="font-size:10px;color:var(--text2);text-transform:uppercase;letter-spacing:.08em">incorrectas</span>' +
+      '</div>' +
+      '<div style="display:flex;flex-direction:column;gap:2px">' +
+        '<span style="font-size:20px;font-weight:800;color:' + admStatsPctColor(pctGlobal) + ';font-family:var(--mono)">' + pctGlobal + '%</span>' +
+        '<span style="font-size:10px;color:var(--text2);text-transform:uppercase;letter-spacing:.08em">aciertos totales</span>' +
+      '</div>' +
+    '</div>' +
+    '<div class="adm-stats-detail-title">Por módulo</div>' +
     '<div class="adm-stats-mod-grid">';
   for (var mi = 0; mi < 6; mi++) {
-    var m = u.byMod[mi] || { attempts: 0, correct: 0 };
-    var pct = m.attempts > 0 ? Math.round((m.correct / m.attempts) * 100) : 0;
-    var cls = m.attempts > 0 ? admStatsPctClass(pct) : 'muted';
+    var m = u.byMod[mi] || { seen:0, correct:0, totalAttempts:0 };
+    var modIncorrect = m.totalAttempts - m.correct;
+    var pct = m.totalAttempts > 0 ? Math.round((m.correct / m.totalAttempts) * 100) : 0;
+    var cls = m.seen > 0 ? admStatsPctClass(pct) : 'muted';
     html += '<div class="adm-stats-mod">' +
-      '<div class="adm-stats-mod-label"><span>M' + (mi+1) + '</span><span class="' + cls + '" style="font-family:var(--mono);font-size:10px;font-weight:700">' + (m.attempts > 0 ? pct + '%' : '—') + '</span></div>' +
-      '<div class="adm-stats-mod-num">' + m.correct + '<span style="color:var(--text2);font-weight:400">/' + m.attempts + '</span></div>' +
+      '<div class="adm-stats-mod-label"><span>M' + (mi+1) + '</span><span class="' + cls + '" style="font-family:var(--mono);font-size:10px;font-weight:700">' + (m.seen > 0 ? pct + '%' : '—') + '</span></div>' +
+      '<div class="adm-stats-mod-num" style="font-size:11px;gap:4px">' +
+        '<span style="color:var(--green)">' + m.correct + '✓</span>' +
+        '<span style="color:var(--red)">' + modIncorrect + '✗</span>' +
+        '<span style="color:var(--text2);font-weight:400;font-size:10px">/' + m.seen + ' únicas</span>' +
+      '</div>' +
       '<div class="adm-stats-mod-bar"><div class="adm-stats-mod-bar-fill ' + cls + '" style="width:' + pct + '%"></div></div>' +
     '</div>';
   }
