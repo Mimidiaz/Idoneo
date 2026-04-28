@@ -14366,6 +14366,173 @@ window.addEventListener('load', function(){
     } catch(e){}
   }, 800);
 });
+
+   // ═══════════════════════════════════════════════════════════
+// HELP MODAL
+// ═══════════════════════════════════════════════════════════
+const HELP_CONTENT = {
+  start: `
+    <h3 style="font-size:15px;font-weight:700;margin:0 0 12px">🚀 Primeros pasos</h3>
+    <p style="font-size:13px;color:var(--text2);margin-bottom:16px">Esta app te ayuda a preparar el examen de Idoneidad CNV con 673 preguntas oficiales organizadas en 6 módulos.</p>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div style="padding:12px 14px;background:var(--card2);border-left:3px solid var(--blue);border-radius:var(--r)">
+        <div style="font-size:12px;font-weight:700;color:var(--blue);margin-bottom:4px">1. Elegí un módulo</div>
+        <div style="font-size:12px;color:var(--text2)">Andá a <strong>Estudio</strong> en el menú lateral y seleccioná un bloque de preguntas para empezar.</div>
+      </div>
+      <div style="padding:12px 14px;background:var(--card2);border-left:3px solid var(--green);border-radius:var(--r)">
+        <div style="font-size:12px;font-weight:700;color:var(--green);margin-bottom:4px">2. Respondé y aprendé del error</div>
+        <div style="font-size:12px;color:var(--text2)">Cada pregunta tiene feedback inmediato. Si fallás 2 veces, podés pedir una <strong>explicación con IA</strong>.</div>
+      </div>
+      <div style="padding:12px 14px;background:var(--card2);border-left:3px solid var(--gold);border-radius:var(--r)">
+        <div style="font-size:12px;font-weight:700;color:var(--gold);margin-bottom:4px">3. Revisá tu progreso</div>
+        <div style="font-size:12px;color:var(--text2)">En <strong>Mi Progreso</strong> encontrás tu cobertura por módulo, historial de exámenes y plan de estudio personalizado.</div>
+      </div>
+      <div style="padding:12px 14px;background:var(--card2);border-left:3px solid var(--purple);border-radius:var(--r)">
+        <div style="font-size:12px;font-weight:700;color:var(--purple);margin-bottom:4px">4. Hacé simulacros</div>
+        <div style="font-size:12px;color:var(--text2)">Usá <strong>Simulacro</strong> para practicar en condiciones reales con tiempo límite y corrección automática.</div>
+      </div>
+    </div>`,
+
+  nav: `
+    <h3 style="font-size:15px;font-weight:700;margin:0 0 12px">🗂 Navegación</h3>
+    <div style="display:flex;flex-direction:column;gap:8px;font-size:13px">
+      <div style="display:flex;gap:12px;padding:10px 12px;background:var(--card2);border-radius:var(--r);align-items:flex-start">
+        <span style="font-size:16px;flex-shrink:0">📊</span>
+        <div><strong>Dashboard</strong> — Vista general con tu plan del día, métricas clave y tarjetas de estudio personalizadas.</div>
+      </div>
+      <div style="display:flex;gap:12px;padding:10px 12px;background:var(--card2);border-radius:var(--r);align-items:flex-start">
+        <span style="font-size:16px;flex-shrink:0">📖</span>
+        <div><strong>Estudio</strong> — Preguntas organizadas por módulo y bloque. Podés responder en orden o de forma aleatoria.</div>
+      </div>
+      <div style="display:flex;gap:12px;padding:10px 12px;background:var(--card2);border-radius:var(--r);align-items:flex-start">
+        <span style="font-size:16px;flex-shrink:0">🔁</span>
+        <div><strong>Repaso</strong> — El sistema selecciona automáticamente las preguntas que más necesitás repasar según tus errores.</div>
+      </div>
+      <div style="display:flex;gap:12px;padding:10px 12px;background:var(--card2);border-radius:var(--r);align-items:flex-start">
+        <span style="font-size:16px;flex-shrink:0">🎓</span>
+        <div><strong>Simulacro</strong> — Examen cronometrado de hasta 40 preguntas. Se aprueba con 70% o más.</div>
+      </div>
+      <div style="display:flex;gap:12px;padding:10px 12px;background:var(--card2);border-radius:var(--r);align-items:flex-start">
+        <span style="font-size:16px;flex-shrink:0">📗</span>
+        <div><strong>Referencia</strong> — Conceptos clave, mapa normativo y bibliografía organizada por módulo.</div>
+      </div>
+      <div style="display:flex;gap:12px;padding:10px 12px;background:var(--card2);border-radius:var(--r);align-items:flex-start">
+        <span style="font-size:16px;flex-shrink:0">🚩</span>
+        <div><strong>Marcadas</strong> — Preguntas que marcaste como difíciles. Podés repasarlas en modo simulacro.</div>
+      </div>
+      <div style="padding:10px 12px;background:rgba(64,144,240,.08);border:1px solid rgba(64,144,240,.2);border-radius:var(--r);font-size:12px;color:var(--text2);margin-top:4px">
+        💡 El sidebar se expande al pasar el mouse. En mobile, usá el botón ☰ arriba a la izquierda.
+      </div>
+    </div>`,
+
+  modules: `
+    <h3 style="font-size:15px;font-weight:700;margin:0 0 12px">📚 Los 6 módulos</h3>
+    <div style="display:flex;flex-direction:column;gap:8px;font-size:12px">
+      ${[
+        ['var(--m1)','M1','Marco Normativo','Ley 26.831, CNV, oferta pública, OPA, sanciones y sumarios.'],
+        ['var(--m2)','M2','PLD / FT','UIF, sujetos obligados, ROS, KYC, PEP y activos virtuales.'],
+        ['var(--m3)','M3','Transparencia','Hechos relevantes, insider trading, gobierno corporativo e idoneidad.'],
+        ['var(--m4)','M4','Contabilidad','NIIF, auditoría externa, estados financieros y normas CNV.'],
+        ['var(--m5)','M5','Agentes','Categorías de agentes, valores negociables, caución y pase.'],
+        ['var(--m6)','M6','Inversión Colectiva','FCI, fideicomisos financieros y vehículos de inversión.'],
+      ].map(([color, label, name, desc]) => `
+        <div style="display:flex;gap:10px;padding:10px 12px;background:var(--card2);border-radius:var(--r);align-items:flex-start;border-left:3px solid ${color}">
+          <span style="font-size:11px;font-weight:800;font-family:var(--mono);color:${color};flex-shrink:0;margin-top:1px">${label}</span>
+          <div><strong style="color:var(--text)">${name}</strong><br><span style="color:var(--text2)">${desc}</span></div>
+        </div>`).join('')}
+    </div>`,
+
+  tools: `
+    <h3 style="font-size:15px;font-weight:700;margin:0 0 12px">🔧 Herramientas</h3>
+    <div style="display:flex;flex-direction:column;gap:8px;font-size:13px">
+      <div style="padding:12px 14px;background:var(--card2);border-radius:var(--r)">
+        <div style="font-weight:700;margin-bottom:4px">🃏 Flashcards</div>
+        <div style="font-size:12px;color:var(--text2)">Modo de estudio rápido. Ves la pregunta, pensás la respuesta y calificás si la sabías. Podés filtrar por módulo y ordenar por errores o preguntas nuevas.</div>
+      </div>
+      <div style="padding:12px 14px;background:var(--card2);border-radius:var(--r)">
+        <div style="font-weight:700;margin-bottom:4px">🔍 Buscador global <span style="font-size:11px;font-family:var(--mono);background:var(--card);border:1px solid var(--border);padding:1px 6px;border-radius:4px">⌘K</span></div>
+        <div style="font-size:12px;color:var(--text2)">Buscá cualquier palabra en las 673 preguntas, conceptos clave y bibliografía. Atajo: Ctrl+K o Cmd+K.</div>
+      </div>
+      <div style="padding:12px 14px;background:var(--card2);border-radius:var(--r)">
+        <div style="font-weight:700;margin-bottom:4px">✨ Explicación con IA</div>
+        <div style="font-size:12px;color:var(--text2)">Cuando fallás una pregunta 2 o más veces, aparece la opción de pedir una explicación detallada. Las explicaciones se guardan en <strong>Notas → IA</strong>.</div>
+      </div>
+      <div style="padding:12px 14px;background:var(--card2);border-radius:var(--r)">
+        <div style="font-weight:700;margin-bottom:4px">🍅 Pomodoro</div>
+        <div style="font-size:12px;color:var(--text2)">Timer de estudio en la barra superior. Modos: Foco (25 min), Descanso corto (5 min) y Descanso largo (15 min). Configurable en ⚙️.</div>
+      </div>
+      <div style="padding:12px 14px;background:var(--card2);border-radius:var(--r)">
+        <div style="font-weight:700;margin-bottom:4px">🗒 Notas</div>
+        <div style="font-size:12px;color:var(--text2)">Guardá notas libres, revisá las explicaciones de IA y accedé a tus preguntas favoritas desde un solo lugar.</div>
+      </div>
+    </div>`,
+
+  config: `
+    <h3 style="font-size:15px;font-weight:700;margin:0 0 12px">⚙️ Configuración</h3>
+    <div style="display:flex;flex-direction:column;gap:8px;font-size:13px">
+      <div style="padding:12px 14px;background:var(--card2);border-radius:var(--r)">
+        <div style="font-weight:700;margin-bottom:4px">🌙 Modo claro / oscuro</div>
+        <div style="font-size:12px;color:var(--text2)">Toggle en la parte inferior del sidebar. Tu preferencia se guarda automáticamente.</div>
+      </div>
+      <div style="padding:12px 14px;background:var(--card2);border-radius:var(--r)">
+        <div style="font-weight:700;margin-bottom:4px">🔤 Tipografía y tamaño</div>
+        <div style="font-size:12px;color:var(--text2)">En el botón ⚙️ de la barra superior podés cambiar la fuente (Space Grotesk, Inter, Lora, Mono) y el tamaño del texto (S / M / L).</div>
+      </div>
+      <div style="padding:12px 14px;background:var(--card2);border-radius:var(--r)">
+        <div style="font-weight:700;margin-bottom:4px">📅 Fecha del examen</div>
+        <div style="font-size:12px;color:var(--text2)">Configurala en <strong>Mi Progreso → Plan</strong>. Una vez guardada, el dashboard muestra el conteo regresivo y el plan diario se ajusta automáticamente.</div>
+      </div>
+      <div style="padding:12px 14px;background:rgba(240,80,112,.08);border:1px solid rgba(240,80,112,.2);border-radius:var(--r)">
+        <div style="font-weight:700;margin-bottom:4px;color:var(--red)">⚠️ Reiniciar progreso</div>
+        <div style="font-size:12px;color:var(--text2)">En ⚙️ → "Reiniciar todo el progreso". Borra todas las respuestas, notas y exámenes. <strong>Esta acción no se puede deshacer.</strong></div>
+      </div>
+    </div>`,
+
+  progress: `
+    <h3 style="font-size:15px;font-weight:700;margin:0 0 12px">📊 Seguimiento de progreso</h3>
+    <div style="display:flex;flex-direction:column;gap:8px;font-size:13px">
+      <div style="padding:12px 14px;background:var(--card2);border-radius:var(--r)">
+        <div style="font-weight:700;margin-bottom:4px">📈 Historial</div>
+        <div style="font-size:12px;color:var(--text2)">Gráficos de preguntas respondidas y precisión por día, por módulo y por examen. También el historial completo de flashcards.</div>
+      </div>
+      <div style="padding:12px 14px;background:var(--card2);border-radius:var(--r)">
+        <div style="font-weight:700;margin-bottom:4px">🗺 Learning Path</div>
+        <div style="font-size:12px;color:var(--text2)">En <strong>Mi Progreso → Plan</strong> encontrás un análisis por módulo con cobertura, precisión y los errores más frecuentes, con accesos directos para practicarlos.</div>
+      </div>
+      <div style="padding:12px 14px;background:var(--card2);border-radius:var(--r)">
+        <div style="font-weight:700;margin-bottom:4px">🎯 Entrenamiento focalizado</div>
+        <div style="font-size:12px;color:var(--text2)">Repaso programado con spaced repetition: el sistema agrupa tus preguntas en "repasar hoy", "olvidadas (+7 días)" y "refuerzo", y arma una cola diaria automática.</div>
+      </div>
+      <div style="padding:12px 14px;background:var(--card2);border-radius:var(--r)">
+        <div style="font-weight:700;margin-bottom:4px">🏆 Logros</div>
+        <div style="font-size:12px;color:var(--text2)">Desbloqueás badges al alcanzar hitos: preguntas respondidas, rachas de días, puntajes en simulacros y más. Accedé desde el sidebar inferior.</div>
+      </div>
+      <div style="padding:12px 14px;background:var(--card2);border-radius:var(--r)">
+        <div style="font-weight:700;margin-bottom:4px">🔥 Racha diaria</div>
+        <div style="font-size:12px;color:var(--text2)">Se incrementa cada día que respondés al menos una pregunta. Se muestra en la barra superior y en el dashboard.</div>
+      </div>
+    </div>`,
+};
+
+function openHelpModal() {
+  const modal = $('help-modal');
+  if (!modal) return;
+  modal.style.display = 'block';
+  showHelpTab('start', document.querySelector('#help-tab-bar .help-tab'));
+}
+
+function closeHelpModal() {
+  const modal = $('help-modal');
+  if (modal) modal.style.display = 'none';
+}
+
+function showHelpTab(tab, btn) {
+  document.querySelectorAll('#help-tab-bar .help-tab').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  const body = $('help-body');
+  if (body) body.innerHTML = HELP_CONTENT[tab] || '';
+}
+   
 </script>
 </body>
 </html>
