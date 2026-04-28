@@ -5882,15 +5882,16 @@ function showFeedback(chosen, correct, mi, qi, restore) {
     </div>`;
   }
 
-  // If wrong AND failed 2+ times → suggest AI explanation
+// If wrong AND failed 2+ times → suggest AI explanation
   if (chosen !== correct) {
     const mst = getMastery(mi, qi);
     if ((mst.errors||0) >= 2) {
       const aiKey = mi+'_'+qi;
       const hasAi = typeof aiExplanations !== 'undefined' && aiExplanations[aiKey];
+      const vecesText = mst.errors === 1 ? 'una vez' : `${mst.errors} veces`;
       fbHTML += `<div style="margin-top:8px;padding:8px 10px;background:rgba(144,96,240,.08);
         border:1px solid rgba(144,96,240,.2);border-radius:var(--r);font-size:11px;color:var(--text)">
-        ⚠️ Fallaste esta pregunta en una ${mst.errors} ocasion${mst.errors>1?'es':''}.
+        ⚠️ Fallaste esta pregunta ${vecesText}.
         ${hasAi
           ? `<span style="color:var(--purple);cursor:pointer;font-weight:600;margin-left:4px"
               onclick="navigate('notes');setTimeout(()=>switchNotesTab('ai'),200)">Ver explicación guardada →</span>`
