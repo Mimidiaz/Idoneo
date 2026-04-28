@@ -8010,7 +8010,9 @@ async function doLogout() {
   // Reset rol
   currentUserRole = 'user';
   currentUserMode = 'user';
+  currentUser = null;
   try { sessionStorage.removeItem(ROLE_MODE_KEY); } catch(e){}
+  showAuthOverlay();
 }
 
 // ── ON LOGIN: load data from cloud ──────────────────────────
@@ -11989,11 +11991,11 @@ function analisisToPDF() {
   Object.values(masteryData).forEach(m=>{ gOk+=m.correct||0; gTot+=m.attempts||0; });
   const gAcc  = gTot>0 ? Math.round(gOk/gTot*100) : 0;
   const seen  = getTotalSeen();
-  const covPct= Math.round(seen/673*100);
+  const covPct= Math.round(seen/TOTAL_Q*100);
 
   body += `<div style="display:flex;gap:16px;margin-bottom:24px;flex-wrap:wrap">
     ${[
-      ['Preguntas vistas', `${seen} / 673`, `${covPct}% cobertura`],
+    ['Preguntas vistas', `${seen} / ${TOTAL_Q}`, `${covPct}% cobertura`],
       ['Respuestas totales', gTot, ''],
       ['Precisión global', `${gAcc}%`, gTot>0?`${gOk} correctas de ${gTot}`:''],
       ['Días de racha', getStreak(), 'días consecutivos'],
