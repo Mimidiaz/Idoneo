@@ -5842,10 +5842,7 @@ function showFeedback(chosen, correct, mi, qi, restore) {
   fb.className = 'quiz-feedback show ' + (isOk?'ok':'wrong');
   fb.style.display='block';
 
-  // Build feedback content
-  const editedKey = `${mi}_${qi}`;
-  const displayCorrect = editedAnswers[editedKey] || correct;
-  const isAdmin = currentUser && currentUser.email === 'miriamalcarazdiaz@gmail.com';
+const isAdmin = currentUser && currentUser.role === 'admin';
 
   let fbHTML = isOk
     ? '✓ ¡Correcto!'
